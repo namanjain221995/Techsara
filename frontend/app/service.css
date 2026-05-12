@@ -1,0 +1,311 @@
+/* ============================================
+   SERVICE DETAIL PAGE
+   Inherits styles.css; this file adds the detail layout.
+   ============================================ */
+
+.service-hero {
+  position: relative;
+  padding: clamp(140px, 18vw, 180px) 0 clamp(60px, 8vw, 90px);
+  overflow: hidden;
+  background: var(--white);
+  border-bottom: 1px solid var(--line);
+}
+.service-hero .grid-overlay { opacity: 0.7; }
+.service-hero .hero-mesh { opacity: 0.4; filter: blur(80px); }
+
+.crumbs {
+  display: flex; align-items: center; gap: 8px;
+  font-size: 13px;
+  color: var(--ink-40);
+  margin-bottom: 28px;
+  font-family: var(--font-body);
+}
+.crumbs a { color: var(--ink-50); transition: color 0.2s; }
+.crumbs a:hover { color: var(--indigo-800); }
+.crumbs .sep { color: var(--ink-30); }
+.crumbs .here { color: var(--ink-80); }
+
+.service-hero-grid {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr;
+  gap: 64px;
+  align-items: start;
+}
+@media (max-width: 1000px) { .service-hero-grid { grid-template-columns: 1fr; gap: 32px; } }
+
+.service-cat {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 14px;
+  background: var(--indigo-50);
+  color: var(--indigo-800);
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-bottom: 24px;
+}
+.service-cat svg { width: 14px; height: 14px; }
+
+.service-title {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: clamp(36px, 5.6vw, 76px);
+  line-height: 0.98;
+  letter-spacing: -0.03em;
+  color: var(--ink);
+  margin: 0 0 28px;
+  text-wrap: balance;
+  max-width: 18ch;
+}
+.service-name {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: clamp(14px, 1.3vw, 16px);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--indigo-800);
+  margin-bottom: 14px;
+}
+.service-intro {
+  font-size: clamp(16px, 1.3vw, 19px);
+  line-height: 1.6;
+  color: var(--ink-50);
+  margin: 0;
+  max-width: 60ch;
+  text-wrap: pretty;
+}
+
+.service-hero-actions {
+  margin-top: 36px;
+  display: flex; gap: 12px; flex-wrap: wrap;
+}
+
+/* Side card with icon + metrics preview */
+.service-aside {
+  position: relative;
+  background: linear-gradient(160deg, var(--indigo-950) 0%, var(--indigo-800) 60%, var(--indigo-600) 100%);
+  color: var(--white);
+  border-radius: var(--radius-lg);
+  padding: 36px;
+  box-shadow: var(--shadow-glow);
+  overflow: hidden;
+}
+.service-aside::before {
+  content: ""; position: absolute; inset: 0;
+  background:
+    radial-gradient(circle at 100% 0%, rgba(255,255,255,0.18), transparent 40%),
+    radial-gradient(circle at 0% 100%, rgba(139,133,255,0.30), transparent 50%);
+  pointer-events: none;
+}
+.service-aside-icon {
+  width: 64px; height: 64px;
+  border-radius: 16px;
+  background: rgba(255,255,255,0.10);
+  border: 1px solid rgba(255,255,255,0.18);
+  display: grid; place-items: center;
+  margin-bottom: 28px;
+  position: relative;
+}
+.service-aside-icon svg { width: 30px; height: 30px; color: #fff; }
+.service-aside h4 {
+  font-family: var(--font-display);
+  font-size: 20px;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  margin: 0 0 20px;
+  position: relative;
+}
+.service-aside-metrics {
+  display: flex; flex-direction: column; gap: 18px;
+  position: relative;
+}
+.service-aside-metric {
+  display: flex; flex-direction: column; gap: 4px;
+  padding-bottom: 18px;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+.service-aside-metric:last-child { border-bottom: none; padding-bottom: 0; }
+.service-aside-metric .num {
+  font-family: var(--font-display);
+  font-size: 32px;
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  background: linear-gradient(180deg, #fff, #C7CBFF);
+  -webkit-background-clip: text; background-clip: text;
+  color: transparent;
+}
+.service-aside-metric .lbl { font-size: 13px; color: rgba(255,255,255,0.65); }
+
+/* ============================================
+   CAPABILITIES GRID
+   ============================================ */
+.cap-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+}
+.cap {
+  padding: 32px;
+  background: var(--white);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  transition: transform 0.3s, box-shadow 0.3s, border-color 0.3s;
+  position: relative;
+  overflow: hidden;
+}
+.cap:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-glow);
+  border-color: rgba(79,70,229,0.25);
+}
+.cap-num {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  color: var(--ink-40);
+  margin-bottom: 16px;
+}
+.cap h3 {
+  font-family: var(--font-display);
+  font-size: 22px;
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  margin: 0 0 10px;
+  color: var(--ink);
+}
+.cap p {
+  font-size: 14.5px;
+  line-height: 1.55;
+  color: var(--ink-50);
+  margin: 0;
+}
+@media (max-width: 720px) { .cap-grid { grid-template-columns: 1fr; } }
+
+/* ============================================
+   STACK CHIPS
+   ============================================ */
+.stack-chips {
+  display: flex; flex-wrap: wrap; gap: 8px;
+}
+.stack-chip {
+  padding: 8px 14px;
+  background: var(--white);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  font-size: 13px;
+  color: var(--ink-60);
+  font-family: var(--font-mono);
+  transition: all 0.2s;
+}
+.stack-chip:hover {
+  background: var(--indigo-50);
+  border-color: var(--indigo-400);
+  color: var(--indigo-800);
+}
+
+/* ============================================
+   DELIVERABLES (numbered list)
+   ============================================ */
+.delv-list {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+  list-style: none;
+  padding: 0; margin: 0;
+}
+.delv-list li {
+  padding: 20px 24px;
+  background: var(--offwhite);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  display: flex; align-items: center; gap: 16px;
+  font-size: 15px;
+  color: var(--ink-80);
+}
+.delv-list .num {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--indigo-800);
+  background: var(--indigo-50);
+  width: 32px; height: 32px;
+  border-radius: 50%;
+  display: grid; place-items: center;
+  flex-shrink: 0;
+  letter-spacing: 0.05em;
+}
+@media (max-width: 640px) { .delv-list { grid-template-columns: 1fr; } }
+
+/* ============================================
+   RELATED SERVICES
+   ============================================ */
+.related-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+}
+.related-card {
+  padding: 28px;
+  background: var(--white);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  display: flex; flex-direction: column;
+  gap: 14px;
+  min-height: 180px;
+  transition: transform 0.3s, box-shadow 0.3s, border-color 0.3s;
+  position: relative;
+  overflow: hidden;
+}
+.related-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-glow);
+  border-color: rgba(79,70,229,0.25);
+}
+.related-card h4 {
+  font-family: var(--font-display);
+  font-size: 19px;
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  margin: 0;
+  color: var(--ink);
+}
+.related-card p {
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--ink-50);
+  margin: 0;
+}
+.related-card .ar {
+  margin-top: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  color: var(--indigo-800);
+  font-weight: 500;
+}
+.related-card:hover .ar svg { transform: translateX(3px); }
+.related-card .ar svg { transition: transform 0.2s; }
+@media (max-width: 900px) { .related-grid { grid-template-columns: 1fr; } }
+
+/* ============================================
+   Section variant: compact head
+   ============================================ */
+.detail-section {
+  padding: clamp(64px, 8vw, 110px) 0;
+  border-bottom: 1px solid var(--line);
+}
+.detail-section:last-of-type { border-bottom: none; }
+.detail-section.surface { background: var(--offwhite); }
+.detail-head {
+  margin-bottom: clamp(32px, 4vw, 48px);
+  max-width: 760px;
+}
+.detail-head .section-title {
+  font-size: clamp(28px, 3.6vw, 44px);
+  margin: 12px 0 12px;
+  max-width: 22ch;
+}
+.detail-head .section-sub { font-size: clamp(15px, 1.2vw, 17px); }

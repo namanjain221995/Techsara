@@ -1,0 +1,975 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Techsara — Enterprise-Grade AI, Engineered for Your Business</title>
+<meta name="description" content="Techsara delivers end-to-end AI development, cloud & on-premise deployment, and strategic consulting for enterprises." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Instrument+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<link rel="icon" type="image/png" href="assets/techsara-logo.png" />
+<link rel="stylesheet" href="styles.css" />
+<link rel="stylesheet" href="showcase.css" />
+<style>
+  @page { size: A4; margin: 1cm; }
+  @media print {
+    html, body {
+      background: #fff !important;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+    *, *::before, *::after {
+      animation: none !important;
+      transition: none !important;
+    }
+    .hero-terminal,
+    .term-input,
+    .nav-toggle,
+    .nav-actions,
+    .cursor-dot,
+    .marquee-track,
+    .reveal { opacity: 1 !important; transform: none !important; filter: none !important; }
+    .hero { padding: 40px 0 30px !important; }
+    .hero-mesh { display: none !important; }
+    .grid-overlay { display: none !important; }
+    section { break-inside: avoid; page-break-inside: avoid; }
+    .bento, .cases, .industries, .testi-grid, .how-steps, .showcase { break-inside: avoid; page-break-inside: avoid; }
+    .nav { position: static !important; background: #fff !important; border-bottom: 1px solid #e5e7eb; }
+    footer { break-before: page; }
+    a { color: inherit !important; text-decoration: none !important; }
+  }
+  body.printing .hero-terminal,
+  body.printing .cursor-dot { display: none !important; }
+</style>
+</head>
+<body>
+
+<!-- Reusable icon defs -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <linearGradient id="hv-grad" x1="0" x2="0" y1="0" y2="1">
+      <stop offset="0%" stop-color="#4F46E5" stop-opacity="0.6" />
+      <stop offset="100%" stop-color="#4F46E5" stop-opacity="0" />
+    </linearGradient>
+  </defs>
+</svg>
+
+<!-- ============================================ NAV ============================================ -->
+<header class="nav" role="banner">
+  <div class="container nav-inner">
+    <a href="#top" class="brand" aria-label="Techsara home">
+      <span class="brand-mark" aria-hidden="true">
+        <img src="/assets/techsara-logo.png" alt="" class="brand-logo" />
+      </span>
+      TECHSARA
+    </a>
+    <nav class="nav-links" aria-label="Primary">
+      <a href="#services">Services</a>
+      <a href="/solutions">Solutions</a>
+      <a href="#industries">Industries</a>
+      <a href="#cases">Case Studies</a>
+      <a href="#how">How We Work</a>
+      <a href="#contact">Contact</a>
+    </nav>
+    <div class="nav-actions">
+      <a href="book.html" class="btn btn-primary" data-magnetic="0.25">
+        Book a Consultation
+        <svg class="arrow" width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 5l7 7-7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+      <button class="nav-toggle" aria-label="Open menu">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M3 6h18M3 12h18M3 18h18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- ============================================ HERO ============================================ -->
+<main id="top">
+<section class="hero">
+  <div class="hero-mesh" aria-hidden="true">
+    <span class="blob b1"></span><span class="blob b2"></span>
+    <span class="blob b3"></span><span class="blob b4"></span>
+  </div>
+  <div class="grid-overlay" aria-hidden="true"></div>
+  <div class="hero-terminal">
+    <div class="term-chrome">
+      <span class="term-dot r"></span><span class="term-dot y"></span><span class="term-dot g"></span>
+      <span class="term-title">techsara · ask our AI</span>
+      <span class="term-status"><span class="term-pulse"></span>online</span>
+    </div>
+    <div class="term-body" data-term data-lenis-prevent></div>
+    <form class="term-input" data-term-form autocomplete="off">
+      <span class="term-prompt">›</span>
+      <input type="text" data-term-input placeholder="ask anything about Techsara…" aria-label="Chat with Techsara AI" />
+      <button type="submit" aria-label="Send">↵</button>
+    </form>
+  </div>
+
+  <div class="container hero-grid">
+    <div>
+      <h1 class="hero-title">
+        <span class="word"><span>Enterprise-grade</span></span>
+        <span class="word"><span><em>AI,</em></span></span><br/>
+        <span class="word"><span>engineered</span></span>
+        <span class="word"><span>for</span></span>
+        <span class="word"><span>your</span></span>
+        <span class="word"><span>business.</span></span>
+      </h1>
+
+      <p class="hero-sub">
+        We design, build and deploy production AI — from LLM applications to computer vision and MLOps — across cloud, on-premise and edge. End-to-end teams, measurable outcomes.
+      </p>
+
+      <div class="hero-cta">
+        <a href="book.html" class="btn btn-primary btn-lg" data-magnetic="0.3">
+          Get started
+          <svg class="arrow" width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 5l7 7-7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+      </div>
+
+      <div class="hero-meta">
+        <div class="stat"><div class="num">120+</div><div class="lbl">AI models in production</div></div>
+        <div class="stat"><div class="num">40+</div><div class="lbl">Enterprise clients</div></div>
+        <div class="stat"><div class="num">14</div><div class="lbl">Countries served</div></div>
+        <div class="stat"><div class="num">99.95%</div><div class="lbl">SLA uptime</div></div>
+      </div>
+    </div>
+
+    <!-- Right visual -->
+    <aside class="hero-visual reveal" aria-hidden="true">
+      <div class="hv-grid">
+        <div class="hv-card tall">
+          <span class="hv-tag">● Live inference</span>
+          <div>
+            <div class="lbl">Requests / min</div>
+            <div class="val">12,847</div>
+          </div>
+          <div class="hv-bars">
+            <span style="height:30%"></span><span style="height:55%"></span>
+            <span style="height:40%"></span><span style="height:70%"></span>
+            <span style="height:50%"></span><span style="height:80%"></span>
+            <span style="height:60%"></span><span style="height:88%"></span>
+            <span style="height:72%"></span><span style="height:90%"></span>
+          </div>
+        </div>
+        <div class="hv-card">
+          <div class="lbl">P95 latency</div>
+          <div class="val">142<span style="font-size:14px; color:var(--ink-50)">ms</span></div>
+          <svg class="hv-spark" viewBox="0 0 120 50" preserveAspectRatio="none">
+            <path class="fill" d="M0,35 L10,28 L20,32 L30,22 L40,26 L50,18 L60,22 L70,14 L80,18 L90,12 L100,16 L110,10 L120,14 L120,50 L0,50 Z"/>
+            <path d="M0,35 L10,28 L20,32 L30,22 L40,26 L50,18 L60,22 L70,14 L80,18 L90,12 L100,16 L110,10 L120,14"/>
+          </svg>
+        </div>
+        <div class="hv-card">
+          <div class="lbl">Accuracy</div>
+          <div class="val">97.4%</div>
+          <div style="font-size:12px;color:#16a34a;display:flex;gap:4px;align-items:center;">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M5 15l7-7 7 7" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg>
+            +2.1% vs baseline
+          </div>
+        </div>
+        <div class="hv-card" style="grid-column: span 2;">
+          <div class="lbl">Deployed services</div>
+          <div class="hv-status-row">
+            <div class="row"><span class="dot"></span><span class="name">vision-classifier-v3</span><span class="ms">us-east · 38ms</span></div>
+            <div class="row"><span class="dot"></span><span class="name">llm-rag-orchestrator</span><span class="ms">eu-west · 91ms</span></div>
+            <div class="row"><span class="dot"></span><span class="name">forecast-engine-pro</span><span class="ms">on-prem · 24ms</span></div>
+          </div>
+        </div>
+      </div>
+    </aside>
+  </div>
+</section>
+
+<!-- ============================================ TRUSTED BY ============================================ -->
+<section class="trusted">
+  <div class="trusted-label">Trusted by teams at world-class companies</div>
+  <div class="marquee">
+    <div class="marquee-track">
+      <!-- duplicate for seamless loop -->
+      <!-- group 1 -->
+      <span class="marquee-logo"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L2 22h20L12 2z"/></svg> Northpeak</span>
+      <span class="marquee-logo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4"/></svg> Orbital Labs</span>
+      <span class="marquee-logo"><svg viewBox="0 0 24 24" fill="currentColor"><rect x="3" y="3" width="8" height="8"/><rect x="13" y="3" width="8" height="8"/><rect x="3" y="13" width="8" height="8"/></svg> Quadrant</span>
+      <span class="marquee-logo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M4 18 L12 4 L20 18 Z"/></svg> Helix Health</span>
+      <span class="marquee-logo"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L4 12l8 10 8-10z"/></svg> Meridian</span>
+      <span class="marquee-logo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 12 Q 7 4, 12 12 T 22 12"/></svg> Wavelength</span>
+      <span class="marquee-logo"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="10"/></svg> Vector Bank</span>
+      <span class="marquee-logo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 20 L12 4 L21 20"/><path d="M7 14 L17 14"/></svg> Apex Logistics</span>
+      <!-- group 2 (duplicate) -->
+      <span class="marquee-logo"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L2 22h20L12 2z"/></svg> Northpeak</span>
+      <span class="marquee-logo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4"/></svg> Orbital Labs</span>
+      <span class="marquee-logo"><svg viewBox="0 0 24 24" fill="currentColor"><rect x="3" y="3" width="8" height="8"/><rect x="13" y="3" width="8" height="8"/><rect x="3" y="13" width="8" height="8"/></svg> Quadrant</span>
+      <span class="marquee-logo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M4 18 L12 4 L20 18 Z"/></svg> Helix Health</span>
+      <span class="marquee-logo"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L4 12l8 10 8-10z"/></svg> Meridian</span>
+      <span class="marquee-logo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 12 Q 7 4, 12 12 T 22 12"/></svg> Wavelength</span>
+      <span class="marquee-logo"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="10"/></svg> Vector Bank</span>
+      <span class="marquee-logo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 20 L12 4 L21 20"/><path d="M7 14 L17 14"/></svg> Apex Logistics</span>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================ BENTO SERVICES ============================================ -->
+<section id="services">
+  <div class="container">
+    <div class="section-head reveal">
+      <div class="lead">
+        <span class="eyebrow">AI Services</span>
+        <h2 class="section-title">A complete AI stack — from research to production.</h2>
+      </div>
+      <p class="section-sub reveal" data-delay="1">
+        Ten core capabilities, one integrated team. We compose them into solutions tailored to your data, workflows and infrastructure.
+      </p>
+    </div>
+
+    <div class="bento">
+      <!-- Featured large -->
+      <a href="service.html?slug=generative-ai" class="bento-card feature col-2 row-2 reveal">
+        <div class="bento-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/><circle cx="12" cy="12" r="4"/></svg>
+        </div>
+        <div class="body">
+          <h3>Generative AI &amp; LLM Development</h3>
+          <p>Production-ready chat, RAG, agents and fine-tuned models on Claude, GPT, Llama and open-source. Built with eval pipelines and safety guardrails.</p>
+        </div>
+        <div class="bento-mini-visual" style="opacity:0.45;">
+          <svg viewBox="0 0 200 200">
+            <g fill="none" stroke="rgba(255,255,255,0.5)" stroke-width="1">
+              <circle cx="100" cy="100" r="40"/>
+              <circle cx="100" cy="100" r="60"/>
+              <circle cx="100" cy="100" r="80"/>
+              <circle cx="100" cy="100" r="100"/>
+            </g>
+          </svg>
+        </div>
+      </a>
+
+      <!-- standard -->
+      <a href="service.html?slug=computer-vision" class="bento-card reveal" data-delay="1">
+        <div class="bento-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg>
+        </div>
+        <div class="body">
+          <h3>Computer Vision</h3>
+          <p>Detection, segmentation, OCR and quality inspection at edge or in cloud.</p>
+        </div>
+      </a>
+
+      <a href="service.html?slug=nlp" class="bento-card reveal" data-delay="2">
+        <div class="bento-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16v12H7l-3 3z"/><path d="M8 9h8M8 12h5"/></svg>
+        </div>
+        <div class="body">
+          <h3>NLP &amp; Language Understanding</h3>
+          <p>Classification, extraction, summarization and multilingual pipelines.</p>
+        </div>
+      </a>
+
+      <a href="service.html?slug=predictive-ml" class="bento-card col-2 reveal" data-delay="3">
+        <div class="bento-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M7 15l4-4 3 3 6-8"/></svg>
+        </div>
+        <div class="body">
+          <h3>Predictive Analytics &amp; ML Models</h3>
+          <p>Forecasting, churn, fraud and recommendation models tuned on your data, with full reproducibility and continuous monitoring.</p>
+        </div>
+        <div class="bento-mini-visual">
+          <svg viewBox="0 0 200 100">
+            <path d="M0,80 L20,72 L40,76 L60,55 L80,60 L100,40 L120,48 L140,28 L160,32 L180,15 L200,22" fill="none" stroke="var(--indigo-500)" stroke-width="2"/>
+            <path d="M0,80 L20,72 L40,76 L60,55 L80,60 L100,40 L120,48 L140,28 L160,32 L180,15 L200,22 L200,100 L0,100 Z" fill="url(#hv-grad)" opacity="0.3"/>
+          </svg>
+        </div>
+      </a>
+
+      <a href="service.html?slug=ai-agents" class="bento-card reveal" data-delay="1">
+        <div class="bento-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="10" rx="2"/><circle cx="12" cy="5" r="2"/><path d="M12 7v4M8 16h.01M16 16h.01"/></svg>
+        </div>
+        <div class="body">
+          <h3>AI Agents &amp; Automation</h3>
+          <p>Multi-step agents that act inside your tools and ticketing systems.</p>
+        </div>
+      </a>
+
+      <a href="service.html?slug=chatbots" class="bento-card reveal" data-delay="2">
+        <div class="bento-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+        </div>
+        <div class="body">
+          <h3>Chatbots &amp; Assistants</h3>
+          <p>Voice and text assistants connected to your CRM and knowledge base.</p>
+        </div>
+      </a>
+
+      <a href="service.html?slug=document-ai" class="bento-card col-2 reveal" data-delay="3">
+        <div class="bento-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="17" x2="16" y2="17"/><line x1="8" y1="9" x2="10" y2="9"/></svg>
+        </div>
+        <div class="body">
+          <h3>Document AI &amp; OCR</h3>
+          <p>Extract structured data from PDFs, scans and forms — invoices, contracts and clinical records — with 98%+ accuracy.</p>
+        </div>
+      </a>
+
+      <a href="service.html?slug=speech-ai" class="bento-card reveal">
+        <div class="bento-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2M12 19v3"/></svg>
+        </div>
+        <div class="body">
+          <h3>Speech AI</h3>
+          <p>Realtime transcription, synthesis and voice cloning.</p>
+        </div>
+      </a>
+
+      <a href="service.html?slug=recommendations" class="bento-card reveal" data-delay="1">
+        <div class="bento-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 L2 7 L12 12 L22 7 Z"/><path d="M2 17 L12 22 L22 17"/><path d="M2 12 L12 17 L22 12"/></svg>
+        </div>
+        <div class="body">
+          <h3>Recommendations</h3>
+          <p>Personalization engines tuned for revenue, retention or engagement.</p>
+        </div>
+      </a>
+
+      <a href="service.html?slug=mlops" class="bento-card reveal" data-delay="2">
+        <div class="bento-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2v6h6"/><path d="M4 13.5V4a2 2 0 0 1 2-2h8l6 6v11.5a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2z"/><path d="M9 17l2 2 4-4"/></svg>
+        </div>
+        <div class="body">
+          <h3>MLOps &amp; Deployment</h3>
+          <p>CI/CD for models, versioning, drift monitoring and rollback.</p>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================ SHOWCASE 1 — Generative AI ============================================ -->
+<section class="showcase">
+  <div class="container">
+    <div class="sc-grid">
+      <div class="sc-text reveal">
+        <span class="eyebrow">Generative AI &amp; LLMs</span>
+        <h2>Private language models that actually know your business.</h2>
+        <p class="sc-lead">We fine-tune open-source foundation models on your documents, tickets and codebase — then wire them into your products with retrieval, guardrails and observability. No data leaves your VPC.</p>
+        <ul class="sc-bullets">
+          <li class="sc-bullet"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8l3.5 3.5L13 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Fine-tuning on Llama, Mistral, Qwen &amp; private models</li>
+          <li class="sc-bullet"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8l3.5 3.5L13 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Production RAG with citations &amp; freshness controls</li>
+          <li class="sc-bullet"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8l3.5 3.5L13 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Hallucination scoring, PII redaction, audit logs</li>
+        </ul>
+        <a href="service.html#genai" class="sc-cta">Explore Generative AI<svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 7h8m0 0L7 3m4 4l-4 4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+      </div>
+      <div class="sc-stage reveal" data-delay="1">
+        <div class="sc-panel">
+          <span class="corner tl"></span><span class="corner tr"></span><span class="corner bl"></span><span class="corner br"></span>
+          <div class="viz-rag-tag t1"><span class="dot"></span>RAG · 2.4k docs indexed</div>
+          <div class="viz-chat">
+            <div class="msg user">What's our Q3 churn rate for enterprise tier, and which segment is leading?</div>
+            <div class="typing"><span></span><span></span><span></span></div>
+            <div class="msg bot">Q3 enterprise churn was <b>3.2%</b>, down 40bps QoQ. The retail vertical is leading retention at 98.1%, while logistics dipped to 95.4% — driven by 3 accounts in the EU region.<br/><span class="src">↳ source · q3-board-deck.pdf p.14</span></div>
+          </div>
+          <div class="viz-rag-tag t2"><span class="dot"></span>0 PII leaked · audit ✓</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================ SHOWCASE 2 — Computer Vision ============================================ -->
+<section class="showcase showcase--tinted">
+  <div class="container">
+    <div class="sc-grid sc-grid--reverse">
+      <div class="sc-text reveal">
+        <span class="eyebrow">Computer Vision &amp; Predictive ML</span>
+        <h2>See what your cameras and sensors are missing.</h2>
+        <p class="sc-lead">Detection, segmentation and time-series forecasting trained on your operational data — deployed to edge devices, factory floors or the cloud. Built for messy real-world conditions, not benchmark datasets.</p>
+        <ul class="sc-bullets">
+          <li class="sc-bullet"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8l3.5 3.5L13 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Defect detection, OCR, object tracking at 60fps</li>
+          <li class="sc-bullet"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8l3.5 3.5L13 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Forecasting demand, churn, anomalies &amp; risk</li>
+          <li class="sc-bullet"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8l3.5 3.5L13 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Edge deployment on Jetson, Coral &amp; custom silicon</li>
+        </ul>
+        <a href="service.html#ml" class="sc-cta">Explore Computer Vision<svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 7h8m0 0L7 3m4 4l-4 4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+      </div>
+      <div class="sc-stage reveal" data-delay="1">
+        <div class="sc-panel" style="padding: 32px;">
+          <span class="corner tl"></span><span class="corner tr"></span><span class="corner bl"></span><span class="corner br"></span>
+          <div class="viz-cv">
+            <div class="viz-cv-tile"><span class="box" data-label="pallet · 0.97" style="top:22%;left:18%;width:48%;height:52%;"></span></div>
+            <div class="viz-cv-tile"><span class="box" data-label="defect · 0.89" style="top:40%;left:38%;width:30%;height:30%;animation-delay:0.4s;"></span></div>
+            <div class="viz-cv-tile"><span class="box" data-label="worker · 0.93" style="top:14%;left:30%;width:38%;height:70%;animation-delay:0.8s;"></span></div>
+            <div class="viz-cv-tile"><span class="box" data-label="vehicle · 0.96" style="top:34%;left:14%;width:64%;height:42%;animation-delay:1.2s;"></span></div>
+            <div class="viz-cv-tile"><span class="box" data-label="label · 0.99" style="top:28%;left:24%;width:46%;height:30%;animation-delay:1.6s;"></span></div>
+            <div class="viz-cv-tile"><span class="box" data-label="crack · 0.84" style="top:48%;left:28%;width:42%;height:24%;animation-delay:2s;"></span></div>
+          </div>
+          <div class="viz-cv-meta">
+            <div class="label">Model · mAP@50</div>
+            <div class="value">97.4%</div>
+            <div class="delta">▲ 2.1pts vs baseline</div>
+            <div class="spark">
+              <span style="height:35%;animation-delay:0s;"></span>
+              <span style="height:48%;animation-delay:0.1s;"></span>
+              <span style="height:42%;animation-delay:0.2s;"></span>
+              <span style="height:62%;animation-delay:0.3s;"></span>
+              <span style="height:58%;animation-delay:0.4s;"></span>
+              <span style="height:74%;animation-delay:0.5s;"></span>
+              <span style="height:80%;animation-delay:0.6s;"></span>
+              <span style="height:95%;animation-delay:0.7s;"></span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================ SHOWCASE 3 — Agents (dark) ============================================ -->
+<section class="showcase showcase--dark">
+  <div class="container">
+    <div class="sc-grid">
+      <div class="sc-text reveal">
+        <span class="eyebrow">Intelligent Agents &amp; Automation</span>
+        <h2>Multi-step agents that ship work, not chat replies.</h2>
+        <p class="sc-lead">We design agent systems that plan, call your APIs, write to your databases and hand off to humans when the confidence drops. Built on LangGraph and our own orchestrator — with full traceability on every step.</p>
+        <ul class="sc-bullets">
+          <li class="sc-bullet"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8l3.5 3.5L13 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Tool-using agents over your existing APIs &amp; databases</li>
+          <li class="sc-bullet"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8l3.5 3.5L13 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Human-in-the-loop checkpoints &amp; rollback</li>
+          <li class="sc-bullet"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8l3.5 3.5L13 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Step-by-step traces, eval harness &amp; cost dashboards</li>
+        </ul>
+        <a href="service.html#agents" class="sc-cta">Explore Agents<svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 7h8m0 0L7 3m4 4l-4 4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+      </div>
+      <div class="sc-stage reveal" data-delay="1">
+        <div class="sc-panel">
+          <span class="corner tl"></span><span class="corner tr"></span><span class="corner bl"></span><span class="corner br"></span>
+          <div class="viz-agent">
+            <div class="viz-node">
+              <div class="ico"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></div>
+              <div class="meta"><div class="name">Planner</div><div class="task">decompose · 4 subtasks</div></div>
+              <div class="status done">DONE</div>
+              <span class="pulse"></span>
+            </div>
+            <div class="viz-node">
+              <div class="ico"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M21 13.5V19a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h7M16 3h5v5M10 14L21 3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+              <div class="meta"><div class="name">Retriever</div><div class="task">search · 12 docs ranked</div></div>
+              <div class="status done">DONE</div>
+              <span class="pulse"></span>
+            </div>
+            <div class="viz-node">
+              <div class="ico"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><rect x="3" y="4" width="18" height="16" rx="2" stroke="currentColor" stroke-width="2"/><path d="M3 9h18M8 14h2M8 17h6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></div>
+              <div class="meta"><div class="name">Tool · CRM API</div><div class="task">POST /opportunities/upsert</div></div>
+              <div class="status run">RUN</div>
+              <span class="pulse"></span>
+            </div>
+            <div class="viz-node">
+              <div class="ico"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M9 12l2 2 4-4M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+              <div class="meta"><div class="name">Reviewer</div><div class="task">human-in-loop · awaiting</div></div>
+              <div class="status queue">QUEUE</div>
+            </div>
+          </div>
+          <div class="viz-agent-metric m1">
+            <div class="lbl">Avg latency</div>
+            <div class="val">1.42s<span>−38%</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================ CLOUD ============================================ -->
+<section id="cloud" style="background: var(--offwhite); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line);">
+  <div class="container">
+    <div class="section-head reveal">
+      <div class="lead">
+        <span class="eyebrow">Cloud &amp; Infrastructure</span>
+        <h2 class="section-title">Deploy anywhere. Stay in control of your data.</h2>
+      </div>
+      <p class="section-sub reveal" data-delay="1">
+        We architect for your reality — multi-cloud, regulated on-premise or hybrid edge. Same engineering rigor, same observability stack.
+      </p>
+    </div>
+
+    <div class="split-3">
+      <a href="service.html?slug=cloud-deployment" class="card reveal">
+        <div class="top">
+          <div class="bento-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"/></svg></div>
+          <span class="badge">CLOUD</span>
+        </div>
+        <h3>Cloud Deployment</h3>
+        <p>AWS, Azure and GCP — Bedrock, Vertex AI, SageMaker, Azure OpenAI. Infrastructure-as-code, auto-scaling, cost-tuned.</p>
+        <ul>
+          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg> AWS · Azure · GCP partners</li>
+          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg> Terraform / Pulumi IaC</li>
+          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg> 24/7 managed observability</li>
+        </ul>
+      </a>
+      <a href="service.html?slug=on-premise" class="card reveal" data-delay="1">
+        <div class="top">
+          <div class="bento-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="6" rx="1"/><rect x="2" y="15" width="20" height="6" rx="1"/><path d="M6 6h.01M6 18h.01"/></svg></div>
+          <span class="badge">ON-PREM</span>
+        </div>
+        <h3>On-Premise &amp; Local Server</h3>
+        <p>Air-gapped AI deployments on your hardware — for finance, healthcare, defense and other data-sovereign workloads.</p>
+        <ul>
+          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg> NVIDIA / AMD GPU clusters</li>
+          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg> Open-source LLMs, on your metal</li>
+          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg> HIPAA / SOC 2 / ISO 27001</li>
+        </ul>
+      </a>
+      <a href="service.html?slug=hybrid-edge" class="card reveal" data-delay="2">
+        <div class="top">
+          <div class="bento-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></div>
+          <span class="badge">HYBRID</span>
+        </div>
+        <h3>Hybrid Cloud &amp; Edge AI</h3>
+        <p>Train in cloud, infer at edge. Federated learning, model distillation and offline-ready devices for global rollouts.</p>
+        <ul>
+          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg> Jetson, Coral, custom SoC</li>
+          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg> Federated &amp; privacy-preserving</li>
+          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg> Sub-50ms inference latency</li>
+        </ul>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================ CONSULTING ============================================ -->
+<section>
+  <div class="container">
+    <div class="section-head reveal">
+      <div class="lead">
+        <span class="eyebrow">Strategic Consulting</span>
+        <h2 class="section-title">Senior expertise, before the first line of code.</h2>
+      </div>
+    </div>
+
+    <div class="split-2">
+      <a href="service.html?slug=ai-strategy" class="card reveal">
+        <div class="bento-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7v10l10 5 10-5V7L12 2z"/><path d="M2 7l10 5 10-5M12 12v10"/></svg>
+        </div>
+        <h3>AI Strategy &amp; Readiness</h3>
+        <p>We assess your data, processes and competitive position — then deliver a prioritized AI roadmap with ROI models, build/buy decisions and a 90-day execution plan.</p>
+        <div class="deliverables">
+          <div class="deliverable"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg> AI readiness audit</div>
+          <div class="deliverable"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3v18h18"/><path d="M7 15l4-4 3 3 6-8"/></svg> ROI &amp; use-case scoring</div>
+          <div class="deliverable"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/></svg> Vendor &amp; tooling shortlist</div>
+          <div class="deliverable"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg> Risk &amp; governance plan</div>
+        </div>
+      </a>
+      <a href="service.html?slug=cloud-consulting" class="card reveal" data-delay="1">
+        <div class="bento-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 22h20M4 22V10l8-6 8 6v12M9 22v-6h6v6"/></svg>
+        </div>
+        <h3>Cloud Architecture &amp; Cost Engineering</h3>
+        <p>Migration plans, multi-cloud architectures and FinOps audits that turn unpredictable bills into engineered, observable line items — without slowing your team down.</p>
+        <div class="deliverables">
+          <div class="deliverable"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg> Migration architecture</div>
+          <div class="deliverable"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M16 8h-6a2 2 0 0 0 0 4h4a2 2 0 0 1 0 4H8M12 6v2M12 16v2"/></svg> FinOps cost teardown</div>
+          <div class="deliverable"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg> Security &amp; compliance</div>
+          <div class="deliverable"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20l9-7-9-7-9 7 9 7zM12 4v16"/></svg> Performance benchmarks</div>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================ HOW WE WORK — PINNED ============================================ -->
+<section id="how" class="how">
+  <div class="container">
+    <div class="how-wrap">
+      <div class="how-left">
+        <span class="eyebrow">How We Work</span>
+        <h2 class="section-title">From idea to production in four deliberate steps.</h2>
+        <p class="section-sub">Our delivery is opinionated. Every engagement moves through the same sequence — discover, design, develop, deploy — with senior engineers and PMs embedded throughout.</p>
+
+        <div class="how-progress">
+          <div class="step is-active"><span class="idx">01</span><span class="name">Discover</span><span class="bar"></span></div>
+          <div class="step"><span class="idx">02</span><span class="name">Design</span><span class="bar"></span></div>
+          <div class="step"><span class="idx">03</span><span class="name">Develop</span><span class="bar"></span></div>
+          <div class="step"><span class="idx">04</span><span class="name">Deploy</span><span class="bar"></span></div>
+        </div>
+      </div>
+
+      <div class="how-right">
+        <article class="how-card is-active">
+          <span class="eyebrow">Step 01 — Discover</span>
+          <h3>Workshops, data audit, opportunity map.</h3>
+          <p>Two-week immersion with your team. We map workflows, audit your data, score use cases by impact and feasibility, and align on a measurable target outcome.</p>
+          <div class="visual">
+            <svg width="100%" height="100%" viewBox="0 0 400 220">
+              <g stroke="var(--indigo-700)" stroke-width="1" fill="none" opacity="0.4">
+                <circle cx="200" cy="110" r="40"/><circle cx="200" cy="110" r="70"/><circle cx="200" cy="110" r="100"/>
+              </g>
+              <g fill="var(--indigo-800)">
+                <circle cx="200" cy="70" r="6"/><circle cx="260" cy="130" r="6"/><circle cx="160" cy="150" r="6"/>
+                <circle cx="240" cy="80" r="4"/><circle cx="170" cy="100" r="4"/>
+              </g>
+              <g stroke="var(--indigo-500)" stroke-width="1.2" fill="none" opacity="0.7">
+                <path d="M200,70 L260,130 L160,150 Z"/>
+              </g>
+            </svg>
+          </div>
+          <div class="bullets"><span>Stakeholder interviews</span><span>Data quality assessment</span><span>Impact / feasibility matrix</span><span>Target KPI</span></div>
+        </article>
+
+        <article class="how-card">
+          <span class="eyebrow">Step 02 — Design</span>
+          <h3>System architecture, model selection, eval design.</h3>
+          <p>We design the full system before writing production code — model choice, data pipelines, integration points, eval framework and ops architecture.</p>
+          <div class="visual">
+            <svg width="100%" height="100%" viewBox="0 0 400 220">
+              <g fill="none" stroke="var(--indigo-700)" stroke-width="1.2">
+                <rect x="40" y="40" width="100" height="50" rx="6"/>
+                <rect x="40" y="130" width="100" height="50" rx="6"/>
+                <rect x="260" y="40" width="100" height="50" rx="6"/>
+                <rect x="260" y="130" width="100" height="50" rx="6"/>
+                <rect x="160" y="85" width="80" height="50" rx="6" fill="var(--indigo-50)"/>
+                <path d="M140,65 L160,110 M140,155 L160,110 M240,110 L260,65 M240,110 L260,155"/>
+              </g>
+              <g fill="var(--indigo-800)" font-family="Instrument Sans" font-size="11">
+                <text x="90" y="69" text-anchor="middle">Data sources</text>
+                <text x="90" y="159" text-anchor="middle">Streams</text>
+                <text x="200" y="114" text-anchor="middle">AI Core</text>
+                <text x="310" y="69" text-anchor="middle">API</text>
+                <text x="310" y="159" text-anchor="middle">App</text>
+              </g>
+            </svg>
+          </div>
+          <div class="bullets"><span>System design doc</span><span>Model shortlist</span><span>Eval harness</span><span>SLA targets</span></div>
+        </article>
+
+        <article class="how-card">
+          <span class="eyebrow">Step 03 — Develop</span>
+          <h3>Sprint-based builds with continuous eval.</h3>
+          <p>Two-week sprints. Every model and component shipped behind feature flags with automated evals — no surprises in production.</p>
+          <div class="visual">
+            <svg width="100%" height="100%" viewBox="0 0 400 220">
+              <g fill="var(--indigo-500)" opacity="0.85">
+                <rect x="30" y="160" width="22" height="40" rx="3"/>
+                <rect x="62" y="130" width="22" height="70" rx="3"/>
+                <rect x="94" y="140" width="22" height="60" rx="3"/>
+                <rect x="126" y="100" width="22" height="100" rx="3"/>
+                <rect x="158" y="110" width="22" height="90" rx="3"/>
+                <rect x="190" y="80" width="22" height="120" rx="3"/>
+                <rect x="222" y="90" width="22" height="110" rx="3"/>
+                <rect x="254" y="60" width="22" height="140" rx="3"/>
+                <rect x="286" y="70" width="22" height="130" rx="3"/>
+                <rect x="318" y="40" width="22" height="160" rx="3"/>
+                <rect x="350" y="55" width="22" height="145" rx="3"/>
+              </g>
+              <path d="M40,170 C100,150 150,120 200,100 C260,75 320,55 360,45" stroke="var(--indigo-900)" stroke-width="2" fill="none"/>
+            </svg>
+          </div>
+          <div class="bullets"><span>2-week sprints</span><span>Automated evals</span><span>Code &amp; model review</span><span>Weekly demo</span></div>
+        </article>
+
+        <article class="how-card">
+          <span class="eyebrow">Step 04 — Deploy</span>
+          <h3>Production rollout with monitoring &amp; handover.</h3>
+          <p>Phased rollout, drift monitoring, runbooks and team training. We stay engaged for 90 days post-launch to ensure outcomes hold.</p>
+          <div class="visual">
+            <svg width="100%" height="100%" viewBox="0 0 400 220">
+              <g fill="none" stroke="var(--indigo-700)" stroke-width="1.2">
+                <circle cx="200" cy="110" r="85"/>
+                <circle cx="200" cy="110" r="55"/>
+                <circle cx="200" cy="110" r="25" fill="var(--indigo-800)"/>
+              </g>
+              <g fill="var(--indigo-800)">
+                <circle cx="285" cy="110" r="5"/>
+                <circle cx="115" cy="110" r="5"/>
+                <circle cx="240" cy="60" r="5"/>
+                <circle cx="160" cy="160" r="5"/>
+                <circle cx="255" cy="165" r="5"/>
+              </g>
+              <text x="200" y="115" text-anchor="middle" font-family="Instrument Sans" font-size="11" fill="#fff">LIVE</text>
+            </svg>
+          </div>
+          <div class="bullets"><span>Phased rollout</span><span>Drift monitoring</span><span>Runbooks</span><span>90-day support</span></div>
+        </article>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================ INDUSTRIES ============================================ -->
+<section id="industries">
+  <div class="container">
+    <div class="section-head reveal">
+      <div class="lead">
+        <span class="eyebrow">Industries We Serve</span>
+        <h2 class="section-title">Deep playbooks in regulated, high-stakes domains.</h2>
+      </div>
+      <p class="section-sub reveal" data-delay="1">
+        Across sectors, we bring proven reference architectures, data templates and compliance posture — so your team starts ahead of the curve.
+      </p>
+    </div>
+
+    <div class="industries">
+      <div class="industry reveal">
+        <div class="industry-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></div>
+        <div class="industry-name">Healthcare</div>
+        <div class="industry-meta">Clinical NLP · Imaging</div>
+      </div>
+      <div class="industry reveal" data-delay="1">
+        <div class="industry-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div>
+        <div class="industry-name">Finance</div>
+        <div class="industry-meta">Fraud · Risk · KYC</div>
+      </div>
+      <div class="industry reveal" data-delay="2">
+        <div class="industry-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg></div>
+        <div class="industry-name">Retail</div>
+        <div class="industry-meta">Personalization</div>
+      </div>
+      <div class="industry reveal" data-delay="3">
+        <div class="industry-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 17.5l-9.5 5L3 17.5M22 12l-9.5 5L3 12M12.5 2 22 7l-9.5 5L3 7l9.5-5z"/></svg></div>
+        <div class="industry-name">Manufacturing</div>
+        <div class="industry-meta">Defects · Predictive</div>
+      </div>
+      <div class="industry reveal" data-delay="4">
+        <div class="industry-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg></div>
+        <div class="industry-name">Logistics</div>
+        <div class="industry-meta">Routing · Forecast</div>
+      </div>
+      <div class="industry reveal" data-delay="3">
+        <div class="industry-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c0 2 3 3 6 3s6-1 6-3v-5"/></svg></div>
+        <div class="industry-name">EdTech</div>
+        <div class="industry-meta">Adaptive learning</div>
+      </div>
+      <div class="industry reveal" data-delay="4">
+        <div class="industry-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div>
+        <div class="industry-name">Real Estate</div>
+        <div class="industry-meta">Valuation · Doc AI</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================ CASE STUDIES ============================================ -->
+<section id="cases" style="background: var(--offwhite); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line);">
+  <div class="container">
+    <div class="section-head reveal">
+      <div class="lead">
+        <span class="eyebrow">Case Studies</span>
+        <h2 class="section-title">Outcomes our clients can measure.</h2>
+      </div>
+
+    <div class="cases">
+      <article class="case reveal">
+        <div class="case-img c1"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M3 3h18v18H3zM3 9h18M9 21V9"/></svg></div>
+        <div class="case-body">
+          <div class="meta"><span class="tag">Healthcare</span><span>Helix Health</span></div>
+          <h3>Clinical document triage at 8 hospitals.</h3>
+          <p>Deployed a HIPAA-compliant document AI pipeline that classifies and routes patient intake forms in under 3 seconds.</p>
+          <div class="case-stat"><span class="num">68%</span><span class="lbl">reduction in manual triage time</span></div>
+        </div>
+      </article>
+      <article class="case reveal" data-delay="1">
+        <div class="case-img c2"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg></div>
+        <div class="case-body">
+          <div class="meta"><span class="tag">Finance</span><span>Vector Bank</span></div>
+          <h3>Real-time fraud detection on payments rail.</h3>
+          <p>Custom gradient-boosting ensemble running on on-prem GPUs, scoring 12M transactions per day under 40ms latency.</p>
+          <div class="case-stat"><span class="num">$24M</span><span class="lbl">in fraud losses prevented (FY)</span></div>
+        </div>
+      </article>
+      <article class="case reveal" data-delay="2">
+        <div class="case-img c3"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg></div>
+        <div class="case-body">
+          <div class="meta"><span class="tag">Logistics</span><span>Apex Logistics</span></div>
+          <h3>LLM agents for shipment exception handling.</h3>
+          <p>Autonomous agents resolve 70% of inbound exceptions across email, EDI and portal channels — with full audit trails.</p>
+          <div class="case-stat"><span class="num">3.4×</span><span class="lbl">throughput per ops analyst</span></div>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================ STATS BAND ============================================ -->
+<section class="stats-band">
+  <div class="container">
+    <div class="section-head reveal">
+      <div class="lead">
+        <span class="eyebrow">Why Choose Us</span>
+        <h2 class="section-title">A senior team. A measurable record.</h2>
+      </div>
+      <p class="section-sub reveal" data-delay="1">No black boxes. No hand-offs to junior pods. The same engineers who scope the work ship the system.</p>
+    </div>
+
+    <div class="stats-grid">
+      <div class="stat reveal">
+        <div class="num"><span data-countup="240" suffix="+">0</span><span style="font-size:0.6em;">+</span></div>
+        <div class="lbl">Projects delivered</div>
+        <div class="sub">Across 14 countries</div>
+      </div>
+      <div class="stat reveal" data-delay="1">
+        <div class="num"><span data-countup="120">0</span></div>
+        <div class="lbl">Models in production</div>
+        <div class="sub">99.95% uptime</div>
+      </div>
+      <div class="stat reveal" data-delay="2">
+        <div class="num"><span data-countup="42">0</span></div>
+        <div class="lbl">Enterprise clients</div>
+        <div class="sub">5 Fortune 500</div>
+      </div>
+      <div class="stat reveal" data-delay="3">
+        <div class="num"><span data-countup="14">0</span></div>
+        <div class="lbl">Countries served</div>
+        <div class="sub">EU, NA, APAC, ME</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================ TESTIMONIALS ============================================ -->
+<section class="testimonials">
+  <div class="container">
+    <div class="section-head reveal">
+      <div class="lead">
+        <span class="eyebrow">What clients say</span>
+        <h2 class="section-title">Trusted by the people we work with.</h2>
+      </div>
+    </div>
+  </div>
+  <div style="margin-top: 8px;">
+    <div class="testi-track">
+      <div class="testi">
+        <svg width="20" height="16" viewBox="0 0 20 16" fill="var(--indigo-500)"><path d="M0 16V8c0-4 2.7-6.7 8-8v3c-2.7 1-4 2.7-4 5h4v8H0zm11 0V8c0-4 2.7-6.7 8-8v3c-2.7 1-4 2.7-4 5h4v8h-8z"/></svg>
+        <blockquote>"Techsara replaced a 6-month internal effort in 9 weeks. The bar for engineering rigor was visibly higher than any vendor we'd worked with."</blockquote>
+        <div class="testi-author"><div class="testi-avatar">SR</div><div class="testi-meta"><div class="n">Sara Reinhardt</div><div class="r">VP Engineering, Vector Bank</div></div></div>
+      </div>
+      <div class="testi">
+        <svg width="20" height="16" viewBox="0 0 20 16" fill="var(--indigo-500)"><path d="M0 16V8c0-4 2.7-6.7 8-8v3c-2.7 1-4 2.7-4 5h4v8H0zm11 0V8c0-4 2.7-6.7 8-8v3c-2.7 1-4 2.7-4 5h4v8h-8z"/></svg>
+        <blockquote>"They embedded with our team like a senior in-house unit. The 90-day support after launch is what separated them from everyone else."</blockquote>
+        <div class="testi-author"><div class="testi-avatar">DK</div><div class="testi-meta"><div class="n">Daniel Kemp</div><div class="r">CTO, Helix Health</div></div></div>
+      </div>
+      <div class="testi">
+        <svg width="20" height="16" viewBox="0 0 20 16" fill="var(--indigo-500)"><path d="M0 16V8c0-4 2.7-6.7 8-8v3c-2.7 1-4 2.7-4 5h4v8H0zm11 0V8c0-4 2.7-6.7 8-8v3c-2.7 1-4 2.7-4 5h4v8h-8z"/></svg>
+        <blockquote>"On-premise GPU deployment was non-negotiable for us. Techsara was the only firm that didn't try to push us to the cloud first."</blockquote>
+        <div class="testi-author"><div class="testi-avatar">MA</div><div class="testi-meta"><div class="n">Maya Adel</div><div class="r">Head of Data, Meridian</div></div></div>
+      </div>
+      <div class="testi">
+        <svg width="20" height="16" viewBox="0 0 20 16" fill="var(--indigo-500)"><path d="M0 16V8c0-4 2.7-6.7 8-8v3c-2.7 1-4 2.7-4 5h4v8H0zm11 0V8c0-4 2.7-6.7 8-8v3c-2.7 1-4 2.7-4 5h4v8h-8z"/></svg>
+        <blockquote>"Their AI strategy work paid for itself in the first quarter — we killed two doomed projects and accelerated the one that mattered."</blockquote>
+        <div class="testi-author"><div class="testi-avatar">JT</div><div class="testi-meta"><div class="n">Julian Tate</div><div class="r">Chief Strategy Officer, Northpeak</div></div></div>
+      </div>
+      <!-- duplicate -->
+      <div class="testi">
+        <svg width="20" height="16" viewBox="0 0 20 16" fill="var(--indigo-500)"><path d="M0 16V8c0-4 2.7-6.7 8-8v3c-2.7 1-4 2.7-4 5h4v8H0zm11 0V8c0-4 2.7-6.7 8-8v3c-2.7 1-4 2.7-4 5h4v8h-8z"/></svg>
+        <blockquote>"Techsara replaced a 6-month internal effort in 9 weeks. The bar for engineering rigor was visibly higher than any vendor we'd worked with."</blockquote>
+        <div class="testi-author"><div class="testi-avatar">SR</div><div class="testi-meta"><div class="n">Sara Reinhardt</div><div class="r">VP Engineering, Vector Bank</div></div></div>
+      </div>
+      <div class="testi">
+        <svg width="20" height="16" viewBox="0 0 20 16" fill="var(--indigo-500)"><path d="M0 16V8c0-4 2.7-6.7 8-8v3c-2.7 1-4 2.7-4 5h4v8H0zm11 0V8c0-4 2.7-6.7 8-8v3c-2.7 1-4 2.7-4 5h4v8h-8z"/></svg>
+        <blockquote>"They embedded with our team like a senior in-house unit. The 90-day support after launch is what separated them from everyone else."</blockquote>
+        <div class="testi-author"><div class="testi-avatar">DK</div><div class="testi-meta"><div class="n">Daniel Kemp</div><div class="r">CTO, Helix Health</div></div></div>
+      </div>
+      <div class="testi">
+        <svg width="20" height="16" viewBox="0 0 20 16" fill="var(--indigo-500)"><path d="M0 16V8c0-4 2.7-6.7 8-8v3c-2.7 1-4 2.7-4 5h4v8H0zm11 0V8c0-4 2.7-6.7 8-8v3c-2.7 1-4 2.7-4 5h4v8h-8z"/></svg>
+        <blockquote>"On-premise GPU deployment was non-negotiable for us. Techsara was the only firm that didn't try to push us to the cloud first."</blockquote>
+        <div class="testi-author"><div class="testi-avatar">MA</div><div class="testi-meta"><div class="n">Maya Adel</div><div class="r">Head of Data, Meridian</div></div></div>
+      </div>
+      <div class="testi">
+        <svg width="20" height="16" viewBox="0 0 20 16" fill="var(--indigo-500)"><path d="M0 16V8c0-4 2.7-6.7 8-8v3c-2.7 1-4 2.7-4 5h4v8H0zm11 0V8c0-4 2.7-6.7 8-8v3c-2.7 1-4 2.7-4 5h4v8h-8z"/></svg>
+        <blockquote>"Their AI strategy work paid for itself in the first quarter — we killed two doomed projects and accelerated the one that mattered."</blockquote>
+        <div class="testi-author"><div class="testi-avatar">JT</div><div class="testi-meta"><div class="n">Julian Tate</div><div class="r">Chief Strategy Officer, Northpeak</div></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================ CTA BANNER ============================================ -->
+<section id="contact" class="cta-banner-wrap">
+  <div class="container">
+    <div class="cta-banner reveal">
+      <div>
+        <h2>Ready to transform your business with AI?</h2>
+        <p>Tell us about your goals. We'll come back within one business day with a tailored proposal and a no-obligation 30-minute call with a senior engineer.</p>
+      </div>
+      <div class="cta-banner-actions">
+        <a href="book.html" class="btn btn-primary btn-lg" data-magnetic="0.3">
+          Book a free consultation
+          <svg class="arrow" width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 5l7 7-7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+        <a href="#" class="btn btn-ghost btn-lg" data-magnetic="0.2">Email the team</a>
+        <div class="cta-meta">
+          <div class="row"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg> 30-min, no obligation</div>
+          <div class="row"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg> NDA on request</div>
+          <div class="row"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg> Senior engineer on every call</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+</main>
+
+<!-- ============================================ FOOTER ============================================ -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <a href="#top" class="brand" aria-label="Techsara home">
+          <span class="brand-mark" aria-hidden="true">
+            <img src="/assets/techsara-logo.png" alt="" class="brand-logo" />
+          </span>
+          TECHSARA
+        </a>
+        <p>End-to-end AI development, cloud &amp; on-premise deployment, and strategic consulting — engineered for enterprise outcomes.</p>
+        <a href="book.html" class="btn btn-primary footer-cta" data-magnetic="0.2">
+          Book a consultation
+          <svg class="arrow" width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 5l7 7-7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+      </div>
+      <div class="footer-col">
+        <h4>Services</h4>
+        <ul>
+          <li><a href="service.html?slug=generative-ai">Generative AI / LLMs</a></li>
+          <li><a href="service.html?slug=computer-vision">Computer Vision</a></li>
+          <li><a href="service.html?slug=nlp">NLP &amp; Speech</a></li>
+          <li><a href="service.html?slug=predictive-ml">Predictive ML</a></li>
+          <li><a href="service.html?slug=mlops">MLOps</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Solutions</h4>
+        <ul>
+          <li><a href="service.html?slug=cloud-deployment">Cloud Deployment</a></li>
+          <li><a href="service.html?slug=on-premise">On-Premise AI</a></li>
+          <li><a href="service.html?slug=hybrid-edge">Hybrid &amp; Edge</a></li>
+          <li><a href="service.html?slug=ai-strategy">AI Strategy</a></li>
+          <li><a href="service.html?slug=cloud-consulting">Cloud Consulting</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Contact</h4>
+        <ul>
+          <li><a href="mailto:hello@techsara.io">hello@techsara.io</a></li>
+          <li><a href="#">+1 (415) 555-0140</a></li>
+          <li>San Francisco · Dubai · Bangalore</li>
+          <li><a href="book.html">Book a call</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div>© 2026 Techsara Solutions, Inc. All rights reserved.</div>
+      <div class="footer-socials">
+        <a href="#" aria-label="LinkedIn"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-4 0v7h-4v-7a6 6 0 016-6zM2 9h4v12H2zM4 2a2 2 0 110 4 2 2 0 010-4z"/></svg></a>
+        <a href="#" aria-label="X"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h3l-7.5 8.6L22 22h-6.8l-5.3-6.9L3.8 22H1l8-9.2L1 2h7l4.7 6.3L18 2z"/></svg></a>
+        <a href="#" aria-label="GitHub"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.86 10.91.58.11.79-.25.79-.55v-2.1c-3.2.7-3.87-1.36-3.87-1.36-.52-1.32-1.27-1.67-1.27-1.67-1.04-.71.08-.7.08-.7 1.15.08 1.76 1.18 1.76 1.18 1.02 1.75 2.69 1.24 3.34.95.1-.74.4-1.24.72-1.53-2.55-.29-5.24-1.28-5.24-5.69 0-1.26.45-2.29 1.18-3.09-.12-.29-.51-1.46.11-3.04 0 0 .97-.31 3.18 1.18a11 11 0 015.78 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.58.23 2.75.12 3.04.73.8 1.18 1.83 1.18 3.09 0 4.42-2.69 5.4-5.25 5.68.41.36.78 1.06.78 2.14v3.17c0 .31.21.67.8.55C20.21 21.39 23.5 17.08 23.5 12 23.5 5.65 18.35.5 12 .5z"/></svg></a>
+        <a href="#" aria-label="YouTube"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M23 7s-.2-1.6-.8-2.3c-.8-.9-1.8-.9-2.2-1C16.9 3.3 12 3.3 12 3.3s-4.9 0-8 .4c-.4.1-1.4.1-2.2 1C1.2 5.4 1 7 1 7S.8 8.9.8 10.8v1.4c0 1.9.2 3.8.2 3.8s.2 1.6.8 2.3c.8.9 1.9.9 2.4 1 1.8.2 7.8.3 7.8.3s4.9 0 8-.4c.4-.1 1.4-.1 2.2-1 .6-.7.8-2.3.8-2.3s.2-1.9.2-3.8v-1.4C23.2 8.9 23 7 23 7zM9.7 14.6V8.4l6.4 3.1-6.4 3.1z"/></svg></a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="app.js"></script>
+<script>
+(async function(){
+  try { if (document.fonts && document.fonts.ready) { await document.fonts.ready; } } catch(e) {}
+  document.body.classList.add('printing');
+  setTimeout(() => { window.print(); }, 800);
+})();
+</script>
+</body>
+</html>
