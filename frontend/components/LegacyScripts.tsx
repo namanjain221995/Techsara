@@ -10,6 +10,29 @@ export default function LegacyScripts({ page, serviceSlug }: LegacyScriptsProps)
   return (
     <>
       <LegacyReinit />
+
+      <Script id="techsara-mobile-nav" strategy="afterInteractive">
+        {`(function(){
+          var nav = document.querySelector('.nav');
+          var toggle = document.querySelector('.nav-toggle');
+          if (!nav || !toggle) return;
+          if (toggle.dataset.bound === '1') return;
+          toggle.dataset.bound = '1';
+          function setOpen(open) {
+            nav.classList.toggle('is-mobile-open', open);
+            toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+            toggle.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+          }
+          toggle.addEventListener('click', function(){ setOpen(!nav.classList.contains('is-mobile-open')); });
+          nav.querySelectorAll('.nav-links a').forEach(function(link){
+            link.addEventListener('click', function(){ setOpen(false); });
+          });
+          document.addEventListener('keydown', function(e){
+            if (e.key === 'Escape' && nav.classList.contains('is-mobile-open')) setOpen(false);
+          });
+        })();`}
+      </Script>
+
       {page === "home" || page === "print" ? (
         <>
           <Script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js" strategy="afterInteractive" />

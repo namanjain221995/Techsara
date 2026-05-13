@@ -89,8 +89,30 @@
           </a>
         </div>
       </div>
-      <a href="/solutions">Solutions</a>
-      <a href="#industries">Industries</a>
+      <div class="nav-item-dropdown">
+        <a href="/solutions" class="nav-dropdown-trigger">
+          Solutions
+          <svg class="nav-dropdown-caret" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+        <div class="nav-dropdown-panel" role="menu">
+          <a href="/solutions/generative-ai" class="nav-dropdown-link" role="menuitem">
+            <span class="nav-dropdown-title">Generative AI</span>
+            <span class="nav-dropdown-desc">LLMs, RAG and fine-tuning grounded in your data</span>
+          </a>
+          <a href="/solutions/computer-vision" class="nav-dropdown-link" role="menuitem">
+            <span class="nav-dropdown-title">Computer Vision</span>
+            <span class="nav-dropdown-desc">Real-time detection, defect inspection and edge optimization</span>
+          </a>
+          <a href="/solutions/ai-agents" class="nav-dropdown-link" role="menuitem">
+            <span class="nav-dropdown-title">Agents</span>
+            <span class="nav-dropdown-desc">Tool-using workflow agents with human-in-the-loop gates</span>
+          </a>
+          <a href="/solutions/cloud-deployment" class="nav-dropdown-link" role="menuitem">
+            <span class="nav-dropdown-title">Cloud Deployment</span>
+            <span class="nav-dropdown-desc">Reference architectures, FinOps and observability</span>
+          </a>
+        </div>
+      </div>
       <!-- <a href="#cases">Leadership</a> -->
       <a href="/articles">Articles</a>
       <a href="/careers">Careers</a>
@@ -101,8 +123,9 @@
         Book a Consultation
         <svg class="arrow" width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 5l7 7-7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
       </a>
-      <button class="nav-toggle" aria-label="Open menu">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M3 6h18M3 12h18M3 18h18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+      <button class="nav-toggle" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="primary-nav-links">
+        <svg class="nav-toggle-icon-open" width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        <svg class="nav-toggle-icon-close" width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
       </button>
     </div>
   </div>
@@ -939,7 +962,6 @@
           </span>
           TECHSARA
         </a>
-        <p>End-to-end AI development, cloud &amp; on-premise deployment, and strategic consulting — engineered for enterprise outcomes.</p>
         <a href="book.html" class="btn btn-primary footer-cta" data-magnetic="0.2">
           Book a consultation
           <svg class="arrow" width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 5l7 7-7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>

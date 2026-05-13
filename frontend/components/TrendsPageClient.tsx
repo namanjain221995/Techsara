@@ -42,6 +42,16 @@ const slides = [
 export default function TrendsPageClient() {
   const [activeIndex, setActiveIndex] = useState(0);
   const [isOverHero, setIsOverHero] = useState(true);
+  const [isMobileOpen, setIsMobileOpen] = useState(false);
+
+  useEffect(() => {
+    if (!isMobileOpen) return;
+    const handleKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setIsMobileOpen(false);
+    };
+    window.addEventListener("keydown", handleKey);
+    return () => window.removeEventListener("keydown", handleKey);
+  }, [isMobileOpen]);
 
   useEffect(() => {
     const timer = window.setInterval(() => {
@@ -83,7 +93,7 @@ export default function TrendsPageClient() {
 
   return (
     <main className="trends-page">
-      <header className={`nav trends-nav is-ready ${isOverHero ? "over-dark" : "is-scrolled"}`} role="banner">
+      <header className={`nav trends-nav is-ready ${isOverHero ? "over-dark" : "is-scrolled"}${isMobileOpen ? " is-mobile-open" : ""}`} role="banner">
         <div className="container nav-inner">
           <Link href="/" className="brand" aria-label="Techsara home">
             <span className="brand-mark" aria-hidden="true">
@@ -91,39 +101,63 @@ export default function TrendsPageClient() {
             </span>
             TECHSARA
           </Link>
-          <nav className="nav-links" aria-label="Primary">
+          <nav className="nav-links" aria-label="Primary" id="primary-nav-links">
             <div className="nav-item-dropdown">
-              <Link href="/services" className="nav-dropdown-trigger">
+              <Link href="/services" className="nav-dropdown-trigger" onClick={() => setIsMobileOpen(false)}>
                 Services
                 <svg className="nav-dropdown-caret" viewBox="0 0 24 24" fill="none" aria-hidden="true">
                   <path d="M6 9l6 6 6-6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                 </svg>
               </Link>
               <div className="nav-dropdown-panel" role="menu">
-                <Link href="/services/talent" className="nav-dropdown-link" role="menuitem">
+                <Link href="/services/talent" className="nav-dropdown-link" role="menuitem" onClick={() => setIsMobileOpen(false)}>
                   <span className="nav-dropdown-title">Talent Solutions</span>
                   <span className="nav-dropdown-desc">Connecting you with the best talent in the marketplace</span>
                 </Link>
-                <Link href="/services/team" className="nav-dropdown-link" role="menuitem">
+                <Link href="/services/team" className="nav-dropdown-link" role="menuitem" onClick={() => setIsMobileOpen(false)}>
                   <span className="nav-dropdown-title">Team Solutions</span>
                   <span className="nav-dropdown-desc">Stay involved with valued initiatives; we handle the details</span>
                 </Link>
-                <Link href="/services/project" className="nav-dropdown-link" role="menuitem">
+                <Link href="/services/project" className="nav-dropdown-link" role="menuitem" onClick={() => setIsMobileOpen(false)}>
                   <span className="nav-dropdown-title">Project Solutions</span>
                   <span className="nav-dropdown-desc">We&apos;ll manage your project&apos;s outcome from start to finish</span>
                 </Link>
-                <Link href="/services/international" className="nav-dropdown-link" role="menuitem">
+                <Link href="/services/international" className="nav-dropdown-link" role="menuitem" onClick={() => setIsMobileOpen(false)}>
                   <span className="nav-dropdown-title">International Talent Solutions</span>
                   <span className="nav-dropdown-desc">Sourcing global talent to solve your workforce challenges</span>
                 </Link>
               </div>
             </div>
-            <Link href="/solutions">Solutions</Link>
-            <Link href="/#industries">Industries</Link>
+            <div className="nav-item-dropdown">
+              <Link href="/solutions" className="nav-dropdown-trigger" onClick={() => setIsMobileOpen(false)}>
+                Solutions
+                <svg className="nav-dropdown-caret" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                  <path d="M6 9l6 6 6-6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+              </Link>
+              <div className="nav-dropdown-panel" role="menu">
+                <Link href="/solutions/generative-ai" className="nav-dropdown-link" role="menuitem" onClick={() => setIsMobileOpen(false)}>
+                  <span className="nav-dropdown-title">Generative AI</span>
+                  <span className="nav-dropdown-desc">LLMs, RAG and fine-tuning grounded in your data</span>
+                </Link>
+                <Link href="/solutions/computer-vision" className="nav-dropdown-link" role="menuitem" onClick={() => setIsMobileOpen(false)}>
+                  <span className="nav-dropdown-title">Computer Vision</span>
+                  <span className="nav-dropdown-desc">Real-time detection, defect inspection and edge optimization</span>
+                </Link>
+                <Link href="/solutions/ai-agents" className="nav-dropdown-link" role="menuitem" onClick={() => setIsMobileOpen(false)}>
+                  <span className="nav-dropdown-title">Agents</span>
+                  <span className="nav-dropdown-desc">Tool-using workflow agents with human-in-the-loop gates</span>
+                </Link>
+                <Link href="/solutions/cloud-deployment" className="nav-dropdown-link" role="menuitem" onClick={() => setIsMobileOpen(false)}>
+                  <span className="nav-dropdown-title">Cloud Deployment</span>
+                  <span className="nav-dropdown-desc">Reference architectures, FinOps and observability</span>
+                </Link>
+              </div>
+            </div>
             {/* <Link href="/#cases">Leadership</Link> */}
-            <Link href="/articles">Articles</Link>
-            <Link href="/careers">Careers</Link>
-            <Link href="/#contact">Contact</Link>
+            <Link href="/articles" onClick={() => setIsMobileOpen(false)}>Articles</Link>
+            <Link href="/careers" onClick={() => setIsMobileOpen(false)}>Careers</Link>
+            <Link href="/#contact" onClick={() => setIsMobileOpen(false)}>Contact</Link>
           </nav>
           <div className="nav-actions">
             <Link href="/book" className="btn btn-primary">
@@ -132,6 +166,17 @@ export default function TrendsPageClient() {
                 <path d="M5 12h14M13 5l7 7-7 7" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
               </svg>
             </Link>
+            <button
+              type="button"
+              className="nav-toggle"
+              aria-label={isMobileOpen ? "Close menu" : "Open menu"}
+              aria-expanded={isMobileOpen}
+              aria-controls="primary-nav-links"
+              onClick={() => setIsMobileOpen((v) => !v)}
+            >
+              <svg className="nav-toggle-icon-open" width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18" stroke="currentColor" strokeWidth="2" strokeLinecap="round" /></svg>
+              <svg className="nav-toggle-icon-close" width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" strokeWidth="2" strokeLinecap="round" /></svg>
+            </button>
           </div>
         </div>
       </header>
@@ -918,10 +963,6 @@ function Footer() {
               </span>
               TECHSARA
             </Link>
-            <p>
-              End-to-end AI development, cloud &amp; on-premise deployment, and strategic
-              consulting engineered for enterprise outcomes.
-            </p>
             <Link href="/book" className="btn btn-primary footer-cta">
               Book a consultation
               <svg className="arrow" width="14" height="14" viewBox="0 0 24 24" fill="none">

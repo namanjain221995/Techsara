@@ -42,8 +42,30 @@
           </a>
         </div>
       </div>
-      <a href="/solutions">Solutions</a>
-      <a href="index.html#industries">Industries</a>
+      <div class="nav-item-dropdown">
+        <a href="/solutions" class="nav-dropdown-trigger">
+          Solutions
+          <svg class="nav-dropdown-caret" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+        <div class="nav-dropdown-panel" role="menu">
+          <a href="/solutions/generative-ai" class="nav-dropdown-link" role="menuitem">
+            <span class="nav-dropdown-title">Generative AI</span>
+            <span class="nav-dropdown-desc">LLMs, RAG and fine-tuning grounded in your data</span>
+          </a>
+          <a href="/solutions/computer-vision" class="nav-dropdown-link" role="menuitem">
+            <span class="nav-dropdown-title">Computer Vision</span>
+            <span class="nav-dropdown-desc">Real-time detection, defect inspection and edge optimization</span>
+          </a>
+          <a href="/solutions/ai-agents" class="nav-dropdown-link" role="menuitem">
+            <span class="nav-dropdown-title">Agents</span>
+            <span class="nav-dropdown-desc">Tool-using workflow agents with human-in-the-loop gates</span>
+          </a>
+          <a href="/solutions/cloud-deployment" class="nav-dropdown-link" role="menuitem">
+            <span class="nav-dropdown-title">Cloud Deployment</span>
+            <span class="nav-dropdown-desc">Reference architectures, FinOps and observability</span>
+          </a>
+        </div>
+      </div>
       <a href="/articles">Articles</a>
       <a href="/careers">Careers</a>
       <a href="index.html#contact">Contact</a>
@@ -53,8 +75,9 @@
         Book a Consultation
         <svg class="arrow" width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 5l7 7-7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
       </a>
-      <button class="nav-toggle" aria-label="Open menu">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M3 6h18M3 12h18M3 18h18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+      <button class="nav-toggle" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="primary-nav-links">
+        <svg class="nav-toggle-icon-open" width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        <svg class="nav-toggle-icon-close" width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
       </button>
     </div>
   </div>
@@ -69,7 +92,7 @@
       <span class="eyebrow">Careers</span>
       <h1 class="section-title">Candidates</h1>
       <p class="careers-hero-lede reveal" data-delay="1">
-        Welcome to the Candidates section of Techsara Solutions. We're dedicated to helping you find the right job opportunity and supporting you at every step of your career journey. Whether you're searching for a temporary or permanent position — in IT, healthcare, or non-IT domains — our experienced team of recruiters is here to assist you. Explore our resources, tips and services designed to help you succeed in today's competitive job market. At Techsara, your success is our success, and we're committed to building long-lasting relationships with our candidates. Let us help you unlock your full potential and discover new opportunities tailored to your skills, interests and goals.
+        Welcome to the Candidates section of Techsara Solutions. We're dedicated to helping you find the right job opportunity and supporting you at every step of your career journey. Whether you're searching for a temporary or permanent position - in IT, healthcare, or non-IT domains - our experienced team of recruiters is here to assist you. Explore our resources, tips and services designed to help you succeed in today's competitive job market. At Techsara, your success is our success, and we're committed to building long-lasting relationships with our candidates. Let us help you unlock your full potential and discover new opportunities tailored to your skills, interests and goals.
       </p>
       <div class="careers-hero-cta reveal" data-delay="2">
         <a href="https://mail.google.com/mail/?view=cm&amp;fs=1&amp;to=hello@techsarasolutions.com&amp;cc=sales@techsarasolutions.com&amp;su=Candidate%20inquiry%20%E2%80%94%20Techsara&amp;body=Hi%20Techsara%20team%2C%0A%0AI%27d%20like%20to%20get%20in%20touch%20about%20career%20opportunities.%0A%0A-%20Name%3A%0A-%20Location%3A%0A-%20LinkedIn%3A%0A-%20Area%20of%20interest%20(IT%20%2F%20Healthcare%20%2F%20Non-IT)%3A%0A%0AThanks%2C" target="_blank" rel="noopener noreferrer" class="btn btn-primary" data-magnetic="0.25">
@@ -88,7 +111,7 @@
       <div class="sc-text reveal">
         <span class="eyebrow">learning &amp; Development</span>
         <h2>Advanced training that keeps you ahead.</h2>
-        <p class="sc-lead">Beyond placement, Techsara invests in your growth through hands-on training built for real engineering work — taught by senior practitioners, built around production-style projects, and paced so you can train alongside a full-time job.</p>
+        <p class="sc-lead">Beyond placement, Techsara invests in your growth through hands-on training built for real engineering work - taught by senior practitioners, built around production-style projects, and paced so you can train alongside a full-time job.</p>
         <ul class="sc-bullets">
           <li class="sc-bullet"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8l3.5 3.5L13 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Full-stack, Cloud &amp; DevOps tracks</li>
           <li class="sc-bullet"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8l3.5 3.5L13 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Generative AI, MLOps &amp; data engineering</li>
@@ -140,126 +163,6 @@
   </div>
 </section>
 
-<!-- ============================================ CANDIDATE RESOURCES ============================================ -->
-<section class="showcase" style="padding: 60px 0 120px; border-top: none;">
-  <div class="container">
-    <div class="candidate-cards">
-      <article class="candidate-card reveal">
-        <span class="candidate-num">01</span>
-        <h3>Why Choose Techsara Solutions as a Candidate</h3>
-        <ul>
-          <li>Personalized job search support</li>
-          <li>Access to a diverse range of job opportunities</li>
-          <li>Confidentiality and professionalism</li>
-        </ul>
-      </article>
-
-      <article class="candidate-card reveal" data-delay="1">
-        <span class="candidate-num">02</span>
-        <h3>Job Search Resources</h3>
-        <ul>
-          <li>Job search tips and strategies</li>
-          <li>Resume writing and optimization guidance</li>
-          <li>Interview preparation and coaching</li>
-        </ul>
-      </article>
-
-      <article class="candidate-card reveal" data-delay="2">
-        <span class="candidate-num">03</span>
-        <h3>Career Development</h3>
-        <ul>
-          <li>Skills development and training programs</li>
-          <li>Networking events and industry connections</li>
-          <li>Career growth opportunities and guidance</li>
-        </ul>
-      </article>
-
-      <article class="candidate-card reveal">
-        <span class="candidate-num">04</span>
-        <h3>Benefits and Perks for Candidates</h3>
-        <ul>
-          <li>Competitive compensation packages</li>
-          <li>Access to exclusive job openings</li>
-          <li>Support throughout the hiring process</li>
-        </ul>
-      </article>
-
-      <article class="candidate-card reveal" data-delay="1">
-        <span class="candidate-num">05</span>
-        <h3>Register with Techsara Solutions</h3>
-        <ul>
-          <li>Simple registration process</li>
-          <li>Upload your resume and create a candidate profile</li>
-          <li>Stay updated on relevant job opportunities</li>
-        </ul>
-      </article>
-
-      <article class="candidate-card reveal" data-delay="2">
-        <span class="candidate-num">06</span>
-        <h3>Navigating Industry Trends</h3>
-        <ul>
-          <li>Staying informed about emerging job market trends</li>
-          <li>Adapting your skillset to evolving industries</li>
-        </ul>
-      </article>
-
-      <article class="candidate-card reveal">
-        <span class="candidate-num">07</span>
-        <h3>Work-Life Balance</h3>
-        <ul>
-          <li>Finding opportunities that fit your lifestyle needs</li>
-          <li>Tips for maintaining a healthy work-life balance</li>
-        </ul>
-      </article>
-
-      <article class="candidate-card reveal" data-delay="1">
-        <span class="candidate-num">08</span>
-        <h3>Contract vs. Permanent Positions</h3>
-        <ul>
-          <li>Understanding the pros and cons of each employment type</li>
-          <li>Determining the best fit for your career goals</li>
-        </ul>
-      </article>
-
-      <article class="candidate-card reveal" data-delay="2">
-        <span class="candidate-num">09</span>
-        <h3>Relocation Assistance</h3>
-        <ul>
-          <li>Support for candidates considering relocation for job opportunities</li>
-          <li>Tips for a successful job search in a new city</li>
-        </ul>
-      </article>
-
-      <article class="candidate-card reveal">
-        <span class="candidate-num">10</span>
-        <h3>Remote and Flexible Work Opportunities</h3>
-        <ul>
-          <li>Exploring remote and flexible job options</li>
-          <li>Strategies for success in remote and flexible roles</li>
-        </ul>
-      </article>
-
-      <article class="candidate-card reveal" data-delay="1">
-        <span class="candidate-num">11</span>
-        <h3>Veterans and Military Spouse Support</h3>
-        <ul>
-          <li>Tailored job search assistance for veterans and military spouses</li>
-          <li>Translating military experience into civilian job qualifications</li>
-        </ul>
-      </article>
-
-      <article class="candidate-card reveal" data-delay="2">
-        <span class="candidate-num">12</span>
-        <h3>Building Your Personal Brand</h3>
-        <ul>
-          <li>Importance of personal branding in job search</li>
-          <li>Tips for creating a compelling online presence</li>
-        </ul>
-      </article>
-    </div>
-  </div>
-</section>
-
 </main>
 
 <!-- ============================================ FOOTER ============================================ -->
@@ -273,7 +176,6 @@
           </span>
           TECHSARA
         </a>
-        <p>End-to-end AI development, cloud &amp; on-premise deployment, and strategic consulting — engineered for enterprise outcomes.</p>
         <a href="book.html" class="btn btn-primary footer-cta" data-magnetic="0.2">
           Book a consultation
           <svg class="arrow" width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 5l7 7-7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
