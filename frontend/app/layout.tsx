@@ -8,9 +8,6 @@ export const metadata: Metadata = {
   title: "Techsara - Enterprise-Grade AI, Engineered for Your Business",
   description:
     "Techsara delivers end-to-end AI development, cloud and on-premise deployment, and strategic consulting for enterprises.",
-  icons: {
-    icon: "/assets/techsara-logo.png",
-  },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

@@ -5,7 +5,7 @@
 
 (function () {
   const params = new URLSearchParams(window.location.search);
-  const routeSlug = window.__TECHSARA_SERVICE_SLUG || window.location.pathname.match(/\/services\/([^/]+)/)?.[1];
+  const routeSlug = window.__TECHSARA_SERVICE_SLUG || window.location.pathname.match(/\/(?:services|solutions)\/([^/]+)/)?.[1];
   const slug = params.get('slug') || routeSlug || 'generative-ai';
   const data = window.SERVICES[slug];
 
@@ -52,7 +52,7 @@
     const r = window.SERVICES[rs];
     if (!r) return '';
     return `
-      <a href="/services/${rs}" class="related-card reveal">
+      <a href="/solutions/${rs}" class="related-card reveal">
         <span class="service-cat" style="margin:0;">${esc(r.category)}</span>
         <h4>${esc(r.name)}</h4>
         <p>${esc((r.intro || '').slice(0, 110) + (r.intro.length > 110 ? '…' : ''))}</p>
@@ -69,14 +69,6 @@
       <div class="grid-overlay" aria-hidden="true"></div>
 
       <div class="container">
-        <nav class="crumbs" aria-label="breadcrumb">
-          <a href="/">Home</a>
-          <span class="sep">/</span>
-          <a href="/#services">${esc(data.category === 'AI Service' ? 'Services' : data.category === 'Deployment' ? 'Solutions' : 'Consulting')}</a>
-          <span class="sep">/</span>
-          <span class="here">${esc(data.name)}</span>
-        </nav>
-
         <div class="service-hero-grid">
           <div>
             <span class="service-cat">
@@ -159,7 +151,7 @@
               Book a free consultation
               <svg class="arrow" width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 5l7 7-7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
             </a>
-            <a href="mailto:hello@techsara.io" class="btn btn-ghost btn-lg">Email the team</a>
+            <a href="https://mail.google.com/mail/?view=cm&fs=1&to=hello@techsarasolutions.com&cc=sales@techsarasolutions.com&su=Project%20inquiry%20%E2%80%94%20Techsara&body=Hi%20Techsara%20team%2C%0A%0AI%27d%20like%20to%20learn%20more%20about%20your%20services.%20A%20bit%20about%20my%20project%3A%0A%0A-%20Company%3A%0A-%20Role%3A%0A-%20What%20we%27re%20trying%20to%20solve%3A%0A-%20Timeline%20%2F%20budget%3A%0A%0ABest%2C" target="_blank" rel="noopener noreferrer" class="btn btn-ghost btn-lg">Email the team</a>
           </div>
         </div>
       </div>

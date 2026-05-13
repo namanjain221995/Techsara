@@ -24,8 +24,8 @@
   let selectedSlot = null;
   let details = {};
 
-  // Browser timezone label
-  const tz = Intl.DateTimeFormat().resolvedOptions().timeZone || 'Local';
+  // Timezone label — slots are shown in US Eastern time regardless of visitor location
+  const tz = 'America/New_York';
 
   // --- Renderers ---
   const $ = (sel) => document.querySelector(sel);
@@ -172,12 +172,138 @@
       $('#c-time').textContent = `${fmtTime(selectedSlot)} (${tz})`;
       $('#c-name').textContent = `${details.firstName} ${details.lastName}`;
       $('#c-email').textContent = details.email;
+      $('#c-phone').textContent = details.phone || '—';
       $('#c-topic').textContent = details.topic || '—';
       setStep(3);
     });
 
     // Pre-select if ?slot= passed
     // (No-op for now)
+
+    // Enhance any <select data-custom-select> into a custom dropdown
+    document.querySelectorAll('select[data-custom-select]').forEach(enhanceCustomSelect);
+  }
+
+  function enhanceCustomSelect(selectEl) {
+    if (selectEl.dataset.enhanced === 'true') return;
+    selectEl.dataset.enhanced = 'true';
+
+    const wrap = document.createElement('div');
+    wrap.className = 'custom-select';
+
+    const trigger = document.createElement('button');
+    trigger.type = 'button';
+    trigger.className = 'custom-select__trigger';
+    trigger.setAttribute('aria-haspopup', 'listbox');
+    trigger.setAttribute('aria-expanded', 'false');
+    if (selectEl.id) trigger.setAttribute('aria-labelledby', selectEl.id + '-label');
+
+    const valueEl = document.createElement('span');
+    valueEl.className = 'custom-select__value';
+
+    const chevron = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+    chevron.setAttribute('class', 'custom-select__chevron');
+    chevron.setAttribute('viewBox', '0 0 24 24');
+    chevron.setAttribute('fill', 'none');
+    chevron.setAttribute('stroke', 'currentColor');
+    chevron.setAttribute('stroke-width', '2.2');
+    chevron.setAttribute('stroke-linecap', 'round');
+    chevron.setAttribute('stroke-linejoin', 'round');
+    chevron.setAttribute('aria-hidden', 'true');
+    const chevronPath = document.createElementNS('http://www.w3.org/2000/svg', 'polyline');
+    chevronPath.setAttribute('points', '6 9 12 15 18 9');
+    chevron.appendChild(chevronPath);
+
+    trigger.appendChild(valueEl);
+    trigger.appendChild(chevron);
+
+    const panel = document.createElement('div');
+    panel.className = 'custom-select__panel';
+    panel.setAttribute('role', 'listbox');
+
+    Array.from(selectEl.options).forEach((opt) => {
+      if (opt.disabled || !opt.value && !opt.textContent.trim()) return;
+      if (opt.hasAttribute('hidden')) return;
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'custom-select__option';
+      btn.setAttribute('role', 'option');
+      btn.dataset.value = opt.value || opt.textContent;
+      btn.textContent = opt.textContent;
+      btn.addEventListener('click', () => {
+        selectEl.value = opt.value || opt.textContent;
+        selectEl.dispatchEvent(new Event('change', { bubbles: true }));
+        updateUI();
+        close();
+        trigger.focus();
+      });
+      panel.appendChild(btn);
+    });
+
+    // Native select → hidden but in form
+    selectEl.classList.add('custom-select__native');
+    selectEl.tabIndex = -1;
+    selectEl.parentNode.insertBefore(wrap, selectEl);
+    wrap.appendChild(trigger);
+    wrap.appendChild(panel);
+    wrap.appendChild(selectEl);
+
+    function updateUI() {
+      const val = selectEl.value;
+      const selectedOpt = Array.from(selectEl.options).find((o) => o.value === val && !o.disabled);
+      if (selectedOpt && selectedOpt.value) {
+        valueEl.textContent = selectedOpt.textContent;
+        valueEl.classList.remove('is-placeholder');
+      } else {
+        const placeholder = Array.from(selectEl.options).find((o) => o.disabled || !o.value);
+        valueEl.textContent = placeholder ? placeholder.textContent : 'Select…';
+        valueEl.classList.add('is-placeholder');
+      }
+      panel.querySelectorAll('.custom-select__option').forEach((b) => {
+        b.classList.toggle('is-selected', b.dataset.value === val);
+      });
+    }
+
+    function position() {
+      const rect = trigger.getBoundingClientRect();
+      panel.style.position = 'fixed';
+      panel.style.top = (rect.bottom + 8) + 'px';
+      panel.style.left = rect.left + 'px';
+      panel.style.width = rect.width + 'px';
+    }
+    function open() {
+      wrap.classList.add('is-open');
+      panel.classList.add('is-open');
+      trigger.setAttribute('aria-expanded', 'true');
+      document.body.appendChild(panel);
+      position();
+      window.addEventListener('scroll', position, true);
+      window.addEventListener('resize', position);
+    }
+    function close() {
+      wrap.classList.remove('is-open');
+      panel.classList.remove('is-open');
+      trigger.setAttribute('aria-expanded', 'false');
+      window.removeEventListener('scroll', position, true);
+      window.removeEventListener('resize', position);
+      if (panel.parentNode === document.body) wrap.appendChild(panel);
+    }
+    trigger.addEventListener('click', (e) => {
+      e.stopPropagation();
+      if (wrap.classList.contains('is-open')) close(); else open();
+    });
+    document.addEventListener('click', (e) => {
+      if (!wrap.contains(e.target) && !panel.contains(e.target)) close();
+    });
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && wrap.classList.contains('is-open')) {
+        close();
+        trigger.focus();
+      }
+    });
+    selectEl.addEventListener('change', updateUI);
+
+    updateUI();
   }
 
   if (document.readyState === 'loading') {

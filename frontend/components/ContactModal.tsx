@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 type Props = {
   isOpen: boolean;
@@ -8,29 +8,81 @@ type Props = {
   defaultTopic?: string;
 };
 
+type TopicOption = { value: string; label: string };
+
+const TOPIC_OPTIONS: TopicOption[] = [
+  { value: "it-staffing", label: "IT and Staffing" },
+  { value: "healthcare-recruitment", label: "Healthcare and Recruitment" },
+  { value: "non-it-staffing", label: "Non-IT Staffing and Recruitment" },
+  { value: "rpo", label: "Recruitment Process Outsourcing" },
+  { value: "it-consulting", label: "IT Consulting and IT Solutions" },
+  { value: "it-development", label: "IT Development Support" },
+  { value: "additional-recruitment", label: "Additional Recruitment Services" },
+  { value: "other", label: "Other" },
+];
+
 export default function ContactModal({ isOpen, onClose, defaultTopic = "" }: Props) {
   const [submitted, setSubmitted] = useState(false);
+  const [topic, setTopic] = useState(defaultTopic);
+  const [topicOpen, setTopicOpen] = useState(false);
+  const [panelStyle, setPanelStyle] = useState<React.CSSProperties>({});
+  const wrapRef = useRef<HTMLDivElement | null>(null);
+  const triggerRef = useRef<HTMLButtonElement | null>(null);
 
   useEffect(() => {
     if (!isOpen) return;
-
     const handleKey = (event: KeyboardEvent) => {
-      if (event.key === "Escape") onClose();
+      if (event.key === "Escape") {
+        if (topicOpen) setTopicOpen(false);
+        else onClose();
+      }
     };
-
     const previousOverflow = document.body.style.overflow;
     document.body.style.overflow = "hidden";
     window.addEventListener("keydown", handleKey);
-
     return () => {
       document.body.style.overflow = previousOverflow;
       window.removeEventListener("keydown", handleKey);
     };
-  }, [isOpen, onClose]);
+  }, [isOpen, onClose, topicOpen]);
 
   useEffect(() => {
-    if (!isOpen) setSubmitted(false);
-  }, [isOpen]);
+    if (!isOpen) {
+      setSubmitted(false);
+      setTopicOpen(false);
+      setTopic(defaultTopic);
+    }
+  }, [isOpen, defaultTopic]);
+
+  useEffect(() => {
+    if (!topicOpen) return;
+    const position = () => {
+      const trigger = triggerRef.current;
+      if (!trigger) return;
+      const rect = trigger.getBoundingClientRect();
+      setPanelStyle({
+        position: "fixed",
+        top: rect.bottom + 8,
+        left: rect.left,
+        width: rect.width,
+      });
+    };
+    position();
+    const handleClickOutside = (event: MouseEvent) => {
+      const wrap = wrapRef.current;
+      if (wrap && !wrap.contains(event.target as Node)) {
+        setTopicOpen(false);
+      }
+    };
+    window.addEventListener("scroll", position, true);
+    window.addEventListener("resize", position);
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      window.removeEventListener("scroll", position, true);
+      window.removeEventListener("resize", position);
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [topicOpen]);
 
   if (!isOpen) return null;
 
@@ -38,11 +90,14 @@ export default function ContactModal({ isOpen, onClose, defaultTopic = "" }: Pro
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
     const data = Object.fromEntries(formData.entries());
-    // TODO: wire to backend / email service
     // eslint-disable-next-line no-console
     console.log("Contact form submitted:", data);
     setSubmitted(true);
   }
+
+  const selectedLabel =
+    TOPIC_OPTIONS.find((opt) => opt.value === topic)?.label || "Select a topic";
+  const isPlaceholder = !topic;
 
   return (
     <div className="contact-modal-overlay" onClick={onClose} role="presentation">
@@ -109,29 +164,99 @@ export default function ContactModal({ isOpen, onClose, defaultTopic = "" }: Pro
               </div>
 
               <label className="contact-form-field">
+                <span>Phone number</span>
+                <input
+                  type="tel"
+                  name="phone"
+                  autoComplete="tel"
+                  inputMode="tel"
+                  placeholder="+1 (555) 123-4567"
+                />
+              </label>
+
+              <label className="contact-form-field">
                 <span>What would you like to discuss?</span>
-                <select name="topic" required defaultValue={defaultTopic}>
-                  <option value="" disabled>
-                    Select a topic
-                  </option>
-                  <option value="ai-talent">AI Talent Solutions</option>
-                  <option value="dedicated-team">Dedicated AI Teams</option>
-                  <option value="ai-project">AI Project Solutions</option>
-                  <option value="international-talent">International Talent Solutions</option>
-                  <option value="ai-engineering">AI Engineering Solutions</option>
-                  <option value="genai">Generative AI / LLMs</option>
-                  <option value="vision">Computer Vision</option>
-                  <option value="nlp">NLP &amp; Document AI</option>
-                  <option value="mlops">Predictive ML / MLOps</option>
-                  <option value="cloud">Cloud Deployment</option>
-                  <option value="other">Other</option>
-                </select>
+                <div
+                  ref={wrapRef}
+                  className={`custom-select${topicOpen ? " is-open" : ""}`}
+                >
+                  <button
+                    ref={triggerRef}
+                    type="button"
+                    className="custom-select__trigger"
+                    aria-haspopup="listbox"
+                    aria-expanded={topicOpen}
+                    onClick={() => setTopicOpen((v) => !v)}
+                  >
+                    <span
+                      className={`custom-select__value${isPlaceholder ? " is-placeholder" : ""}`}
+                    >
+                      {selectedLabel}
+                    </span>
+                    <svg
+                      className="custom-select__chevron"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2.2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      aria-hidden="true"
+                    >
+                      <polyline points="6 9 12 15 18 9" />
+                    </svg>
+                  </button>
+                  <select
+                    name="topic"
+                    required
+                    value={topic}
+                    onChange={(e) => setTopic(e.target.value)}
+                    className="custom-select__native"
+                    tabIndex={-1}
+                    aria-hidden="true"
+                  >
+                    <option value="" disabled>
+                      Select a topic
+                    </option>
+                    {TOPIC_OPTIONS.map((opt) => (
+                      <option key={opt.value} value={opt.value}>
+                        {opt.label}
+                      </option>
+                    ))}
+                  </select>
+                  {topicOpen && (
+                    <div
+                      className="custom-select__panel is-open"
+                      role="listbox"
+                      style={panelStyle}
+                    >
+                      {TOPIC_OPTIONS.map((opt) => (
+                        <button
+                          key={opt.value}
+                          type="button"
+                          role="option"
+                          aria-selected={topic === opt.value}
+                          className={`custom-select__option${
+                            topic === opt.value ? " is-selected" : ""
+                          }`}
+                          onClick={() => {
+                            setTopic(opt.value);
+                            setTopicOpen(false);
+                            triggerRef.current?.focus();
+                          }}
+                        >
+                          {opt.label}
+                        </button>
+                      ))}
+                    </div>
+                  )}
+                </div>
               </label>
 
               <label className="contact-form-field">
                 <span>
                   Anything we should know?{" "}
-                  <em className="contact-form-optional">&mdash; optional</em>
+                  
                 </span>
                 <textarea
                   name="message"
@@ -172,7 +297,7 @@ export default function ContactModal({ isOpen, onClose, defaultTopic = "" }: Pro
                 />
               </svg>
             </span>
-            <h2>Thanks &mdash; we&apos;ll be in touch.</h2>
+            <h2>Thanks - we&apos;ll be in touch.</h2>
             <p>
               We&apos;ve received your message. A Techsara lead will reach out to your work email
               within one business day.

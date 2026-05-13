@@ -1,12 +1,18 @@
 import type { Metadata } from "next";
-import SolutionsPageClient from "@/components/SolutionsPageClient";
+import LegacyScripts from "@/components/LegacyScripts";
+import { getLegacyBody } from "@/lib/legacy-html";
 
 export const metadata: Metadata = {
-  title: "Solutions - Techsara",
+  title: "Solutions — Techsara",
   description:
-    "Explore Techsara's AI engineering, cloud, industry and advisory solutions engineered for enterprise outcomes.",
+    "End-to-end AI solutions from Techsara — generative AI, computer vision, agents, MLOps, cloud and on-premise deployment, and strategic consulting.",
 };
 
-export default function SolutionsPage() {
-  return <SolutionsPageClient />;
+export default function SolutionsIndexPage() {
+  return (
+    <>
+      <div dangerouslySetInnerHTML={{ __html: getLegacyBody("services.html") }} />
+      <LegacyScripts page="home" />
+    </>
+  );
 }

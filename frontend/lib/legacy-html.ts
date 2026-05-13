@@ -31,14 +31,16 @@ function rewriteLegacyLinks(html: string) {
 
   nextHtml = nextHtml.replace(/href="service\.html#([^"]+)"/g, (_, hash: string) => {
     const slug = SERVICE_HASH_MAP[hash] || "generative-ai";
-    return `href="/services/${slug}"`;
+    return `href="/solutions/${slug}"`;
   });
 
   nextHtml = nextHtml.replace(/href="service\.html\?slug=([^"#]+)"/g, (_, slug: string) => {
-    return `href="/services/${slug}"`;
+    return `href="/solutions/${slug}"`;
   });
 
   nextHtml = nextHtml
+    .replace(/href="index\.html#services"/g, 'href="/services"')
+    .replace(/href="#services"/g, 'href="/services"')
     .replace(/href="book\.html/g, 'href="/book')
     .replace(/href="index\.html#([^"]+)"/g, 'href="/#$1"')
     .replace(/href="index\.html"/g, 'href="/"')

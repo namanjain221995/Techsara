@@ -1,29 +1,29 @@
 import type { Metadata } from "next";
-import { notFound } from "next/navigation";
-import SolutionDetailClient from "@/components/SolutionDetailClient";
-import { solutionDetails, solutionSlugs } from "@/components/solution-details-data";
+import LegacyScripts from "@/components/LegacyScripts";
+import { getLegacyBody, getServiceSlugs } from "@/lib/legacy-html";
 
-type Params = { slug: string };
+type SolutionPageProps = {
+  params: {
+    slug: string;
+  };
+};
 
 export function generateStaticParams() {
-  return solutionSlugs.map((slug) => ({ slug }));
+  return getServiceSlugs().map((slug) => ({ slug }));
 }
 
-export function generateMetadata({ params }: { params: Params }): Metadata {
-  const data = solutionDetails[params.slug];
-  if (!data) {
-    return { title: "Solution - Techsara" };
-  }
+export function generateMetadata({ params }: SolutionPageProps): Metadata {
   return {
-    title: `${data.title} - Techsara`,
-    description: data.description,
+    title: `${params.slug.replace(/-/g, " ")} - Techsara`,
+    description: "Techsara solution detail.",
   };
 }
 
-export default function SolutionDetailPage({ params }: { params: Params }) {
-  const data = solutionDetails[params.slug];
-  if (!data) {
-    notFound();
-  }
-  return <SolutionDetailClient data={data} />;
+export default function SolutionDetailPage({ params }: SolutionPageProps) {
+  return (
+    <>
+      <div dangerouslySetInnerHTML={{ __html: getLegacyBody("service.html") }} />
+      <LegacyScripts page="service" serviceSlug={params.slug} />
+    </>
+  );
 }

@@ -1,4 +1,5 @@
 import Script from "next/script";
+import LegacyReinit from "./LegacyReinit";
 
 type LegacyScriptsProps = {
   page: "home" | "book" | "service" | "print";
@@ -8,6 +9,7 @@ type LegacyScriptsProps = {
 export default function LegacyScripts({ page, serviceSlug }: LegacyScriptsProps) {
   return (
     <>
+      <LegacyReinit />
       {page === "home" || page === "print" ? (
         <>
           <Script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js" strategy="afterInteractive" />

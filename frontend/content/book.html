@@ -28,11 +28,11 @@
       <a href="index.html#services">Services</a>
       <a href="/solutions">Solutions</a>
       <a href="index.html#industries">Industries</a>
-      <a href="index.html#cases">Case Studies</a>
-      <a href="index.html#how">How We Work</a>
+      <!-- <a href="index.html#cases">Leadership</a> -->
+      <a href="/careers">Careers</a>
     </nav>
     <div class="nav-actions">
-      <a href="mailto:hello@techsara.io" class="btn btn-ghost">Contact</a>
+      <a href="https://mail.google.com/mail/?view=cm&amp;fs=1&amp;to=hello@techsarasolutions.com&amp;cc=sales@techsarasolutions.com&amp;su=Project%20inquiry%20%E2%80%94%20Techsara&amp;body=Hi%20Techsara%20team%2C%0A%0AI%27d%20like%20to%20learn%20more%20about%20your%20services.%20A%20bit%20about%20my%20project%3A%0A%0A-%20Company%3A%0A-%20Role%3A%0A-%20What%20we%27re%20trying%20to%20solve%3A%0A-%20Timeline%20%2F%20budget%3A%0A%0ABest%2C" target="_blank" rel="noopener noreferrer" class="btn btn-ghost">Contact</a>
     </div>
   </div>
 </header>
@@ -79,12 +79,15 @@
               30 minutes
             </div>
             <div class="row">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 10l5-5M9 14l-5 5M9 14l11-11M4 4l16 16"/></svg>
+              <svg class="gmeet-icon" viewBox="0 0 87 72" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <path d="M49.5 36l8.5 9.7 11.4 7.3 2-16.94L69.4 19.4 57.8 25.85 49.5 36z" fill="#00832d"/>
+                <path d="M0 51.5V66c0 3.315 2.685 6 6 6h14.5l3-10.96L20.5 51.5l-11.42-3z" fill="#0066da"/>
+                <path d="M20.5 0L0 20.5l10.46 3 10.04-3 2.95-10.46L20.5 0z" fill="#e94235"/>
+                <path d="M0 20.5h20.5v31H0z" fill="#2684fc"/>
+                <path d="M82.6 8.68L69.4 19.4v33.6l13.2 10.66c1.98 1.55 4.93.18 4.93-2.34V11.02c0-2.54-2.99-3.9-4.93-2.34zM49.5 36v15.5h-29V72h43c3.315 0 6-2.685 6-6V53L49.5 36z" fill="#00ac47"/>
+                <path d="M63 0H20.5v20.5h29V36L69.4 19.4V6c0-3.315-2.685-6-6-6z" fill="#ffba00"/>
+              </svg>
               Google Meet · link emailed
-            </div>
-            <div class="row">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
-              English · Hindi · Arabic
             </div>
           </div>
 
@@ -181,22 +184,25 @@
                   <input type="text" id="company" name="company" autocomplete="organization"/>
                 </div>
                 <div class="field full">
+                  <label for="phone">Phone number</label>
+                  <input type="tel" id="phone" name="phone" autocomplete="tel" inputmode="tel" placeholder="+1 (555) 123-4567"/>
+                </div>
+                <div class="field full">
                   <label for="topic">What would you like to discuss?</label>
-                  <select id="topic" name="topic">
-                    <option value="">Choose a focus area…</option>
-                    <option>Generative AI / LLM application</option>
-                    <option>Computer Vision</option>
-                    <option>NLP &amp; Document AI</option>
-                    <option>Predictive ML / Forecasting</option>
-                    <option>MLOps &amp; Deployment</option>
-                    <option>On-premise / Air-gapped AI</option>
-                    <option>AI Strategy &amp; Roadmap</option>
-                    <option>Cloud Architecture &amp; FinOps</option>
+                  <select id="topic" name="topic" required data-custom-select>
+                    <option value="" disabled selected hidden>Choose a focus area…</option>
+                    <option>IT and Staffing</option>
+                    <option>Healthcare and Recruitment</option>
+                    <option>Non-IT Staffing and Recruitment</option>
+                    <option>Recruitment Process Outsourcing</option>
+                    <option>IT Consulting and IT Solutions</option>
+                    <option>IT Development Support</option>
+                    <option>Additional Recruitment Services</option>
                     <option>Other</option>
                   </select>
                 </div>
                 <div class="field full">
-                  <label for="notes">Anything we should know? <span class="hint">— optional</span></label>
+                  <label for="notes">Anything we should know? <span class="hint"></span></label>
                   <textarea id="notes" name="notes" placeholder="A sentence or two about the problem, current stack, or timeline."></textarea>
                 </div>
               </div>
@@ -228,12 +234,13 @@
                 <dt>Time</dt><dd id="c-time">—</dd>
                 <dt>Name</dt><dd id="c-name">—</dd>
                 <dt>Email</dt><dd id="c-email">—</dd>
+                <dt>Phone</dt><dd id="c-phone">—</dd>
                 <dt>Topic</dt><dd id="c-topic">—</dd>
               </dl>
 
               <div class="confirm-actions">
                 <a href="index.html" class="btn btn-primary">Back to home</a>
-                <a href="mailto:hello@techsara.io" class="btn btn-ghost">Email the team</a>
+                <a href="https://mail.google.com/mail/?view=cm&amp;fs=1&amp;to=hello@techsarasolutions.com&amp;cc=sales@techsarasolutions.com&amp;su=Project%20inquiry%20%E2%80%94%20Techsara&amp;body=Hi%20Techsara%20team%2C%0A%0AI%27d%20like%20to%20learn%20more%20about%20your%20services.%20A%20bit%20about%20my%20project%3A%0A%0A-%20Company%3A%0A-%20Role%3A%0A-%20What%20we%27re%20trying%20to%20solve%3A%0A-%20Timeline%20%2F%20budget%3A%0A%0ABest%2C" target="_blank" rel="noopener noreferrer" class="btn btn-ghost">Email the team</a>
               </div>
             </div>
           </div>
