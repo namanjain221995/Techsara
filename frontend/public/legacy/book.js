@@ -7,14 +7,25 @@
   const monthNames = ['January','February','March','April','May','June','July','August','September','October','November','December'];
   const dow = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
 
-  // Mock available slots per weekday (24h). Weekends closed.
+  // Available slots per weekday. Weekends closed.
   // Index: 0=Sun, 1=Mon ... 6=Sat
+  // 9:00 AM through 6:30 PM, every 30 minutes — the last bookable call starts at 6:30 PM.
+  function buildSlots(startMin, endMin, stepMin) {
+    const slots = [];
+    for (let t = startMin; t <= endMin; t += stepMin) {
+      const hh = String(Math.floor(t / 60)).padStart(2, '0');
+      const mm = String(t % 60).padStart(2, '0');
+      slots.push(`${hh}:${mm}`);
+    }
+    return slots;
+  }
+  const WEEKDAY_SLOTS = buildSlots(9 * 60, 18 * 60 + 30, 30);
   const SLOTS_BY_DOW = {
-    1: ['09:00','09:30','10:00','10:30','11:30','13:00','14:00','15:00','16:00','16:30'],
-    2: ['09:30','10:00','11:00','11:30','13:30','14:30','15:30','16:30','17:00'],
-    3: ['09:00','10:00','10:30','11:00','13:00','14:30','15:00','16:00','17:00'],
-    4: ['09:00','09:30','11:00','13:00','13:30','14:00','15:30','16:30'],
-    5: ['09:30','10:30','11:30','13:30','14:00','15:00','16:00'],
+    1: WEEKDAY_SLOTS,
+    2: WEEKDAY_SLOTS,
+    3: WEEKDAY_SLOTS,
+    4: WEEKDAY_SLOTS,
+    5: WEEKDAY_SLOTS,
   };
 
   // State

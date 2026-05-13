@@ -25,10 +25,34 @@
       TECHSARA
     </a>
     <nav class="nav-links" aria-label="Primary">
-      <a href="index.html#services">Services</a>
+      <div class="nav-item-dropdown">
+        <a href="/services" class="nav-dropdown-trigger">
+          Services
+          <svg class="nav-dropdown-caret" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+        <div class="nav-dropdown-panel" role="menu">
+          <a href="/services/talent" class="nav-dropdown-link" role="menuitem">
+            <span class="nav-dropdown-title">Talent Solutions</span>
+            <span class="nav-dropdown-desc">Connecting you with the best talent in the marketplace</span>
+          </a>
+          <a href="/services/team" class="nav-dropdown-link" role="menuitem">
+            <span class="nav-dropdown-title">Team Solutions</span>
+            <span class="nav-dropdown-desc">Stay involved with valued initiatives; we handle the details</span>
+          </a>
+          <a href="/services/project" class="nav-dropdown-link" role="menuitem">
+            <span class="nav-dropdown-title">Project Solutions</span>
+            <span class="nav-dropdown-desc">We&apos;ll manage your project&apos;s outcome from start to finish</span>
+          </a>
+          <a href="/services/international" class="nav-dropdown-link" role="menuitem">
+            <span class="nav-dropdown-title">International Talent Solutions</span>
+            <span class="nav-dropdown-desc">Sourcing global talent to solve your workforce challenges</span>
+          </a>
+        </div>
+      </div>
       <a href="/solutions">Solutions</a>
       <a href="index.html#industries">Industries</a>
       <!-- <a href="index.html#cases">Leadership</a> -->
+      <a href="/articles">Articles</a>
       <a href="/careers">Careers</a>
     </nav>
     <div class="nav-actions">
@@ -79,15 +103,11 @@
               30 minutes
             </div>
             <div class="row">
-              <svg class="gmeet-icon" viewBox="0 0 87 72" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                <path d="M49.5 36l8.5 9.7 11.4 7.3 2-16.94L69.4 19.4 57.8 25.85 49.5 36z" fill="#00832d"/>
-                <path d="M0 51.5V66c0 3.315 2.685 6 6 6h14.5l3-10.96L20.5 51.5l-11.42-3z" fill="#0066da"/>
-                <path d="M20.5 0L0 20.5l10.46 3 10.04-3 2.95-10.46L20.5 0z" fill="#e94235"/>
-                <path d="M0 20.5h20.5v31H0z" fill="#2684fc"/>
-                <path d="M82.6 8.68L69.4 19.4v33.6l13.2 10.66c1.98 1.55 4.93.18 4.93-2.34V11.02c0-2.54-2.99-3.9-4.93-2.34zM49.5 36v15.5h-29V72h43c3.315 0 6-2.685 6-6V53L49.5 36z" fill="#00ac47"/>
-                <path d="M63 0H20.5v20.5h29V36L69.4 19.4V6c0-3.315-2.685-6-6-6z" fill="#ffba00"/>
+              <svg class="zoom-icon" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <rect width="32" height="32" rx="6" fill="#2D8CFF"/>
+                <path d="M6.5 11.5A1.5 1.5 0 0 1 8 10h9.5a1.5 1.5 0 0 1 1.5 1.5v9a1.5 1.5 0 0 1-1.5 1.5H8a1.5 1.5 0 0 1-1.5-1.5v-9Zm13.5 2.25 4.5-2.5c.333-.186.75.053.75.435v8.63c0 .382-.417.621-.75.435L20 18.25v-4.5Z" fill="#ffffff"/>
               </svg>
-              Google Meet · link emailed
+              Zoom meeting · link emailed
             </div>
           </div>
 
@@ -227,7 +247,7 @@
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
               </div>
               <h3>You're on the calendar.</h3>
-              <p class="sub">We've emailed a confirmation with the Google Meet link and a calendar invite. Looking forward to talking soon.</p>
+              <p class="sub">We've emailed a confirmation with the Zoom meeting link and a calendar invite. Looking forward to talking soon.</p>
 
               <dl class="confirm-card">
                 <dt>Date</dt><dd id="c-when">—</dd>
@@ -237,6 +257,10 @@
                 <dt>Phone</dt><dd id="c-phone">—</dd>
                 <dt>Topic</dt><dd id="c-topic">—</dd>
               </dl>
+
+              <p class="confirm-note">
+                Your call is scheduled. Before we meet, feel free to share any goals, questions, or special requests we should know about. Email us at <a href="mailto:hello@techsarasolutions.com">hello@techsarasolutions.com</a>.
+              </p>
 
               <div class="confirm-actions">
                 <a href="index.html" class="btn btn-primary">Back to home</a>

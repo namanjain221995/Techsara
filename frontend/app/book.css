@@ -144,7 +144,7 @@
   color: rgba(255,255,255,0.85);
 }
 .book-side-meta svg { width: 16px; height: 16px; color: #8B85FF; flex-shrink: 0; }
-.book-side-meta svg.gmeet-icon { width: 20px; height: auto; }
+.book-side-meta svg.zoom-icon { width: 20px; height: 20px; color: inherit; }
 .book-side-bullets {
   list-style: none; padding: 0; margin: 28px 0 0;
   display: flex; flex-direction: column; gap: 12px;
@@ -651,8 +651,26 @@
   text-transform: uppercase;
 }
 .confirm-card dd { margin: 0; color: var(--ink); font-weight: 500; }
+.confirm-note {
+  margin: 28px auto 0;
+  max-width: 520px;
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--ink-50);
+  text-wrap: pretty;
+}
+.confirm-note a {
+  color: var(--indigo-600);
+  font-weight: 500;
+  border-bottom: 1px solid rgba(59, 74, 203, 0.35);
+  transition: color 0.18s ease, border-color 0.18s ease;
+}
+.confirm-note a:hover {
+  color: var(--indigo-700);
+  border-bottom-color: currentColor;
+}
 .confirm-actions {
-  margin-top: 28px;
+  margin-top: 20px;
   display: flex; gap: 12px; flex-wrap: wrap; justify-content: center;
 }
 

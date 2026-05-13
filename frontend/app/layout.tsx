@@ -3,6 +3,7 @@ import "./styles.css";
 import "./showcase.css";
 import "./book.css";
 import "./service.css";
+import AutoContactPopup from "@/components/AutoContactPopup";
 
 export const metadata: Metadata = {
   title: "Techsara - Enterprise-Grade AI, Engineered for Your Business",
@@ -21,7 +22,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           rel="stylesheet"
         />
       </head>
-      <body>{children}</body>
+      <body>
+        {children}
+        <AutoContactPopup />
+      </body>
     </html>
   );
 }

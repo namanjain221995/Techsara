@@ -21,8 +21,12 @@ const TOPIC_OPTIONS: TopicOption[] = [
   { value: "other", label: "Other" },
 ];
 
+const CONTACT_ENDPOINT = process.env.NEXT_PUBLIC_CONTACT_API_URL;
+
 export default function ContactModal({ isOpen, onClose, defaultTopic = "" }: Props) {
   const [submitted, setSubmitted] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [topic, setTopic] = useState(defaultTopic);
   const [topicOpen, setTopicOpen] = useState(false);
   const [panelStyle, setPanelStyle] = useState<React.CSSProperties>({});
@@ -49,6 +53,8 @@ export default function ContactModal({ isOpen, onClose, defaultTopic = "" }: Pro
   useEffect(() => {
     if (!isOpen) {
       setSubmitted(false);
+      setSubmitting(false);
+      setErrorMessage(null);
       setTopicOpen(false);
       setTopic(defaultTopic);
     }
@@ -86,13 +92,37 @@ export default function ContactModal({ isOpen, onClose, defaultTopic = "" }: Pro
 
   if (!isOpen) return null;
 
-  function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+  async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
     const data = Object.fromEntries(formData.entries());
-    // eslint-disable-next-line no-console
-    console.log("Contact form submitted:", data);
-    setSubmitted(true);
+    setErrorMessage(null);
+
+    if (!CONTACT_ENDPOINT) {
+      // eslint-disable-next-line no-console
+      console.log("Contact form submitted (no backend configured):", data);
+      setSubmitted(true);
+      return;
+    }
+
+    setSubmitting(true);
+    try {
+      const res = await fetch(CONTACT_ENDPOINT, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ ...data, source: "website-contact-modal" }),
+      });
+      if (!res.ok) {
+        throw new Error(`Submission failed (status ${res.status})`);
+      }
+      setSubmitted(true);
+    } catch (err) {
+      const message =
+        err instanceof Error ? err.message : "Something went wrong. Please try again.";
+      setErrorMessage(message);
+    } finally {
+      setSubmitting(false);
+    }
   }
 
   const selectedLabel =
@@ -265,21 +295,38 @@ export default function ContactModal({ isOpen, onClose, defaultTopic = "" }: Pro
                 />
               </label>
 
+              {errorMessage ? (
+                <p className="contact-form-error" role="alert">
+                  {errorMessage}
+                </p>
+              ) : null}
+
               <div className="contact-form-actions">
-                <button type="button" className="contact-form-cancel" onClick={onClose}>
+                <button
+                  type="button"
+                  className="contact-form-cancel"
+                  onClick={onClose}
+                  disabled={submitting}
+                >
                   Cancel
                 </button>
-                <button type="submit" className="contact-form-submit">
-                  Send message
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                    <path
-                      d="M5 12h14M13 5l7 7-7 7"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
-                  </svg>
+                <button
+                  type="submit"
+                  className="contact-form-submit"
+                  disabled={submitting}
+                >
+                  {submitting ? "Sending..." : "Send message"}
+                  {submitting ? null : (
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                      <path
+                        d="M5 12h14M13 5l7 7-7 7"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                    </svg>
+                  )}
                 </button>
               </div>
             </form>
