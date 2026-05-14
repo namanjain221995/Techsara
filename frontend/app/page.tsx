@@ -21,7 +21,7 @@ function getLogos() {
     const items = files
       .map((file) => {
         const alt = file.replace(/\.[^.]+$/, "");
-        return `<span class="marquee-logo"><img src="/logo/${encodeURIComponent(file)}" alt="${escapeAttr(alt)}" decoding="async" fetchpriority="low"/></span>`;
+        return `<span class="marquee-logo"><img src="/logo/${encodeURIComponent(file)}" alt="${escapeAttr(alt)}" loading="lazy" decoding="async" fetchpriority="low" width="120" height="40"/></span>`;
       })
       .join("");
     // Duplicate for seamless marquee loop

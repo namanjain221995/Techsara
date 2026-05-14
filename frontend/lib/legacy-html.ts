@@ -26,6 +26,41 @@ export function getServiceSlugs() {
   return [...source.matchAll(/^\s*"([^"]+)":\s*\{/gm)].map((match) => match[1]);
 }
 
+// First couple of images on every page are the brand-logo in the header.
+// Everything else (team portraits, hero images, footer marks, etc.) sits
+// well below the fold or appears late, so we lazy-load by default.
+const EAGER_IMG_HINTS = ["brand-logo"];
+
+function shouldEagerLoad(tag: string) {
+  return EAGER_IMG_HINTS.some((hint) => tag.includes(hint));
+}
+
+function optimizeImgTags(html: string) {
+  return html.replace(/<img\b[^>]*>/gi, (tag) => {
+    let next = tag;
+
+    // Skip when the author has explicitly set loading=
+    if (!/\sloading\s*=/.test(next)) {
+      const loading = shouldEagerLoad(next) ? "eager" : "lazy";
+      next = next.replace(/<img\b/, `<img loading="${loading}"`);
+    }
+
+    if (!/\sdecoding\s*=/.test(next)) {
+      next = next.replace(/<img\b/, '<img decoding="async"');
+    }
+
+    // Brand-logo gets high priority so first paint feels instant; everything
+    // else gets low fetchpriority so the browser deprioritises it behind
+    // the hero text / video / fonts.
+    if (!/\sfetchpriority\s*=/.test(next)) {
+      const priority = shouldEagerLoad(next) ? "high" : "low";
+      next = next.replace(/<img\b/, `<img fetchpriority="${priority}"`);
+    }
+
+    return next;
+  });
+}
+
 function rewriteLegacyLinks(html: string) {
   let nextHtml = html;
 
@@ -49,5 +84,5 @@ function rewriteLegacyLinks(html: string) {
     .replace(/href="uploads\//g, 'href="/uploads/')
     .replace(/src="uploads\//g, 'src="/uploads/');
 
-  return nextHtml;
+  return optimizeImgTags(nextHtml);
 }

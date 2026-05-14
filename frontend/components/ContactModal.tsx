@@ -12,16 +12,18 @@ type TopicOption = { value: string; label: string };
 
 const TOPIC_OPTIONS: TopicOption[] = [
   { value: "it-staffing", label: "IT and Staffing" },
-  { value: "healthcare-recruitment", label: "Healthcare and Recruitment" },
-  { value: "non-it-staffing", label: "Non-IT Staffing and Recruitment" },
-  { value: "rpo", label: "Recruitment Process Outsourcing" },
-  { value: "it-consulting", label: "IT Consulting and IT Solutions" },
-  { value: "it-development", label: "IT Development Support" },
-  { value: "additional-recruitment", label: "Additional Recruitment Services" },
+  { value: "Healthcare and Recruitment", label: "Healthcare and Recruitment" },
+  { value: "Non-IT Staffing and Recruitment", label: "Non-IT Staffing and Recruitment" },
+  { value: "Recruitment Process Outsourcing", label: "Recruitment Process Outsourcing" },
+  { value: "IT Consulting and IT Solutions", label: "IT Consulting and IT Solutions" },
+  { value: "IT Development Support", label: "IT Development Support" },
+  { value: "Additional Recruitment Services", label: "Additional Recruitment Services" },
   { value: "other", label: "Other" },
 ];
 
-const CONTACT_ENDPOINT = process.env.NEXT_PUBLIC_CONTACT_API_URL;
+// Same-origin proxy → Next.js route → AWS API (avoids CORS)
+const CONTACT_ENDPOINT = "/api/contact-message";
+const AUTO_POPUP_SESSION_KEY = "techsara:autoContactShown";
 
 export default function ContactModal({ isOpen, onClose, defaultTopic = "" }: Props) {
   const [submitted, setSubmitted] = useState(false);
@@ -104,26 +106,39 @@ export default function ContactModal({ isOpen, onClose, defaultTopic = "" }: Pro
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
-    const data = Object.fromEntries(formData.entries());
+    const raw = Object.fromEntries(formData.entries()) as Record<string, string>;
     setErrorMessage(null);
 
-    if (!CONTACT_ENDPOINT) {
-      // eslint-disable-next-line no-console
-      console.log("Contact form submitted (no backend configured):", data);
-      setSubmitted(true);
-      return;
-    }
+    const payload = {
+      firstName: raw.firstName || "",
+      lastName: raw.lastName || "",
+      email: raw.email || "",
+      company: raw.company || "",
+      phoneNumber: raw.phone || "",
+      discussionTopic: raw.topic || "",
+      notes: raw.message || "",
+    };
 
     setSubmitting(true);
     try {
       const res = await fetch(CONTACT_ENDPOINT, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...data, source: "website-contact-modal" }),
+        body: JSON.stringify(payload),
       });
       if (!res.ok) {
-        throw new Error(`Submission failed (status ${res.status})`);
+        let detail = "";
+        try { detail = await res.text(); } catch {}
+        throw new Error(`Submission failed (HTTP ${res.status})${detail ? " — " + detail : ""}`);
       }
+      // Successful submit → suppress the auto-contact popup for the rest of the session
+      try {
+        window.sessionStorage.setItem(AUTO_POPUP_SESSION_KEY, "1");
+      } catch {
+        /* sessionStorage may be unavailable in some private modes */
+      }
+      // Notify AutoContactPopup so it shows an "already sent" toast on subsequent triggers
+      window.dispatchEvent(new CustomEvent("techsara:userEngaged"));
       setSubmitted(true);
     } catch (err) {
       const message =

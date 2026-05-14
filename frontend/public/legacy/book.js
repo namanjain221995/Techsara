@@ -4,6 +4,9 @@
 // ============================================
 
 (function () {
+  // Same-origin proxy → Next.js route → AWS API (avoids CORS)
+  const BOOKING_API_URL = '/api/book-consultation';
+
   const monthNames = ['January','February','March','April','May','June','July','August','September','October','November','December'];
   const dow = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
 
@@ -46,6 +49,53 @@
     const ampm = h >= 12 ? 'PM' : 'AM';
     const h12 = ((h + 11) % 12) + 1;
     return `${h12}:${String(m).padStart(2,'0')} ${ampm}`;
+  }
+
+  // "13:00" → { time: "1:00", ampm: "PM" }
+  function splitTime(hhmm) {
+    const [h, m] = hhmm.split(':').map(Number);
+    const ampm = h >= 12 ? 'PM' : 'AM';
+    const h12 = ((h + 11) % 12) + 1;
+    return { time: `${h12}:${String(m).padStart(2,'0')}`, ampm };
+  }
+
+  // Date → "YYYY-MM-DD" in local time (NOT UTC, to avoid date drift)
+  function fmtISODate(date) {
+    const y = date.getFullYear();
+    const m = String(date.getMonth() + 1).padStart(2, '0');
+    const d = String(date.getDate()).padStart(2, '0');
+    return `${y}-${m}-${d}`;
+  }
+
+  async function postBooking(formDetails) {
+    const { time, ampm } = splitTime(selectedSlot);
+    const payload = {
+      firstName: formDetails.firstName || '',
+      lastName: formDetails.lastName || '',
+      email: formDetails.email || '',
+      company: formDetails.company || '',
+      phoneNumber: formDetails.phone || '',
+      discussionTopic: formDetails.topic || '',
+      notes: formDetails.notes || '',
+      date: fmtISODate(selectedDate),
+      time: time,
+      ampm: ampm,
+    };
+
+    const res = await fetch(BOOKING_API_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+    });
+
+    if (!res.ok) {
+      let detail = '';
+      try { detail = await res.text(); } catch (_) {}
+      const err = new Error(`Booking failed (HTTP ${res.status})${detail ? ' — ' + detail : ''}`);
+      err.status = res.status;
+      throw err;
+    }
+    return res.json().catch(() => ({}));
   }
 
   function renderCalendar() {
@@ -173,19 +223,61 @@
 
     $('#btn-back-2').addEventListener('click', () => setStep(1));
 
-    $('#book-form').addEventListener('submit', (e) => {
+    $('#book-form').addEventListener('submit', async (e) => {
       e.preventDefault();
+      if (!selectedDate || !selectedSlot) return;
+
       const fd = new FormData(e.target);
       details = Object.fromEntries(fd.entries());
-      // Render confirmation
-      const niceDate = selectedDate.toLocaleDateString(undefined, { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' });
-      $('#c-when').textContent = `${niceDate}`;
-      $('#c-time').textContent = `${fmtTime(selectedSlot)} (${tz})`;
-      $('#c-name').textContent = `${details.firstName} ${details.lastName}`;
-      $('#c-email').textContent = details.email;
-      $('#c-phone').textContent = details.phone || '—';
-      $('#c-topic').textContent = details.topic || '—';
-      setStep(3);
+
+      const submitBtn = e.target.querySelector('button[type="submit"]');
+      const backBtn = $('#btn-back-2');
+      const errorEl = $('#book-error');
+      const originalLabel = submitBtn.innerHTML;
+
+      if (errorEl) {
+        errorEl.textContent = '';
+        errorEl.hidden = true;
+      }
+      submitBtn.disabled = true;
+      if (backBtn) backBtn.disabled = true;
+      submitBtn.innerHTML = '<span class="book-spinner" aria-hidden="true"></span>Booking…';
+
+      try {
+        await postBooking(details);
+
+        // Booking succeeded — suppress the auto-contact popup for the rest of this session
+        try {
+          window.sessionStorage.setItem('techsara:autoContactShown', '1');
+        } catch (_) { /* sessionStorage may be unavailable in some private modes */ }
+        // Tell AutoContactPopup the user has engaged so subsequent CTA clicks show a toast
+        try {
+          window.dispatchEvent(new CustomEvent('techsara:userEngaged'));
+        } catch (_) {}
+
+        // Render confirmation
+        const niceDate = selectedDate.toLocaleDateString(undefined, { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' });
+        $('#c-when').textContent = `${niceDate}`;
+        $('#c-time').textContent = `${fmtTime(selectedSlot)} (${tz})`;
+        $('#c-name').textContent = `${details.firstName} ${details.lastName}`;
+        $('#c-email').textContent = details.email;
+        $('#c-phone').textContent = details.phone || '—';
+        $('#c-topic').textContent = details.topic || '—';
+        setStep(3);
+      } catch (err) {
+        // eslint-disable-next-line no-console
+        console.error('Booking submission error:', err);
+        if (errorEl) {
+          errorEl.textContent = (err && err.message) ? err.message : 'Something went wrong. Please try again.';
+          errorEl.hidden = false;
+        } else {
+          alert('Sorry, we couldn\'t complete your booking. Please try again.');
+        }
+      } finally {
+        submitBtn.disabled = false;
+        if (backBtn) backBtn.disabled = false;
+        submitBtn.innerHTML = originalLabel;
+      }
     });
 
     // Pre-select if ?slot= passed

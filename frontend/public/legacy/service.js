@@ -83,7 +83,6 @@
                 Book a consultation
                 <svg class="arrow" width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 5l7 7-7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
               </a>
-              <a href="/#cases" class="btn btn-ghost btn-lg" data-magnetic="0.2">See related case studies</a>
             </div>
           </div>
 
@@ -112,16 +111,16 @@
 
     <!-- STACK + DELIVERABLES -->
     <section class="detail-section surface">
-      <div class="container" style="display:grid; grid-template-columns: 1fr 1.4fr; gap: 64px; align-items: start;">
-        <div class="reveal" style="position: sticky; top: 100px;">
+      <div class="container service-stack-grid">
+        <div class="reveal service-stack-col">
           <span class="eyebrow">Stack</span>
-          <h2 class="section-title" style="font-size: clamp(28px, 3.4vw, 40px); max-width: 16ch;">Modern tools, used with intent.</h2>
-          <p class="section-sub" style="margin-bottom: 24px;">A curated stack chosen for production reliability — not novelty.</p>
+          <h2 class="section-title service-stack-title">Modern tools, used with intent.</h2>
+          <p class="section-sub service-stack-sub">A curated stack chosen for production reliability — not novelty.</p>
           <div class="stack-chips">${stackHtml}</div>
         </div>
-        <div class="reveal" data-delay="1">
+        <div class="reveal service-delv-col" data-delay="1">
           <span class="eyebrow">Deliverables</span>
-          <h3 class="section-title" style="font-size: clamp(24px, 2.8vw, 34px); margin: 12px 0 28px; max-width: 24ch;">Concrete artifacts at the end of every phase.</h3>
+          <h3 class="section-title service-delv-title">Concrete artifacts at the end of every phase.</h3>
           <ul class="delv-list">${delvHtml}</ul>
         </div>
       </div>

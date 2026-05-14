@@ -237,3 +237,10 @@
   .viz-chat .typing span, .viz-cv-tile .box, .viz-node .pulse::after { animation: none; }
   .viz-cv-meta .spark span { animation: none; }
 }
+
+/* Careers training section — clean white, no grid pattern */
+.careers-training {
+  background: #ffffff;
+  border-top: none;
+}
+.careers-training::before { display: none; }

@@ -652,6 +652,10 @@ section { position: relative; padding: clamp(80px, 11vw, 140px) 0; }
   object-fit: cover;
   z-index: 0;
   pointer-events: none;
+  /* Keep the video on its own isolated layer — no repaints can leak up
+     into the overlaid text. */
+  transform: translateZ(0);
+  will-change: transform;
 }
 .hero-video-overlay {
   position: absolute; inset: 0;
@@ -684,25 +688,37 @@ section { position: relative; padding: clamp(80px, 11vw, 140px) 0; }
   align-items: center;
   justify-content: center;
   min-height: 100vh;
+  /* Promote the whole hero text stack onto its own compositor layer so the
+     playing background <video> never causes the overlay text to re-rasterise
+     at slightly different sub-pixel offsets each video frame. */
+  transform: translateZ(0);
+  backface-visibility: hidden;
 }
 .hero-dark-title {
   font-family: var(--font-display);
   font-weight: 700;
   font-size: clamp(36px, 4.6vw, 68px);
+  /* Lock the whole title onto a single compositor layer so smooth-scroll
+     sub-pixel rounding cannot shift words relative to each other. */
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  -webkit-font-smoothing: antialiased;
   line-height: 1.14;
   letter-spacing: -0.02em;
   color: #fff;
   margin: 0 0 54px;
   max-width: 1200px;
   text-wrap: balance;
-  text-shadow: 0 10px 36px rgba(0,0,0,0.34);
+  text-shadow: 0 6px 18px rgba(0,0,0,0.35);
 }
 .hero-dark-title .word { display: inline-block; overflow: hidden; vertical-align: top; padding-bottom: 0.04em; }
 .hero-dark-title .word > span {
   display: inline-block;
-  will-change: transform;
   animation: hero-word-rise 0.9s cubic-bezier(.2,.7,.2,1) both;
 }
+/* will-change only while the entrance animation is running, then released
+   so the words share the parent layer during scroll. */
+.hero-dark-title:not(.is-revealed) .word > span { will-change: transform; }
 .hero-dark-title .word:nth-of-type(1) > span { animation-delay: 0.10s; }
 .hero-dark-title .word:nth-of-type(2) > span { animation-delay: 0.17s; }
 .hero-dark-title .word:nth-of-type(3) > span { animation-delay: 0.24s; }
@@ -1399,6 +1415,51 @@ section { position: relative; padding: clamp(80px, 11vw, 140px) 0; }
   font-size: 13.5px;
   line-height: 1.5;
 }
+
+.contact-toast {
+  position: fixed;
+  left: 50%;
+  bottom: 32px;
+  transform: translateX(-50%);
+  z-index: 100000;
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  max-width: min(520px, calc(100vw - 32px));
+  padding: 14px 20px;
+  background: #1c1c1f;
+  color: #ffffff;
+  border-radius: 14px;
+  box-shadow: 0 24px 60px -20px rgba(15, 23, 42, 0.55);
+  font-size: 14px;
+  line-height: 1.5;
+  animation: contact-toast-rise 0.3s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+.contact-toast-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background: rgba(34, 197, 94, 0.18);
+  color: #4ade80;
+}
+.contact-toast-text {
+  font-weight: 500;
+}
+@keyframes contact-toast-rise {
+  from { opacity: 0; transform: translate(-50%, 14px); }
+  to   { opacity: 1; transform: translate(-50%, 0); }
+}
+@media (max-width: 560px) {
+  .contact-toast {
+    bottom: 18px;
+    padding: 12px 16px;
+    font-size: 13px;
+  }
+}
 .contact-form-submit:disabled,
 .contact-form-cancel:disabled {
   opacity: 0.6;
@@ -1752,13 +1813,20 @@ section { position: relative; padding: clamp(80px, 11vw, 140px) 0; }
   animation: spectrum-image-rise 0.55s cubic-bezier(.2,.7,.2,1) both;
 }
 .spectrum-image {
+  position: absolute;
+  inset: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
   display: block;
-  transition: transform 0.6s cubic-bezier(.2,.7,.2,1);
+  opacity: 0;
+  transition: opacity 0.4s ease, transform 0.6s cubic-bezier(.2,.7,.2,1);
+  will-change: opacity, transform;
 }
-.spectrum-display:hover .spectrum-image {
+.spectrum-image.is-active {
+  opacity: 1;
+}
+.spectrum-display:hover .spectrum-image.is-active {
   transform: scale(1.04);
 }
 .spectrum-card {

@@ -2,8 +2,8 @@
 
 import { useEffect } from "react";
 
-const MIN_DURATION_MS = 700;
-const MAX_DURATION_MS = 8000;
+const MIN_DURATION_MS = 350;
+const MAX_DURATION_MS = 2500;
 
 export default function AppLoader() {
   useEffect(() => {
@@ -24,42 +24,24 @@ export default function AppLoader() {
       if (fallbackId) window.clearTimeout(fallbackId);
     };
 
-    const waitForVideos = () =>
-      Promise.all(
-        Array.from(document.querySelectorAll<HTMLVideoElement>("video")).map(
-          (video) =>
-            new Promise<void>((resolve) => {
-              if (video.readyState >= 3) {
-                resolve();
-                return;
-              }
-              const onReady = () => {
-                video.removeEventListener("canplay", onReady);
-                video.removeEventListener("loadeddata", onReady);
-                video.removeEventListener("error", onReady);
-                resolve();
-              };
-              video.addEventListener("canplay", onReady, { once: true });
-              video.addEventListener("loadeddata", onReady, { once: true });
-              video.addEventListener("error", onReady, { once: true });
-            }),
-        ),
-      );
-
-    const onLoad = () => {
-      waitForVideos().then(finish);
-    };
-
-    if (document.readyState === "complete") {
-      onLoad();
+    // Hide the splash as soon as the document is interactive — do NOT wait
+    // for the hero video to buffer. The video has its own poster background
+    // and will fade in when ready. Waiting for canplay on a 4MB video over
+    // a slow connection blocks first paint for many seconds.
+    if (document.readyState === "interactive" || document.readyState === "complete") {
+      // Defer to the next frame so the first paint includes hero text.
+      requestAnimationFrame(() => requestAnimationFrame(finish));
     } else {
-      window.addEventListener("load", onLoad, { once: true });
+      document.addEventListener(
+        "DOMContentLoaded",
+        () => requestAnimationFrame(() => requestAnimationFrame(finish)),
+        { once: true },
+      );
     }
 
     fallbackId = window.setTimeout(finish, MAX_DURATION_MS);
 
     return () => {
-      window.removeEventListener("load", onLoad);
       if (fallbackId) window.clearTimeout(fallbackId);
     };
   }, []);

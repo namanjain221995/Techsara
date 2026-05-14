@@ -62,15 +62,22 @@
     requestAnimationFrame(() => {
       words.forEach((w) => { w.style.transform = 'translateY(0)'; w.style.opacity = '1'; });
     });
+    // Drop the per-word GPU layer once the entrance finishes so smooth-scroll
+    // doesn't cause sub-pixel jitter between word layers and the parent.
+    const totalMs = 900 + (words.length * 70) + 200;
+    setTimeout(() => { heroTitle.classList.add('is-revealed'); }, totalMs);
   } else if (heroTitle) {
     heroTitle.querySelectorAll('.word > span').forEach((w) => { w.style.transform = 'none'; w.style.opacity = '1'; });
+    heroTitle.classList.add('is-revealed');
   }
 
   // -------- Dark nav while over dark hero --------
   const nav2 = document.querySelector('.nav');
   const darkHero = document.querySelector('.hero--dark');
   if (nav2 && darkHero) {
+    let navTick = false;
     const checkNav = () => {
+      navTick = false;
       const heroBottom = darkHero.getBoundingClientRect().bottom;
       if (heroBottom > 60) {
         nav2.classList.add('over-dark');
@@ -79,7 +86,12 @@
         nav2.classList.remove('over-dark');
       }
     };
-    window.addEventListener('scroll', checkNav, { passive: true });
+    const onScrollNav = () => {
+      if (navTick) return;
+      navTick = true;
+      requestAnimationFrame(checkNav);
+    };
+    window.addEventListener('scroll', onScrollNav, { passive: true });
     checkNav();
   }
 

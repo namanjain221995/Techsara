@@ -676,3 +676,36 @@
 
 /* Footer brand CTA */
 .footer-cta { display: inline-flex !important; margin-top: 4px; }
+
+/* Booking — submit loading spinner + inline error banner */
+.book-spinner {
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  margin-right: 8px;
+  border: 2px solid rgba(255, 255, 255, 0.35);
+  border-top-color: #ffffff;
+  border-radius: 50%;
+  animation: book-spin 0.7s linear infinite;
+  vertical-align: -2px;
+}
+@keyframes book-spin { to { transform: rotate(360deg); } }
+
+.book-error {
+  margin: 16px 0 0;
+  padding: 10px 14px;
+  background: rgba(239, 68, 68, 0.08);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  color: #b91c1c;
+  border-radius: 10px;
+  font-size: 13.5px;
+  line-height: 1.5;
+}
+.book-error[hidden] { display: none; }
+
+.book-actions .btn:disabled,
+.book-actions .btn[disabled] {
+  opacity: 0.65;
+  cursor: not-allowed;
+  pointer-events: none;
+}

@@ -309,3 +309,36 @@
   max-width: 22ch;
 }
 .detail-head .section-sub { font-size: clamp(15px, 1.2vw, 17px); }
+
+/* Stack + Deliverables — responsive 2-column → 1-column */
+.service-stack-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.4fr;
+  gap: 64px;
+  align-items: start;
+}
+.service-stack-col { position: sticky; top: 100px; }
+.service-stack-title {
+  font-size: clamp(28px, 3.4vw, 40px);
+  max-width: 16ch;
+}
+.service-stack-sub { margin-bottom: 24px; }
+.service-delv-title {
+  font-size: clamp(24px, 2.8vw, 34px);
+  margin: 12px 0 28px;
+  max-width: 24ch;
+}
+@media (max-width: 900px) {
+  .service-stack-grid {
+    grid-template-columns: 1fr;
+    gap: 48px;
+  }
+  .service-stack-col {
+    position: static;
+    top: auto;
+  }
+  .service-stack-title,
+  .service-delv-title {
+    max-width: none;
+  }
+}

@@ -237,14 +237,14 @@
                   <label for="topic">What would you like to discuss?</label>
                   <select id="topic" name="topic" required data-custom-select>
                     <option value="" disabled selected hidden>Choose a focus area…</option>
-                    <option>IT and Staffing</option>
-                    <option>Healthcare and Recruitment</option>
-                    <option>Non-IT Staffing and Recruitment</option>
-                    <option>Recruitment Process Outsourcing</option>
-                    <option>IT Consulting and IT Solutions</option>
-                    <option>IT Development Support</option>
-                    <option>Additional Recruitment Services</option>
-                    <option>Other</option>
+                    <option value="IT and Staffing">IT and Staffing</option>
+                    <option value="Healthcare and Recruitment">Healthcare and Recruitment</option>
+                    <option value="Non-IT Staffing and Recruitment">Non-IT Staffing and Recruitment</option>
+                    <option value="Recruitment Process Outsourcing">Recruitment Process Outsourcing</option>
+                    <option value="IT Consulting and IT Solutions">IT Consulting and IT Solutions</option>
+                    <option value="IT Development Support">IT Development Support</option>
+                    <option value="Additional Recruitment Services">Additional Recruitment Services</option>
+                    <option value="other">Other</option>
                   </select>
                 </div>
                 <div class="field full">
@@ -252,6 +252,8 @@
                   <textarea id="notes" name="notes" placeholder="A sentence or two about the problem, current stack, or timeline."></textarea>
                 </div>
               </div>
+
+              <p id="book-error" class="book-error" role="alert" hidden></p>
 
               <div class="book-actions">
                 <button type="button" class="btn btn-ghost" id="btn-back-2">

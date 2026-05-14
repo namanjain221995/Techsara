@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const spectrumSolutions = [
   {
@@ -63,6 +63,17 @@ export default function SpectrumOfSolutions() {
   const active = spectrumSolutions[activeIndex];
   const segmentCount = spectrumSolutions.length;
 
+  // Warm the browser image cache once the component mounts so hovering between
+  // labels doesn't trigger a fresh network round-trip each time.
+  useEffect(() => {
+    spectrumSolutions.forEach((sol) => {
+      const img = new Image();
+      img.decoding = "async";
+      img.loading = "eager";
+      img.src = sol.image;
+    });
+  }, []);
+
   return (
     <section className="spectrum-section" id="spectrum-of-solutions">
       <div className="container">
@@ -123,13 +134,21 @@ export default function SpectrumOfSolutions() {
           </div>
 
           <div className="spectrum-display">
-            <div className="spectrum-image-frame" key={`img-${active.id}`}>
-              <img
-                className="spectrum-image"
-                src={active.image}
-                alt=""
-                aria-hidden="true"
-              />
+            <div className="spectrum-image-frame">
+              {/* Render all images, toggle opacity — keeps GPU work, avoids
+                  remount + redownload on every hover. */}
+              {spectrumSolutions.map((sol, i) => (
+                <img
+                  key={sol.id}
+                  className={`spectrum-image${i === activeIndex ? " is-active" : ""}`}
+                  src={sol.image}
+                  alt=""
+                  aria-hidden="true"
+                  loading={i === 0 ? "eager" : "lazy"}
+                  decoding="async"
+                  fetchPriority={i === 0 ? "high" : "low"}
+                />
+              ))}
             </div>
 
             <article className="spectrum-card" key={`card-${active.id}`}>
