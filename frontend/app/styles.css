@@ -627,13 +627,24 @@ section { position: relative; padding: clamp(80px, 11vw, 140px) 0; }
    DARK FULL-VIEWPORT HERO
    ============================================ */
 .hero--dark {
-  min-height: 100vh;
+  min-height: 65vh;
   display: flex;
   align-items: center;
   padding: 0;
   overflow: hidden;
   position: relative;
   background: #060817;
+}
+.hero--dark::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 18%;
+  background: linear-gradient(180deg, rgba(6, 8, 23, 0) 0%, #060817 100%);
+  z-index: 1;
+  pointer-events: none;
 }
 .hero-video {
   position: absolute; inset: 0;
