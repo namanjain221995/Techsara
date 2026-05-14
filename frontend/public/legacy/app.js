@@ -16,6 +16,7 @@
       smoothWheel: true,
       smoothTouch: false,
     });
+    window.__techsaraLenis = lenis;
     function raf(time) { lenis.raf(time); requestAnimationFrame(raf); }
     requestAnimationFrame(raf);
 
@@ -318,5 +319,38 @@
     window.addEventListener('resize', () => { clearTimeout(particleBg._rs); particleBg._rs = setTimeout(resizePB, 120); });
     resizePB();
     requestAnimationFrame(tickPB);
+  }
+
+  // -------- Careers: "Why Techsara" carousel --------
+  const careersCarousel = document.querySelector('.careers-pillars');
+  if (careersCarousel) {
+    const slides = Array.from(careersCarousel.querySelectorAll('.careers-pillar'));
+    const dots = Array.from(careersCarousel.querySelectorAll('.careers-pillars-dot'));
+    if (slides.length > 1) {
+      let active = 0;
+      const ROTATE_MS = 10000;
+      let timer;
+
+      const show = (index) => {
+        active = (index + slides.length) % slides.length;
+        slides.forEach((s, i) => s.classList.toggle('is-active', i === active));
+        dots.forEach((d, i) => d.classList.toggle('is-active', i === active));
+      };
+      const next = () => show(active + 1);
+      const startTimer = () => { timer = window.setInterval(next, ROTATE_MS); };
+      const stopTimer = () => { if (timer) { window.clearInterval(timer); timer = null; } };
+
+      dots.forEach((dot, i) => {
+        dot.addEventListener('click', () => {
+          stopTimer();
+          show(i);
+          startTimer();
+        });
+      });
+      careersCarousel.addEventListener('mouseenter', stopTimer);
+      careersCarousel.addEventListener('mouseleave', startTimer);
+
+      startTimer();
+    }
   }
 })();

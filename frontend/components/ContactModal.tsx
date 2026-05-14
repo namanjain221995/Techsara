@@ -42,10 +42,19 @@ export default function ContactModal({ isOpen, onClose, defaultTopic = "" }: Pro
       }
     };
     const previousOverflow = document.body.style.overflow;
+    const previousHtmlOverflow = document.documentElement.style.overflow;
     document.body.style.overflow = "hidden";
+    document.documentElement.style.overflow = "hidden";
+
+    // Pause Lenis smooth-scroll while the modal is open so the page behind doesn't scroll
+    const lenis = (window as unknown as { __techsaraLenis?: { stop: () => void; start: () => void } }).__techsaraLenis;
+    lenis?.stop();
+
     window.addEventListener("keydown", handleKey);
     return () => {
       document.body.style.overflow = previousOverflow;
+      document.documentElement.style.overflow = previousHtmlOverflow;
+      lenis?.start();
       window.removeEventListener("keydown", handleKey);
     };
   }, [isOpen, onClose, topicOpen]);
@@ -130,7 +139,7 @@ export default function ContactModal({ isOpen, onClose, defaultTopic = "" }: Pro
   const isPlaceholder = !topic;
 
   return (
-    <div className="contact-modal-overlay" onClick={onClose} role="presentation">
+    <div className="contact-modal-overlay" onClick={onClose} role="presentation" data-lenis-prevent="true">
       <div
         className="contact-modal"
         role="dialog"
@@ -259,6 +268,7 @@ export default function ContactModal({ isOpen, onClose, defaultTopic = "" }: Pro
                       className="custom-select__panel is-open"
                       role="listbox"
                       style={panelStyle}
+                      data-lenis-prevent="true"
                     >
                       {TOPIC_OPTIONS.map((opt) => (
                         <button

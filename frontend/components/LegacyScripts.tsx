@@ -64,6 +64,7 @@ export default function LegacyScripts({ page, serviceSlug }: LegacyScriptsProps)
               window.addEventListener('scroll', setNav, { passive: true });
               if (!matchMedia('(prefers-reduced-motion: reduce)').matches && window.Lenis) {
                 const lenis = new Lenis({ duration: 1.1, smoothWheel: true });
+                window.__techsaraLenis = lenis;
                 function raf(t){ lenis.raf(t); requestAnimationFrame(raf); }
                 requestAnimationFrame(raf);
               }
