@@ -91,18 +91,18 @@ html.splash-skip #app-splash { display: none; }
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 22px;
+  gap: 28px;
 }
 .app-splash-logo {
-  width: 64px;
-  height: 64px;
+  width: 140px;
+  height: 140px;
   object-fit: contain;
 }
 .app-splash-brand {
   font-family: "Times New Roman", Times, serif;
   font-weight: 700;
-  font-size: 24px;
-  letter-spacing: 0.08em;
+  font-size: 36px;
+  letter-spacing: 0.1em;
   color: var(--indigo-900);
 }
 .app-splash-spinner {
