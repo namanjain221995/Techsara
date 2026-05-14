@@ -1,7 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { useSwipe } from "@/lib/useSwipe";
 
 const slides = [
   {
@@ -43,6 +44,7 @@ export default function TrendsPageClient() {
   const [activeIndex, setActiveIndex] = useState(0);
   const [isOverHero, setIsOverHero] = useState(true);
   const [isMobileOpen, setIsMobileOpen] = useState(false);
+  const carouselRef = useRef<HTMLElement | null>(null);
 
   useEffect(() => {
     if (!isMobileOpen) return;
@@ -90,6 +92,8 @@ export default function TrendsPageClient() {
   function goNext() {
     setActiveIndex((current) => (current + 1) % slides.length);
   }
+
+  useSwipe(carouselRef, { onSwipeLeft: goNext, onSwipeRight: goPrev });
 
   return (
     <main className="trends-page">
@@ -181,7 +185,7 @@ export default function TrendsPageClient() {
         </div>
       </header>
 
-      <section className="trends-carousel" aria-label="Featured trends">
+      <section ref={carouselRef} className="trends-carousel" aria-label="Featured trends">
         <div className="trends-carousel-track">
           {slides.map((slide, index) => (
             <article
