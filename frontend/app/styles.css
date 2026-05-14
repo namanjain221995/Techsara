@@ -64,6 +64,77 @@ html, body {
 }
 html { scroll-behavior: auto; } /* Lenis owns scrolling */
 body { overflow-x: hidden; }
+
+/* ============================================
+   Splash loader (first visit) + route progress bar
+   ============================================ */
+#app-splash {
+  position: fixed;
+  inset: 0;
+  z-index: 99999;
+  background: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 1;
+  visibility: visible;
+  transition: opacity 0.5s ease, visibility 0s linear 0.5s;
+}
+html.splash-done #app-splash {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+html.splash-skip #app-splash { display: none; }
+
+.app-splash-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 22px;
+}
+.app-splash-logo {
+  width: 64px;
+  height: 64px;
+  object-fit: contain;
+}
+.app-splash-brand {
+  font-family: "Times New Roman", Times, serif;
+  font-weight: 700;
+  font-size: 24px;
+  letter-spacing: 0.08em;
+  color: var(--indigo-900);
+}
+.app-splash-spinner {
+  width: 32px;
+  height: 32px;
+  border: 3px solid rgba(30, 42, 120, 0.12);
+  border-top-color: var(--indigo-600);
+  border-radius: 50%;
+  animation: app-splash-spin 0.8s linear infinite;
+}
+@keyframes app-splash-spin { to { transform: rotate(360deg); } }
+
+.route-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 3px;
+  width: 100%;
+  background: linear-gradient(90deg, var(--indigo-800), var(--indigo-500));
+  box-shadow: 0 0 10px rgba(63, 81, 181, 0.55);
+  z-index: 99998;
+  transform: scaleX(0);
+  transform-origin: left;
+  animation: route-progress-fill 1.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+  pointer-events: none;
+}
+@keyframes route-progress-fill {
+  0%   { transform: scaleX(0); }
+  40%  { transform: scaleX(0.55); }
+  70%  { transform: scaleX(0.8); }
+  100% { transform: scaleX(0.92); }
+}
 img, svg { display: block; max-width: 100%; }
 a { color: inherit; text-decoration: none; }
 button { font-family: inherit; cursor: pointer; border: none; background: none; }
@@ -600,12 +671,12 @@ section { position: relative; padding: clamp(80px, 11vw, 140px) 0; }
 .hero-dark-title {
   font-family: var(--font-display);
   font-weight: 700;
-  font-size: clamp(44px, 5.8vw, 86px);
-  line-height: 1.12;
+  font-size: clamp(36px, 4.6vw, 68px);
+  line-height: 1.14;
   letter-spacing: -0.02em;
   color: #fff;
   margin: 0 0 54px;
-  max-width: 980px;
+  max-width: 1200px;
   text-wrap: balance;
   text-shadow: 0 10px 36px rgba(0,0,0,0.34);
 }
@@ -643,7 +714,7 @@ section { position: relative; padding: clamp(80px, 11vw, 140px) 0; }
   min-width: min(388px, calc(100vw - 48px));
   min-height: 64px;
   padding: 18px 40px;
-  background: #2079bd;
+  background: linear-gradient(135deg, var(--indigo-800) 0%, var(--indigo-600) 60%, var(--indigo-500) 100%);
   color: #fff;
   border-radius: 18px;
   font-size: 23px;
@@ -654,9 +725,9 @@ section { position: relative; padding: clamp(80px, 11vw, 140px) 0; }
   transition: transform 0.2s, box-shadow 0.25s, background 0.2s;
 }
 .btn-dark-primary:hover {
-  background: #2588d4;
+  background: linear-gradient(135deg, var(--indigo-900) 0%, var(--indigo-700) 60%, var(--indigo-600) 100%);
   transform: translateY(-3px);
-  box-shadow: 0 28px 70px -18px rgba(19,98,170,0.82);
+  box-shadow: 0 28px 70px -18px rgba(30, 42, 120, 0.82);
 }
 .btn-dark-primary .arrow { transition: transform 0.2s; }
 .btn-dark-primary:hover .arrow { transform: translateX(4px); }

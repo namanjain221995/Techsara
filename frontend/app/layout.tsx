@@ -4,6 +4,8 @@ import "./showcase.css";
 import "./book.css";
 import "./service.css";
 import AutoContactPopup from "@/components/AutoContactPopup";
+import AppLoader from "@/components/AppLoader";
+import RouteProgress from "@/components/RouteProgress";
 
 export const metadata: Metadata = {
   title: "Techsara - Enterprise-Grade AI, Engineered for Your Business",
@@ -21,8 +23,23 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Instrument+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap"
           rel="stylesheet"
         />
+        <script
+          dangerouslySetInnerHTML={{
+            __html:
+              "try{if(sessionStorage.getItem('techsara:splashShown'))document.documentElement.classList.add('splash-skip');}catch(e){}",
+          }}
+        />
       </head>
       <body>
+        <div id="app-splash" aria-hidden="true">
+          <div className="app-splash-inner">
+            <img src="/assets/techsara-logo.png" alt="" className="app-splash-logo" />
+            <span className="app-splash-brand">TECHSARA</span>
+            <div className="app-splash-spinner" />
+          </div>
+        </div>
+        <AppLoader />
+        <RouteProgress />
         {children}
         <AutoContactPopup />
       </body>
