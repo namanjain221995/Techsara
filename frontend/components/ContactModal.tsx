@@ -127,9 +127,18 @@ export default function ContactModal({ isOpen, onClose, defaultTopic = "" }: Pro
         body: JSON.stringify(payload),
       });
       if (!res.ok) {
-        let detail = "";
-        try { detail = await res.text(); } catch {}
-        throw new Error(`Submission failed (HTTP ${res.status})${detail ? " — " + detail : ""}`);
+        let isValidation = res.status === 422;
+        try {
+          const body = await res.json();
+          if (body && body.error === "VALIDATION_ERROR") isValidation = true;
+        } catch {
+          /* response body wasn't JSON — fall back to status check */
+        }
+        throw new Error(
+          isValidation
+            ? "Please fill out the full form before submitting."
+            : "Something went wrong. Please try again.",
+        );
       }
       // Successful submit → suppress the auto-contact popup for the rest of the session
       try {
@@ -222,6 +231,7 @@ export default function ContactModal({ isOpen, onClose, defaultTopic = "" }: Pro
                 <input
                   type="tel"
                   name="phone"
+                  required
                   autoComplete="tel"
                   inputMode="tel"
                   placeholder="+1 (555) 123-4567"
