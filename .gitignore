@@ -43,3 +43,27 @@ next-env.d.ts
 
 # OS
 *.log
+
+# Environment/secrets
+.env
+*.env
+!.env.example
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Build/layer artifacts
+*.zip
+python/
+layer/
+build/
+dist/
+
+# OS/editor files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

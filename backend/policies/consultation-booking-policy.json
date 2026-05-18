@@ -1,0 +1,44 @@
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "CloudWatchLogs",
+      "Effect": "Allow",
+      "Action": [
+        "logs:CreateLogGroup",
+        "logs:CreateLogStream",
+        "logs:PutLogEvents"
+      ],
+      "Resource": "arn:aws:logs:us-east-1:*:*"
+    },
+    {
+      "Sid": "S3BookingStorage",
+      "Effect": "Allow",
+      "Action": [
+        "s3:PutObject",
+        "s3:GetObject",
+        "s3:DeleteObject"
+      ],
+      "Resource": "arn:aws:s3:::techsara-consultation-bookings/*"
+    },
+    {
+      "Sid": "ReadGoogleAndZoomSecrets",
+      "Effect": "Allow",
+      "Action": [
+        "secretsmanager:GetSecretValue"
+      ],
+      "Resource": [
+        "arn:aws:secretsmanager:us-east-1:*:secret:/techsara/consultation-booking/google*",
+        "arn:aws:secretsmanager:us-east-1:*:secret:/techsara/consultation-booking/zoom*"
+      ]
+    },
+    {
+      "Sid": "UpdateZoomRefreshToken",
+      "Effect": "Allow",
+      "Action": [
+        "secretsmanager:PutSecretValue"
+      ],
+      "Resource": "arn:aws:secretsmanager:us-east-1:*:secret:/techsara/consultation-booking/zoom*"
+    }
+  ]
+}
