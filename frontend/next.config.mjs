@@ -12,6 +12,14 @@ const nextConfig = {
     minimumCacheTTL: 60 * 60 * 24 * 30, // 30 days
   },
 
+  async redirects() {
+    return [
+      // Old/indexed contact URL → booking page (permanent 308, good for SEO).
+      { source: "/contact", destination: "/book", permanent: true },
+      { source: "/contact-us", destination: "/book", permanent: true },
+    ];
+  },
+
   async headers() {
     const ONE_YEAR = "public, max-age=31536000, immutable";
     const ONE_WEEK = "public, max-age=604800, stale-while-revalidate=86400";
