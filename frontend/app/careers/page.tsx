@@ -3,11 +3,16 @@ import LegacyScripts from "@/components/LegacyScripts";
 import { getLegacyBody } from "@/lib/legacy-html";
 import CareersInteractivity from "./CareersInteractivity";
 import "./careers.css";
+import { pageOpenGraph } from "@/lib/seo";
+
+const description =
+  "Join Techsara — work alongside senior engineers building AI, cloud and data systems for regulated, high-stakes domains.";
 
 export const metadata: Metadata = {
-  title: "Careers — Techsara",
-  description:
-    "Join Techsara — work alongside senior engineers building AI, cloud and data systems for regulated, high-stakes domains.",
+  title: "Careers",
+  description,
+  alternates: { canonical: "/careers" },
+  openGraph: pageOpenGraph({ title: "Careers | Techsara", description, path: "/careers" }),
 };
 
 export default function CareersPage() {

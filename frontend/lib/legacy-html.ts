@@ -26,6 +26,34 @@ export function getServiceSlugs() {
   return [...source.matchAll(/^\s*"([^"]+)":\s*\{/gm)].map((match) => match[1]);
 }
 
+export type ServiceMeta = { name: string; intro: string; category: string };
+
+/**
+ * Pull the human-readable name/intro/category for a service slug out of service-data.js
+ * so the /solutions/[slug] pages get real, keyword-rich titles & descriptions instead of
+ * a generic placeholder. Returns null for unknown slugs.
+ */
+export function getServiceMeta(slug: string): ServiceMeta | null {
+  const source = readFileSync(contentPath("service-data.js"), "utf8");
+  // Isolate just this slug's object block (up to the next top-level slug key).
+  const block = source.match(
+    new RegExp(`"${slug}":\\s*\\{([\\s\\S]*?)\\n\\s{2}\\}`, "m"),
+  );
+  if (!block) return null;
+  const body = block[1];
+  const pick = (key: string) => {
+    const m = body.match(new RegExp(`${key}:\\s*"((?:[^"\\\\]|\\\\.)*)"`));
+    return m ? m[1].replace(/\\"/g, '"') : "";
+  };
+  const name = pick("name");
+  if (!name) return null;
+  return {
+    name,
+    intro: pick("intro"),
+    category: pick("category") || "AI Service",
+  };
+}
+
 // First couple of images on every page are the brand-logo in the header.
 // Everything else (team portraits, hero images, footer marks, etc.) sits
 // well below the fold or appears late, so we lazy-load by default.
