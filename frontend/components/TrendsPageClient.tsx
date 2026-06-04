@@ -97,11 +97,13 @@ export default function TrendsPageClient() {
 
   return (
     <main className="trends-page">
+      {/* Single, stable page H1 (the carousel titles are decorative H2s that rotate). */}
+      <h1 className="sr-only">AI &amp; Technology Insights for Enterprises</h1>
       <header className={`nav trends-nav is-ready ${isOverHero ? "over-dark" : "is-scrolled"}${isMobileOpen ? " is-mobile-open" : ""}`} role="banner">
         <div className="container nav-inner">
           <Link href="/" className="brand" aria-label="Techsara home">
             <span className="brand-mark" aria-hidden="true">
-              <img src="/assets/techsara-logo.png" alt="" className="brand-logo" />
+              <img src="/assets/techsara-logo.png" alt="Techsara" className="brand-logo" width={48} height={48} />
             </span>
             TECHSARA
           </Link>
@@ -161,7 +163,7 @@ export default function TrendsPageClient() {
             {/* <Link href="/#cases">Leadership</Link> */}
             <Link href="/articles" onClick={() => setIsMobileOpen(false)}>Articles</Link>
             <Link href="/careers" onClick={() => setIsMobileOpen(false)}>Careers</Link>
-            <Link href="/#contact" onClick={() => setIsMobileOpen(false)}>Contact</Link>
+            <Link href="/contact" onClick={() => setIsMobileOpen(false)}>Contact</Link>
           </nav>
           <div className="nav-actions">
             <Link href="/book" className="btn btn-primary">
@@ -196,11 +198,11 @@ export default function TrendsPageClient() {
               <div className="trends-slide-overlay" aria-hidden="true" />
               <div className="container trends-slide-inner">
                 <p className="trends-slide-kicker">{slide.kicker}</p>
-                <h1>
+                <h2>
                   {slide.titleLines.map((line) => (
                     <span key={line}>{line}</span>
                   ))}
-                </h1>
+                </h2>
               </div>
             </article>
           ))}
@@ -963,7 +965,7 @@ function Footer() {
           <div className="footer-brand">
             <Link href="/" className="brand" aria-label="Techsara home">
               <span className="brand-mark" aria-hidden="true">
-                <img src="/assets/techsara-logo.png" alt="" className="brand-logo" />
+                <img src="/assets/techsara-logo.png" alt="Techsara" className="brand-logo" width={48} height={48} />
               </span>
               TECHSARA
             </Link>
@@ -1002,7 +1004,7 @@ function Footer() {
             <ul>
               <li><a href="mailto:hello@techsarasolutions.com?cc=sales@techsarasolutions.com">hello@techsarasolutions.com</a></li>
               <li><a href="tel:+13234866123">(323) 486-6123</a></li>
-              <li>USA · 8668 John Hickman Pkwy, Suite 903<br/>Frisco, Texas 75034</li>
+              <li>Frisco, TX · USA</li>
               
             </ul>
           </div>

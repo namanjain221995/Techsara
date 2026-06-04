@@ -15,13 +15,13 @@ export function generateMetadata({ params }: { params: Params }): Metadata {
   if (!data) {
     return { title: "Service" };
   }
-  const description = `${data.tagline}. ${data.description}`.slice(0, 160);
+  const description = data.metaDescription;
   const path = `/services/${params.slug}`;
   return {
-    title: data.title,
+    title: { absolute: data.metaTitle },
     description,
     alternates: { canonical: path },
-    openGraph: pageOpenGraph({ title: `${data.title} | Techsara`, description, path }),
+    openGraph: pageOpenGraph({ title: data.metaTitle, description, path }),
   };
 }
 

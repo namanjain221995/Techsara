@@ -6,12 +6,12 @@ import "./service.css";
 import AutoContactPopup from "@/components/AutoContactPopup";
 import AppLoader from "@/components/AppLoader";
 import RouteProgress from "@/components/RouteProgress";
-import { SITE, organizationJsonLd, websiteJsonLd } from "@/lib/seo";
+import { SITE, organizationJsonLd, websiteJsonLd, professionalServiceJsonLd } from "@/lib/seo";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE.url),
   title: {
-    default: "Techsara — Enterprise-Grade AI, Engineered for Your Business",
+    default: "Techsara | AI Staffing & Technology Solutions — USA",
     // Child pages set just their page name; this stamps the brand on every title.
     template: "%s | Techsara",
   },
@@ -48,20 +48,20 @@ export const metadata: Metadata = {
     siteName: SITE.name,
     locale: SITE.locale,
     url: SITE.url,
-    title: "Techsara — Enterprise-Grade AI, Engineered for Your Business",
+    title: "Techsara | AI Staffing & Technology Solutions — USA",
     description: SITE.description,
     images: [
       {
         url: SITE.ogImage,
         width: 1200,
         height: 630,
-        alt: "Techsara — Enterprise-Grade AI, Engineered for Your Business",
+        alt: "Techsara | AI Staffing & Technology Solutions — USA",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Techsara — Enterprise-Grade AI, Engineered for Your Business",
+    title: "Techsara | AI Staffing & Technology Solutions — USA",
     description: SITE.description,
     site: SITE.twitter,
     creator: SITE.twitter,
@@ -95,6 +95,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteJsonLd()) }}
+        />
+        {/* LocalBusiness entity — NAP, hours and US service area for local + AI search. */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(professionalServiceJsonLd()) }}
         />
       </head>
       <body>

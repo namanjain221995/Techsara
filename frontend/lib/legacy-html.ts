@@ -104,6 +104,11 @@ function rewriteLegacyLinks(html: string) {
   nextHtml = nextHtml
     .replace(/href="index\.html#services"/g, 'href="/services"')
     .replace(/href="#services"/g, 'href="/services"')
+    // Contact links across the legacy nav/footer now point to the standalone
+    // /contact page (the homepage #contact section itself is unaffected).
+    .replace(/href="index\.html#contact"/g, 'href="/contact"')
+    .replace(/href="\/#contact"/g, 'href="/contact"')
+    .replace(/href="#contact"/g, 'href="/contact"')
     .replace(/href="book\.html/g, 'href="/book')
     .replace(/href="index\.html#([^"]+)"/g, 'href="/#$1"')
     .replace(/href="index\.html"/g, 'href="/"')

@@ -14,9 +14,16 @@ const nextConfig = {
 
   async redirects() {
     return [
-      // Old/indexed contact URL → booking page (permanent 308, good for SEO).
-      { source: "/contact", destination: "/book", permanent: true },
-      { source: "/contact-us", destination: "/book", permanent: true },
+      // Canonical host: force the bare apex (non-www) to https://www, preserving the
+      // path. Second fallback behind Cloudflare's rule and the nginx redirect.
+      {
+        source: "/:path*",
+        has: [{ type: "host", value: "techsarasolutions.com" }],
+        destination: "https://www.techsarasolutions.com/:path*",
+        permanent: true,
+      },
+      // Legacy /contact-us URL → the standalone contact page (permanent 308).
+      { source: "/contact-us", destination: "/contact", permanent: true },
     ];
   },
 

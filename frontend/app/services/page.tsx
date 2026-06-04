@@ -1,18 +1,30 @@
 import type { Metadata } from "next";
 import SolutionsPageClient from "@/components/SolutionsPageClient";
-import { pageOpenGraph } from "@/lib/seo";
+import { pageOpenGraph, breadcrumbJsonLd } from "@/lib/seo";
 
-const title = "AI Talent, Team & Project Services";
+const title = "IT Staffing & AI Talent Services | Techsara USA";
 const description =
-  "Explore Techsara's full suite of services — talent, team, project and international staffing solutions engineered for enterprise outcomes.";
+  "Techsara offers IT staffing, team augmentation, project outsourcing, and international talent solutions for tech companies across the United States.";
 
 export const metadata: Metadata = {
-  title,
+  title: { absolute: title },
   description,
   alternates: { canonical: "/services" },
-  openGraph: pageOpenGraph({ title: `${title} | Techsara`, description, path: "/services" }),
+  openGraph: pageOpenGraph({ title, description, path: "/services" }),
 };
 
 export default function ServicesIndexPage() {
-  return <SolutionsPageClient />;
+  const jsonLd = breadcrumbJsonLd([
+    { name: "Home", path: "/" },
+    { name: "Services", path: "/services" },
+  ]);
+  return (
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+      <SolutionsPageClient />
+    </>
+  );
 }

@@ -24,6 +24,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     entry("/services", 0.9, "monthly"),
     entry("/solutions", 0.9, "monthly"),
     entry("/articles", 0.7, "weekly"),
+    entry("/contact", 0.8, "monthly"),
     entry("/book", 0.8, "monthly"),
     entry("/careers", 0.6, "weekly"),
     entry("/life-at-techsara", 0.5, "monthly"),

@@ -26,7 +26,7 @@ const spectrumSolutions = [
     description:
       "Transform your business while we help you connect strategy to execution to tackle your most challenging initiatives.",
     href: "/services/project",
-    image: "/uploads/hero_projectsollution.jpg",
+    image: "/uploads/hero_projectsolution.jpg",
   },
   {
     id: "international",
@@ -34,7 +34,7 @@ const spectrumSolutions = [
     description:
       "Connect with the specialized onshore talent you need while we provide risk mitigation, immigration strategy and visa sponsorship.",
     href: "/services/international",
-    image: "/uploads/nternational_Talent_Solutions.jpg",
+    image: "/uploads/international_Talent_Solutions.jpg",
   },
 ];
 

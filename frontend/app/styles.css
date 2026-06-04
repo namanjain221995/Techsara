@@ -892,7 +892,8 @@ section { position: relative; padding: clamp(80px, 11vw, 140px) 0; }
   text-transform: none;
   color: rgba(255,255,255,0.96);
 }
-.trends-slide h1 {
+.trends-slide h1,
+.trends-slide h2 {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -910,7 +911,8 @@ section { position: relative; padding: clamp(80px, 11vw, 140px) 0; }
   text-wrap: balance;
   text-shadow: 0 14px 40px rgba(0,0,0,0.24);
 }
-.trends-slide h1 span {
+.trends-slide h1 span,
+.trends-slide h2 span {
   display: block;
 }
 .trends-slide-button {
@@ -1009,7 +1011,8 @@ section { position: relative; padding: clamp(80px, 11vw, 140px) 0; }
   text-align: left;
   max-width: 1100px;
 }
-.solutions-slide h1 {
+.solutions-slide h1,
+.solutions-slide h2 {
   display: block;
   max-width: 720px;
   min-height: 0;
@@ -3448,7 +3451,8 @@ section { position: relative; padding: clamp(80px, 11vw, 140px) 0; }
     margin-bottom: 28px;
     font-size: clamp(20px, 4vw, 28px);
   }
-  .trends-slide h1 {
+  .trends-slide h1,
+  .trends-slide h2 {
     max-width: 860px;
     min-height: clamp(96px, 14.8vw, 132px);
     font-size: clamp(30px, 5.7vw, 48px);
@@ -3483,7 +3487,8 @@ section { position: relative; padding: clamp(80px, 11vw, 140px) 0; }
     margin-bottom: 20px;
     font-size: clamp(17px, 5vw, 22px);
   }
-  .trends-slide h1 {
+  .trends-slide h1,
+  .trends-slide h2 {
     max-width: 560px;
     min-height: clamp(86px, 24vw, 116px);
     font-size: clamp(25px, 7.4vw, 36px);
@@ -5084,5 +5089,392 @@ section { position: relative; padding: clamp(80px, 11vw, 140px) 0; }
   clip: rect(0, 0, 0, 0);
   white-space: nowrap;
   border: 0;
+}
+
+/* ─── Contact page (/contact) ───────────────────────────────── */
+.contact-hero {
+  position: relative;
+  /* Padding-based height (no flex centering / min-height) so the heading always
+     clears the fixed nav and the band never collapses or overlaps the content. */
+  padding: 150px 0 74px;
+  text-align: center;
+  background: linear-gradient(135deg, var(--indigo-900, #141d5c) 0%, var(--indigo-800) 55%, var(--indigo-600, #4453d6) 100%);
+  overflow: hidden;
+}
+.contact-hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 70% 60% at 70% 30%, rgba(255, 255, 255, 0.1) 0%, transparent 60%);
+}
+.contact-hero-inner {
+  position: relative;
+  z-index: 1;
+  max-width: 720px;
+  margin-inline: auto;
+}
+.contact-hero-eyebrow {
+  margin: 0 0 16px;
+  font-family: var(--font-display);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.72);
+}
+.contact-hero h1 {
+  margin: 0 auto;
+  max-width: 18ch;
+  color: #fff;
+  font-family: var(--font-display);
+  font-size: clamp(36px, 4.6vw, 62px);
+  font-weight: 700;
+  line-height: 1.06;
+  letter-spacing: -0.02em;
+}
+.contact-hero-sub {
+  margin: 22px auto 0;
+  max-width: 60ch;
+  color: rgba(245, 248, 255, 0.86);
+  font-size: clamp(16px, 1.3vw, 19px);
+  line-height: 1.6;
+}
+.contact-section {
+  background: #fff;
+  padding: clamp(64px, 7vw, 104px) 0 clamp(72px, 8vw, 120px);
+}
+.contact-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
+  gap: clamp(32px, 5vw, 72px);
+  align-items: start;
+}
+/* Nudge the left column down so "Get in touch" lines up with the form-card heading. */
+.contact-info {
+  padding-top: clamp(8px, 1.2vw, 16px);
+}
+.contact-info h2 {
+  margin: 0 0 12px;
+  font-family: var(--font-display);
+  font-size: clamp(24px, 2.2vw, 30px);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+}
+.contact-info-lead {
+  margin: 0 0 18px;
+  max-width: 44ch;
+  color: var(--ink-50);
+  font-size: 16px;
+  line-height: 1.65;
+}
+.contact-info-list {
+  list-style: none;
+  margin: 0 0 30px;
+  padding: 0;
+  border-top: 1px solid var(--line);
+}
+.contact-info-item {
+  display: grid;
+  grid-template-columns: 84px minmax(0, 1fr);
+  gap: 18px;
+  align-items: start;
+  padding: 16px 2px;
+  border-bottom: 1px solid var(--line);
+}
+.contact-info-label {
+  padding-top: 3px;
+  font-family: var(--font-display);
+  font-size: 11.5px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--indigo-800);
+}
+.contact-info-value {
+  margin: 0;
+  font-style: normal;
+  color: var(--ink);
+  font-size: 16px;
+  line-height: 1.55;
+}
+.contact-info-value a {
+  color: var(--ink);
+  text-decoration: none;
+  border-bottom: 1px solid rgba(30, 42, 120, 0.25);
+}
+.contact-info-value a:hover {
+  color: var(--indigo-800);
+  border-bottom-color: var(--indigo-800);
+}
+.contact-info-cta {
+  margin-top: 4px;
+}
+.contact-form-card {
+  align-self: start;
+}
+/* Match the form-card title to "Get in touch" so the two column headings balance. */
+.contact-form-card .cta-form-card-head h2 {
+  margin: 0 0 6px;
+  color: var(--ink);
+  font-family: var(--font-display);
+  font-size: clamp(24px, 2.2vw, 30px);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+@media (max-width: 860px) {
+  .contact-grid {
+    grid-template-columns: 1fr;
+  }
+  .contact-info {
+    padding-top: 0;
+  }
+  .contact-hero {
+    padding: 128px 0 52px;
+  }
+}
+
+/* ─── 404 / not-found ───────────────────────────────────────── */
+.notfound {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 72vh;
+  padding: 168px 0 96px;
+  background: linear-gradient(180deg, #fff 0%, var(--paper, #f6f7fb) 100%);
+}
+.notfound-inner {
+  text-align: center;
+}
+.notfound-code {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(72px, 14vw, 168px);
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.04em;
+  background: linear-gradient(135deg, var(--indigo-800), var(--indigo-500, #6b78ee));
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.notfound h1 {
+  margin: 18px auto 0;
+  max-width: 20ch;
+  color: var(--ink);
+  font-family: var(--font-display);
+  font-size: clamp(26px, 3vw, 40px);
+  font-weight: 600;
+  line-height: 1.12;
+  letter-spacing: -0.02em;
+}
+.notfound-sub {
+  margin: 18px auto 0;
+  max-width: 56ch;
+  color: var(--ink-50);
+  font-size: clamp(16px, 1.3vw, 18px);
+  line-height: 1.6;
+}
+.notfound-links {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 36px;
+}
+.notfound-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 11px 20px;
+  border: 1px solid var(--line, rgba(15, 23, 42, 0.12));
+  border-radius: 999px;
+  color: var(--ink);
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: 15px;
+  text-decoration: none;
+  transition: border-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
+}
+.notfound-link svg {
+  transition: transform 0.2s ease;
+}
+.notfound-link:hover {
+  border-color: var(--indigo-800);
+  color: var(--indigo-800);
+  transform: translateY(-1px);
+}
+.notfound-link:hover svg {
+  transform: translateX(3px);
+}
+
+/* ─── Service detail — deep-dive content (talent/team/international) ─── */
+.service-deepdive {
+  background: #fff;
+  padding: clamp(64px, 7vw, 104px) 0;
+}
+.service-deepdive-inner {
+  max-width: 1080px;
+}
+.service-deepdive-head {
+  max-width: 760px;
+  margin-bottom: clamp(40px, 5vw, 64px);
+}
+.service-deepdive-head h2 {
+  margin: 0 0 18px;
+  font-family: var(--font-display);
+  font-size: clamp(28px, 3vw, 40px);
+  font-weight: 600;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+}
+.service-deepdive-head p {
+  margin: 0;
+  color: var(--ink-50);
+  font-size: clamp(16px, 1.3vw, 19px);
+  line-height: 1.65;
+}
+.service-deepdive-cols {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(28px, 4vw, 56px);
+  margin-bottom: clamp(40px, 5vw, 64px);
+}
+.service-deepdive-block h3 {
+  margin: 0 0 16px;
+  font-family: var(--font-display);
+  font-size: 20px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+}
+.service-deepdive-subhead {
+  margin-top: 28px !important;
+}
+.service-deepdive-block p {
+  margin: 0;
+  color: var(--ink-50);
+  font-size: 16px;
+  line-height: 1.65;
+}
+.service-deepdive-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.service-deepdive-list li {
+  position: relative;
+  padding-left: 28px;
+  color: var(--ink);
+  font-size: 16px;
+  line-height: 1.5;
+}
+.service-deepdive-list li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 7px;
+  width: 14px;
+  height: 9px;
+  border-left: 2px solid var(--indigo-800);
+  border-bottom: 2px solid var(--indigo-800);
+  transform: rotate(-45deg);
+}
+.service-deepdive-tags {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.service-deepdive-tags li {
+  padding: 7px 14px;
+  border: 1px solid var(--line, rgba(15, 23, 42, 0.12));
+  border-radius: 999px;
+  background: var(--indigo-50, #eef0fb);
+  color: var(--indigo-800);
+  font-size: 14px;
+  font-weight: 500;
+}
+.service-deepdive-process {
+  margin-bottom: clamp(36px, 4vw, 56px);
+}
+.service-deepdive-process h3 {
+  margin: 0 0 24px;
+  font-family: var(--font-display);
+  font-size: 22px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+}
+.service-deepdive-steps {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+  counter-reset: none;
+}
+.service-deepdive-steps li {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.service-deepdive-step-num {
+  font-family: var(--font-display);
+  font-size: 28px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--indigo-800);
+}
+.service-deepdive-steps strong {
+  display: block;
+  font-family: var(--font-display);
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--ink);
+}
+.service-deepdive-steps p {
+  margin: 4px 0 0;
+  color: var(--ink-50);
+  font-size: 15px;
+  line-height: 1.55;
+}
+.service-deepdive-cta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 20px;
+  padding: clamp(28px, 3vw, 40px);
+  border-radius: 18px;
+  background: linear-gradient(135deg, var(--indigo-900, #141d5c) 0%, var(--indigo-800) 60%, var(--indigo-600, #4453d6) 100%);
+}
+.service-deepdive-cta p {
+  margin: 0;
+  max-width: 48ch;
+  color: #fff;
+  font-family: var(--font-display);
+  font-size: clamp(18px, 1.6vw, 22px);
+  font-weight: 500;
+  line-height: 1.35;
+}
+@media (max-width: 860px) {
+  .service-deepdive-cols {
+    grid-template-columns: 1fr;
+  }
+  .service-deepdive-steps {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+@media (max-width: 520px) {
+  .service-deepdive-steps {
+    grid-template-columns: 1fr;
+  }
 }
 

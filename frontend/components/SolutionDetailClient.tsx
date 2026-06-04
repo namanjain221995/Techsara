@@ -43,7 +43,7 @@ export default function SolutionDetailClient({ data }: { data: SolutionDetail })
         <div className="container nav-inner">
           <Link href="/" className="brand" aria-label="Techsara home">
             <span className="brand-mark" aria-hidden="true">
-              <img src="/assets/techsara-logo.png" alt="" className="brand-logo" />
+              <img src="/assets/techsara-logo.png" alt="Techsara" className="brand-logo" width={48} height={48} />
             </span>
             TECHSARA
           </Link>
@@ -103,7 +103,7 @@ export default function SolutionDetailClient({ data }: { data: SolutionDetail })
             {/* <Link href="/#cases">Leadership</Link> */}
             <Link href="/articles" onClick={() => setIsMobileOpen(false)}>Articles</Link>
             <Link href="/careers" onClick={() => setIsMobileOpen(false)}>Careers</Link>
-            <Link href="/#contact" onClick={() => setIsMobileOpen(false)}>Contact</Link>
+            <Link href="/contact" onClick={() => setIsMobileOpen(false)}>Contact</Link>
           </nav>
           <div className="nav-actions">
             <Link href="/book" className="btn btn-primary">
@@ -149,6 +149,10 @@ export default function SolutionDetailClient({ data }: { data: SolutionDetail })
       {data.slug === "team" && <TeamSolutionsSection />}
       {data.slug === "project" && <ProjectSolutionsSection />}
       {data.slug === "international" && <InternationalSolutionsSection />}
+
+      {SERVICE_EXPANSIONS[data.slug] && (
+        <ServiceExpansion content={SERVICE_EXPANSIONS[data.slug]} />
+      )}
 
       <ContactModal
         isOpen={isContactOpen}
@@ -631,6 +635,148 @@ function InternationalSolutionsSection() {
   );
 }
 
+type ExpansionContent = {
+  heading: string;
+  intro: string;
+  includes: string[];
+  whoFor: string;
+  industries: string[];
+  steps: { title: string; desc: string }[];
+  ctaText: string;
+};
+
+// Longer-form, keyword-aware copy for the otherwise-thin service detail pages.
+// Naturally works in "IT staffing", "United States"/"US" and "Frisco, TX".
+const SERVICE_EXPANSIONS: Record<string, ExpansionContent> = {
+  talent: {
+    heading: "IT staffing that puts the right engineer on your team",
+    intro:
+      "Talent Solutions is a specialist IT staffing service for US enterprises that need vetted engineering talent without a months-long search. From our base in Frisco, TX we recruit, screen and place AI, ML, data and platform engineers on contract, contract-to-hire and direct-hire terms — so you can scale your team to the work in front of you.",
+    includes: [
+      "Senior AI, ML, data and MLOps engineers, pre-vetted for your stack",
+      "Contract, contract-to-hire and direct-hire placement",
+      "Technical screening and reference checks before you interview",
+      "Onboarding support and ongoing consultant care",
+      "Compliance, payroll and W-2 employment handled for you",
+    ],
+    whoFor:
+      "Engineering and talent-acquisition leaders at US technology companies who need to fill a critical role quickly, cover a short-term vacancy, or hire specialized AI skills that are hard to source through traditional channels.",
+    industries: ["Technology", "Financial Services", "Healthcare", "Insurance", "Communications"],
+    steps: [
+      { title: "Scope the role", desc: "We learn your stack, your team and the outcome you are hiring for." },
+      { title: "Source & screen", desc: "We tap our nationwide network and technically vet every candidate." },
+      { title: "Interview & select", desc: "You meet a short list of pre-qualified engineers and choose." },
+      { title: "Onboard & support", desc: "We handle the paperwork and stay close through the engagement." },
+    ],
+    ctaText: "Ready to fill a role? Talk to our Frisco, TX team about your IT staffing needs.",
+  },
+  team: {
+    heading: "A dedicated technology team that runs alongside yours",
+    intro:
+      "Team Solutions gives you a managed, dedicated engineering pod — assembled, employed and supported by Techsara — that plugs into your roadmap and delivers as an extension of your own staff. It is IT staffing scaled to a full team: you keep strategic control while we handle recruitment, retention and day-to-day people management for enterprises across the United States.",
+    includes: [
+      "A dedicated pod of engineers, scientists and platform specialists",
+      "Shared rituals, backlog and outcomes with your in-house team",
+      "Application development, automation, cloud, data and QA coverage",
+      "Flexible ramp-up and ramp-down as priorities change",
+      "A single point of accountability for delivery and staffing",
+    ],
+    whoFor:
+      "Product and engineering leaders who need durable capacity for ongoing initiatives — not just individual contractors — and want a partner to own recruiting, HR and retention while they focus on the work.",
+    industries: ["Technology", "Financial Services", "Healthcare", "Insurance", "Communications"],
+    steps: [
+      { title: "Define the pod", desc: "We map the roles, skills and capacity your initiative needs." },
+      { title: "Build the team", desc: "We staff and stand up the pod, embedded in your workflows." },
+      { title: "Run together", desc: "Shared standups, backlog and KPIs keep delivery aligned." },
+      { title: "Scale on demand", desc: "We flex the team up or down as your roadmap shifts." },
+    ],
+    ctaText: "Want a team that feels like your own? Let's scope your dedicated pod.",
+  },
+  international: {
+    heading: "Global talent sourcing with US compliance handled",
+    intro:
+      "International Talent Solutions connects US enterprises with specialized onshore and offshore engineers while Techsara manages the immigration strategy, visa sponsorship and compliance that make global IT staffing work. From Frisco, TX we coordinate distributed delivery, so you get the skills you need and we carry the geography and the paperwork.",
+    includes: [
+      "Onshore and offshore engineering talent matched to your stack",
+      "Visa sponsorship: H-1B, F-1/OPT, CPT and green-card holders",
+      "Immigration strategy and resource risk assessment",
+      "W-2 employment of every consultant",
+      "Advisory services and ongoing engagement support",
+    ],
+    whoFor:
+      "US companies that cannot find the specialized talent they need locally and want a compliant, lower-risk way to tap a global workforce without building their own immigration and HR function.",
+    industries: ["Technology", "Financial Services", "Healthcare", "Insurance", "Communications"],
+    steps: [
+      { title: "Assess the need", desc: "We define the roles and the compliance considerations." },
+      { title: "Source globally", desc: "We match onshore and offshore specialists from our network." },
+      { title: "Sponsor & onboard", desc: "We handle visas, W-2 employment and risk mitigation." },
+      { title: "Deliver & support", desc: "Distributed teams ship while we manage the logistics." },
+    ],
+    ctaText: "Need global talent without the compliance headache? Talk to Techsara.",
+  },
+};
+
+function ServiceExpansion({ content }: { content: ExpansionContent }) {
+  return (
+    <section className="service-deepdive">
+      <div className="container service-deepdive-inner">
+        <div className="service-deepdive-head">
+          <h2>{content.heading}</h2>
+          <p>{content.intro}</p>
+        </div>
+
+        <div className="service-deepdive-cols">
+          <div className="service-deepdive-block">
+            <h3>What&apos;s included</h3>
+            <ul className="service-deepdive-list">
+              {content.includes.map((item) => (
+                <li key={item}>{item}</li>
+              ))}
+            </ul>
+          </div>
+          <div className="service-deepdive-block">
+            <h3>Who it&apos;s for</h3>
+            <p>{content.whoFor}</p>
+            <h3 className="service-deepdive-subhead">Industries we serve</h3>
+            <ul className="service-deepdive-tags">
+              {content.industries.map((industry) => (
+                <li key={industry}>{industry}</li>
+              ))}
+            </ul>
+          </div>
+        </div>
+
+        <div className="service-deepdive-process">
+          <h3>How it works</h3>
+          <ol className="service-deepdive-steps">
+            {content.steps.map((step, i) => (
+              <li key={step.title}>
+                <span className="service-deepdive-step-num" aria-hidden="true">
+                  {String(i + 1).padStart(2, "0")}
+                </span>
+                <div>
+                  <strong>{step.title}</strong>
+                  <p>{step.desc}</p>
+                </div>
+              </li>
+            ))}
+          </ol>
+        </div>
+
+        <div className="service-deepdive-cta">
+          <p>{content.ctaText}</p>
+          <Link href="/book" className="btn btn-primary">
+            Book a free consultation
+            <svg className="arrow" width="14" height="14" viewBox="0 0 24 24" fill="none">
+              <path d="M5 12h14M13 5l7 7-7 7" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+          </Link>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 function Footer() {
   return (
     <footer className="footer" id="site-footer">
@@ -639,7 +785,7 @@ function Footer() {
           <div className="footer-brand">
             <Link href="/" className="brand" aria-label="Techsara home">
               <span className="brand-mark" aria-hidden="true">
-                <img src="/assets/techsara-logo.png" alt="" className="brand-logo" />
+                <img src="/assets/techsara-logo.png" alt="Techsara" className="brand-logo" width={48} height={48} />
               </span>
               TECHSARA
             </Link>
@@ -677,7 +823,7 @@ function Footer() {
             <ul>
               <li><a href="mailto:hello@techsarasolutions.com?cc=sales@techsarasolutions.com">hello@techsarasolutions.com</a></li>
               <li><a href="tel:+13234866123">(323) 486-6123</a></li>
-              <li>USA · 8668 John Hickman Pkwy, Suite 903<br/>Frisco, Texas 75034</li>
+              <li>Frisco, TX · USA</li>
               
             </ul>
           </div>

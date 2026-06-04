@@ -24,11 +24,13 @@ export function generateMetadata({ params }: SolutionPageProps): Metadata {
     meta?.intro?.slice(0, 160) ||
     `${name} from Techsara — enterprise AI engineered for production, with eval pipelines, security and deployment built in.`;
   const path = `/solutions/${params.slug}`;
+  // Geo/US-modified title applied uniformly to every service slug.
+  const seoTitle = `${name} | Techsara USA`;
   return {
-    title: name,
+    title: { absolute: seoTitle },
     description,
     alternates: { canonical: path },
-    openGraph: pageOpenGraph({ title: `${name} | Techsara`, description, path }),
+    openGraph: pageOpenGraph({ title: seoTitle, description, path }),
   };
 }
 

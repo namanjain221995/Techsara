@@ -1,9 +1,25 @@
+import type { Metadata } from "next";
 import { readdirSync } from "fs";
 import { join } from "path";
 import LegacyScripts from "@/components/LegacyScripts";
 import SpectrumOfSolutions from "@/components/SpectrumOfSolutions";
 import ContactCTASection from "@/components/ContactCTASection";
 import { getLegacyBody } from "@/lib/legacy-html";
+import { pageOpenGraph } from "@/lib/seo";
+
+const description =
+  "Techsara delivers AI development, IT staffing, and cloud solutions for enterprise teams across the United States. Based in Frisco, TX. Book a free consultation.";
+
+export const metadata: Metadata = {
+  title: { absolute: "Techsara | AI Staffing & Technology Solutions — USA" },
+  description,
+  alternates: { canonical: "/" },
+  openGraph: pageOpenGraph({
+    title: "Techsara | AI Staffing & Technology Solutions — USA",
+    description,
+    path: "/",
+  }),
+};
 
 const SPECTRUM_PLACEHOLDER = "<!-- TECHSARA_SPECTRUM_PLACEHOLDER -->";
 const CONTACT_CTA_PLACEHOLDER =
@@ -52,6 +68,8 @@ export default function HomePage() {
 
   return (
     <>
+      {/* Preload the hero <video> poster — the homepage LCP element — at high priority. */}
+      <link rel="preload" as="image" href="/uploads/hero_1.jpg" fetchPriority="high" />
       <div dangerouslySetInnerHTML={{ __html: beforeSpectrum }} />
       <SpectrumOfSolutions />
       <div dangerouslySetInnerHTML={{ __html: betweenSpectrumAndCta }} />

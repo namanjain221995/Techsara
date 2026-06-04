@@ -4,7 +4,7 @@
 // ============================================
 
 export const SITE = {
-  url: "https://techsarasolutions.com",
+  url: "https://www.techsarasolutions.com",
   name: "Techsara",
   legalName: "Techsara Solutions",
   // en-US locale signals to search engines that the primary audience is the United States.
@@ -14,6 +14,17 @@ export const SITE = {
     "Techsara delivers end-to-end AI development, cloud and on-premise deployment, and strategic consulting for enterprises.",
   // Static 1200×630 social card (regenerate with scripts/generate-og-image.py).
   ogImage: "/assets/og-image.png",
+  // Verified NAP (name/address/phone) — the single source of truth for LocalBusiness
+  // structured data and on-page contact details. Reinforces US/Frisco geo-relevance.
+  telephone: "+13234866123",
+  email: "hello@techsarasolutions.com",
+  address: {
+    addressLocality: "Frisco",
+    addressRegion: "TX",
+    postalCode: "75034",
+    addressCountry: "US",
+  },
+  linkedIn: "https://www.linkedin.com/company/techsara-solutions",
 } as const;
 
 /** Build an absolute URL from a site-relative path (always leading-slash, no trailing slash except root). */
@@ -68,13 +79,55 @@ export function organizationJsonLd() {
       "Cloud Deployment",
       "AI Consulting",
     ],
+    address: {
+      "@type": "PostalAddress",
+      ...SITE.address,
+    },
+    telephone: SITE.telephone,
+    email: SITE.email,
+    sameAs: [SITE.linkedIn],
     contactPoint: {
       "@type": "ContactPoint",
       contactType: "sales",
-      email: "hello@techsarasolutions.com",
+      telephone: SITE.telephone,
+      email: SITE.email,
       availableLanguage: ["English"],
       areaServed: "US",
     },
+  };
+}
+
+/**
+ * ProfessionalService (a LocalBusiness subtype) — gives Google an explicit local
+ * business entity with NAP, hours and service area. Rendered sitewide so the brand's
+ * Frisco, TX presence is unambiguous for local + AI-search results.
+ */
+export function professionalServiceJsonLd() {
+  return {
+    "@context": "https://schema.org",
+    "@type": "ProfessionalService",
+    "@id": `${SITE.url}/#localbusiness`,
+    name: SITE.legalName,
+    url: SITE.url,
+    image: `${SITE.url}${SITE.ogImage}`,
+    logo: `${SITE.url}/assets/techsara-logo.png`,
+    telephone: SITE.telephone,
+    email: SITE.email,
+    priceRange: "$$",
+    address: {
+      "@type": "PostalAddress",
+      ...SITE.address,
+    },
+    areaServed: { "@type": "Country", name: "United States" },
+    openingHours: "Mo-Fr 08:00-18:00",
+    openingHoursSpecification: {
+      "@type": "OpeningHoursSpecification",
+      dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+      opens: "08:00",
+      closes: "18:00",
+    },
+    parentOrganization: { "@id": `${SITE.url}/#organization` },
+    sameAs: [SITE.linkedIn],
   };
 }
 

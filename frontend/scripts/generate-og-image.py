@@ -89,7 +89,7 @@ def main():
         sy += 42
 
     # Footer domain
-    d.text((PAD, H - 72), "techsarasolutions.com", font=regular(26), fill=MUTED)
+    d.text((PAD, H - 72), "www.techsarasolutions.com", font=regular(26), fill=MUTED)
 
     os.makedirs(os.path.dirname(OUT), exist_ok=True)
     img.save(OUT, "PNG", optimize=True)
