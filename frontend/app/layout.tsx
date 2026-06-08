@@ -3,10 +3,11 @@ import "./styles.css";
 import "./showcase.css";
 import "./book.css";
 import "./service.css";
+import "./blog.css";
 import AutoContactPopup from "@/components/AutoContactPopup";
 import AppLoader from "@/components/AppLoader";
 import RouteProgress from "@/components/RouteProgress";
-import { SITE, organizationJsonLd, websiteJsonLd, professionalServiceJsonLd } from "@/lib/seo";
+import { SITE, organizationJsonLd, websiteJsonLd, professionalServiceJsonLd, jsonLdScript } from "@/lib/seo";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE.url),
@@ -90,16 +91,16 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         {/* Brand + site entity for Google Knowledge Graph and AI search. */}
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd()) }}
+          dangerouslySetInnerHTML={{ __html: jsonLdScript(organizationJsonLd()) }}
         />
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteJsonLd()) }}
+          dangerouslySetInnerHTML={{ __html: jsonLdScript(websiteJsonLd()) }}
         />
         {/* LocalBusiness entity — NAP, hours and US service area for local + AI search. */}
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(professionalServiceJsonLd()) }}
+          dangerouslySetInnerHTML={{ __html: jsonLdScript(professionalServiceJsonLd()) }}
         />
       </head>
       <body>
