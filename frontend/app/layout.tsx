@@ -1,4 +1,5 @@
 import type { Metadata, Viewport } from "next";
+import { Inter, Instrument_Sans, JetBrains_Mono } from "next/font/google";
 import "./styles.css";
 import "./showcase.css";
 import "./book.css";
@@ -8,6 +9,30 @@ import AutoContactPopup from "@/components/AutoContactPopup";
 import AppLoader from "@/components/AppLoader";
 import RouteProgress from "@/components/RouteProgress";
 import { SITE, organizationJsonLd, websiteJsonLd, professionalServiceJsonLd, jsonLdScript } from "@/lib/seo";
+
+// Self-hosted Google Fonts (next/font). This eliminates the render-blocking
+// fonts.googleapis.com stylesheet and the gstatic/googleapis network round-trips —
+// the font CSS is inlined, files are served first-party, and font-display:swap avoids
+// invisible text. The CSS variables are consumed by --font-* tokens in styles.css.
+const inter = Inter({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+  display: "swap",
+  variable: "--font-inter",
+});
+const instrumentSans = Instrument_Sans({
+  subsets: ["latin"],
+  weight: ["400", "500", "600"],
+  display: "swap",
+  variable: "--font-instrument",
+});
+const jetbrainsMono = JetBrains_Mono({
+  subsets: ["latin"],
+  weight: ["400", "500"],
+  display: "swap",
+  variable: "--font-jetbrains",
+});
+const fontVariables = `${inter.variable} ${instrumentSans.variable} ${jetbrainsMono.variable}`;
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE.url),
@@ -78,16 +103,10 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en-US">
+    <html lang="en-US" className={fontVariables}>
       <head>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
         <link rel="dns-prefetch" href="https://cdn.jsdelivr.net" />
-        <link
-          href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Instrument+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap"
-          rel="stylesheet"
-        />
-        <link rel="preload" as="image" href="/assets/techsara-logo.png" fetchPriority="high" />
+        <link rel="preload" as="image" href="/assets/techsara-logo.webp" fetchPriority="high" />
         {/* Brand + site entity for Google Knowledge Graph and AI search. */}
         <script
           type="application/ld+json"
@@ -106,7 +125,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body>
         <div id="app-splash" aria-hidden="true">
           <div className="app-splash-inner">
-            <img src="/assets/techsara-logo.png" alt="" className="app-splash-logo" />
+            <img src="/assets/techsara-logo.webp" alt="" className="app-splash-logo" />
             <span className="app-splash-brand">TECHSARA</span>
             <div className="app-splash-spinner" />
           </div>

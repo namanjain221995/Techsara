@@ -38,7 +38,7 @@ export default function ContactPageClient() {
         <div className="container nav-inner">
           <Link href="/" className="brand" aria-label="Techsara home">
             <span className="brand-mark" aria-hidden="true">
-              <img src="/assets/techsara-logo.png" alt="Techsara" className="brand-logo" width={48} height={48} />
+              <img src="/assets/techsara-logo.webp" alt="Techsara" className="brand-logo" width={48} height={48} />
             </span>
             TECHSARA
           </Link>
@@ -199,7 +199,7 @@ function Footer() {
           <div className="footer-brand">
             <Link href="/" className="brand" aria-label="Techsara home">
               <span className="brand-mark" aria-hidden="true">
-                <img src="/assets/techsara-logo.png" alt="Techsara" className="brand-logo" width={48} height={48} />
+                <img src="/assets/techsara-logo.webp" alt="Techsara" className="brand-logo" width={48} height={48} />
               </span>
               TECHSARA
             </Link>

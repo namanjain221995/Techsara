@@ -34,13 +34,16 @@ function escapeAttr(value: string) {
 function getLogos() {
   const logoDir = join(process.cwd(), "public", "logo");
   try {
+    // List source images (png/jpg/svg) — NOT the generated .webp siblings, or each logo
+    // would appear twice. png/jpg are then served as their WebP version.
     const files = readdirSync(logoDir)
-      .filter((f) => /\.(png|jpe?g|svg|webp)$/i.test(f))
+      .filter((f) => /\.(png|jpe?g|svg)$/i.test(f))
       .sort((a, b) => a.localeCompare(b));
     const items = files
       .map((file) => {
         const alt = file.replace(/\.[^.]+$/, "");
-        return `<span class="marquee-logo"><img src="/logo/${encodeURIComponent(file)}" alt="${escapeAttr(alt)}" loading="lazy" decoding="async" fetchpriority="low" width="120" height="40"/></span>`;
+        const src = file.replace(/\.(png|jpe?g)$/i, ".webp");
+        return `<span class="marquee-logo"><img src="/logo/${encodeURIComponent(src)}" alt="${escapeAttr(alt)}" loading="lazy" decoding="async" fetchpriority="low" width="120" height="40"/></span>`;
       })
       .join("");
     // Duplicate for seamless marquee loop
@@ -69,7 +72,7 @@ export default function HomePage() {
   return (
     <>
       {/* Preload the hero <video> poster — the homepage LCP element — at high priority. */}
-      <link rel="preload" as="image" href="/uploads/hero_1.jpg" fetchPriority="high" />
+      <link rel="preload" as="image" href="/uploads/hero_1.webp" fetchPriority="high" />
       <div dangerouslySetInnerHTML={{ __html: beforeSpectrum }} />
       <SpectrumOfSolutions />
       <div dangerouslySetInnerHTML={{ __html: betweenSpectrumAndCta }} />

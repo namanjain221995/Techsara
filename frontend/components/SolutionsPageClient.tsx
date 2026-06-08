@@ -13,7 +13,7 @@ const slides = [
       "Save time finding the right resource for your team while we connect you with the best talent in the marketplace.",
     cta: "Learn More",
     href: "/services/talent",
-    image: "/uploads/hero_1.jpg",
+    image: "/uploads/hero_1.webp",
   },
   {
     id: "team",
@@ -22,7 +22,7 @@ const slides = [
       "Take charge of your most valued initiatives while we provide a dedicated team offering technical expertise and services.",
     cta: "Learn More",
     href: "/services/team",
-    image: "/uploads/hero_2.jpg",
+    image: "/uploads/hero_2.webp",
   },
   {
     id: "project",
@@ -31,7 +31,7 @@ const slides = [
       "Transform your business while we help you connect strategy to execution to tackle your most challenging initiatives.",
     cta: "Learn More",
     href: "/services/project",
-    image: "/uploads/hero_3.jpg",
+    image: "/uploads/hero_3.webp",
   },
   {
     id: "global",
@@ -40,7 +40,7 @@ const slides = [
       "Connect with the specialized onshore talent you need while we provide risk mitigation, immigration strategy and visa sponsorship.",
     cta: "Learn More",
     href: "/services/international",
-    image: "/uploads/hero_4.png",
+    image: "/uploads/hero_4.webp",
   },
 ];
 
@@ -107,7 +107,7 @@ export default function SolutionsPageClient() {
         <div className="container nav-inner">
           <Link href="/" className="brand" aria-label="Techsara home">
             <span className="brand-mark" aria-hidden="true">
-              <img src="/assets/techsara-logo.png" alt="Techsara" className="brand-logo" width={48} height={48} />
+              <img src="/assets/techsara-logo.webp" alt="Techsara" className="brand-logo" width={48} height={48} />
             </span>
             TECHSARA
           </Link>
@@ -392,24 +392,24 @@ function GlobalNetworkSection() {
         <div className="solutions-global-visual">
           <img
             className="solutions-global-map"
-            src="/uploads/map.png"
+            src="/uploads/map.webp"
             alt=""
             aria-hidden="true"
           />
 
           <span
             className="solutions-global-avatar solutions-global-avatar-1"
-            style={{ backgroundImage: "url('/uploads/hero_1.jpg')" }}
+            style={{ backgroundImage: "url('/uploads/hero_1.webp')" }}
             aria-hidden="true"
           />
           <span
             className="solutions-global-avatar solutions-global-avatar-2"
-            style={{ backgroundImage: "url('/uploads/hero_2.jpg')" }}
+            style={{ backgroundImage: "url('/uploads/hero_2.webp')" }}
             aria-hidden="true"
           />
           <span
             className="solutions-global-avatar solutions-global-avatar-3"
-            style={{ backgroundImage: "url('/uploads/hero_4.png')" }}
+            style={{ backgroundImage: "url('/uploads/hero_4.webp')" }}
             aria-hidden="true"
           />
 
@@ -438,7 +438,7 @@ function Footer() {
           <div className="footer-brand">
             <Link href="/" className="brand" aria-label="Techsara home">
               <span className="brand-mark" aria-hidden="true">
-                <img src="/assets/techsara-logo.png" alt="Techsara" className="brand-logo" width={48} height={48} />
+                <img src="/assets/techsara-logo.webp" alt="Techsara" className="brand-logo" width={48} height={48} />
               </span>
               TECHSARA
             </Link>

@@ -43,7 +43,7 @@ export default function SolutionDetailClient({ data }: { data: SolutionDetail })
         <div className="container nav-inner">
           <Link href="/" className="brand" aria-label="Techsara home">
             <span className="brand-mark" aria-hidden="true">
-              <img src="/assets/techsara-logo.png" alt="Techsara" className="brand-logo" width={48} height={48} />
+              <img src="/assets/techsara-logo.webp" alt="Techsara" className="brand-logo" width={48} height={48} />
             </span>
             TECHSARA
           </Link>
@@ -607,7 +607,7 @@ function InternationalSolutionsSection() {
         <div className="international-solutions-visual">
           <img
             className="international-map"
-            src="/uploads/map.png"
+            src="/uploads/map.webp"
             alt=""
             aria-hidden="true"
           />
@@ -785,7 +785,7 @@ function Footer() {
           <div className="footer-brand">
             <Link href="/" className="brand" aria-label="Techsara home">
               <span className="brand-mark" aria-hidden="true">
-                <img src="/assets/techsara-logo.png" alt="Techsara" className="brand-logo" width={48} height={48} />
+                <img src="/assets/techsara-logo.webp" alt="Techsara" className="brand-logo" width={48} height={48} />
               </span>
               TECHSARA
             </Link>

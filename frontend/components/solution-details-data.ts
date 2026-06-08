@@ -18,7 +18,7 @@ export const solutionDetails: Record<string, SolutionDetail> = {
     tagline: "Specialist engineers, embedded on your team",
     description:
       "Save time finding the right resource for your team while we connect you with the best talent in the marketplace. From ML engineers to data scientists and MLOps specialists, we source, vet and onboard the people you need to move your AI roadmap forward.",
-    heroImage: "/uploads/hero_talentsolution.jpg",
+    heroImage: "/uploads/hero_talentsolution.webp",
     defaultTopic: "ai-talent",
     metaTitle: "IT Talent Staffing Solutions | Techsara — Frisco, TX",
     metaDescription:
@@ -30,7 +30,7 @@ export const solutionDetails: Record<string, SolutionDetail> = {
     tagline: "A full pod running alongside yours",
     description:
       "Take charge of your most valued initiatives while we provide a dedicated team offering technical expertise and services. A complete AI pod — data engineers, ML scientists and platform specialists — running alongside your team with shared rituals, shared backlog and shared outcomes.",
-    heroImage: "/uploads/hero_teamsolutions.jpg",
+    heroImage: "/uploads/hero_teamsolutions.webp",
     defaultTopic: "dedicated-team",
     metaTitle: "Dedicated Tech Team Solutions | Techsara USA",
     metaDescription:
@@ -42,7 +42,7 @@ export const solutionDetails: Record<string, SolutionDetail> = {
     tagline: "Outcome-based delivery, fixed scope and timeline",
     description:
       "Transform your business while we help you connect strategy to execution to tackle your most challenging initiatives. Outcome-based engagements against a fixed scope, timeline and measurable business KPI — accountability and predictability built in from day one.",
-    heroImage: "/uploads/hero_projectsolution.jpg",
+    heroImage: "/uploads/hero_projectsolution.webp",
     defaultTopic: "ai-project",
     metaTitle: "Managed IT Project Solutions | Techsara — USA",
     metaDescription:
@@ -54,7 +54,7 @@ export const solutionDetails: Record<string, SolutionDetail> = {
     tagline: "Onshore and offshore teams, compliance handled",
     description:
       "Connect with the specialized onshore talent you need while we provide risk mitigation, immigration strategy and visa sponsorship. Distributed delivery across San Francisco, Dubai and Bangalore — you focus on the outcome, we handle the geography and the paperwork.",
-    heroImage: "/uploads/international_Talent_Solutions.jpg",
+    heroImage: "/uploads/international_Talent_Solutions.webp",
     defaultTopic: "international-talent",
     metaTitle: "International Talent Sourcing Solutions | Techsara",
     metaDescription:

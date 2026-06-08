@@ -36,10 +36,11 @@
   --shadow-lg: 0 24px 60px -20px rgba(14, 20, 84, 0.18), 0 6px 18px rgba(14, 20, 84, 0.06);
   --shadow-glow: 0 0 0 1px rgba(30, 42, 120, 0.06), 0 30px 80px -30px rgba(79, 70, 229, 0.35);
 
-  /* Type */
-  --font-display: "Instrument Sans", "Inter Tight", "Inter", system-ui, sans-serif;
-  --font-body: "Inter", system-ui, -apple-system, sans-serif;
-  --font-mono: "JetBrains Mono", ui-monospace, monospace;
+  /* Type — families come from next/font (self-hosted) via the variables set on <html>;
+     the literal names remain as fallbacks if a variable is ever unset. */
+  --font-display: var(--font-instrument), "Instrument Sans", "Inter Tight", "Inter", system-ui, sans-serif;
+  --font-body: var(--font-inter), "Inter", system-ui, -apple-system, sans-serif;
+  --font-mono: var(--font-jetbrains), "JetBrains Mono", ui-monospace, monospace;
 
   /* Layout */
   --container: 1240px;

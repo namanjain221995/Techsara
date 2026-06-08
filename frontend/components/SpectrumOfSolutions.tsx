@@ -10,7 +10,7 @@ const spectrumSolutions = [
     description:
       "Save time finding the right resource for your team while we connect you with the best talent in the marketplace.",
     href: "/services/talent",
-    image: "/uploads/hero_talentsolution.jpg",
+    image: "/uploads/hero_talentsolution.webp",
   },
   {
     id: "team",
@@ -18,7 +18,7 @@ const spectrumSolutions = [
     description:
       "Take charge of your most valued initiatives while we provide a dedicated team offering technical expertise and services.",
     href: "/services/team",
-    image: "/uploads/hero_teamsolutions.jpg",
+    image: "/uploads/hero_teamsolutions.webp",
   },
   {
     id: "project",
@@ -26,7 +26,7 @@ const spectrumSolutions = [
     description:
       "Transform your business while we help you connect strategy to execution to tackle your most challenging initiatives.",
     href: "/services/project",
-    image: "/uploads/hero_projectsolution.jpg",
+    image: "/uploads/hero_projectsolution.webp",
   },
   {
     id: "international",
@@ -34,7 +34,7 @@ const spectrumSolutions = [
     description:
       "Connect with the specialized onshore talent you need while we provide risk mitigation, immigration strategy and visa sponsorship.",
     href: "/services/international",
-    image: "/uploads/international_Talent_Solutions.jpg",
+    image: "/uploads/international_Talent_Solutions.webp",
   },
 ];
 
