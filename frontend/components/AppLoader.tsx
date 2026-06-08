@@ -4,7 +4,7 @@ import { useEffect } from "react";
 
 // Keep the splash overlay from ever blocking paint of SSR content longer than
 // necessary: hide it the moment the document is interactive (MIN 0), and never
-// hold it past a short hard cap (MAX 800ms) on slow connections.
+// holdl it past a short hard cap (MAX 800ms) on slow connections.
 const MIN_DURATION_MS = 0;
 const MAX_DURATION_MS = 800;
 
