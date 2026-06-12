@@ -17,7 +17,7 @@ import {
 
 const title = "AI Development & IT Staffing Company USA | Techsara";
 const description =
-  "Techsara in a Frisco, TX AI development, IT staffing, and cloud consulting company for US enterprises. Build, deploy, and staff production AI.";
+  "Techsara is a Frisco, TX AI development, IT staffing, and cloud consulting company for US enterprises. Build, deploy, and staff production AI.";
 
 const keywords = [
   "AI development company USA",
@@ -52,6 +52,26 @@ const HOME_FAQS = [
     question: "How can companies work with Techsara?",
     answer:
       "Companies can hire direct talent, form dedicated delivery teams, or ask Techsara to deliver fixed-scope AI and software projects.",
+  },
+  {
+    question: "Which industries does Techsara serve?",
+    answer:
+      "Techsara works with regulated, high-stakes industries including healthcare, finance, defense, retail, manufacturing, logistics, SaaS, and cloud platforms, with deployment options designed to meet HIPAA, SOC 2, and ISO 27001 requirements.",
+  },
+  {
+    question: "Does Techsara offer on-premise or air-gapped AI deployment?",
+    answer:
+      "Yes. Techsara deploys AI in the cloud (AWS, Azure, GCP), on-premise, air-gapped, and hybrid edge environments, so regulated enterprises can keep sensitive data on their own hardware while running production AI.",
+  },
+  {
+    question: "What AI technologies and platforms does Techsara use?",
+    answer:
+      "Techsara builds generative AI, RAG, fine-tuning, AI agents, computer vision, NLP, and MLOps systems, and deploys on AWS Bedrock, Google Vertex AI, Amazon SageMaker, and Azure OpenAI.",
+  },
+  {
+    question: "How quickly can Techsara staff an AI or engineering team?",
+    answer:
+      "Techsara provides pre-vetted senior AI, ML, data, cloud, and software engineers and can stand up direct-hire placements or dedicated delivery teams that match enterprise timelines and onboarding requirements.",
   },
 ];
 
