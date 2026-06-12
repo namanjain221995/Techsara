@@ -4,6 +4,7 @@ import { join } from "path";
 import LegacyScripts from "@/components/LegacyScripts";
 import SpectrumOfSolutions from "@/components/SpectrumOfSolutions";
 import ContactCTASection from "@/components/ContactCTASection";
+import HomeFaqSlider from "@/components/HomeFaqSlider";
 import { getLegacyBody } from "@/lib/legacy-html";
 import {
   breadcrumbJsonLd,
@@ -141,7 +142,7 @@ function HomeSeoFaq() {
     <section className="home-answer-section section-banded" aria-labelledby="home-answer-title">
       <div className="container home-answer-grid">
         <div className="home-answer-intro reveal">
-          <span className="eyebrow">AI visibility summary</span>
+          <span className="eyebrow">Common questions</span>
           <h2 id="home-answer-title" className="section-title">
             AI development and staffing, clearly defined.
           </h2>
@@ -151,14 +152,9 @@ function HomeSeoFaq() {
             fixed-scope projects.
           </p>
         </div>
-        <div className="home-answer-list" aria-label="Techsara company facts">
-          {HOME_FAQS.map((item) => (
-            <article className="home-answer-item reveal" key={item.question}>
-              <h3>{item.question}</h3>
-              <p>{item.answer}</p>
-            </article>
-          ))}
-        </div>
+        {/* Client slider, but the Q&A text still server-renders into the HTML —
+            crawlers see every answer and it stays in sync with the FAQPage JSON-LD. */}
+        <HomeFaqSlider faqs={HOME_FAQS} />
       </div>
     </section>
   );
