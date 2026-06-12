@@ -3,22 +3,15 @@
 <head>
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1"/>
-<title>Service — Techsara</title>
-<meta name="description" content="Techsara service detail."/>
-
-<link rel="preconnect" href="https://fonts.googleapis.com"/>
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
-
-<link rel="stylesheet" href="styles.css"/>
-<link rel="stylesheet" href="service.css"/>
+<title>Open Positions — Techsara</title>
+<meta name="description" content="Browse all open roles at Techsara — AI, ML, cloud, data and engineering positions in Frisco, TX and remote across the United States. Find your role and apply."/>
 </head>
 <body>
 
-<!-- ============================================ NAV ============================================ -->
+<!-- ============================================ NAV (existing site header) ============================================ -->
 <header class="nav" role="banner">
   <div class="container nav-inner">
-    <a href="index.html#top" class="brand" aria-label="Techsara home">
+    <a href="index.html" class="brand" aria-label="Techsara home">
       <span class="brand-mark" aria-hidden="true">
         <img src="/assets/techsara-logo.png" alt="Techsara" class="brand-logo" width="48" height="48" />
       </span>
@@ -73,13 +66,12 @@
           </a>
         </div>
       </div>
-      <!-- <a href="index.html#cases">Leadership</a> -->
       <a href="/articles">Articles</a>
       <a href="/careers">Careers</a>
       <a href="index.html#contact">Contact</a>
     </nav>
     <div class="nav-actions">
-      <a href="book.html" class="btn btn-primary" data-magnetic="0.25">
+      <a href="book.html" class="btn btn-primary" data-magnetic="0.25" data-action="open-contact">
         Book a Consultation
         <svg class="arrow" width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 5l7 7-7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
       </a>
@@ -91,22 +83,21 @@
   </div>
 </header>
 
-<main id="top">
-  <div id="service-root"></div>
-</main>
+<!-- Job listing + apply form are rendered by React (JobSearchClient) at this slot. -->
+<!--JOBS_APP_SLOT-->
 
-<!-- ============================================ FOOTER ============================================ -->
+<!-- ============================================ FOOTER (existing site footer) ============================================ -->
 <footer class="footer">
   <div class="container">
     <div class="footer-top">
       <div class="footer-brand">
-        <a href="index.html#top" class="brand" aria-label="Techsara home">
+        <a href="index.html" class="brand" aria-label="Techsara home">
           <span class="brand-mark" aria-hidden="true">
             <img src="/assets/techsara-logo.png" alt="Techsara" class="brand-logo" width="48" height="48" />
           </span>
           TECHSARA
         </a>
-        <a href="book.html" class="btn btn-primary footer-cta" data-magnetic="0.2">
+        <a href="book.html" class="btn btn-primary footer-cta" data-magnetic="0.2" data-action="open-contact">
           Book a consultation
           <svg class="arrow" width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 5l7 7-7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </a>
@@ -150,19 +141,5 @@
   </div>
 </footer>
 
-<script src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js"></script>
-<script src="service-data.js"></script>
-<script src="service.js"></script>
-<script>
-// Minimal nav scroll + Lenis (the full app.js targets sections that don't exist here)
-const navEl = document.querySelector('.nav');
-const setNav = () => navEl.classList.toggle('is-scrolled', window.scrollY > 8);
-setNav(); window.addEventListener('scroll', setNav, { passive: true });
-if (!matchMedia('(prefers-reduced-motion: reduce)').matches && window.Lenis) {
-  const lenis = new Lenis({ duration: 1.1, smoothWheel: true });
-  function raf(t){ lenis.raf(t); requestAnimationFrame(raf); }
-  requestAnimationFrame(raf);
-}
-</script>
 </body>
 </html>

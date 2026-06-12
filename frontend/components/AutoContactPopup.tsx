@@ -7,7 +7,7 @@ import ContactModal from "@/components/ContactModal";
 const DELAY_MS = 30_000;
 const SESSION_KEY = "techsara:autoContactShown";
 const START_KEY = "techsara:sessionStart";
-const EXCLUDED_PATHS = ["/book"];
+const EXCLUDED_PATHS = ["/book", "/jobsearch"];
 const TOAST_MESSAGE =
   "You've already sent us a message — a Techsara lead will be in touch within one business day.";
 const TOAST_DURATION_MS = 4000;

@@ -822,7 +822,7 @@ function Footer() {
             <h4>Contact</h4>
             <ul>
               <li><a href="mailto:hello@techsarasolutions.com?cc=sales@techsarasolutions.com">hello@techsarasolutions.com</a></li>
-              <li><a href="tel:+13234866123">(323) 486-6123</a></li>
+              <li><a href="tel:+13235961938">(323) 596-1938</a></li>
               <li>Frisco, TX · USA</li>
               
             </ul>
