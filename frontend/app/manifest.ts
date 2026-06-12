@@ -3,7 +3,7 @@ import { SITE } from "@/lib/seo";
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: "Techsara — Enterprise-Grade AI",
+    name: "Techsara - AI Development & IT Staffing",
     short_name: SITE.name,
     description: SITE.description,
     start_url: "/",

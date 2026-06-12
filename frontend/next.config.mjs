@@ -30,7 +30,36 @@ const nextConfig = {
   async headers() {
     const ONE_YEAR = "public, max-age=31536000, immutable";
     const ONE_WEEK = "public, max-age=604800, stale-while-revalidate=86400";
+    const ONE_HOUR = "public, max-age=3600, stale-while-revalidate=86400";
     return [
+      {
+        // Sitewide security headers — HSTS in particular is a scored check in SEO
+        // audits (SEO Site Checkup, Lighthouse best-practices).
+        source: "/:path*",
+        headers: [
+          { key: "Strict-Transport-Security", value: "max-age=63072000; includeSubDomains; preload" },
+          { key: "X-Content-Type-Options", value: "nosniff" },
+          { key: "X-Frame-Options", value: "SAMEORIGIN" },
+          { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
+          { key: "Permissions-Policy", value: "camera=(), microphone=(), geolocation=()" },
+        ],
+      },
+      {
+        source: "/llms.txt",
+        headers: [
+          { key: "Cache-Control", value: ONE_HOUR },
+          { key: "Content-Type", value: "text/plain; charset=utf-8" },
+          { key: "X-Robots-Tag", value: "index, follow" },
+        ],
+      },
+      {
+        source: "/sitemap.xml",
+        headers: [{ key: "Cache-Control", value: ONE_HOUR }],
+      },
+      {
+        source: "/robots.txt",
+        headers: [{ key: "Cache-Control", value: ONE_HOUR }],
+      },
       {
         source: "/uploads/:path*",
         headers: [

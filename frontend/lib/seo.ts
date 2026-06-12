@@ -11,7 +11,7 @@ export const SITE = {
   locale: "en_US",
   twitter: "@techsara",
   description:
-    "Techsara delivers end-to-end AI development, cloud and on-premise deployment, and strategic consulting for enterprises.",
+    "Techsara Solutions is a Frisco, Texas based AI development, IT staffing, and cloud consulting company for US enterprises.",
   // Static 1200×630 social card (regenerate with scripts/generate-og-image.py).
   ogImage: "/assets/og-image.png",
   // Verified NAP (name/address/phone) — the single source of truth for LocalBusiness
@@ -26,6 +26,44 @@ export const SITE = {
   },
   linkedIn: "https://www.linkedin.com/company/techsara-solutions",
 } as const;
+
+export const HOME_SERVICE_OFFERINGS = [
+  {
+    name: "Generative AI and LLM Development",
+    description:
+      "Custom LLM applications, retrieval augmented generation, fine-tuning, AI agents, and enterprise copilots.",
+    path: "/solutions/generative-ai",
+    serviceType: "AI development",
+  },
+  {
+    name: "IT Staffing and AI Talent",
+    description:
+      "Direct-hire AI, ML, data, cloud, and software engineering talent for enterprise teams.",
+    path: "/services/talent",
+    serviceType: "IT staffing",
+  },
+  {
+    name: "Managed AI Delivery Teams",
+    description:
+      "Dedicated engineering teams for production AI, cloud, data, and software delivery.",
+    path: "/services/team",
+    serviceType: "Managed delivery team",
+  },
+  {
+    name: "Cloud, On-Premise, and Edge AI Deployment",
+    description:
+      "AWS, Azure, GCP, on-premise, air-gapped, hybrid, and edge AI infrastructure for regulated workloads.",
+    path: "/solutions/cloud-deployment",
+    serviceType: "AI infrastructure",
+  },
+  {
+    name: "MLOps and Production AI Operations",
+    description:
+      "Model deployment, monitoring, evaluation, CI/CD, observability, and cost optimization for AI workloads.",
+    path: "/solutions/mlops",
+    serviceType: "MLOps",
+  },
+] as const;
 
 /** Build an absolute URL from a site-relative path (always leading-slash, no trailing slash except root). */
 export function absoluteUrl(path = "/") {
@@ -89,6 +127,7 @@ export function organizationJsonLd() {
     url: SITE.url,
     logo: `${SITE.url}/assets/techsara-logo.png`,
     description: SITE.description,
+    foundingDate: "2021",
     areaServed: [
       { "@type": "Country", name: "United States" },
       { "@type": "Country", name: "Canada" },
@@ -165,6 +204,65 @@ export function websiteJsonLd() {
     description: SITE.description,
     inLanguage: "en-US",
     publisher: { "@id": `${SITE.url}/#organization` },
+  };
+}
+
+/** Homepage WebPage structured data for the root URL. */
+export function homePageJsonLd(opts: {
+  title: string;
+  description: string;
+  dateModified?: string;
+}) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "@id": `${SITE.url}/#webpage`,
+    url: SITE.url,
+    name: opts.title,
+    description: opts.description,
+    dateModified: opts.dateModified || "2026-06-12",
+    inLanguage: "en-US",
+    isPartOf: { "@id": `${SITE.url}/#website` },
+    about: { "@id": `${SITE.url}/#organization` },
+    mainEntity: { "@id": `${SITE.url}/#organization` },
+    primaryImageOfPage: {
+      "@type": "ImageObject",
+      url: absoluteUrl(SITE.ogImage),
+      width: 1200,
+      height: 630,
+    },
+    audience: {
+      "@type": "BusinessAudience",
+      audienceType: "US enterprise technology leaders",
+      geographicArea: { "@type": "Country", name: "United States" },
+    },
+    keywords: HOME_SERVICE_OFFERINGS.map((offering) => offering.name).join(", "),
+    significantLink: HOME_SERVICE_OFFERINGS.map((offering) => absoluteUrl(offering.path)),
+  };
+}
+
+/** Homepage catalog of the main services surfaced above the fold and in navigation. */
+export function homeOfferCatalogJsonLd() {
+  return {
+    "@context": "https://schema.org",
+    "@type": "OfferCatalog",
+    "@id": `${SITE.url}/#offer-catalog`,
+    name: "Techsara AI development and IT staffing services",
+    url: SITE.url,
+    itemListElement: HOME_SERVICE_OFFERINGS.map((offering) => ({
+      "@type": "Offer",
+      url: absoluteUrl(offering.path),
+      areaServed: { "@type": "Country", name: "United States" },
+      itemOffered: {
+        "@type": "Service",
+        "@id": `${absoluteUrl(offering.path)}#service`,
+        name: offering.name,
+        description: offering.description,
+        serviceType: offering.serviceType,
+        provider: { "@id": `${SITE.url}/#organization` },
+        areaServed: { "@type": "Country", name: "United States" },
+      },
+    })),
   };
 }
 

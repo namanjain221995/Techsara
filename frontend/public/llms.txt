@@ -1,0 +1,54 @@
+# Techsara
+
+> Techsara Solutions is a Frisco, Texas based AI development, IT staffing, and cloud consulting company for US enterprises. It builds and deploys production AI systems - generative AI/LLMs, AI agents, computer vision, NLP, predictive ML, document AI, speech AI, recommendations, and MLOps - in the cloud, on-premise, or at the edge, and provides senior AI, ML, cloud, data, and software engineering talent to enterprise teams across the United States and Canada.
+
+Canonical site: https://www.techsarasolutions.com/
+Last updated: 2026-06-12
+
+Techsara serves regulated, high-stakes industries including healthcare, finance, defense, retail, manufacturing, logistics, SaaS, and cloud platforms. Engagement models include direct-hire talent placement, managed delivery teams, and end-to-end project delivery. Contact: hello@techsarasolutions.com, +1 (323) 596-1938.
+
+## Staffing & Engagement Models
+
+- [Talent Solutions](https://www.techsarasolutions.com/services/talent): Direct placement of senior AI, ML, and software engineers with US enterprises
+- [Team Solutions](https://www.techsarasolutions.com/services/team): Managed, dedicated engineering teams that integrate with in-house staff
+- [Project Solutions](https://www.techsarasolutions.com/services/project): Fixed-scope, end-to-end delivery of AI and software projects
+- [International Talent Solutions](https://www.techsarasolutions.com/services/international): Global talent sourcing with US-compliant onboarding
+- [All services](https://www.techsarasolutions.com/services): Overview of Techsara staffing and delivery models
+
+## AI & Technology Solutions
+
+- [Generative AI & LLM Development](https://www.techsarasolutions.com/solutions/generative-ai): Custom LLM applications, RAG systems, and fine-tuning for enterprises
+- [AI Agents & Automation](https://www.techsarasolutions.com/solutions/ai-agents): Autonomous agent systems and workflow automation
+- [Computer Vision](https://www.techsarasolutions.com/solutions/computer-vision): Image and video analysis, detection, and inspection systems
+- [NLP & Language Understanding](https://www.techsarasolutions.com/solutions/nlp): Text analytics, classification, and language pipelines
+- [Predictive Analytics & ML Models](https://www.techsarasolutions.com/solutions/predictive-ml): Forecasting, risk, and decision models
+- [Chatbots & Assistants](https://www.techsarasolutions.com/solutions/chatbots): Conversational AI for support and operations
+- [Document AI & OCR](https://www.techsarasolutions.com/solutions/document-ai): Intelligent document processing and extraction
+- [Speech AI](https://www.techsarasolutions.com/solutions/speech-ai): Speech recognition, synthesis, and voice interfaces
+- [Recommendations](https://www.techsarasolutions.com/solutions/recommendations): Personalization and recommendation engines
+- [MLOps & Deployment](https://www.techsarasolutions.com/solutions/mlops): CI/CD for ML, monitoring, and production model operations
+- [Cloud Deployment](https://www.techsarasolutions.com/solutions/cloud-deployment): AWS, Azure, and GCP AI infrastructure (Bedrock, Vertex AI, SageMaker, Azure OpenAI)
+- [On-Premise & Local Server AI](https://www.techsarasolutions.com/solutions/on-premise): Air-gapped AI on customer hardware for data-sovereign workloads (HIPAA, SOC 2, ISO 27001)
+- [Hybrid Cloud & Edge AI](https://www.techsarasolutions.com/solutions/hybrid-edge): Train in cloud, infer at edge; federated learning and distillation
+- [AI Strategy & Readiness](https://www.techsarasolutions.com/solutions/ai-strategy): Roadmaps, governance, and readiness assessments
+- [Cloud Architecture & Cost Engineering](https://www.techsarasolutions.com/solutions/cloud-consulting): Cloud architecture review and cost optimization
+- [All solutions](https://www.techsarasolutions.com/solutions): Full catalog of AI and technology solutions
+
+## Insights
+
+- [Blog](https://www.techsarasolutions.com/blogs): Enterprise AI, staffing, cloud, and MLOps articles for US B2B technology leaders
+- [Hiring AI and ML Engineers in the US: A 2026 Enterprise Staffing Playbook](https://www.techsarasolutions.com/blogs/hiring-ai-ml-engineers-united-states-2026)
+- [Staff Augmentation vs. Managed AI Teams: Choosing a Delivery Model](https://www.techsarasolutions.com/blogs/staff-augmentation-vs-managed-ai-teams)
+- [Enterprise Generative AI in 2026: A B2B Adoption Roadmap](https://www.techsarasolutions.com/blogs/enterprise-generative-ai-adoption-roadmap-2026)
+- [MLOps in Production: Scaling and Cost-Optimizing AI Workloads on AWS](https://www.techsarasolutions.com/blogs/mlops-cost-optimization-aws-ai-workloads)
+- [On-Premise vs. Cloud AI: A Deployment Framework for Regulated US Enterprises](https://www.techsarasolutions.com/blogs/on-premise-vs-cloud-ai-deployment-framework)
+- [Applied AI in US Banking: Fraud, Risk and Compliance Use Cases That Ship](https://www.techsarasolutions.com/blogs/applied-ai-us-banking-use-cases)
+
+## Company
+
+- [Home](https://www.techsarasolutions.com/): Techsara - AI development, IT staffing, and cloud consulting for US enterprises
+- [Contact](https://www.techsarasolutions.com/contact): Get in touch with the Techsara team
+- [Book a consultation](https://www.techsarasolutions.com/book): Schedule a free consultation
+- [Careers](https://www.techsarasolutions.com/careers): Open roles at Techsara
+- [Life at Techsara](https://www.techsarasolutions.com/life-at-techsara): Culture and team
+- [LinkedIn](https://www.linkedin.com/company/techsara-solutions): Techsara Solutions company profile

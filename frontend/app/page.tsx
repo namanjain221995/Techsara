@@ -5,20 +5,83 @@ import LegacyScripts from "@/components/LegacyScripts";
 import SpectrumOfSolutions from "@/components/SpectrumOfSolutions";
 import ContactCTASection from "@/components/ContactCTASection";
 import { getLegacyBody } from "@/lib/legacy-html";
-import { pageOpenGraph } from "@/lib/seo";
+import {
+  breadcrumbJsonLd,
+  faqPageJsonLd,
+  homeOfferCatalogJsonLd,
+  homePageJsonLd,
+  jsonLdScript,
+  pageOpenGraph,
+  SITE,
+} from "@/lib/seo";
 
+const title = "AI Development & IT Staffing Company USA | Techsara";
 const description =
-  "Techsara delivers AI development, IT staffing, and cloud solutions for enterprise teams across the United States. Based in Frisco, TX. Book a free consultation.";
+  "Techsara in a Frisco, TX AI development, IT staffing, and cloud consulting company for US enterprises. Build, deploy, and staff production AI.";
+
+const keywords = [
+  "AI development company USA",
+  "IT staffing company USA",
+  "AI staffing company",
+  "Frisco Texas AI company",
+  "generative AI development",
+  "LLM development company",
+  "MLOps consulting",
+  "cloud AI deployment",
+  "on-premise AI deployment",
+  "enterprise AI consulting",
+];
+
+const HOME_FAQS = [
+  {
+    question: "What does Techsara Solutions do?",
+    answer:
+      "Techsara Solutions is a Frisco, Texas based AI development, IT staffing, and cloud consulting company for US enterprises. The team builds generative AI, LLM, computer vision, MLOps, cloud, on-premise, and edge AI systems and supplies senior engineering talent.",
+  },
+  {
+    question: "Where is Techsara based?",
+    answer:
+      "Techsara is based in Frisco, Texas and serves enterprise teams across the United States and Canada.",
+  },
+  {
+    question: "Which AI services does Techsara offer?",
+    answer:
+      "Techsara offers generative AI and LLM development, AI agents, computer vision, NLP, predictive ML, document AI, speech AI, recommendation systems, MLOps, cloud deployment, on-premise AI, hybrid edge AI, and AI strategy.",
+  },
+  {
+    question: "How can companies work with Techsara?",
+    answer:
+      "Companies can hire direct talent, form dedicated delivery teams, or ask Techsara to deliver fixed-scope AI and software projects.",
+  },
+];
 
 export const metadata: Metadata = {
-  title: { absolute: "Techsara | AI Staffing & Technology Solutions — USA" },
+  title: { absolute: title },
   description,
+  keywords,
   alternates: { canonical: "/" },
   openGraph: pageOpenGraph({
-    title: "Techsara | AI Staffing & Technology Solutions — USA",
+    title,
     description,
     path: "/",
   }),
+  twitter: {
+    card: "summary_large_image",
+    title,
+    description,
+    site: SITE.twitter,
+    creator: SITE.twitter,
+    images: ["/assets/og-image.png"],
+  },
+  other: {
+    "geo.region": "US-TX",
+    "geo.placename": "Frisco, Texas",
+    "business:contact_data:locality": "Frisco",
+    "business:contact_data:region": "TX",
+    "business:contact_data:country_name": "United States",
+    "ai-site-summary":
+      "Techsara is a US AI development, IT staffing, cloud, MLOps, on-premise AI, and enterprise technology consulting company.",
+  },
 };
 
 const SPECTRUM_PLACEHOLDER = "<!-- TECHSARA_SPECTRUM_PLACEHOLDER -->";
@@ -53,6 +116,34 @@ function getLogos() {
   }
 }
 
+function HomeSeoFaq() {
+  return (
+    <section className="home-answer-section section-banded" aria-labelledby="home-answer-title">
+      <div className="container home-answer-grid">
+        <div className="home-answer-intro reveal">
+          <span className="eyebrow">AI visibility summary</span>
+          <h2 id="home-answer-title" className="section-title">
+            AI development and staffing, clearly defined.
+          </h2>
+          <p className="section-sub">
+            Techsara helps US enterprises turn AI strategy into production systems and
+            dependable teams, with delivery models for talent, managed teams, and
+            fixed-scope projects.
+          </p>
+        </div>
+        <div className="home-answer-list" aria-label="Techsara company facts">
+          {HOME_FAQS.map((item) => (
+            <article className="home-answer-item reveal" key={item.question}>
+              <h3>{item.question}</h3>
+              <p>{item.answer}</p>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
 export default function HomePage() {
   const { items, count } = getLogos();
   // ~1.4 seconds per logo keeps a constant comfortable pixel-speed regardless of how many files are in /public/logo/
@@ -68,14 +159,25 @@ export default function HomePage() {
   // The CTA banner lives after the spectrum section — split again to swap it for the
   // React-driven section that embeds the live contact form on the right.
   const [betweenSpectrumAndCta, afterCta = ""] = afterSpectrum.split(CONTACT_CTA_PLACEHOLDER);
+  const jsonLd = [
+    homePageJsonLd({ title, description }),
+    homeOfferCatalogJsonLd(),
+    breadcrumbJsonLd([{ name: "Home", path: "/" }]),
+    faqPageJsonLd(HOME_FAQS),
+  ];
 
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: jsonLdScript(jsonLd) }}
+      />
       {/* Preload the hero <video> poster — the homepage LCP element — at high priority. */}
       <link rel="preload" as="image" href="/uploads/hero_1.webp" fetchPriority="high" />
       <div dangerouslySetInnerHTML={{ __html: beforeSpectrum }} />
       <SpectrumOfSolutions />
       <div dangerouslySetInnerHTML={{ __html: betweenSpectrumAndCta }} />
+      <HomeSeoFaq />
       <ContactCTASection />
       <div dangerouslySetInnerHTML={{ __html: afterCta }} />
       <LegacyScripts page="home" />

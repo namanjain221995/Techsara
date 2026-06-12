@@ -37,7 +37,7 @@ const fontVariables = `${inter.variable} ${instrumentSans.variable} ${jetbrainsM
 export const metadata: Metadata = {
   metadataBase: new URL(SITE.url),
   title: {
-    default: "Techsara | AI Staffing & Technology Solutions — USA",
+    default: "Techsara | AI Development & IT Staffing Company USA",
     // Child pages set just their page name; this stamps the brand on every title.
     template: "%s | Techsara",
   },
@@ -47,6 +47,10 @@ export const metadata: Metadata = {
     canonical: "/",
   },
   keywords: [
+    "AI development company USA",
+    "IT staffing company USA",
+    "AI staffing company",
+    "Frisco Texas AI company",
     "enterprise AI development",
     "generative AI consulting",
     "LLM development company",
@@ -74,20 +78,20 @@ export const metadata: Metadata = {
     siteName: SITE.name,
     locale: SITE.locale,
     url: SITE.url,
-    title: "Techsara | AI Staffing & Technology Solutions — USA",
+    title: "Techsara | AI Development & IT Staffing Company USA",
     description: SITE.description,
     images: [
       {
         url: SITE.ogImage,
         width: 1200,
         height: 630,
-        alt: "Techsara | AI Staffing & Technology Solutions — USA",
+        alt: "Techsara | AI Development & IT Staffing Company USA",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Techsara | AI Staffing & Technology Solutions — USA",
+    title: "Techsara | AI Development & IT Staffing Company USA",
     description: SITE.description,
     site: SITE.twitter,
     creator: SITE.twitter,
@@ -106,6 +110,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en-US" className={fontVariables}>
       <head>
         <link rel="dns-prefetch" href="https://cdn.jsdelivr.net" />
+        <link rel="alternate" type="text/plain" href="/llms.txt" title="Techsara llms.txt" />
+        <link rel="sitemap" type="application/xml" href="/sitemap.xml" />
+        <link rel="me" href={SITE.linkedIn} />
         <link rel="preload" as="image" href="/assets/techsara-logo.webp" fetchPriority="high" />
         {/* Brand + site entity for Google Knowledge Graph and AI search. */}
         <script

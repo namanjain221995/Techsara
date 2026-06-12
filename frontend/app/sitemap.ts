@@ -6,7 +6,7 @@ import { getAllPosts } from "@/lib/blog";
 
 // Static lastModified — the build itself is the freshness signal; a fixed date keeps
 // the sitemap deterministic across builds instead of churning every deploy.
-const LAST_MODIFIED = new Date("2026-06-03");
+const LAST_MODIFIED = new Date("2026-06-12");
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const entry = (
