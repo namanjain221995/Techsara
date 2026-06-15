@@ -14,7 +14,7 @@ const nextConfig = {
 
   async redirects() {
     return [
-      // Canonical host: force the bare apex (non-www) to https://www, preserving the
+      // Canonical host: force the bare apex (non-www) to https://www, preserving the.
       // path. Second fallback behind Cloudflare's rule and the nginx redirect.
       {
         source: "/:path*",
