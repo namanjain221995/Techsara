@@ -256,7 +256,14 @@ export default function ApplyModal({
                   ))}
                 </select>
               </Field>
-              <Field label={`Resume / CV (PDF, DOC, DOCX · max ${MAX_RESUME_MB} MB)`} required full>
+              {/* NOTE: a plain <div>, NOT the <label>-based <Field> — a <label>
+                  wrapping a file input makes any click on it open the picker
+                  natively, which double-fired with our onClick (picker reopened). */}
+              <div className="apply-field full">
+                <span className="apply-label">
+                  Resume / CV (PDF, DOC, DOCX · max {MAX_RESUME_MB} MB)
+                  <span className="apply-req"> *</span>
+                </span>
                 <div
                   className={`apply-dropzone${dragActive ? " drag" : ""}${resumeError ? " has-error" : ""}${fileName ? " has-file" : ""}`}
                   role="button"
@@ -280,6 +287,7 @@ export default function ApplyModal({
                     accept=".pdf,.doc,.docx"
                     className="apply-dropzone-input"
                     onChange={handleInputChange}
+                    onClick={(e) => e.stopPropagation()}
                   />
                   {fileName ? (
                     <div className="apply-dropzone-file">
@@ -306,7 +314,7 @@ export default function ApplyModal({
                 {resumeError ? (
                   <span className="apply-field-error">{resumeError}</span>
                 ) : null}
-              </Field>
+              </div>
             </div>
 
             {status === "error" ? <p className="apply-error">{errorMsg}</p> : null}
