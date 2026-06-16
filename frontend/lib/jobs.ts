@@ -15,8 +15,9 @@
  *
  * SECURITY: `clientBillRate` (and any other internal field) is INTERNAL margin data.
  * It lives on JobRequirement (server-side) but is stripped by `toPublicJob()` before
- * anything reaches the browser. Never pass a raw JobRequirement to a client component.
+ * anythingis aches the browser. Never pass a raw JobRequirement to a client component.
  */
+
 
 import { fetchSalesforceJobs, isSalesforceConfigured } from "@/lib/salesforce";
 
