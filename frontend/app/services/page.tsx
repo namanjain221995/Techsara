@@ -4,7 +4,7 @@ import { pageOpenGraph, breadcrumbJsonLd } from "@/lib/seo";
 
 const title = "IT Staffing & AI Talent Services | Techsara USA";
 const description =
-  "Techsara offers IT staffing, team augmentation, project outsourcing, and international talent solutions for tech companies across the United States.";
+  "Techsara provides IT staffing, team augmentation, project outsourcing, and international talent solutions for US tech companies — senior AI, cloud, and software engineering teams that scale with your roadmap.";
 
 export const metadata: Metadata = {
   title: { absolute: title },

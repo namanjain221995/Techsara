@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
-import { Inter, Instrument_Sans, JetBrains_Mono } from "next/font/google";
+import Script from "next/script";
+import { Inter, Instrument_Sans, JetBrains_Mono, Plus_Jakarta_Sans } from "next/font/google";
 import "./styles.css";
 import "./showcase.css";
 import "./book.css";
@@ -32,7 +33,17 @@ const jetbrainsMono = JetBrains_Mono({
   display: "swap",
   variable: "--font-jetbrains",
 });
-const fontVariables = `${inter.variable} ${instrumentSans.variable} ${jetbrainsMono.variable}`;
+// Self-hosted Plus Jakarta Sans — used by the careers and jobsearch routes. Loading it here
+// via next/font replaces the render-blocking `@import url(fonts.googleapis.com...)` those two
+// CSS files used to carry (a CSS @import is the worst render-blocking pattern), and keeps the
+// font first-party like the others. Consumed via var(--font-jakarta) in careers/jobsearch.css.
+const plusJakarta = Plus_Jakarta_Sans({
+  subsets: ["latin"],
+  weight: ["300", "400", "500", "600", "700", "800"],
+  display: "swap",
+  variable: "--font-jakarta",
+});
+const fontVariables = `${inter.variable} ${instrumentSans.variable} ${jetbrainsMono.variable} ${plusJakarta.variable}`;
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE.url),
@@ -109,7 +120,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en-US" className={fontVariables}>
       <head>
-        <link rel="dns-prefetch" href="https://cdn.jsdelivr.net" />
+        {/* Warm the GA connection early, but only when analytics is actually configured. */}
+        {process.env.NEXT_PUBLIC_GA_ID ? (
+          <link rel="preconnect" href="https://www.googletagmanager.com" crossOrigin="" />
+        ) : null}
         <link rel="alternate" type="text/plain" href="/llms.txt" title="Techsara llms.txt" />
         <link rel="sitemap" type="application/xml" href="/sitemap.xml" />
         <link rel="me" href={SITE.linkedIn} />
@@ -132,7 +146,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body>
         <div id="app-splash" aria-hidden="true">
           <div className="app-splash-inner">
-            <img src="/assets/techsara-logo.webp" alt="" className="app-splash-logo" />
+            <img src="/assets/techsara-logo.webp" alt="Techsara" className="app-splash-logo" />
             <span className="app-splash-brand">TECHSARA</span>
             <div className="app-splash-spinner" />
           </div>
@@ -141,6 +155,20 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <RouteProgress />
         {children}
         <AutoContactPopup />
+        {/* Google Analytics 4 — env-driven and non-render-blocking (afterInteractive). Renders
+            nothing until NEXT_PUBLIC_GA_ID (format G-XXXXXXXXXX) is set in the environment, so
+            no fake/placeholder ID ever ships. Add the real Measurement ID to .env.local. */}
+        {process.env.NEXT_PUBLIC_GA_ID ? (
+          <>
+            <Script
+              src={`https://www.googletagmanager.com/gtag/js?id=${process.env.NEXT_PUBLIC_GA_ID}`}
+              strategy="afterInteractive"
+            />
+            <Script id="ga4-init" strategy="afterInteractive">
+              {`window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','${process.env.NEXT_PUBLIC_GA_ID}');`}
+            </Script>
+          </>
+        ) : null}
       </body>
     </html>
   );

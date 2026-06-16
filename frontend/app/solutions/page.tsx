@@ -5,7 +5,7 @@ import { pageOpenGraph, breadcrumbJsonLd } from "@/lib/seo";
 
 const title = "Enterprise AI Solutions | Generative AI & MLOps | USA";
 const description =
-  "End-to-end AI solutions from Techsara — generative AI, computer vision, agents, MLOps, cloud and on-premise deployment, and strategic consulting.";
+  "End-to-end AI solutions from Techsara — generative AI, computer vision, AI agents, MLOps, plus cloud and on-premise deployment, with eval pipelines, security, and engineering support built in for US enterprises.";
 
 export const metadata: Metadata = {
   title: { absolute: title },

@@ -8,7 +8,7 @@ import { pageOpenGraph, breadcrumbJsonLd, blogJsonLd, jsonLdScript } from "@/lib
 
 const title = "Techsara Blog | Enterprise AI & Staffing Insights";
 const description =
-  "Practical insight on enterprise AI, IT staffing, cloud, MLOps and industry use cases for US B2B technology leaders — from the Techsara team.";
+  "Practical insight on enterprise AI, IT staffing, cloud, MLOps and industry use cases for US B2B technology leaders — field notes on hiring, generative AI, and production engineering from the Techsara team.";
 
 export const metadata: Metadata = {
   title: { absolute: title },

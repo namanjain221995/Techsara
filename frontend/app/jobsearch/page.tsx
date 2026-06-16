@@ -8,7 +8,7 @@ import { pageOpenGraph, breadcrumbJsonLd } from "@/lib/seo";
 
 const title = "Open Roles | Get Placed Through Techsara — Frisco, TX";
 const description =
-  "Browse live openings from companies hiring through Techsara. Apply once and our placement team represents you, prepares you, and supports you all the way to placement — AI, ML, cloud, data and engineering roles across the United States.";
+  "Browse live openings from companies hiring through Techsara. Apply once and our placement team represents, prepares, and supports you all the way to placement — AI, ML, cloud, data, and engineering roles across the US.";
 
 export const metadata: Metadata = {
   title: { absolute: title },

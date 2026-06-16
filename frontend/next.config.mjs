@@ -77,6 +77,11 @@ const nextConfig = {
         headers: [{ key: "Cache-Control", value: ONE_YEAR }],
       },
       {
+        // Version-pinned vendor libs (lenis/gsap/ScrollTrigger) — safe to cache immutably.
+        source: "/legacy/vendor/:path*",
+        headers: [{ key: "Cache-Control", value: ONE_YEAR }],
+      },
+      {
         source: "/legacy/:path*",
         headers: [{ key: "Cache-Control", value: ONE_WEEK }],
       },

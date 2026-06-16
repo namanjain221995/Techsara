@@ -10,9 +10,12 @@ const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
 const PUBLIC = join(ROOT, "public");
 
 // Per-directory encode settings. maxWidth caps the largest dimension a source is
-// downscaled to (never upscaled); quality is the WebP quality (0–100).
+// downscaled to (never upscaled); quality is the WebP quality (0–100). `widths`, when
+// present, also emits smaller responsive variants named `<base>-<w>.webp` (only widths
+// strictly smaller than the source, so no upscales and no duplicate of the full size).
+// lib/legacy-html.ts builds a srcset from whichever of these variants actually exist.
 const DIRS = [
-  { dir: "uploads", maxWidth: 1920, quality: 78 },
+  { dir: "uploads", maxWidth: 1920, quality: 78, widths: [640, 1024, 1440] },
   { dir: "assets", maxWidth: 512, quality: 85 },
   { dir: "logo", maxWidth: 256, quality: 82 },
 ];
@@ -26,16 +29,20 @@ let converted = 0;
 let srcBytes = 0;
 let outBytes = 0;
 
-for (const { dir, maxWidth, quality } of DIRS) {
+for (const { dir, maxWidth, quality, widths } of DIRS) {
   const abs = join(PUBLIC, dir);
   if (!existsSync(abs)) continue;
   for (const name of readdirSync(abs)) {
     if (SKIP.has(name)) continue;
     const ext = extname(name).toLowerCase();
     if (!RASTER.has(ext)) continue;
+    // Skip our own generated responsive variants (e.g. hero_1-640.webp would have a .webp
+    // ext anyway, but guard against re-processing if a source happens to match the pattern).
     const input = join(abs, name);
-    const output = input.slice(0, -ext.length) + ".webp";
+    const base = input.slice(0, -ext.length);
+    const output = base + ".webp";
     const before = statSync(input).size;
+    const srcWidth = (await sharp(input).metadata()).width || maxWidth;
     await sharp(input)
       .resize({ width: maxWidth, withoutEnlargement: true })
       .webp({ quality, effort: 5 })
@@ -44,6 +51,19 @@ for (const { dir, maxWidth, quality } of DIRS) {
     converted += 1;
     srcBytes += before;
     outBytes += after;
+
+    // Responsive variants: only widths strictly smaller than the source (never upscale,
+    // never duplicate the full-size webp). These let lib/legacy-html.ts emit a real srcset.
+    for (const w of widths || []) {
+      if (w >= srcWidth) continue;
+      const vout = `${base}-${w}.webp`;
+      await sharp(input)
+        .resize({ width: w, withoutEnlargement: true })
+        .webp({ quality, effort: 5 })
+        .toFile(vout);
+      converted += 1;
+      outBytes += statSync(vout).size;
+    }
   }
 }
 

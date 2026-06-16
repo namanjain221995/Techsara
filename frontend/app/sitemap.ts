@@ -24,6 +24,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
     entry("/", 1.0, "weekly"),
     entry("/services", 0.9, "monthly"),
     entry("/solutions", 0.9, "monthly"),
+    // Like /blogs, /about is intentionally absent from the on-site navigation but listed here
+    // so Google crawls and indexes it — it carries the company/E-E-A-T + methodology signals.
+    entry("/about", 0.7, "monthly"),
     entry("/articles", 0.7, "weekly"),
     // The blog is intentionally absent from the on-site navigation, but it is listed here
     // so Google crawls and indexes it — that is what lets it contribute to SEO.

@@ -18,7 +18,7 @@ import {
 
 const title = "AI Development & IT Staffing Company USA | Techsara";
 const description =
-  "Techsara is a Frisco, TX AI development, IT staffing, and cloud consulting company for US enterprises. Build, deploy, and staff production AI.";
+  "Techsara is a Frisco, TX AI development, IT staffing, and cloud consulting company for US enterprises. We build and deploy production AI solutions and staff senior cloud and software engineering teams.";
 
 const keywords = [
   "AI development company USA",
@@ -123,15 +123,20 @@ function getLogos() {
     const files = readdirSync(logoDir)
       .filter((f) => /\.(png|jpe?g|svg)$/i.test(f))
       .sort((a, b) => a.localeCompare(b));
+    // Render each logo ONCE in the shipped HTML — halving the bytes vs. the old items+items
+    // duplication (the dominant contributor to the "HTML Page Size" audit failure). The
+    // seamless -50% marquee keyframe needs the set doubled, so a tiny runtime script clones
+    // the track after parse (see HomePage) — keeping the second copy out of the shipped HTML.
+    // width/height 171×56 matches the true 256×84 source ratio at the CSS height:56px,
+    // eliminating the declared-vs-rendered aspect-ratio mismatch (and CLS).
     const items = files
       .map((file) => {
-        const alt = file.replace(/\.[^.]+$/, "");
+        const name = file.replace(/\.[^.]+$/, "");
         const src = file.replace(/\.(png|jpe?g)$/i, ".webp");
-        return `<span class="marquee-logo"><img src="/logo/${encodeURIComponent(src)}" alt="${escapeAttr(alt)}" loading="lazy" decoding="async" fetchpriority="low" width="120" height="40"/></span>`;
+        return `<span class="marquee-logo"><img src="/logo/${encodeURIComponent(src)}" alt="${escapeAttr(name)} logo" loading="lazy" decoding="async" fetchpriority="low" width="171" height="56"/></span>`;
       })
       .join("");
-    // Duplicate for seamless marquee loop
-    return { items: items + items, count: files.length };
+    return { items, count: files.length };
   } catch {
     return { items: "", count: 0 };
   }
@@ -191,6 +196,16 @@ export default function HomePage() {
       {/* Preload the hero <video> poster — the homepage LCP element — at high priority. */}
       <link rel="preload" as="image" href="/uploads/hero_1.webp" fetchPriority="high" />
       <div dangerouslySetInnerHTML={{ __html: beforeSpectrum }} />
+      {/* The logo marquee ships each logo once; restore the doubled track the -50% keyframe
+          needs by cloning at parse time. Runs immediately after the marquee is parsed (the
+          element lives inside the dangerouslySetInnerHTML above, which React never reconciles),
+          so there is no animation jump and no second copy in the shipped HTML. */}
+      <script
+        dangerouslySetInnerHTML={{
+          __html:
+            "(function(){var t=document.querySelectorAll('.marquee-track');for(var i=0;i<t.length;i++){if(t[i].getAttribute('data-cloned')==='1')continue;t[i].setAttribute('data-cloned','1');t[i].insertAdjacentHTML('beforeend',t[i].innerHTML);}})();",
+        }}
+      />
       <SpectrumOfSolutions />
       <div dangerouslySetInnerHTML={{ __html: betweenSpectrumAndCta }} />
       <HomeSeoFaq />

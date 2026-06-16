@@ -10,8 +10,10 @@ export const SITE = {
   // en-US locale signals to search engines that the primary audience is the United States.
   locale: "en_US",
   twitter: "@techsara",
+  // ~190 chars — kept inside the 150–220 band SEO audits prefer, and front-loaded with the
+  // primary keywords (AI development, IT staffing, cloud, engineering, solutions).
   description:
-    "Techsara Solutions is a Frisco, Texas based AI development, IT staffing, and cloud consulting company for US enterprises.",
+    "Techsara Solutions is a Frisco, Texas based AI development, IT staffing, and cloud consulting company. We build and deploy production AI solutions and staff senior cloud and software engineering teams for US enterprises.",
   // Static 1200×630 social card (regenerate with scripts/generate-og-image.py).
   ogImage: "/assets/og-image.png",
   // Verified NAP (name/address/phone) — the single source of truth for LocalBusiness
@@ -25,6 +27,11 @@ export const SITE = {
     addressCountry: "US",
   },
   linkedIn: "https://www.linkedin.com/company/techsara-solutions",
+  // Every REAL, owned profile that corroborates the brand entity for Google's Knowledge
+  // Graph and AI search. Only add profiles Techsara actually controls — an unverifiable
+  // sameAs link hurts rather than helps. Extend as new profiles (Crunchbase, Clutch, G2,
+  // GitHub, X, etc.) are confirmed.
+  sameAs: ["https://www.linkedin.com/company/techsara-solutions"],
 } as const;
 
 export const HOME_SERVICE_OFFERINGS = [
@@ -64,6 +71,22 @@ export const HOME_SERVICE_OFFERINGS = [
     serviceType: "MLOps",
   },
 ] as const;
+
+/**
+ * Clamp a free-text string to a meta-description that lands inside the SEO-preferred
+ * 150–220 character band: it never cuts mid-word (trims back to the last whole word and
+ * appends an ellipsis) and, when the source is shorter than `min`, falls back to the
+ * supplied `fallback` so the description is never too thin. Centralized so every dynamic
+ * page (e.g. /solutions/[slug]) gets a well-sized snippet from one place.
+ */
+export function clampDescription(text: string, fallback: string, max = 200): string {
+  const clean = (text || "").replace(/\s+/g, " ").trim();
+  const base = clean.length >= 150 ? clean : fallback.replace(/\s+/g, " ").trim();
+  if (base.length <= max) return base;
+  const cut = base.slice(0, max);
+  const lastSpace = cut.lastIndexOf(" ");
+  return `${cut.slice(0, lastSpace > 0 ? lastSpace : max).replace(/[\s,;:.]+$/, "")}…`;
+}
 
 /** Build an absolute URL from a site-relative path (always leading-slash, no trailing slash except root). */
 export function absoluteUrl(path = "/") {
@@ -147,7 +170,7 @@ export function organizationJsonLd() {
     },
     telephone: SITE.telephone,
     email: SITE.email,
-    sameAs: [SITE.linkedIn],
+    sameAs: [...SITE.sameAs],
     contactPoint: {
       "@type": "ContactPoint",
       contactType: "sales",
@@ -189,7 +212,7 @@ export function professionalServiceJsonLd() {
       closes: "18:00",
     },
     parentOrganization: { "@id": `${SITE.url}/#organization` },
-    sameAs: [SITE.linkedIn],
+    sameAs: [...SITE.sameAs],
   };
 }
 
@@ -238,6 +261,11 @@ export function homePageJsonLd(opts: {
     },
     keywords: HOME_SERVICE_OFFERINGS.map((offering) => offering.name).join(", "),
     significantLink: HOME_SERVICE_OFFERINGS.map((offering) => absoluteUrl(offering.path)),
+    // Nominate the FAQ answer headline + lead paragraph for voice assistants / AI read-aloud.
+    speakable: {
+      "@type": "SpeakableSpecification",
+      cssSelector: ["#home-answer-title", ".hero-dark-sub"],
+    },
   };
 }
 
@@ -372,6 +400,11 @@ export function blogPostingJsonLd(opts: {
     ...(opts.section ? { articleSection: opts.section } : {}),
     ...(opts.keywords?.length ? { keywords: opts.keywords.join(", ") } : {}),
     ...(opts.wordCount ? { wordCount: opts.wordCount } : {}),
+    // Read-aloud surface for voice/AI summarizers — headline + the key-takeaways block.
+    speakable: {
+      "@type": "SpeakableSpecification",
+      cssSelector: [".blog-post-title", ".blog-takeaways"],
+    },
   };
 }
 
@@ -409,5 +442,139 @@ export function faqPageJsonLd(faqs: { question: string; answer: string }[]) {
       name: f.question,
       acceptedAnswer: { "@type": "Answer", text: f.answer },
     })),
+  };
+}
+
+/**
+ * HowTo structured data — encodes Techsara's real, step-by-step delivery methodology so AI
+ * answer engines can extract "how Techsara works" (directly answers the audit's "Sparse
+ * Methodology" / "Limited Proof Depth" findings). Steps describe the genuine process; do not
+ * invent stages the team does not actually run.
+ */
+export function howToJsonLd(opts: {
+  name: string;
+  description: string;
+  steps: { name: string; text: string; url?: string }[];
+}) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "HowTo",
+    name: opts.name,
+    description: opts.description,
+    step: opts.steps.map((s, i) => ({
+      "@type": "HowToStep",
+      position: i + 1,
+      name: s.name,
+      text: s.text,
+      ...(s.url ? { url: absoluteUrl(s.url) } : {}),
+    })),
+  };
+}
+
+/**
+ * Person structured data for a real Techsara team member / author. Anchored by @id so the
+ * same person can be referenced from BlogPosting.author, Organization.employee/founder, and
+ * the /about page. ONLY emit for real, named people with verifiable profiles — never for
+ * placeholder or fabricated identities (a Person node for a non-existent person is a trust
+ * liability and an AI-detectable contradiction).
+ */
+export function personJsonLd(opts: {
+  slug: string;
+  name: string;
+  jobTitle: string;
+  bio?: string;
+  image?: string;
+  sameAs?: string[];
+  knowsAbout?: string[];
+}) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "@id": `${SITE.url}/about#person-${opts.slug}`,
+    name: opts.name,
+    jobTitle: opts.jobTitle,
+    ...(opts.bio ? { description: opts.bio } : {}),
+    ...(opts.image ? { image: resolveImage(opts.image) } : {}),
+    worksFor: { "@id": `${SITE.url}/#organization` },
+    url: `${SITE.url}/about`,
+    ...(opts.sameAs?.length ? { sameAs: opts.sameAs } : {}),
+    ...(opts.knowsAbout?.length ? { knowsAbout: opts.knowsAbout } : {}),
+  };
+}
+
+/**
+ * Review structured data for ONE testimonial. Emit only for real, permission-cleared reviews
+ * with a genuine author and verifiable provenance. Unpopulated until the owner supplies real
+ * testimonials — never fabricate reviewer names, companies, or quotes.
+ */
+export function reviewJsonLd(opts: {
+  author: string;
+  authorTitle?: string;
+  body: string;
+  rating?: number;
+  datePublished?: string;
+}) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "Review",
+    itemReviewed: { "@id": `${SITE.url}/#organization` },
+    author: {
+      "@type": "Person",
+      name: opts.author,
+      ...(opts.authorTitle ? { jobTitle: opts.authorTitle } : {}),
+    },
+    reviewBody: opts.body,
+    ...(opts.datePublished ? { datePublished: opts.datePublished } : {}),
+    ...(opts.rating
+      ? {
+          reviewRating: {
+            "@type": "Rating",
+            ratingValue: opts.rating,
+            bestRating: 5,
+            worstRating: 1,
+          },
+        }
+      : {}),
+  };
+}
+
+/**
+ * AggregateRating for the Organization, derived from REAL third-party review data only
+ * (e.g. a verified Clutch / G2 / Google Business rating). Returns null when no real rating
+ * exists so the caller omits it rather than shipping a fabricated score.
+ */
+export function aggregateRatingJsonLd(opts: { ratingValue: number; reviewCount: number } | null) {
+  if (!opts || !opts.reviewCount) return null;
+  return {
+    "@type": "AggregateRating",
+    ratingValue: opts.ratingValue,
+    reviewCount: opts.reviewCount,
+    bestRating: 5,
+    worstRating: 1,
+  };
+}
+
+/**
+ * AboutPage structured data — declares /about as the canonical "about" WebPage for the brand
+ * entity so search/AI engines can resolve the company's identity, history, and people.
+ */
+export function aboutPageJsonLd(opts: { title: string; description: string }) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "AboutPage",
+    "@id": `${SITE.url}/about#webpage`,
+    url: absoluteUrl("/about"),
+    name: opts.title,
+    description: opts.description,
+    inLanguage: "en-US",
+    isPartOf: { "@id": `${SITE.url}/#website` },
+    about: { "@id": `${SITE.url}/#organization` },
+    mainEntity: { "@id": `${SITE.url}/#organization` },
+    primaryImageOfPage: {
+      "@type": "ImageObject",
+      url: absoluteUrl(SITE.ogImage),
+      width: 1200,
+      height: 630,
+    },
   };
 }

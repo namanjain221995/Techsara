@@ -3,7 +3,8 @@
    Scoped to .careers-root so global styles
    on / and other routes are not affected.
 ═══════════════════════════════════════════ */
-@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&display=swap');
+/* Plus Jakarta Sans is self-hosted via next/font in app/layout.tsx (--font-jakarta).
+   The old render-blocking @import of fonts.googleapis.com was removed for SEO. */
 
 .careers-root {
   --ts-navy:      #1a237e;
@@ -17,7 +18,7 @@
   --ts-white:     #ffffff;
   --ts-grad:      linear-gradient(135deg, #1a237e 0%, #3949d3 50%, #4f46e5 100%);
   --ts-grad-soft: linear-gradient(135deg, #eef2ff 0%, #e0e7ff 100%);
-  --c-font: 'Plus Jakarta Sans', -apple-system, sans-serif;
+  --c-font: var(--font-jakarta), 'Plus Jakarta Sans', -apple-system, sans-serif;
   --c-radius: 14px;
   --c-radius-lg: 24px;
   --c-shadow: 0 4px 24px rgba(26,35,126,0.08);

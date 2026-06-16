@@ -1,5 +1,31 @@
-import { readFileSync } from "fs";
+import { readFileSync, existsSync } from "fs";
 import { join } from "path";
+
+// Responsive widths emitted by scripts/convert-to-webp.mjs for /uploads images.
+const UPLOADS_VARIANT_WIDTHS = [640, 1024, 1440];
+
+/**
+ * Build a srcset for an /uploads/<name>.webp image from whichever responsive variants were
+ * actually generated on disk (existsSync-guarded so we never reference a 404 candidate). The
+ * full-size webp is appended as the largest candidate. Returns null when no variants exist —
+ * e.g. for already-small images — so the <img> is left untouched.
+ */
+function uploadsSrcset(src: string): string | null {
+  const match = src.match(/^\/uploads\/(.+)\.webp$/);
+  if (!match) return null;
+  const baseName = match[1];
+  const uploadsDir = join(process.cwd(), "public", "uploads");
+  const entries: string[] = [];
+  for (const width of UPLOADS_VARIANT_WIDTHS) {
+    if (existsSync(join(uploadsDir, `${baseName}-${width}.webp`))) {
+      entries.push(`/uploads/${baseName}-${width}.webp ${width}w`);
+    }
+  }
+  if (!entries.length) return null;
+  // The full-size webp is the highest-resolution fallback for large viewports.
+  entries.push(`${src} 1920w`);
+  return entries.join(", ");
+}
 
 const SERVICE_HASH_MAP: Record<string, string> = {
   genai: "generative-ai",
@@ -83,6 +109,18 @@ function optimizeImgTags(html: string) {
     if (!/\sfetchpriority\s*=/.test(next)) {
       const priority = shouldEagerLoad(next) ? "high" : "low";
       next = next.replace(/<img\b/, `<img fetchpriority="${priority}"`);
+    }
+
+    // Responsive srcset for /uploads content images: serve a right-sized variant to each
+    // viewport instead of the full-resolution file (the "Responsive Image Test" fix). Only
+    // added when generated variants exist on disk; never overrides an author-set srcset.
+    if (!/\ssrcset\s*=/.test(next)) {
+      const srcMatch = next.match(/\ssrc="([^"]+)"/);
+      const srcset = srcMatch ? uploadsSrcset(srcMatch[1]) : null;
+      if (srcset) {
+        const sizes = "(max-width: 1200px) 100vw, 1200px";
+        next = next.replace(/<img\b/, `<img srcset="${srcset}" sizes="${sizes}"`);
+      }
     }
 
     return next;

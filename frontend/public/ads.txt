@@ -1,0 +1,4 @@
+# Techsara Solutions (techsarasolutions.com) does not sell programmatic advertising inventory.
+# There are no authorized digital sellers for this domain.
+# If Techsara ever monetizes via an ad network, replace this file with the real authorized
+# seller lines in the format: <domain>, <publisher_id>, DIRECT|RESELLER, <cert_authority_id>

@@ -8,12 +8,14 @@ import { pageOpenGraph, breadcrumbJsonLd } from "@/lib/seo";
 const description =
   "A day in the life at TechSara — meaningful work, genuine connection, world-class resources, and a culture engineered around the people who do the work.";
 
+const title = "Life at Techsara | Culture & Careers — Frisco, TX";
+
 export const metadata: Metadata = {
-  title: "Life at Techsara",
+  title: { absolute: title },
   description,
   alternates: { canonical: "/life-at-techsara" },
   openGraph: pageOpenGraph({
-    title: "Life at Techsara | Techsara",
+    title,
     description,
     path: "/life-at-techsara",
   }),

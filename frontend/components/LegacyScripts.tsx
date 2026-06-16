@@ -35,9 +35,12 @@ export default function LegacyScripts({ page, serviceSlug }: LegacyScriptsProps)
 
       {page === "home" || page === "print" ? (
         <>
-          <Script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js" strategy="lazyOnload" />
-          <Script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js" strategy="lazyOnload" />
-          <Script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js" strategy="lazyOnload" />
+          {/* Self-hosted (public/legacy/vendor) instead of jsDelivr — removes 3 cross-origin
+              requests counted by the "Page Objects" audit and the third-party CDN dependency.
+              Versions are pinned in the filenames; still lazyOnload so they never render-block. */}
+          <Script src="/legacy/vendor/lenis.min.js" strategy="lazyOnload" />
+          <Script src="/legacy/vendor/gsap.min.js" strategy="lazyOnload" />
+          <Script src="/legacy/vendor/ScrollTrigger.min.js" strategy="lazyOnload" />
           <Script src="/legacy/app.js" strategy="lazyOnload" />
         </>
       ) : null}
@@ -46,7 +49,7 @@ export default function LegacyScripts({ page, serviceSlug }: LegacyScriptsProps)
 
       {page === "service" ? (
         <>
-          <Script src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js" strategy="lazyOnload" />
+          <Script src="/legacy/vendor/lenis.min.js" strategy="lazyOnload" />
           <Script
             id="techsara-service-slug"
             strategy="beforeInteractive"

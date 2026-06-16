@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import LegacyScripts from "@/components/LegacyScripts";
 import { getLegacyBody, getServiceSlugs, getServiceMeta } from "@/lib/legacy-html";
-import { serviceJsonLd, breadcrumbJsonLd, pageOpenGraph } from "@/lib/seo";
+import { serviceJsonLd, breadcrumbJsonLd, pageOpenGraph, clampDescription } from "@/lib/seo";
 
 type SolutionPageProps = {
   params: {
@@ -20,9 +20,12 @@ export function generateStaticParams() {
 export function generateMetadata({ params }: SolutionPageProps): Metadata {
   const meta = getServiceMeta(params.slug);
   const name = meta?.name || titleCase(params.slug);
-  const description =
-    meta?.intro?.slice(0, 160) ||
-    `${name} from Techsara — enterprise AI engineered for production, with eval pipelines, security and deployment built in.`;
+  // Word-boundary clamp into the 150–220 band; falls back to a keyword-rich template when
+  // the service intro is too short, so no slug ships a thin or mid-word-cut description.
+  const description = clampDescription(
+    meta?.intro || "",
+    `${name} from Techsara — enterprise AI solutions engineered for production, with eval pipelines, security, cloud and on-premise deployment, and senior engineering support built in for US enterprises.`,
+  );
   const path = `/solutions/${params.slug}`;
   // Geo/US-modified title applied uniformly to every service slug.
   const seoTitle = `${name} | Techsara USA`;
