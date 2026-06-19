@@ -143,7 +143,8 @@
 
 .jobs-grid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  /* minmax(0,…) so a card with unbreakable content can't blow the column out */
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 20px;
 }
 
@@ -198,37 +199,22 @@
   color: var(--ts-muted);
   margin: 0 0 16px;
   max-width: 760px;
+  overflow-wrap: break-word; /* break long unbroken strings instead of overflowing */
+}
+/* Any text from Salesforce can contain a long unbroken string (e.g. "~~~~~~",
+   a long URL). Force these to wrap so they never blow out the card / page. */
+.job-title, .job-skill, .job-badge,
+.jdp-title, .jdp-para, .jdp-subhead, .jdp-list li, .jdp-info dd, .jdp-promo p {
+  overflow-wrap: break-word;
+  word-break: break-word;
 }
 .job-desc.clamp {
   display: -webkit-box;
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
   overflow: hidden;
-  margin-bottom: 4px;
+  margin-bottom: 16px;
 }
-.job-more {
-  display: inline-block;            /* <a> is inline; needed so the margins apply */
-  position: relative;
-  font-family: inherit;
-  font-size: 13px; font-weight: 700;
-  letter-spacing: 0.2px;
-  color: var(--ts-violet);
-  text-decoration: none;
-  background: none; border: none;
-  cursor: pointer; padding: 0;
-  margin: 0 0 18px;
-  align-self: flex-start;
-}
-.job-more::after {
-  content: "";
-  position: absolute; left: 0; bottom: -3px;
-  width: 100%; height: 1.5px;
-  background: var(--ts-violet);
-  transform: scaleX(0);
-  transform-origin: left;
-  transition: transform 0.22s ease;
-}
-.job-more:hover::after { transform: scaleX(1); }
 .job-meta {
   display: flex;
   flex-wrap: wrap;
@@ -473,31 +459,27 @@
 .jobs-empty-clear:hover { opacity: 0.92; transform: translateY(-1px); }
 
 /* ─── PAGINATION ─── */
-.jobs-pagination {
+/* ─── INFINITE SCROLL LOADER ─── */
+.jobs-loader {
   display: flex; align-items: center; justify-content: center;
-  gap: 14px; flex-wrap: wrap;
-  margin-top: 32px;
+  gap: 10px;
+  padding: 28px 0;
+  font-size: 14px; font-weight: 500;
+  color: var(--ts-muted);
 }
-.page-nums { display: flex; gap: 6px; }
-.page-btn, .page-num {
-  font-family: inherit;
-  font-size: 13.5px; font-weight: 600;
-  color: var(--ts-body);
-  background: var(--ts-white);
-  border: 1px solid var(--ts-border);
-  border-radius: 9px;
-  padding: 9px 14px;
-  cursor: pointer;
-  transition: all 0.18s;
+.jobs-loader-spinner {
+  width: 18px; height: 18px;
+  border: 2px solid var(--ts-border);
+  border-top-color: var(--ts-violet);
+  border-radius: 50%;
+  animation: jobs-spin 0.7s linear infinite;
 }
-.page-num { min-width: 38px; }
-.page-btn:hover:not(:disabled),
-.page-num:hover { border-color: #c7d2fe; color: var(--ts-violet); }
-.page-btn:disabled { opacity: 0.4; cursor: not-allowed; }
-.page-num.active {
-  background: var(--ts-grad);
-  border-color: transparent;
-  color: #fff;
+@keyframes jobs-spin { to { transform: rotate(360deg); } }
+.jobs-loader-end {
+  text-align: center;
+  padding: 28px 0 8px;
+  font-size: 13.5px;
+  color: var(--ts-muted);
 }
 .job-field-tag {
   font-size: 11px; font-weight: 700;
@@ -902,7 +884,7 @@
 .jdp-promo-link:hover { gap: 12px; }
 
 @media (max-width: 860px) {
-  .jdp-grid { grid-template-columns: 1fr; gap: 28px; }
+  .jdp-grid { grid-template-columns: minmax(0, 1fr); gap: 28px; }
   .jdp-side { position: static; }
 }
 @media (max-width: 720px) {
@@ -946,8 +928,9 @@
   .jobs-sidebar.open { display: block; }
 }
 @media (max-width: 860px) {
-  /* Narrow viewport — stack job cards in a single column. */
-  .jobs-grid { grid-template-columns: 1fr; }
+  /* Narrow viewport — stack job cards in a single column. minmax(0,…) so a card
+     with unbreakable content can't blow the column out. */
+  .jobs-grid { grid-template-columns: minmax(0, 1fr); }
 }
 @media (max-width: 720px) {
   .jobs-hero { padding: 116px 6% 56px; }
@@ -992,6 +975,4 @@
   .jobs-searchbar-field { flex-basis: 100%; }
   .job-title { font-size: 18px; }
   .job-badge { font-size: 12px; padding: 5px 11px; }
-  .page-btn, .page-num { padding: 8px 12px; font-size: 13px; }
-  .jobs-pagination { gap: 8px; }
 }

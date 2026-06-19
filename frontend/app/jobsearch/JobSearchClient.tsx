@@ -1,9 +1,8 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import { APPLYABLE_STATUSES, type PublicJob } from "@/lib/jobs";
-import ApplyModal from "./ApplyModal";
 
 // Descriptions longer than this get clamped on the card with a "More details" link.
 const LONG_DESC = 160;
@@ -46,10 +45,11 @@ export default function JobSearchClient({ jobs }: { jobs: PublicJob[] }) {
   const [statuses, setStatuses] = useState<Set<string>>(new Set());
   const [sortField, setSortField] = useState<SortField>("postedDate");
   const [sortDir, setSortDir] = useState<SortDir>("desc");
-  const [page, setPage] = useState(1);
+  // Infinite scroll: how many jobs are currently rendered (grows on scroll).
+  const [visibleCount, setVisibleCount] = useState(PAGE_SIZE);
+  const loaderRef = useRef<HTMLDivElement>(null);
   const [showAllLocations, setShowAllLocations] = useState(false);
   const [filtersOpen, setFiltersOpen] = useState(false);
-  const [activeJob, setActiveJob] = useState<PublicJob | null>(null);
 
   // Facet counts come from the full set (mirrors the Salesforce filter params).
   const employmentCounts = useMemo(() => countBy(jobs, (j) => j.employmentType), [jobs]);
@@ -86,15 +86,30 @@ export default function JobSearchClient({ jobs }: { jobs: PublicJob[] }) {
     return list;
   }, [jobs, keyword, locationQuery, employmentTypes, priorities, locations, modes, statuses, sortField, sortDir]);
 
-  // Any filter/sort change returns to page 1.
+  // Any filter/sort change resets the scroll window back to the first batch.
   useEffect(() => {
-    setPage(1);
+    setVisibleCount(PAGE_SIZE);
   }, [keyword, locationQuery, employmentTypes, priorities, locations, modes, statuses, sortField, sortDir]);
 
-  const totalPages = Math.max(1, Math.ceil(filtered.length / PAGE_SIZE));
-  const safePage = Math.min(page, totalPages);
-  const start = (safePage - 1) * PAGE_SIZE;
-  const pageJobs = filtered.slice(start, start + PAGE_SIZE);
+  const pageJobs = filtered.slice(0, visibleCount);
+  const hasMore = visibleCount < filtered.length;
+
+  // Infinite scroll: reveal the next batch when the sentinel nears the viewport.
+  useEffect(() => {
+    if (!hasMore) return;
+    const el = loaderRef.current;
+    if (!el) return;
+    const io = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting) {
+          setVisibleCount((c) => Math.min(c + PAGE_SIZE, filtered.length));
+        }
+      },
+      { rootMargin: "300px" },
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, [hasMore, visibleCount, filtered.length]);
 
   const openCount = jobs.filter((j) => APPLYABLE_STATUSES.includes(j.jobStatus)).length;
   const locationCount = Object.keys(locationCounts).length;
@@ -272,7 +287,7 @@ export default function JobSearchClient({ jobs }: { jobs: PublicJob[] }) {
                 ? "No open positions"
                 : filtered.length === 0
                 ? "No matching positions"
-                : <>Showing <strong>{start + 1}–{Math.min(start + PAGE_SIZE, filtered.length)}</strong> of {filtered.length} positions</>}
+                : <>Showing <strong>{pageJobs.length}</strong> of {filtered.length} positions</>}
             </p>
             <div className="jobs-sort">
               <label>
@@ -321,7 +336,6 @@ export default function JobSearchClient({ jobs }: { jobs: PublicJob[] }) {
           ) : (
             <div className="jobs-grid">
               {pageJobs.map((job) => {
-                const canApply = APPLYABLE_STATUSES.includes(job.jobStatus);
                 return (
                   <article className="job-card" key={job.id}>
                     <div className="job-card-main">
@@ -343,19 +357,9 @@ export default function JobSearchClient({ jobs }: { jobs: PublicJob[] }) {
                         ) : null}
                       </div>
                       {job.jobDescription ? (
-                        <>
-                          <p className={`job-desc${job.jobDescription.length > LONG_DESC ? " clamp" : ""}`}>
-                            {job.jobDescription}
-                          </p>
-                          {job.jobDescription.length > LONG_DESC ? (
-                            <Link
-                              href={`/jobsearch/${encodeURIComponent(job.jobRequirementName || job.id)}`}
-                              className="job-more"
-                            >
-                              More details
-                            </Link>
-                          ) : null}
-                        </>
+                        <p className={`job-desc${job.jobDescription.length > LONG_DESC ? " clamp" : ""}`}>
+                          {job.jobDescription}
+                        </p>
                       ) : null}
                       {job.primarySkills.length ? (
                         <div className="job-skills">
@@ -391,17 +395,12 @@ export default function JobSearchClient({ jobs }: { jobs: PublicJob[] }) {
                       </div>
                     </div>
                     <div className="job-card-action">
-                      <button
-                        type="button"
+                      <Link
+                        href={`/jobsearch/${encodeURIComponent(job.jobRequirementName || job.id)}`}
                         className="job-apply-btn"
-                        disabled={!canApply}
-                        onClick={() => setActiveJob(job)}
                       >
-                        {canApply ? "Apply Now" : "Not accepting"}
-                      </button>
-                      {canApply ? (
-                        <span className="job-apply-note">Takes ~2 min</span>
-                      ) : null}
+                        More details
+                      </Link>
                     </div>
                   </article>
                 );
@@ -409,45 +408,17 @@ export default function JobSearchClient({ jobs }: { jobs: PublicJob[] }) {
             </div>
           )}
 
-          {/* PAGINATION */}
-          {totalPages > 1 ? (
-            <nav className="jobs-pagination" aria-label="Pagination">
-              <button
-                type="button"
-                className="page-btn"
-                disabled={safePage === 1}
-                onClick={() => setPage(safePage - 1)}
-              >
-                ← Previous
-              </button>
-              <div className="page-nums">
-                {Array.from({ length: totalPages }, (_, i) => i + 1).map((n) => (
-                  <button
-                    key={n}
-                    type="button"
-                    className={`page-num${n === safePage ? " active" : ""}`}
-                    onClick={() => setPage(n)}
-                  >
-                    {n}
-                  </button>
-                ))}
-              </div>
-              <button
-                type="button"
-                className="page-btn"
-                disabled={safePage === totalPages}
-                onClick={() => setPage(safePage + 1)}
-              >
-                Next →
-              </button>
-            </nav>
+          {/* INFINITE SCROLL — sentinel reveals the next batch as it nears the viewport */}
+          {hasMore ? (
+            <div ref={loaderRef} className="jobs-loader" aria-hidden="true">
+              <span className="jobs-loader-spinner" />
+              <span>Loading more roles…</span>
+            </div>
+          ) : filtered.length > PAGE_SIZE ? (
+            <p className="jobs-loader-end">You&apos;ve reached the end — {filtered.length} roles.</p>
           ) : null}
         </div>
       </section>
-
-      {activeJob ? (
-        <ApplyModal job={activeJob} onClose={() => setActiveJob(null)} />
-      ) : null}
     </main>
   );
 }
