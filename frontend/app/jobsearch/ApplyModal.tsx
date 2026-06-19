@@ -3,7 +3,6 @@
 import { useEffect, useRef, useState } from "react";
 import type { PublicJob } from "@/lib/jobs";
 import {
-  WORK_MODE_OPTIONS,
   GENDER_OPTIONS,
   EXPERIENCE_OPTIONS,
   VISA_STATUS_OPTIONS,
@@ -30,6 +29,15 @@ export default function ApplyModal({
   const [dragActive, setDragActive] = useState(false);
   const formRef = useRef<HTMLFormElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const errorRef = useRef<HTMLDivElement>(null);
+
+  // When a submit error appears, scroll it into view so the user always sees it
+  // (the error sits near the bottom of a long form).
+  useEffect(() => {
+    if (status === "error" && errorRef.current) {
+      errorRef.current.scrollIntoView({ behavior: "smooth", block: "center" });
+    }
+  }, [status, errorMsg]);
 
   const ALLOWED_EXT = [".pdf", ".doc", ".docx"];
 
@@ -148,10 +156,10 @@ export default function ApplyModal({
         <button type="button" className="apply-close" aria-label="Close" onClick={onClose}>×</button>
 
         <div className="apply-head">
-          <div className="apply-eyebrow">Apply through Techsara for</div>
+          <div className="apply-eyebrow">Apply for</div>
           <h2 className="apply-title">{job.jobTitle}</h2>
           <p className="apply-sub">
-            📍 {job.location} · 🏢 {job.workMode} · 🕒 {job.employmentType}
+            {job.location} · {job.workMode} · {job.employmentType}
           </p>
         </div>
 
@@ -159,7 +167,7 @@ export default function ApplyModal({
           <div className="apply-success">
             <div className="apply-success-icon">✓</div>
             <h3>Application submitted!</h3>
-            <p>Thanks for applying to <strong>{job.jobTitle}</strong>. Our placement team will review your profile and reach out to represent you for this role.</p>
+            <p>Thanks for applying to <strong>{job.jobTitle}</strong>. Our recruiters will review your profile and reach out to you about the next steps.</p>
             <button type="button" className="job-apply-btn" onClick={onClose}>Done</button>
           </div>
         ) : (
@@ -221,17 +229,6 @@ export default function ApplyModal({
 
             {/* PROFESSIONAL */}
             <div className="apply-grid">
-              <Field label="Preferred Work Mode" required>
-                <select name="preferredWorkMode" defaultValue="" required>
-                  <option value="">Select…</option>
-                  {WORK_MODE_OPTIONS.map((o) => (
-                    <option key={o} value={o}>{o}</option>
-                  ))}
-                </select>
-              </Field>
-              <Field label="Primary Technology" required>
-                <input name="primaryTechnology" type="text" placeholder="e.g. Python, React, AWS" required />
-              </Field>
               <Field label="Years of Experience" required>
                 <select name="yearsOfExperience" defaultValue="" required>
                   <option value="">Select…</option>
@@ -317,12 +314,17 @@ export default function ApplyModal({
               </div>
             </div>
 
-            {status === "error" ? <p className="apply-error">{errorMsg}</p> : null}
+            {status === "error" ? (
+              <div ref={errorRef} className="apply-error" role="alert">
+                <span className="apply-error-icon" aria-hidden="true">⚠️</span>
+                <span>{errorMsg}</span>
+              </div>
+            ) : null}
 
             <div className="apply-actions">
               <button type="button" className="apply-cancel" onClick={onClose}>Cancel</button>
               <button type="submit" className="job-apply-btn" disabled={status === "submitting"}>
-                {status === "submitting" ? "Submitting…" : "Submit Application →"}
+                {status === "submitting" ? "Submitting…" : "Submit Application"}
               </button>
             </div>
           </form>

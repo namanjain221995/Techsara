@@ -1,8 +1,12 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
+import Link from "next/link";
 import { APPLYABLE_STATUSES, type PublicJob } from "@/lib/jobs";
 import ApplyModal from "./ApplyModal";
+
+// Descriptions longer than this get clamped on the card with a "More details" link.
+const LONG_DESC = 160;
 
 const PAGE_SIZE = 10;
 const MONTHS = [
@@ -127,19 +131,17 @@ export default function JobSearchClient({ jobs }: { jobs: PublicJob[] }) {
         <div className="jobs-hero-inner">
           <div className="hero-tag">
             <div className="hero-dot" />
-            Live Placement Openings
+            Open Positions — We&apos;re Hiring
           </div>
-          <h1>Find Your Next Role — Placed by Techsara</h1>
+          <h1>Find Your Next Role at Techsara</h1>
           <p className="jobs-hero-sub">
-            Browse live openings from companies hiring through Techsara. Apply once
-            and our team represents you, prepares you, and supports you all the way
-            to placement.
+            Explore our open roles and apply in minutes. Our recruiters review every
+            application and reach out to you about the next steps.
           </p>
 
           {/* KEYWORD + LOCATION SEARCH */}
           <div className="jobs-searchbar">
             <div className="jobs-searchbar-field">
-              <span className="jobs-searchbar-icon">🔍</span>
               <input
                 type="search"
                 placeholder="Keyword, title or skill"
@@ -149,7 +151,6 @@ export default function JobSearchClient({ jobs }: { jobs: PublicJob[] }) {
               />
             </div>
             <div className="jobs-searchbar-field">
-              <span className="jobs-searchbar-icon">📍</span>
               <input
                 type="search"
                 placeholder="Location"
@@ -335,9 +336,26 @@ export default function JobSearchClient({ jobs }: { jobs: PublicJob[] }) {
                           <span className="job-priority">{job.priority} priority</span>
                         ) : null}
                       </div>
-                      <h3 className="job-title">{job.jobTitle}</h3>
+                      <div className="job-title-row">
+                        <h3 className="job-title">{job.jobTitle}</h3>
+                        {job.jobRequirementName ? (
+                          <span className="job-badge job-badge-ref">{job.jobRequirementName}</span>
+                        ) : null}
+                      </div>
                       {job.jobDescription ? (
-                        <p className="job-desc">{job.jobDescription}</p>
+                        <>
+                          <p className={`job-desc${job.jobDescription.length > LONG_DESC ? " clamp" : ""}`}>
+                            {job.jobDescription}
+                          </p>
+                          {job.jobDescription.length > LONG_DESC ? (
+                            <Link
+                              href={`/jobsearch/${encodeURIComponent(job.jobRequirementName || job.id)}`}
+                              className="job-more"
+                            >
+                              More details
+                            </Link>
+                          ) : null}
+                        </>
                       ) : null}
                       {job.primarySkills.length ? (
                         <div className="job-skills">
@@ -347,24 +365,21 @@ export default function JobSearchClient({ jobs }: { jobs: PublicJob[] }) {
                         </div>
                       ) : null}
                       <div className="job-meta">
-                        {job.location ? <span className="job-badge">📍 {job.location}</span> : null}
-                        {job.workMode ? <span className="job-badge">🏢 {job.workMode}</span> : null}
-                        {job.duration ? <span className="job-badge">⏳ {job.duration}</span> : null}
+                        {job.location ? <span className="job-badge">{job.location}</span> : null}
+                        {job.workMode ? <span className="job-badge">{job.workMode}</span> : null}
+                        {job.duration ? <span className="job-badge">{job.duration}</span> : null}
                         {job.numberOfOpenings > 0 ? (
                           <span className="job-badge">
-                            👥 {job.numberOfOpenings} opening{job.numberOfOpenings > 1 ? "s" : ""}
+                            {job.numberOfOpenings} opening{job.numberOfOpenings > 1 ? "s" : ""}
                           </span>
                         ) : null}
                         {job.requiredVisaStatus.length ? (
-                          <span className="job-badge">🛂 {job.requiredVisaStatus.join(", ")}</span>
+                          <span className="job-badge">{job.requiredVisaStatus.join(", ")}</span>
                         ) : null}
-                        {job.clientName ? <span className="job-badge">🏷️ {job.clientName}</span> : null}
-                        {job.postedDate ? <span className="job-badge">🗓️ Posted {formatDate(job.postedDate)}</span> : null}
+                        {job.clientName ? <span className="job-badge">{job.clientName}</span> : null}
+                        {job.postedDate ? <span className="job-badge">Posted {formatDate(job.postedDate)}</span> : null}
                         {job.submissionDeadline ? (
-                          <span className="job-badge">📅 Apply by {formatDate(job.submissionDeadline)}</span>
-                        ) : null}
-                        {job.jobRequirementName ? (
-                          <span className="job-badge job-badge-ref">{job.jobRequirementName}</span>
+                          <span className="job-badge">Apply by {formatDate(job.submissionDeadline)}</span>
                         ) : null}
                       </div>
                     </div>
@@ -375,8 +390,11 @@ export default function JobSearchClient({ jobs }: { jobs: PublicJob[] }) {
                         disabled={!canApply}
                         onClick={() => setActiveJob(job)}
                       >
-                        {canApply ? "Apply →" : "Not accepting"}
+                        {canApply ? "Apply Now" : "Not accepting"}
                       </button>
+                      {canApply ? (
+                        <span className="job-apply-note">Takes ~2 min</span>
+                      ) : null}
                     </div>
                   </article>
                 );

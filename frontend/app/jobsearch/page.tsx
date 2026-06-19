@@ -6,9 +6,9 @@ import JobSearchClient from "./JobSearchClient";
 import "./jobsearch.css";
 import { pageOpenGraph, breadcrumbJsonLd } from "@/lib/seo";
 
-const title = "Open Roles | Get Placed Through Techsara — Frisco, TX";
+const title = "Open Roles | Careers at Techsara — Frisco, TX";
 const description =
-  "Browse live openings from companies hiring through Techsara. Apply once and our placement team represents, prepares, and supports you all the way to placement — AI, ML, cloud, data, and engineering roles across the US.";
+  "Explore open roles at Techsara — AI, ML, cloud, data, and engineering positions in Frisco, TX and remote across the US. Apply in minutes and our recruiters will reach out about the next steps.";
 
 export const metadata: Metadata = {
   title: { absolute: title },

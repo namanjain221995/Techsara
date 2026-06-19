@@ -73,15 +73,15 @@ export const EXPERIENCE_OPTIONS = [
 
 // Salesforce: Visa_Status__c / Current_Visa_Status__c (restricted picklist)
 export const VISA_STATUS_OPTIONS = [
-  "CPT",
-  "OPT",
-  "STEM OPT Extension",
-  "H1B",
-  "B2",
-  "Green Card EAD",
-  "Green Card / Permanent Resident",
   "US Citizen",
+  "Green Card / Permanent Resident",
+  "Green Card EAD",
+  "H1B",
   "H4 EAD",
+  "STEM OPT Extension",
+  "OPT",
+  "CPT",
+  "B2",
   "TN",
 ] as const;
 

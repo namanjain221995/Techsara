@@ -149,3 +149,9 @@ export async function getJobById(id: string): Promise<JobRequirement | null> {
   const jobs = await getJobs();
   return jobs.find((j) => j.id === id) ?? null;
 }
+
+/** Look up a job by its Salesforce id OR its requirement number (e.g. "JR-00074"). */
+export async function getJobByRef(ref: string): Promise<JobRequirement | null> {
+  const jobs = await getJobs();
+  return jobs.find((j) => j.id === ref || j.jobRequirementName === ref) ?? null;
+}
