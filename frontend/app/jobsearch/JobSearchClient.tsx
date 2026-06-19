@@ -359,9 +359,14 @@ export default function JobSearchClient({ jobs }: { jobs: PublicJob[] }) {
                       ) : null}
                       {job.primarySkills.length ? (
                         <div className="job-skills">
-                          {job.primarySkills.map((s) => (
+                          {job.primarySkills.slice(0, 6).map((s) => (
                             <span className="job-skill" key={s}>{s}</span>
                           ))}
+                          {job.primarySkills.length > 6 ? (
+                            <span className="job-skill job-skill-more">
+                              +{job.primarySkills.length - 6} more
+                            </span>
+                          ) : null}
                         </div>
                       ) : null}
                       <div className="job-meta">
@@ -379,7 +384,9 @@ export default function JobSearchClient({ jobs }: { jobs: PublicJob[] }) {
                         {job.clientName ? <span className="job-badge">{job.clientName}</span> : null}
                         {job.postedDate ? <span className="job-badge">Posted {formatDate(job.postedDate)}</span> : null}
                         {job.submissionDeadline ? (
-                          <span className="job-badge">Apply by {formatDate(job.submissionDeadline)}</span>
+                          <span className="job-badge job-badge-deadline">
+                            Apply by {formatDate(job.submissionDeadline)}
+                          </span>
                         ) : null}
                       </div>
                     </div>
