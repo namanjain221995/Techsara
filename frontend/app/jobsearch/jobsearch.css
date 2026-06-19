@@ -204,17 +204,19 @@
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
   overflow: hidden;
-  margin-bottom: 8px;
+  margin-bottom: 4px;
 }
 .job-more {
+  display: inline-block;            /* <a> is inline; needed so the margins apply */
   position: relative;
   font-family: inherit;
   font-size: 13px; font-weight: 700;
   letter-spacing: 0.2px;
   color: var(--ts-violet);
+  text-decoration: none;
   background: none; border: none;
   cursor: pointer; padding: 0;
-  margin: 0 0 16px;
+  margin: 0 0 18px;
   align-self: flex-start;
 }
 .job-more::after {
@@ -239,6 +241,13 @@
   border: 1px solid var(--ts-border);
   padding: 6px 13px;
   border-radius: 50px;
+}
+/* Deadline — highlighted so the "Apply by" date stands out. */
+.job-badge-deadline {
+  color: #b45309;
+  background: #fff7ed;
+  border-color: #fdba74;
+  font-weight: 700;
 }
 .job-card-action {
   flex-shrink: 0;
@@ -530,6 +539,11 @@
   background: var(--ts-grad-soft);
   padding: 5px 12px;
   border-radius: 7px;
+}
+.job-skill-more {
+  color: var(--ts-muted);
+  background: transparent;
+  border: 1px dashed var(--ts-border);
 }
 
 /* ═══ APPLY MODAL ═══ */
