@@ -210,17 +210,22 @@ function TalentNetworkSection() {
     <section className="talent-network">
       <div className="container talent-network-inner">
         <div className="talent-network-text">
-          <h2>Connecting you with a wide network of professionals</h2>
+          <h2>Access a Pre-Vetted Network of AI, ML, and Data Engineering Professionals Built for Enterprise Demand.</h2>
           <p>
-            Whether you need an individual to fill a short-term vacancy or a direct hire,
-            Techsara&apos;s Talent Solutions services will connect you with a wide network of
-            professionals in the AI engineering, ML and data spaces.
+            As AI initiatives scale from pilot to production, the demand for highly
+            specialised engineering talent such as LLM engineers, computer vision specialists,
+            MLOps architects, data pipeline engineers, and cloud AI practitioners
+            consistently outpaces what traditional hiring channels can deliver.
+            Techsara&apos;s Talent Solutions bridges that gap with a deeply networked,
+            rigorously vetted pool of professionals across the AI, ML, and data
+            engineering disciplines.
           </p>
           <p>
-            Our focus is finding employment solutions and consulting opportunities to solve
-            business challenges for a variety of industries. Our streamlined hiring process
-            and ongoing consultant care will help you find and support the right talent to fit
-            your needs, so you can focus on managing your team.
+            Techsara&apos;s engagement model is built for flexibility. Whether you need a
+            single specialist to cover a critical short-term vacancy or a direct hire who
+            will anchor a growing AI function, we scope, source, and match with precision.
+            Our streamlined hiring process reduces time-to-placement without cutting
+            corners on technical fit or cultural alignment.
           </p>
         </div>
 
@@ -411,18 +416,22 @@ function TeamSolutionsSection() {
   return (
     <section className="team-solutions">
       <div className="container team-solutions-inner">
-        <h2>Businesses rely on flexibility, creativity and innovation to drive results.</h2>
+        <h2>Embedded AI and ML Engineering Teams, Scoped to Your Initiative and Accountable to Your Outcomes.</h2>
         <p>
-          Built to put our deep AI engineering expertise and extensive specialist network at
-          your fingertips, our custom Team Solutions allow you to transfer your talent
-          acquisition and oversight duties to Techsara, while giving you the flexibility to
-          maintain hands-on control over your project.
+          Scaling an AI initiative requires more than individual contributors. It demands a
+          coordinated squad of specialists who understand how modern AI systems connect end to
+          end. Techsara&apos;s Team Solutions gives you a fully assembled, dedicated engineering
+          team spanning AI/ML engineers, MLOps practitioners, data engineers, cloud architects,
+          and technical leads, scoped to your project and operating under your strategic
+          direction.
         </p>
         <p>
-          Merging our AI expertise with your project management, a dedicated team of Techsara
-          consultants provides technical expertise and services to help you achieve success.
-          We help our customers attain high quality, predictable results for their most
-          innovative AI projects, including:
+          Techsara handles all talent acquisition, technical vetting, team composition, and
+          ongoing oversight. Your leadership stays focused on product decisions and business
+          outcomes, not recruitment pipelines. The team embeds directly into your workflow,
+          aligns with your technical standards, and delivers consistently across your most
+          complex AI initiatives, from LLM integration and model fine-tuning to MLOps
+          infrastructure and production deployment.
         </p>
         <ul className="team-solutions-list">
           {focusAreas.map((area) => (
@@ -495,25 +504,22 @@ function ProjectSolutionsSection() {
       <section className="project-intro">
         <div className="container project-intro-inner">
           <h2>
-            Reimagining how business gets done with solutions that are creative, purposeful and
-            scalable.
+            End-to-End AI Project Delivery, Managed to a Fixed Scope, Timeline, and Outcome so
+            You Stay Focused on the Business.
           </h2>
           <p>
-            Uniting data-led strategy and streamlined execution, our Project Solutions give you
-            the talent and support you need to actualize your most valuable and innovative
-            projects. Bridge the talent and technology gap by partnering with our subject
-            matter experts and leveraging Techsara&apos;s deep AI engineering expertise to
-            transform your workforce.
+            High-stakes AI projects fail not from lack of ambition, but from lack of structured
+            execution. Techsara&apos;s Project Solutions puts a single accountable partner in
+            charge of your entire project lifecycle from stakeholder alignment and architecture
+            scoping to build, QA, and production deployment on a defined scope, timeline, and
+            budget.
           </p>
           <p>
-            We specialize in helping our clients seamlessly integrate emerging solutions and
-            tackle challenges with their most important initiatives.
-          </p>
-          <p>And we&apos;d love to help you, too.</p>
-          <p>
-            Our Project Solutions experts offer custom solutions that are powered by strategic
-            and data-driven plans and processes to fit your business needs - no matter the
-            size.
+            Our delivery teams bring deep AI engineering expertise across strategy, application
+            development, data and analytics, automation, and PMO governance. We design
+            execution plans calibrated to your business constraints, not generic templates so
+            every milestone is tracked, every decision is data-driven, and the final outcome
+            matches what was scoped from day one.
           </p>
         </div>
       </section>
@@ -575,32 +581,24 @@ function InternationalSolutionsSection() {
       <div className="container international-solutions-inner">
         <div className="international-solutions-text">
           <h2>
-            Techsara Global Solutions<sup>®</sup> Ranks in the Top 1% for Visa Sponsorship in
-            the U.S.
+            Global AI and Engineering Talent, Onshore and Offshore with Visa Sponsorship,
+            Immigration Strategy, and US Compliance Fully Managed.
           </h2>
           <p>
-            Our experts can help you find the specialized talent you need with our expansive
-            onshore international network of global talent. As a trusted partner to our
-            clients, we help bridge the talent gap - delivering solutions that enhance
-            your business strategy.
+            Finding specialized AI and engineering talent within US borders is increasingly
+            competitive. Techsara&apos;s International Talent Solutions expands your hiring reach
+            globally connecting US enterprises with pre-vetted onshore and offshore specialists
+            across AI engineering, cloud infrastructure, and data science, while Techsara
+            carries the full weight of immigration strategy, visa sponsorship, and compliance.
           </p>
-
-          <p className="international-list-heading">We specialize in:</p>
-          <ul className="international-list">
-            <li>Staffing and Solutions Services</li>
-            <li>Resource Risk Assessment</li>
-            <li>Advanced Resource Engagement</li>
-            <li>Advisory Services</li>
-          </ul>
-
-          <p className="international-list-heading">We support:</p>
-          <ul className="international-list">
-            <li>H-1B Visas</li>
-            <li>F1 Visas (Student Visas)</li>
-            <li>STEM Optional Practical Training (OPT)</li>
-            <li>Curricular Practical Training (CPT)</li>
-            <li>Green Card (Permanent Resident Card) Holders</li>
-          </ul>
+          <p>
+            Ranked in the top 1% for visa sponsorship in the US and with over 38,000
+            successfully processed visa cases, we manage H-1B, F-1/OPT, CPT, and green card
+            engagements end to end. Every consultant is onboarded as a W-2 Techsara employee
+            eliminating the legal and administrative overhead that makes global IT staffing
+            complex. You define the technical requirements. We source the talent, handle the
+            paperwork, and keep the engagement compliant.
+          </p>
 
         </div>
 
