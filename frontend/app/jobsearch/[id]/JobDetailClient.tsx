@@ -46,8 +46,15 @@ function parseDescription(text: string): Block[] {
   return blocks;
 }
 
-export default function JobDetailClient({ job }: { job: PublicJob }) {
+export default function JobDetailClient({
+  job,
+  recommended = [],
+}: {
+  job: PublicJob;
+  recommended?: PublicJob[];
+}) {
   const [applyOpen, setApplyOpen] = useState(false);
+  const hasRec = recommended.length > 0;
   const canApply = APPLYABLE_STATUSES.includes(job.jobStatus);
   const showPriority =
     job.priority === "Urgent" || job.priority === "Critical" || job.priority === "High";
@@ -69,7 +76,7 @@ export default function JobDetailClient({ job }: { job: PublicJob }) {
       <div className="jdp-wrap">
         <Link href="/jobsearch" className="jdp-back">← Back to all roles</Link>
 
-        <div className="jdp-grid">
+        <div className={`jdp-grid${hasRec ? "" : " jdp-grid-solo"}`}>
           {/* MAIN */}
           <div className="jdp-main">
             <div className="jdp-badges">
@@ -88,25 +95,25 @@ export default function JobDetailClient({ job }: { job: PublicJob }) {
               {canApply ? <span className="jdp-apply-note">Takes ~2 min</span> : null}
             </div>
 
-            {/* Label: Value info */}
+            {/* Spec-sheet info card (Label / Value) */}
             <dl className="jdp-info">
               {job.jobRequirementName ? (
-                <div><dt>Requisition ID:</dt><dd>{job.jobRequirementName}</dd></div>
+                <div><dt>Requisition ID</dt><dd>{job.jobRequirementName}</dd></div>
               ) : null}
-              {job.location ? <div><dt>Location:</dt><dd>{job.location}</dd></div> : null}
-              {job.workMode ? <div><dt>Work Mode:</dt><dd>{job.workMode}</dd></div> : null}
-              {job.employmentType ? <div><dt>Employment Type:</dt><dd>{job.employmentType}</dd></div> : null}
+              {job.location ? <div><dt>Location</dt><dd>{job.location}</dd></div> : null}
+              {job.workMode ? <div><dt>Work Mode</dt><dd>{job.workMode}</dd></div> : null}
+              {job.employmentType ? <div><dt>Employment Type</dt><dd>{job.employmentType}</dd></div> : null}
               {job.numberOfOpenings > 0 ? (
-                <div><dt>Number of Openings:</dt><dd>{job.numberOfOpenings}</dd></div>
+                <div><dt>Number of Openings</dt><dd>{job.numberOfOpenings}</dd></div>
               ) : null}
-              {job.duration ? <div><dt>Duration:</dt><dd>{job.duration}</dd></div> : null}
-              {job.clientName ? <div><dt>Client:</dt><dd>{job.clientName}</dd></div> : null}
-              {job.postedDate ? <div><dt>Posting Date:</dt><dd>{formatDate(job.postedDate)}</dd></div> : null}
+              {job.duration ? <div><dt>Duration</dt><dd>{job.duration}</dd></div> : null}
+              {job.clientName ? <div><dt>Client</dt><dd>{job.clientName}</dd></div> : null}
+              {job.postedDate ? <div><dt>Posting Date</dt><dd>{formatDate(job.postedDate)}</dd></div> : null}
               {job.submissionDeadline ? (
-                <div><dt>Apply By:</dt><dd>{formatDate(job.submissionDeadline)}</dd></div>
+                <div><dt>Apply By</dt><dd>{formatDate(job.submissionDeadline)}</dd></div>
               ) : null}
               {job.requiredVisaStatus.length ? (
-                <div><dt>Required Visa Status:</dt><dd>{job.requiredVisaStatus.join(", ")}</dd></div>
+                <div><dt>Required Visa Status</dt><dd>{job.requiredVisaStatus.join(", ")}</dd></div>
               ) : null}
             </dl>
 
@@ -146,19 +153,45 @@ export default function JobDetailClient({ job }: { job: PublicJob }) {
             <div className="jdp-apply jdp-apply-bottom">{ApplyButton}</div>
           </div>
 
-          {/* SIDEBAR */}
-          <aside className="jdp-side">
-            <div className="jdp-promo">
-              <h3>Life at Techsara</h3>
-              <p>
-                See what it&apos;s like to work, grow, and build your career with
-                people genuinely invested in your success.
-              </p>
-              <Link href="/life-at-techsara" className="jdp-promo-link">
-                Explore Life at Techsara ›
-              </Link>
-            </div>
-          </aside>
+          {/* SIDEBAR (right) — skill-matched recommendations (only when present) */}
+          {hasRec ? (
+            <aside className="jdp-side">
+              <section className="jdp-rec">
+                <h3 className="jdp-rec-title">Recommended roles</h3>
+                <p className="jdp-rec-sub">Based on matching skills.</p>
+                <div className="jdp-rec-list">
+                  {recommended.map((r) => (
+                    <Link
+                      key={r.id}
+                      href={`/jobsearch/${encodeURIComponent(r.jobRequirementName || r.id)}`}
+                      className="jdp-rec-card"
+                    >
+                      <div className="jdp-rec-tags">
+                        <span className={`job-status status-${r.jobStatus.replace(/\s+/g, "-").toLowerCase()}`}>
+                          {r.jobStatus || "—"}
+                        </span>
+                        {r.employmentType ? <span className="job-field-tag">{r.employmentType}</span> : null}
+                      </div>
+                      <h4 className="jdp-rec-jobtitle">{r.jobTitle}</h4>
+                      <p className="jdp-rec-meta">
+                        {[r.location, r.workMode].filter(Boolean).join(" · ")}
+                      </p>
+                      {r.primarySkills.length ? (
+                        <div className="job-skills">
+                          {r.primarySkills.slice(0, 3).map((s) => (
+                            <span className="job-skill" key={s}>{s}</span>
+                          ))}
+                          {r.primarySkills.length > 3 ? (
+                            <span className="job-skill job-skill-more">+{r.primarySkills.length - 3}</span>
+                          ) : null}
+                        </div>
+                      ) : null}
+                    </Link>
+                  ))}
+                </div>
+              </section>
+            </aside>
+          ) : null}
         </div>
       </div>
 

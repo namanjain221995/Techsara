@@ -145,6 +145,10 @@
   display: grid;
   /* minmax(0,…) so a card with unbreakable content can't blow the column out */
   grid-template-columns: repeat(2, minmax(0, 1fr));
+  /* Every row takes the height of the tallest card, so all tiles are identical
+     in size. Cards are flex columns with the action pinned to the bottom, so
+     shorter cards simply get clean spacing above the button. */
+  grid-auto-rows: 1fr;
   gap: 20px;
 }
 
@@ -193,6 +197,14 @@
   margin: 0;
 }
 .job-title-row .job-badge-ref { flex-shrink: 0; }
+/* Company / client name — sits directly under the role title */
+.job-company {
+  font-size: 14px; font-weight: 600;
+  color: var(--ts-violet);
+  letter-spacing: -0.1px;
+  margin: 0 0 12px;
+  overflow-wrap: break-word;
+}
 .job-desc {
   font-size: 14.5px;
   line-height: 1.65;
@@ -344,12 +356,26 @@
 .jobs-sidebar {
   position: sticky;
   top: 92px;
+  /* The facet list is often taller than the viewport (5 groups + "see all
+     locations"). Cap it to the visible height and let it scroll on its own so
+     the bottom filters stay reachable instead of being pinned off-screen. */
+  max-height: calc(100vh - 116px);
+  overflow-y: auto;
+  overscroll-behavior: contain;
   background: var(--ts-white);
   border: 1px solid var(--ts-border);
   border-radius: var(--j-radius-lg);
   padding: 22px 22px 8px;
   box-shadow: var(--j-shadow);
 }
+/* slim, unobtrusive scrollbar for the facet panel */
+.jobs-sidebar::-webkit-scrollbar { width: 8px; }
+.jobs-sidebar::-webkit-scrollbar-thumb {
+  background: #d8dbe3; border-radius: 8px;
+  border: 2px solid var(--ts-white);
+}
+.jobs-sidebar::-webkit-scrollbar-thumb:hover { background: #c3c7d2; }
+.jobs-sidebar { scrollbar-width: thin; scrollbar-color: #d8dbe3 transparent; }
 .jobs-sidebar-head {
   display: flex; align-items: center; justify-content: space-between;
   padding-bottom: 14px;
@@ -616,6 +642,42 @@
   line-height: 1.5;
 }
 
+/* ─── ADDRESS AUTOCOMPLETE (AWS Location) ─── */
+.apply-autocomplete { position: relative; }
+.apply-autocomplete-input { position: relative; display: flex; }
+.apply-autocomplete-input input { width: 100%; }
+.apply-autocomplete-spinner {
+  position: absolute; right: 12px; top: 50%;
+  width: 15px; height: 15px; border-radius: 50%;
+  border: 2px solid var(--ts-border); border-top-color: var(--ts-violet);
+  animation: apply-spin 0.7s linear infinite;
+}
+@keyframes apply-spin {
+  from { transform: translateY(-50%) rotate(0deg); }
+  to   { transform: translateY(-50%) rotate(360deg); }
+}
+.apply-suggest {
+  position: absolute; top: calc(100% + 6px); left: 0; right: 0; z-index: 40;
+  margin: 0; padding: 6px; list-style: none;
+  background: var(--ts-white);
+  border: 1px solid var(--ts-border);
+  border-radius: 12px;
+  box-shadow: var(--j-shadow-md);
+  max-height: 264px; overflow-y: auto;
+}
+.apply-suggest li {
+  padding: 10px 12px;
+  font-size: 13.5px; line-height: 1.45;
+  color: var(--ts-body);
+  border-radius: 8px;
+  cursor: pointer;
+}
+.apply-suggest li.is-active,
+.apply-suggest li:hover {
+  background: var(--ts-grad-soft);
+  color: var(--ts-dark);
+}
+
 /* ─── RESUME DRAG & DROP ─── */
 .apply-dropzone {
   position: relative;
@@ -773,13 +835,22 @@
   padding: 108px 5% 72px;
 }
 .jdp-back {
-  display: inline-block;
+  display: inline-flex; align-items: center; gap: 7px;
   color: var(--ts-violet);
-  font-size: 14px; font-weight: 600;
+  font-size: 13.5px; font-weight: 600;
   text-decoration: none;
-  margin-bottom: 24px;
+  padding: 7px 15px 7px 13px;
+  border: 1px solid var(--ts-border);
+  border-radius: 50px;
+  background: var(--ts-white);
+  margin-bottom: 26px;
+  transition: border-color 0.2s, background 0.2s, box-shadow 0.2s;
 }
-.jdp-back:hover { text-decoration: underline; }
+.jdp-back:hover {
+  border-color: #c7d2fe;
+  background: var(--ts-grad-soft);
+  box-shadow: var(--j-shadow);
+}
 .jdp-grid {
   display: grid;
   grid-template-columns: 1fr 320px;
@@ -787,6 +858,9 @@
   align-items: start;
 }
 .jdp-main { min-width: 0; }
+/* No recommendations → single comfortable-width column (no blank right gap) */
+.jdp-grid-solo { grid-template-columns: minmax(0, 1fr); }
+.jdp-grid-solo .jdp-main { max-width: 860px; }
 
 /* header */
 .jdp-badges { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 14px; }
@@ -802,34 +876,63 @@
 /* Apply button (reuses .job-apply-btn) */
 .jdp-apply { display: inline-flex; flex-direction: column; align-items: flex-start; }
 .jdp-apply .job-apply-btn { padding: 14px 36px; font-size: 15px; }
+/* Closed roles: neutral "unavailable" look instead of a faded purple CTA. */
+.jdp-apply .job-apply-btn:disabled {
+  background: #eef0f4;
+  color: #9aa3b2;
+  opacity: 1;
+  box-shadow: inset 0 0 0 1px #e2e6ee;
+  cursor: not-allowed;
+}
 .jdp-apply-note { font-size: 11.5px; font-weight: 500; color: var(--ts-muted); margin-top: 7px; }
 .jdp-apply-top { margin-bottom: 30px; }
 .jdp-apply-bottom { margin-top: 34px; }
 
-/* Label: Value info box */
+/* Spec-sheet info card */
 .jdp-info {
-  margin: 0 0 30px;
-  padding: 20px 26px;
-  background: var(--ts-light);
+  margin: 0 0 34px;
+  background: var(--ts-white);
   border: 1px solid var(--ts-border);
   border-radius: var(--j-radius);
+  box-shadow: var(--j-shadow);
+  overflow: hidden;
 }
 .jdp-info > div {
-  display: flex; gap: 8px; flex-wrap: wrap;
-  padding: 6px 0;
-  font-size: 14.5px;
+  display: grid;
+  grid-template-columns: 184px 1fr;
+  gap: 18px;
+  align-items: baseline;
+  padding: 13px 24px;
 }
-.jdp-info dt { font-weight: 700; color: var(--ts-dark); flex-shrink: 0; }
-.jdp-info dd { margin: 0; color: var(--ts-body); }
+.jdp-info > div + div { border-top: 1px solid var(--ts-border); }
+.jdp-info dt {
+  font-size: 11.5px; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 0.7px;
+  color: var(--ts-muted);
+}
+.jdp-info dd {
+  margin: 0;
+  font-size: 14.5px; font-weight: 600;
+  color: var(--ts-dark);
+  line-height: 1.5;
+}
 
 /* description heading + body */
 .jdp-dh {
+  position: relative;
   font-size: 20px; font-weight: 800;
   color: var(--ts-dark);
   letter-spacing: -0.3px;
-  margin: 30px 0 14px;
-  padding-bottom: 10px;
-  border-bottom: 2px solid var(--ts-border);
+  margin: 34px 0 16px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--ts-border);
+}
+.jdp-dh::after {
+  content: "";
+  position: absolute; left: 0; bottom: -1px;
+  width: 46px; height: 3px;
+  background: var(--ts-grad);
+  border-radius: 3px;
 }
 .jdp-desc { color: var(--ts-body); }
 .jdp-para {
@@ -856,8 +959,8 @@
 }
 .jdp-desc > *:last-child { margin-bottom: 0; }
 
-/* sidebar promo card */
-.jdp-side { position: sticky; top: 92px; }
+/* sidebar — sticky so recommendations follow the JD on desktop */
+.jdp-side { position: sticky; top: 100px; }
 .jdp-promo {
   background: var(--ts-grad);
   color: #fff;
@@ -883,6 +986,44 @@
 }
 .jdp-promo-link:hover { gap: 12px; }
 
+/* RECOMMENDED ROLES (in the right sidebar — vertical list) */
+.jdp-rec { margin-top: 0; }
+.jdp-rec-title {
+  font-size: 17px; font-weight: 800;
+  color: var(--ts-dark);
+  letter-spacing: -0.3px;
+  margin: 0 0 3px;
+}
+.jdp-rec-sub { font-size: 13px; color: var(--ts-muted); margin: 0 0 16px; }
+.jdp-rec-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.jdp-rec-card {
+  display: block;
+  text-decoration: none;
+  background: var(--ts-white);
+  border: 1px solid var(--ts-border);
+  border-radius: var(--j-radius);
+  padding: 16px 18px;
+  box-shadow: var(--j-shadow);
+  transition: transform 0.22s, box-shadow 0.22s, border-color 0.22s;
+}
+.jdp-rec-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--j-shadow-md);
+  border-color: #c7d2fe;
+}
+.jdp-rec-tags { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 9px; }
+.jdp-rec-jobtitle {
+  font-size: 15px; font-weight: 700;
+  color: var(--ts-dark);
+  letter-spacing: -0.2px;
+  margin: 0 0 5px;
+}
+.jdp-rec-meta { font-size: 12.5px; color: var(--ts-muted); margin: 0 0 11px; }
+
 @media (max-width: 860px) {
   .jdp-grid { grid-template-columns: minmax(0, 1fr); gap: 28px; }
   .jdp-side { position: static; }
@@ -891,6 +1032,8 @@
   .jdp-wrap { padding: 96px 5% 56px; }
   .jdp-apply .job-apply-btn { width: 100%; justify-content: center; }
   .jdp-apply { width: 100%; }
+  /* stack label over value — the fixed label column is too tight on phones */
+  .jdp-info > div { grid-template-columns: 1fr; gap: 4px; padding: 12px 18px; }
 }
 
 /* ─── MOBILE FILTER TOGGLE (shown only below 960px) ─── */
@@ -923,14 +1066,17 @@
   .jobs-filter-toggle { display: flex; }
   .jobs-sidebar {
     position: static; top: auto;
+    /* drop the viewport cap — on mobile the panel flows with the page */
+    max-height: none; overflow: visible;
     display: none;
   }
   .jobs-sidebar.open { display: block; }
 }
 @media (max-width: 860px) {
   /* Narrow viewport — stack job cards in a single column. minmax(0,…) so a card
-     with unbreakable content can't blow the column out. */
-  .jobs-grid { grid-template-columns: minmax(0, 1fr); }
+     with unbreakable content can't blow the column out. In one column there's no
+     neighbour to match, so let each card size to its own content (no big gaps). */
+  .jobs-grid { grid-template-columns: minmax(0, 1fr); grid-auto-rows: auto; }
 }
 @media (max-width: 720px) {
   .jobs-hero { padding: 116px 6% 56px; }

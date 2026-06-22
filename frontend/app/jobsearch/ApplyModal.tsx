@@ -6,9 +6,8 @@ import {
   GENDER_OPTIONS,
   EXPERIENCE_OPTIONS,
   VISA_STATUS_OPTIONS,
-  COUNTRY_OPTIONS,
-  US_STATE_OPTIONS,
 } from "@/lib/application";
+import AddressAutocomplete from "./AddressAutocomplete";
 
 type Status = "idle" | "submitting" | "success" | "error";
 
@@ -193,39 +192,8 @@ export default function ApplyModal({
               </Field>
             </div>
 
-            {/* ADDRESS */}
-            <fieldset className="apply-fieldset">
-              <legend>Address</legend>
-              <div className="apply-grid">
-                <Field label="Address" required full>
-                  <input name="addressSearch" type="text" placeholder="Enter your address" autoComplete="street-address" required />
-                </Field>
-                <Field label="Country" required>
-                  <select name="country" defaultValue="United States" required>
-                    {COUNTRY_OPTIONS.map((o) => (
-                      <option key={o} value={o}>{o}</option>
-                    ))}
-                  </select>
-                </Field>
-                <Field label="Street" required>
-                  <input name="street" type="text" autoComplete="address-line1" required />
-                </Field>
-                <Field label="City" required>
-                  <input name="city" type="text" autoComplete="address-level2" required />
-                </Field>
-                <Field label="State" required>
-                  <select name="state" defaultValue="" required>
-                    <option value="">Select…</option>
-                    {US_STATE_OPTIONS.map((o) => (
-                      <option key={o} value={o}>{o}</option>
-                    ))}
-                  </select>
-                </Field>
-                <Field label="Zip / Postal Code" required>
-                  <input name="zip" type="text" autoComplete="postal-code" required />
-                </Field>
-              </div>
-            </fieldset>
+            {/* ADDRESS — AWS Location autocomplete + auto-fill */}
+            <AddressAutocomplete />
 
             {/* PROFESSIONAL */}
             <div className="apply-grid">

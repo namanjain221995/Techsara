@@ -183,7 +183,7 @@ export default function JobSearchClient({ jobs }: { jobs: PublicJob[] }) {
             </div>
             <div className="jobs-stat">
               <span className="jobs-stat-num">{jobs.length}</span>
-              <span className="jobs-stat-label">Live Roles</span>
+              <span className="jobs-stat-label">Total Roles</span>
             </div>
             <div className="jobs-stat">
               <span className="jobs-stat-num">{locationCount}</span>
@@ -212,6 +212,7 @@ export default function JobSearchClient({ jobs }: { jobs: PublicJob[] }) {
         <aside
           className={`jobs-sidebar${filtersOpen ? " open" : ""}`}
           aria-label="Filter jobs"
+          data-lenis-prevent
         >
           <div className="jobs-sidebar-head">
             <h2>Filters</h2>
@@ -356,6 +357,9 @@ export default function JobSearchClient({ jobs }: { jobs: PublicJob[] }) {
                           <span className="job-badge job-badge-ref">{job.jobRequirementName}</span>
                         ) : null}
                       </div>
+                      {job.clientName ? (
+                        <p className="job-company">{job.clientName}</p>
+                      ) : null}
                       {job.jobDescription ? (
                         <p className={`job-desc${job.jobDescription.length > LONG_DESC ? " clamp" : ""}`}>
                           {job.jobDescription}
@@ -385,7 +389,6 @@ export default function JobSearchClient({ jobs }: { jobs: PublicJob[] }) {
                         {job.requiredVisaStatus.length ? (
                           <span className="job-badge">{job.requiredVisaStatus.join(", ")}</span>
                         ) : null}
-                        {job.clientName ? <span className="job-badge">{job.clientName}</span> : null}
                         {job.postedDate ? <span className="job-badge">Posted {formatDate(job.postedDate)}</span> : null}
                         {job.submissionDeadline ? (
                           <span className="job-badge job-badge-deadline">
