@@ -1,4 +1,4 @@
-﻿import type { Metadata } from "next";
+import type { Metadata } from "next";
 import Link from "next/link";
 
 export const metadata: Metadata = {
@@ -50,7 +50,7 @@ export default function NotFound() {
           <h1>This page took an unexpected detour.</h1>
           <p className="notfound-sub">
             The page you&apos;re looking for has moved or never existed. Let&apos;s get you back on
-            track - here are a few good places to start.
+            track — here are a few good places to start.
           </p>
           <div className="notfound-links">
             {QUICK_LINKS.map((link) => (

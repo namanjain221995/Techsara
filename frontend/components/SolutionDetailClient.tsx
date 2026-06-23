@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
@@ -195,11 +195,11 @@ function TalentNetworkSection() {
 
   // All three labels are written so the characters' tops point outward
   // (away from the center).
-  // Left arc - reads top→bottom going down the left segment.
+  // Left arc — reads top→bottom going down the left segment.
   const contractLabelPath = labelPath(178, 122, 0);
-  // Bottom arc - reads left→right along the bottom segment.
+  // Bottom arc — reads left→right along the bottom segment.
   const c2hLabelPath = labelPath(122, 58, 0);
-  // Right arc - reads bottom→top going up the right segment.
+  // Right arc — reads bottom→top going up the right segment.
   const directLabelPath = labelPath(58, 2, 0);
 
   const directIcon = polar(30, iconArcR);
@@ -302,7 +302,7 @@ function TalentNetworkSection() {
             </text>
 
             {/* Icons sit near the inner edge of each segment */}
-            {/* Gear (Contract) - 8 trapezoidal teeth + solid hub */}
+            {/* Gear (Contract) — 8 trapezoidal teeth + solid hub */}
             <g transform={`translate(${contractIcon.x}, ${contractIcon.y})`}>
               <g fill="#ffffff">
                 {[0, 45, 90, 135, 180, 225, 270, 315].map((deg) => (
@@ -332,7 +332,7 @@ function TalentNetworkSection() {
               </g>
             </g>
 
-            {/* Handshake (Direct hire) - two clasping hand silhouettes */}
+            {/* Handshake (Direct hire) — two clasping hand silhouettes */}
             <g transform={`translate(${directIcon.x}, ${directIcon.y})`}>
               <g fill="#ffffff" stroke="none">
                 {/* Left forearm */}
@@ -649,7 +649,7 @@ const SERVICE_EXPANSIONS: Record<string, ExpansionContent> = {
   talent: {
     heading: "IT staffing that puts the right engineer on your team",
     intro:
-      "Talent Solutions is a specialist IT staffing service for US enterprises that need vetted engineering talent without a months-long search. From our base in Frisco, TX we recruit, screen and place AI, ML, data and platform engineers on contract, contract-to-hire and direct-hire terms - so you can scale your team to the work in front of you.",
+      "Talent Solutions is a specialist IT staffing service for US enterprises that need vetted engineering talent without a months-long search. From our base in Frisco, TX we recruit, screen and place AI, ML, data and platform engineers on contract, contract-to-hire and direct-hire terms — so you can scale your team to the work in front of you.",
     includes: [
       "Senior AI, ML, data and MLOps engineers, pre-vetted for your stack",
       "Contract, contract-to-hire and direct-hire placement",
@@ -671,7 +671,7 @@ const SERVICE_EXPANSIONS: Record<string, ExpansionContent> = {
   team: {
     heading: "A dedicated technology team that runs alongside yours",
     intro:
-      "Team Solutions gives you a managed, dedicated engineering pod - assembled, employed and supported by Techsara - that plugs into your roadmap and delivers as an extension of your own staff. It is IT staffing scaled to a full team: you keep strategic control while we handle recruitment, retention and day-to-day people management for enterprises across the United States.",
+      "Team Solutions gives you a managed, dedicated engineering pod — assembled, employed and supported by Techsara — that plugs into your roadmap and delivers as an extension of your own staff. It is IT staffing scaled to a full team: you keep strategic control while we handle recruitment, retention and day-to-day people management for enterprises across the United States.",
     includes: [
       "A dedicated pod of engineers, scientists and platform specialists",
       "Shared rituals, backlog and outcomes with your in-house team",
@@ -680,7 +680,7 @@ const SERVICE_EXPANSIONS: Record<string, ExpansionContent> = {
       "A single point of accountability for delivery and staffing",
     ],
     whoFor:
-      "Product and engineering leaders who need durable capacity for ongoing initiatives - not just individual contractors - and want a partner to own recruiting, HR and retention while they focus on the work.",
+      "Product and engineering leaders who need durable capacity for ongoing initiatives — not just individual contractors — and want a partner to own recruiting, HR and retention while they focus on the work.",
     industries: ["Technology", "Financial Services", "Healthcare", "Insurance", "Communications"],
     steps: [
       { title: "Define the pod", desc: "We map the roles, skills and capacity your initiative needs." },

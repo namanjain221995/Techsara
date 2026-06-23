@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { useEffect, useRef, useState } from "react";
 import type { PublicJob } from "@/lib/jobs";
@@ -55,7 +55,7 @@ export default function ApplyModal({
     }
     if (file.size > MAX_RESUME_BYTES) {
       setResumeError(
-        `Resume must be less than ${MAX_RESUME_MB} MB - this file is ${(file.size / 1024 / 1024).toFixed(1)} MB. Please upload a smaller file.`,
+        `Resume must be less than ${MAX_RESUME_MB} MB — this file is ${(file.size / 1024 / 1024).toFixed(1)} MB. Please upload a smaller file.`,
       );
       clearFile();
       return;
@@ -171,7 +171,7 @@ export default function ApplyModal({
           </div>
         ) : (
           <form ref={formRef} className="apply-form" onSubmit={handleSubmit}>
-            {/* Hidden - links the application to the Job Requirement (used for verification). */}
+            {/* Hidden — links the application to the Job Requirement (used for verification). */}
             <input type="hidden" name="appliedJobRequirementId" value={job.id} />
 
             <div className="apply-grid">
@@ -192,7 +192,7 @@ export default function ApplyModal({
               </Field>
             </div>
 
-            {/* ADDRESS - AWS Location autocomplete + auto-fill */}
+            {/* ADDRESS — AWS Location autocomplete + auto-fill */}
             <AddressAutocomplete />
 
             {/* PROFESSIONAL */}
@@ -221,7 +221,7 @@ export default function ApplyModal({
                   ))}
                 </select>
               </Field>
-              {/* NOTE: a plain <div>, NOT the <label>-based <Field> - a <label>
+              {/* NOTE: a plain <div>, NOT the <label>-based <Field> — a <label>
                   wrapping a file input makes any click on it open the picker
                   natively, which double-fired with our onClick (picker reopened). */}
               <div className="apply-field full">

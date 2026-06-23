@@ -1,11 +1,11 @@
-﻿import type { Metadata } from "next";
+import type { Metadata } from "next";
 import LegacyScripts from "@/components/LegacyScripts";
 import { getLegacyBody } from "@/lib/legacy-html";
 import { pageOpenGraph, breadcrumbJsonLd, jsonLdScript } from "@/lib/seo";
 
 const title = "Privacy Policy | Techsara Solutions";
 const description =
-  "Privacy Policy for Techsara Solutions - how the Techsara QuickBooks-Salesforce Invoice Integration App accesses, uses, stores, and protects your business information, and the choices available to you.";
+  "Privacy Policy for Techsara Solutions — how the Techsara QuickBooks-Salesforce Invoice Integration App accesses, uses, stores, and protects your business information, and the choices available to you.";
 
 export const metadata: Metadata = {
   title: { absolute: title },

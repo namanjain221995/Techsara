@@ -1,4 +1,4 @@
-﻿import { readFileSync, existsSync } from "fs";
+import { readFileSync, existsSync } from "fs";
 import { join } from "path";
 
 // Responsive widths emitted by scripts/convert-to-webp.mjs for /uploads images.
@@ -7,8 +7,8 @@ const UPLOADS_VARIANT_WIDTHS = [640, 1024, 1440];
 /**
  * Build a srcset for an /uploads/<name>.webp image from whichever responsive variants were
  * actually generated on disk (existsSync-guarded so we never reference a 404 candidate). The
- * full-size webp is appended as the largest candidate. Returns null when no variants exist -
- * e.g. for already-small images - so the <img> is left untouched.
+ * full-size webp is appended as the largest candidate. Returns null when no variants exist —
+ * e.g. for already-small images — so the <img> is left untouched.
  */
 function uploadsSrcset(src: string): string | null {
   const match = src.match(/^\/uploads\/(.+)\.webp$/);
