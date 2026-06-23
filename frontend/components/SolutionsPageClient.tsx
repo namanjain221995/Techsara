@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
@@ -270,19 +270,19 @@ const specialties = [
     id: "communications",
     title: "Communications",
     description:
-      "Now, more than ever, specialized capability is needed to address the rising consumer demand for faster connections and on-demand content. From wireless operations and telecom services to entertainment and advertising, our team of industry experts keeps your customers connected — at home, at work or on the go — with cutting-edge solutions built for today's digital world.",
+      "Now, more than ever, specialized capability is needed to address the rising consumer demand for faster connections and on-demand content. From wireless operations and telecom services to entertainment and advertising, our team of industry experts keeps your customers connected - at home, at work or on the go - with cutting-edge solutions built for today's digital world.",
   },
   {
     id: "healthcare",
     title: "Healthcare",
     description:
-      "Like Techsara, helping people is the heart of your business. Our team of industry-leading AI experts deliver strategic, regulation-aware solutions to your most impactful initiatives. From healthcare payers and providers to life sciences and medical devices, we know the solutions you need are as varied as the industry you serve — purposeful, scalable and customized to fit your business.",
+      "Like Techsara, helping people is the heart of your business. Our team of industry-leading AI experts deliver strategic, regulation-aware solutions to your most impactful initiatives. From healthcare payers and providers to life sciences and medical devices, we know the solutions you need are as varied as the industry you serve - purposeful, scalable and customized to fit your business.",
   },
   {
     id: "insurance",
     title: "Insurance",
     description:
-      "Today's technology and workforce innovations can enable sustained growth and streamlined process while improving customer experience. We help you deliver tomorrow's insurance solutions by optimizing transformation leadership, domain operations, customer engagement, data & applied AI and technology services — so you can find the specialized capability and integrate the technology you need to transform your business.",
+      "Today's technology and workforce innovations can enable sustained growth and streamlined process while improving customer experience. We help you deliver tomorrow's insurance solutions by optimizing transformation leadership, domain operations, customer engagement, data & applied AI and technology services - so you can find the specialized capability and integrate the technology you need to transform your business.",
   },
 ];
 

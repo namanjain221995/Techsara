@@ -1,5 +1,5 @@
-// ============================================
-// TECHSARA — Service detail page
+﻿// ============================================
+// TECHSARA - Service detail page
 // Reads ?slug=… from URL and renders from SERVICES[slug]
 // ============================================
 
@@ -22,7 +22,7 @@
     return;
   }
 
-  document.title = `${data.name} — Techsara`;
+  document.title = `${data.name} - Techsara`;
 
   // Render
   const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
@@ -103,7 +103,7 @@
         <div class="detail-head reveal">
           <span class="eyebrow">Capabilities</span>
           <h2 class="section-title">What's inside this engagement.</h2>
-          <p class="section-sub">Every project is composed from these capabilities — tuned to your data, your domain and your deployment target.</p>
+          <p class="section-sub">Every project is composed from these capabilities - tuned to your data, your domain and your deployment target.</p>
         </div>
         <div class="cap-grid">${capsHtml}</div>
       </div>
@@ -115,7 +115,7 @@
         <div class="reveal service-stack-col">
           <span class="eyebrow">Stack</span>
           <h2 class="section-title service-stack-title">Modern tools, used with intent.</h2>
-          <p class="section-sub service-stack-sub">A curated stack chosen for production reliability — not novelty.</p>
+          <p class="section-sub service-stack-sub">A curated stack chosen for production reliability - not novelty.</p>
           <div class="stack-chips">${stackHtml}</div>
         </div>
         <div class="reveal service-delv-col" data-delay="1">

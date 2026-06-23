@@ -1,4 +1,4 @@
-/**
+﻿/**
  * CANDIDATE APPLICATION CONTRACT
  * ──────────────────────────────
  * Shape + dropdown options for the "Apply" form shown when a candidate applies
@@ -10,12 +10,12 @@
  * Salesforce character-for-character (including "Onsite" without a hyphen and the
  * en-dash "–" in the training schedule) or Salesforce rejects the lead.
  *
- * `appliedJobRequirementId` is hidden in the UI but submitted — it links the
+ * `appliedJobRequirementId` is hidden in the UI but submitted - it links the
  * application back to the Job Requirement record (used for verification).
  */
 
 export interface ApplicationPayload {
-  appliedJobRequirementId: string; // hidden — = JobRequirement.id
+  appliedJobRequirementId: string; // hidden - = JobRequirement.id
   name: string;
   phone: string;
   whatsapp: string;
@@ -48,7 +48,7 @@ export const NICHE_OPTIONS = [
   "Other",
 ] as const;
 
-// Salesforce: Preferred_Work_Mode__c (restricted) — note "Onsite", no hyphen.
+// Salesforce: Preferred_Work_Mode__c (restricted) - note "Onsite", no hyphen.
 export const WORK_MODE_OPTIONS = ["Remote", "Hybrid", "Onsite"] as const;
 
 // Salesforce: GenderIdentity (restricted picklist)
@@ -85,7 +85,7 @@ export const VISA_STATUS_OPTIONS = [
   "TN",
 ] as const;
 
-// Salesforce: Training_Schedule__c (restricted) — the "–" is an EN DASH (U+2013).
+// Salesforce: Training_Schedule__c (restricted) - the "–" is an EN DASH (U+2013).
 export const TRAINING_SCHEDULE_OPTIONS = [
   "9:30 AM – 11:30 AM EST",
   "11:30 AM – 1:30 PM EST",
@@ -96,7 +96,7 @@ export const TRAINING_SCHEDULE_OPTIONS = [
 // Salesforce org only has US enabled (CountryCode restricted to [US]).
 export const COUNTRY_OPTIONS = ["United States"] as const;
 
-// Salesforce: State__c (restricted picklist) — full state names, exact spelling.
+// Salesforce: State__c (restricted picklist) - full state names, exact spelling.
 export const US_STATE_OPTIONS = [
   "Alabama", "Alaska", "Arizona", "Arkansas", "California", "Colorado",
   "Connecticut", "Delaware", "Florida", "Georgia", "Hawaii", "Idaho",

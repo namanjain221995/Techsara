@@ -1,5 +1,5 @@
-// ============================================
-// TECHSARA — Blog domain model + helpers
+﻿// ============================================
+// TECHSARA - Blog domain model + helpers
 // The blog is intentionally NOT linked from the site navigation; it exists as a
 // crawlable, sitemap-listed SEO surface targeting US B2B search intent. Content lives
 // in blog-data.ts; this module owns the types and the read/sort/derive helpers.
@@ -8,7 +8,7 @@
 import { POSTS } from "@/lib/blog-data";
 
 /** A single rendered content block. Paragraph/list text supports a tiny inline
- *  syntax — **bold** and [label](href) — expanded by the BlogContent renderer. */
+ *  syntax - **bold** and [label](href) - expanded by the BlogContent renderer. */
 export type Block =
   | { type: "p"; text: string }
   | { type: "h2"; text: string }
@@ -37,9 +37,9 @@ export type BlogPost = {
   slug: string;
   /** On-page H1. */
   title: string;
-  /** <title> text — kept ≤ ~60 chars, US/geo-modified where natural. */
+  /** <title> text - kept ≤ ~60 chars, US/geo-modified where natural. */
   seoTitle: string;
-  /** Meta description — complete sentence, ~150–160 chars. */
+  /** Meta description - complete sentence, ~150–160 chars. */
   metaDescription: string;
   /** One- to two-sentence summary shown on cards and the listing hero. */
   excerpt: string;
@@ -114,7 +114,7 @@ export function getPostBySlug(slug: string): BlogPost | null {
   return POSTS.find((p) => p.slug === slug) ?? null;
 }
 
-/** Up to `limit` related posts — same category first, then most recent — excluding `slug`. */
+/** Up to `limit` related posts - same category first, then most recent - excluding `slug`. */
 export function getRelatedPosts(slug: string, limit = 3): BlogPost[] {
   const current = getPostBySlug(slug);
   if (!current) return getAllPosts().slice(0, limit);

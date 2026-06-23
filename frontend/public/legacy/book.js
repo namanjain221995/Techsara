@@ -1,5 +1,5 @@
-// ============================================
-// TECHSARA — Booking page
+﻿// ============================================
+// TECHSARA - Booking page
 // 3 steps: pick date/time → details → confirmation
 // ============================================
 
@@ -12,7 +12,7 @@
 
   // Available slots per weekday. Weekends closed.
   // Index: 0=Sun, 1=Mon ... 6=Sat
-  // 9:00 AM through 6:30 PM, every 30 minutes — the last bookable call starts at 6:30 PM.
+  // 9:00 AM through 6:30 PM, every 30 minutes - the last bookable call starts at 6:30 PM.
   function buildSlots(startMin, endMin, stepMin) {
     const slots = [];
     for (let t = startMin; t <= endMin; t += stepMin) {
@@ -38,7 +38,7 @@
   let selectedSlot = null;
   let details = {};
 
-  // Timezone label — slots are shown in US Eastern time regardless of visitor location
+  // Timezone label - slots are shown in US Eastern time regardless of visitor location
   const tz = 'America/New_York';
 
   // --- Renderers ---
@@ -91,7 +91,7 @@
     if (!res.ok) {
       let detail = '';
       try { detail = await res.text(); } catch (_) {}
-      const err = new Error(`Booking failed (HTTP ${res.status})${detail ? ' — ' + detail : ''}`);
+      const err = new Error(`Booking failed (HTTP ${res.status})${detail ? ' - ' + detail : ''}`);
       err.status = res.status;
       throw err;
     }
@@ -246,7 +246,7 @@
       try {
         await postBooking(details);
 
-        // Booking succeeded — suppress the auto-contact popup for the rest of this session
+        // Booking succeeded - suppress the auto-contact popup for the rest of this session
         try {
           window.sessionStorage.setItem('techsara:autoContactShown', '1');
         } catch (_) { /* sessionStorage may be unavailable in some private modes */ }
@@ -261,8 +261,8 @@
         $('#c-time').textContent = `${fmtTime(selectedSlot)} (${tz})`;
         $('#c-name').textContent = `${details.firstName} ${details.lastName}`;
         $('#c-email').textContent = details.email;
-        $('#c-phone').textContent = details.phone || '—';
-        $('#c-topic').textContent = details.topic || '—';
+        $('#c-phone').textContent = details.phone || '-';
+        $('#c-topic').textContent = details.topic || '-';
         setStep(3);
       } catch (err) {
         // eslint-disable-next-line no-console

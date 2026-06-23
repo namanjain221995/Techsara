@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+﻿import type { Metadata } from "next";
 import Link from "next/link";
 import SiteHeader from "@/components/SiteHeader";
 import SiteFooter from "@/components/SiteFooter";
@@ -14,7 +14,7 @@ import {
 
 const title = "About Techsara | AI Development & IT Staffing Company, Frisco TX";
 const description =
-  "About Techsara Solutions — a Frisco, Texas AI development, IT staffing, and cloud consulting company founded in 2021. How we build and deploy production AI and staff senior engineering teams for US enterprises.";
+  "About Techsara Solutions - a Frisco, Texas AI development, IT staffing, and cloud consulting company founded in 2021. How we build and deploy production AI and staff senior engineering teams for US enterprises.";
 
 export const metadata: Metadata = {
   title: { absolute: title },
@@ -23,12 +23,12 @@ export const metadata: Metadata = {
   openGraph: pageOpenGraph({ title, description, path: "/about" }),
 };
 
-// Single source of truth for the delivery methodology — rendered visibly AND emitted as
+// Single source of truth for the delivery methodology - rendered visibly AND emitted as
 // HowTo structured data, so the on-page process and the machine-readable schema stay in sync.
 const METHODOLOGY: { name: string; text: string }[] = [
   {
     name: "Discovery & scoping",
-    text: "We clarify the business problem, success metrics, available data, and constraints — security, compliance, and deployment target — before any build begins.",
+    text: "We clarify the business problem, success metrics, available data, and constraints - security, compliance, and deployment target - before any build begins.",
   },
   {
     name: "Architecture & evaluation design",
@@ -53,7 +53,7 @@ const METHODOLOGY: { name: string; text: string }[] = [
 ];
 
 // Real, named team members go here when the owner supplies them (name, title, bio, photo,
-// LinkedIn). Left empty deliberately — never publish fabricated people. When populated, the
+// LinkedIn). Left empty deliberately - never publish fabricated people. When populated, the
 // team section renders and Person schema should be emitted via personJsonLd().
 const TEAM: { name: string; title: string; bio: string }[] = [];
 
@@ -87,7 +87,7 @@ export default function AboutPage() {
           <p className="blog-hero-sub">
             Techsara Solutions is a Frisco, Texas based AI development, IT staffing, and cloud
             consulting company. Founded in 2021, we help enterprises across the United States and
-            Canada build, deploy, and staff production AI — in the cloud, on-premise, or at the edge.
+            Canada build, deploy, and staff production AI - in the cloud, on-premise, or at the edge.
           </p>
         </div>
       </section>
@@ -104,7 +104,7 @@ export default function AboutPage() {
           <ul className="about-offerings">
             {HOME_SERVICE_OFFERINGS.map((offering) => (
               <li key={offering.path}>
-                <Link href={offering.path}>{offering.name}</Link> — {offering.description}
+                <Link href={offering.path}>{offering.name}</Link> - {offering.description}
               </li>
             ))}
           </ul>
@@ -174,7 +174,7 @@ export default function AboutPage() {
         <div className="container blog-cta-inner">
           <h2>Work with Techsara</h2>
           <p>
-            Tell us what you&apos;re building. We&apos;ll map the fastest, most accountable path —
+            Tell us what you&apos;re building. We&apos;ll map the fastest, most accountable path -
             with the talent, cloud, and delivery model to match your roadmap.
           </p>
           <div className="blog-cta-actions">
