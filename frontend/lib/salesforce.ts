@@ -5,8 +5,8 @@
  *
  *   1. getAccessToken()      — OAuth client_credentials flow, token cached in memory.
  *   2. fetchSalesforceJobs() — GET /services/apexrest/jobRequirements/, maps the
- *      Salesforce records onto our JobRequirement shape, and returns ONLY the
- *      records flagged publishToWebsite === true.
+ *      Salesforce records onto our JobRequirement shape. Every job created in
+ *      Salesforce shows on the website (only records missing an id are skipped).
  *
  * SECURITY: SF_CLIENT_ID / SF_CLIENT_SECRET live in .env.local and are read here
  * on the server. They are never bundled into client code. Internal fields
@@ -170,8 +170,11 @@ export async function fetchSalesforceJobs(): Promise<JobRequirement[]> {
     pageNumber += 1;
   } while (pageNumber <= totalPages && pageNumber <= PAGE_GUARD);
 
+  // Every job created in Salesforce is shown on the website. We only drop records
+  // that are missing an id (invalid / unlinkable). The old publishToWebsite gate
+  // was removed at the client's request — jobs now go live as soon as they exist.
   return all
-    .filter((r) => r.publishToWebsite === true && r.id)
+    .filter((r) => r.id)
     .map(mapRecord);
 }
 
