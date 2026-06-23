@@ -1,4 +1,4 @@
-# Techsara
+﻿# Techsara
 
 > Techsara Solutions is a Frisco, Texas based AI development, IT staffing, and cloud consulting company for US enterprises. It builds and deploys production AI systems - generative AI/LLMs, AI agents, computer vision, NLP, predictive ML, document AI, speech AI, recommendations, and MLOps - in the cloud, on-premise, or at the edge, and provides senior AI, ML, cloud, data, and software engineering talent to enterprise teams across the United States and Canada.
 
@@ -11,12 +11,12 @@ Techsara serves regulated, high-stakes industries including healthcare, finance,
 
 Techsara follows a consistent, production-first delivery method on every AI engagement:
 
-1. Discovery & scoping — clarify the business problem, success metrics, data, and constraints (security, compliance, deployment target) before any build.
-2. Architecture & evaluation design — choose the model/approach, define an evaluation harness and acceptance criteria, and plan the deployment topology (cloud, on-premise, air-gapped, or hybrid edge).
-3. Build in iterations — develop in short cycles with human-in-the-loop evaluation gates, so quality and accuracy are measured continuously rather than assumed.
-4. Security & governance review — apply the controls required for regulated workloads (data handling designed to meet HIPAA, SOC 2, and ISO 27001 requirements).
-5. Production deployment & MLOps — ship with monitoring, observability, CI/CD for models, and cost optimization.
-6. Handover & support — the same engineers who scope the work ship it, with post-launch support and knowledge transfer to the client's team.
+1. Discovery & scoping - clarify the business problem, success metrics, data, and constraints (security, compliance, deployment target) before any build.
+2. Architecture & evaluation design - choose the model/approach, define an evaluation harness and acceptance criteria, and plan the deployment topology (cloud, on-premise, air-gapped, or hybrid edge).
+3. Build in iterations - develop in short cycles with human-in-the-loop evaluation gates, so quality and accuracy are measured continuously rather than assumed.
+4. Security & governance review - apply the controls required for regulated workloads (data handling designed to meet HIPAA, SOC 2, and ISO 27001 requirements).
+5. Production deployment & MLOps - ship with monitoring, observability, CI/CD for models, and cost optimization.
+6. Handover & support - the same engineers who scope the work ship it, with post-launch support and knowledge transfer to the client's team.
 
 ## Contact & Booking
 

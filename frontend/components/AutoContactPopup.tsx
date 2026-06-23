@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useEffect, useRef, useState } from "react";
 import { usePathname } from "next/navigation";
@@ -9,7 +9,7 @@ const SESSION_KEY = "techsara:autoContactShown";
 const START_KEY = "techsara:sessionStart";
 const EXCLUDED_PATHS = ["/book", "/jobsearch"];
 const TOAST_MESSAGE =
-  "You've already sent us a message — a Techsara lead will be in touch within one business day.";
+  "You've already sent us a message a Techsara lead will be in touch within one business day.";
 const TOAST_DURATION_MS = 4000;
 
 export default function AutoContactPopup() {
@@ -53,10 +53,10 @@ export default function AutoContactPopup() {
     const remaining = DELAY_MS - elapsed;
 
     const fire = () => {
-      // Latest state via refs — modal may have been opened manually since the timer was set
+      // Latest state via refs modal may have been opened manually since the timer was set
       if (hasSubmittedRef.current) return;
       try { window.sessionStorage.setItem(SESSION_KEY, "1"); } catch {}
-      if (isOpenRef.current) return; // already open from a manual click — don't fight with it
+      if (isOpenRef.current) return; // already open from a manual click don't fight with it
       setIsOpen(true);
     };
 
@@ -69,7 +69,7 @@ export default function AutoContactPopup() {
     return () => window.clearTimeout(timer);
   }, [pathname, hasSubmitted]);
 
-  // Event listeners — programmatic open, click delegation, and "user engaged" signal
+  // Event listeners programmatic open, click delegation, and "user engaged" signal
   useEffect(() => {
     if (typeof window === "undefined") return;
 

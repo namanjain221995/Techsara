@@ -1,5 +1,5 @@
-// ============================================
-// TECHSARA — Central SEO configuration
+﻿// ============================================
+// TECHSARA - Central SEO configuration
 // One source of truth for site URL, brand, locale and structured-data builders.
 // ============================================
 
@@ -10,13 +10,13 @@ export const SITE = {
   // en-US locale signals to search engines that the primary audience is the United States.
   locale: "en_US",
   twitter: "@techsara",
-  // ~190 chars — kept inside the 150–220 band SEO audits prefer, and front-loaded with the
+  // ~190 chars - kept inside the 150–220 band SEO audits prefer, and front-loaded with the
   // primary keywords (AI development, IT staffing, cloud, engineering, solutions).
   description:
     "Techsara Solutions is a Frisco, Texas based AI development, IT staffing, and cloud consulting company. We build and deploy production AI solutions and staff senior cloud and software engineering teams for US enterprises.",
   // Static 1200×630 social card (regenerate with scripts/generate-og-image.py).
   ogImage: "/assets/og-image.png",
-  // Verified NAP (name/address/phone) — the single source of truth for LocalBusiness
+  // Verified NAP (name/address/phone) - the single source of truth for LocalBusiness
   // structured data and on-page contact details. Reinforces US/Frisco geo-relevance.
   telephone: "+13235961938",
   email: "hello@techsarasolutions.com",
@@ -28,7 +28,7 @@ export const SITE = {
   },
   linkedIn: "https://www.linkedin.com/company/techsara-solutions",
   // Every REAL, owned profile that corroborates the brand entity for Google's Knowledge
-  // Graph and AI search. Only add profiles Techsara actually controls — an unverifiable
+  // Graph and AI search. Only add profiles Techsara actually controls - an unverifiable
   // sameAs link hurts rather than helps. Extend as new profiles (Crunchbase, Clutch, G2,
   // GitHub, X, etc.) are confirmed.
   sameAs: ["https://www.linkedin.com/company/techsara-solutions"],
@@ -94,7 +94,7 @@ export function absoluteUrl(path = "/") {
   return `${SITE.url}${clean.startsWith("/") || clean === "" ? clean : `/${clean}`}`;
 }
 
-/** Resolve an image reference to an absolute URL — passes through absolute (http) URLs,
+/** Resolve an image reference to an absolute URL - passes through absolute (http) URLs,
  *  prefixes site-relative paths. Prevents double-prefixed URLs in structured data. */
 function resolveImage(image?: string) {
   if (!image) return absoluteUrl(SITE.ogImage);
@@ -120,7 +120,7 @@ export function jsonLdScript(data: unknown): string {
 /**
  * A complete Open Graph object for a page. Next.js replaces (does not deep-merge) the
  * `openGraph` field per route segment, so every page must restate type/siteName/locale/image
- * — this helper keeps that consistent in one place.
+ * - this helper keeps that consistent in one place.
  */
 export function pageOpenGraph(opts: { title: string; description: string; path: string }) {
   return {
@@ -137,7 +137,7 @@ export function pageOpenGraph(opts: { title: string; description: string; path: 
 }
 
 /**
- * Organization structured data — establishes the brand entity for Google's Knowledge Graph
+ * Organization structured data - establishes the brand entity for Google's Knowledge Graph
  * and feeds AI search. United-States address/contact reinforces US geo-relevance.
  */
 export function organizationJsonLd() {
@@ -183,7 +183,7 @@ export function organizationJsonLd() {
 }
 
 /**
- * ProfessionalService (a LocalBusiness subtype) — gives Google an explicit local
+ * ProfessionalService (a LocalBusiness subtype) - gives Google an explicit local
  * business entity with NAP, hours and service area. Rendered sitewide so the brand's
  * Frisco, TX presence is unambiguous for local + AI-search results.
  */
@@ -216,7 +216,7 @@ export function professionalServiceJsonLd() {
   };
 }
 
-/** WebSite structured data — enables sitelinks search box and names the site entity. */
+/** WebSite structured data - enables sitelinks search box and names the site entity. */
 export function websiteJsonLd() {
   return {
     "@context": "https://schema.org",
@@ -313,7 +313,7 @@ export function serviceJsonLd(opts: {
   };
 }
 
-/** BreadcrumbList structured data — drives breadcrumb rich results in SERPs. */
+/** BreadcrumbList structured data - drives breadcrumb rich results in SERPs. */
 export function breadcrumbJsonLd(items: { name: string; path: string }[]) {
   return {
     "@context": "https://schema.org",
@@ -329,7 +329,7 @@ export function breadcrumbJsonLd(items: { name: string; path: string }[]) {
 
 /**
  * Open Graph object for an editorial article (blog post). Next.js replaces (does not merge)
- * `openGraph` per route, so — like pageOpenGraph — every field is restated here. Uses
+ * `openGraph` per route, so - like pageOpenGraph - every field is restated here. Uses
  * type:"article" so social/AI crawlers treat it as a dated, authored piece.
  */
 export function articleOpenGraph(opts: {
@@ -400,7 +400,7 @@ export function blogPostingJsonLd(opts: {
     ...(opts.section ? { articleSection: opts.section } : {}),
     ...(opts.keywords?.length ? { keywords: opts.keywords.join(", ") } : {}),
     ...(opts.wordCount ? { wordCount: opts.wordCount } : {}),
-    // Read-aloud surface for voice/AI summarizers — headline + the key-takeaways block.
+    // Read-aloud surface for voice/AI summarizers - headline + the key-takeaways block.
     speakable: {
       "@type": "SpeakableSpecification",
       cssSelector: [".blog-post-title", ".blog-takeaways"],
@@ -408,7 +408,7 @@ export function blogPostingJsonLd(opts: {
   };
 }
 
-/** Blog structured data — names the blog entity and lists its posts as an itemized feed. */
+/** Blog structured data - names the blog entity and lists its posts as an itemized feed. */
 export function blogJsonLd(
   posts: { title: string; description: string; path: string; datePublished: string }[],
 ) {
@@ -418,7 +418,7 @@ export function blogJsonLd(
     "@id": `${SITE.url}/blogs#blog`,
     name: `${SITE.name} Blog`,
     description:
-      "Enterprise AI, staffing, cloud and MLOps insight for US B2B technology leaders — from the Techsara team.",
+      "Enterprise AI, staffing, cloud and MLOps insight for US B2B technology leaders - from the Techsara team.",
     url: absoluteUrl("/blogs"),
     inLanguage: "en-US",
     publisher: { "@id": `${SITE.url}/#organization` },
@@ -432,7 +432,7 @@ export function blogJsonLd(
   };
 }
 
-/** FAQPage structured data — surfaces an article's Q&A as eligible for FAQ rich results. */
+/** FAQPage structured data - surfaces an article's Q&A as eligible for FAQ rich results. */
 export function faqPageJsonLd(faqs: { question: string; answer: string }[]) {
   return {
     "@context": "https://schema.org",
@@ -446,7 +446,7 @@ export function faqPageJsonLd(faqs: { question: string; answer: string }[]) {
 }
 
 /**
- * HowTo structured data — encodes Techsara's real, step-by-step delivery methodology so AI
+ * HowTo structured data - encodes Techsara's real, step-by-step delivery methodology so AI
  * answer engines can extract "how Techsara works" (directly answers the audit's "Sparse
  * Methodology" / "Limited Proof Depth" findings). Steps describe the genuine process; do not
  * invent stages the team does not actually run.
@@ -474,7 +474,7 @@ export function howToJsonLd(opts: {
 /**
  * Person structured data for a real Techsara team member / author. Anchored by @id so the
  * same person can be referenced from BlogPosting.author, Organization.employee/founder, and
- * the /about page. ONLY emit for real, named people with verifiable profiles — never for
+ * the /about page. ONLY emit for real, named people with verifiable profiles - never for
  * placeholder or fabricated identities (a Person node for a non-existent person is a trust
  * liability and an AI-detectable contradiction).
  */
@@ -505,7 +505,7 @@ export function personJsonLd(opts: {
 /**
  * Review structured data for ONE testimonial. Emit only for real, permission-cleared reviews
  * with a genuine author and verifiable provenance. Unpopulated until the owner supplies real
- * testimonials — never fabricate reviewer names, companies, or quotes.
+ * testimonials - never fabricate reviewer names, companies, or quotes.
  */
 export function reviewJsonLd(opts: {
   author: string;
@@ -555,7 +555,7 @@ export function aggregateRatingJsonLd(opts: { ratingValue: number; reviewCount: 
 }
 
 /**
- * AboutPage structured data — declares /about as the canonical "about" WebPage for the brand
+ * AboutPage structured data - declares /about as the canonical "about" WebPage for the brand
  * entity so search/AI engines can resolve the company's identity, history, and people.
  */
 export function aboutPageJsonLd(opts: { title: string; description: string }) {

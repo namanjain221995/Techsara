@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+﻿import type { Metadata } from "next";
 import LegacyScripts from "@/components/LegacyScripts";
 import { getLegacyBody } from "@/lib/legacy-html";
 import { getPublicJobs } from "@/lib/jobs";
@@ -6,9 +6,9 @@ import JobSearchClient from "./JobSearchClient";
 import "./jobsearch.css";
 import { pageOpenGraph, breadcrumbJsonLd } from "@/lib/seo";
 
-const title = "Open Roles | Careers at Techsara — Frisco, TX";
+const title = "Open Roles | Careers at Techsara - Frisco, TX";
 const description =
-  "Explore open roles at Techsara — AI, ML, cloud, data, and engineering positions in Frisco, TX and remote across the US. Apply in minutes and our recruiters will reach out about the next steps.";
+  "Explore open roles at Techsara - AI, ML, cloud, data, and engineering positions in Frisco, TX and remote across the US. Apply in minutes and our recruiters will reach out about the next steps.";
 
 export const metadata: Metadata = {
   title: { absolute: title },
@@ -19,7 +19,7 @@ export const metadata: Metadata = {
 
 const SLOT = "<!--JOBS_APP_SLOT-->";
 
-// Always render on-demand so jobs come live from Salesforce on every request —
+// Always render on-demand so jobs come live from Salesforce on every request -
 // never statically prerendered (which would serve a stale/mock snapshot).
 export const dynamic = "force-dynamic";
 

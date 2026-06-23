@@ -1,5 +1,5 @@
-// ============================================
-// TECHSARA — Site interactivity
+﻿// ============================================
+// TECHSARA - Site interactivity
 // Lenis smooth scroll, GSAP ScrollTrigger pinned section,
 // magnetic CTAs, count-ups, reveals, bento glow, cursor.
 // ============================================
