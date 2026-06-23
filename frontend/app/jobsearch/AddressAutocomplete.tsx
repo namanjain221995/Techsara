@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useEffect, useRef, useState } from "react";
 import { COUNTRY_OPTIONS, US_STATE_OPTIONS } from "@/lib/application";
@@ -63,7 +63,7 @@ export default function AddressAutocomplete() {
         setOpen(true);
         setActive(-1);
       } catch {
-        /* aborted or network error — ignore */
+        /* aborted or network error - ignore */
       } finally {
         setLoading(false);
       }
@@ -111,7 +111,7 @@ export default function AddressAutocomplete() {
         setCountry(a.country);
       }
     } catch {
-      /* lookup failed — user can fill manually */
+      /* lookup failed - user can fill manually */
     }
   }
 

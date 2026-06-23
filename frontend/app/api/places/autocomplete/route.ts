@@ -1,4 +1,4 @@
-import { NextResponse } from "next/server";
+﻿import { NextResponse } from "next/server";
 
 // Server-side proxy for AWS Location Service autocomplete. The API key stays on
 // the server (env) and is never shipped to the browser.
@@ -21,7 +21,7 @@ export async function POST(req: Request) {
 
   const body = (await req.json().catch(() => ({}))) as { q?: string };
   const query = (body.q || "").trim();
-  // AWS bills per request — don't fire on every keystroke for tiny inputs.
+  // AWS bills per request - don't fire on every keystroke for tiny inputs.
   if (query.length < 3) return NextResponse.json({ suggestions: [] });
 
   const url = `https://places.geo.${REGION}.amazonaws.com/v2/autocomplete?key=${encodeURIComponent(KEY)}`;

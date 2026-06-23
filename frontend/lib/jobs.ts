@@ -1,16 +1,16 @@
-/**
+﻿/**
  * JOB REQUIREMENT DATA LAYER
  * ──────────────────────────
  * Single source of truth for job openings shown on /jobsearch.
  *
  * SOURCE: when Salesforce env vars are configured (.env.local), jobs are fetched
  * live from the Salesforce "Job Requirements" Apex REST API (see lib/salesforce.ts).
- * Otherwise — or if the API call fails — we fall back to MOCK_JOBS so local dev
+ * Otherwise - or if the API call fails - we fall back to MOCK_JOBS so local dev
  * never hard-breaks. The Salesforce team can post / edit / delete / extend jobs in
  * Salesforce and they flow straight through here; no front-end change needed.
  *
  * The string-typed enum-ish fields (jobStatus, priority, workMode, employmentType,
- * rateType) are intentionally plain `string` — Salesforce is the source of truth and
+ * rateType) are intentionally plain `string` - Salesforce is the source of truth and
  * may add picklist values; facets derive their options from the data at runtime.
  *
  * SECURITY: `clientBillRate` (and any other internal field) is INTERNAL margin data.
@@ -23,7 +23,7 @@ import { fetchSalesforceJobs, isSalesforceConfigured } from "@/lib/salesforce";
 
 /** Full record. Mirrors the Salesforce "Job Requirement" object. Server-side only. */
 export interface JobRequirement {
-  /** Salesforce record id — used as the "Applied Job Requirement" id on apply. */
+  /** Salesforce record id - used as the "Applied Job Requirement" id on apply. */
   id: string;
   /** Salesforce requirement number, e.g. "JR-00024". */
   jobRequirementName: string;
@@ -31,9 +31,9 @@ export interface JobRequirement {
   jobTitle: string;
   jobStatus: string;
   priority: string;
-  /** YYYY-MM-DD — when the requirement was created/posted. */
+  /** YYYY-MM-DD - when the requirement was created/posted. */
   postedDate: string;
-  /** YYYY-MM-DD — submission deadline. */
+  /** YYYY-MM-DD - submission deadline. */
   submissionDeadline: string;
   location: string;
   workMode: string;
@@ -46,7 +46,7 @@ export interface JobRequirement {
   requiredVisaStatus: string[];
   /** Public only when the requirement opts in (showClientNameOnWebsite). */
   clientName?: string;
-  /** INTERNAL — never expose to the public. Stripped by toPublicJob(). */
+  /** INTERNAL - never expose to the public. Stripped by toPublicJob(). */
   clientBillRate: string | number | null;
 }
 
@@ -71,7 +71,7 @@ const MOCK_JOBS: JobRequirement[] = [
     employmentType: "Full-Time",
     primarySkills: ["Python", "PyTorch", "MLOps", "LLMs"],
     jobDescription:
-      "Design, train and ship production machine-learning systems end to end. (Mock fallback — Salesforce not configured.)",
+      "Design, train and ship production machine-learning systems end to end. (Mock fallback - Salesforce not configured.)",
     duration: "Permanent",
     numberOfOpenings: 2,
     rateType: "Salary",
@@ -126,13 +126,13 @@ export function toPublicJob(job: JobRequirement): PublicJob {
   return pub;
 }
 
-/** All job requirements — live from Salesforce, or mock fallback. */
+/** All job requirements - live from Salesforce, or mock fallback. */
 export async function getJobs(): Promise<JobRequirement[]> {
   if (isSalesforceConfigured()) {
     try {
       return await fetchSalesforceJobs();
     } catch (err) {
-      console.error("[jobs] Salesforce fetch failed — using mock fallback:", err);
+      console.error("[jobs] Salesforce fetch failed - using mock fallback:", err);
       return MOCK_JOBS;
     }
   }

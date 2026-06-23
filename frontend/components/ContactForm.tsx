@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useEffect, useRef, useState } from "react";
 
@@ -23,7 +23,7 @@ type Props = {
   /** "modal" renders a Cancel + Send action row; "inline" renders a single full-width Send. */
   variant?: "modal" | "inline";
   defaultTopic?: string;
-  /** Cancel handler — only used by the modal variant. */
+  /** Cancel handler - only used by the modal variant. */
   onClose?: () => void;
 };
 
@@ -108,7 +108,7 @@ export default function ContactForm({ variant = "modal", defaultTopic = "", onCl
           const body = await res.json();
           if (body && body.error === "VALIDATION_ERROR") isValidation = true;
         } catch {
-          /* response body wasn't JSON — fall back to status check */
+          /* response body wasn't JSON - fall back to status check */
         }
         throw new Error(
           isValidation

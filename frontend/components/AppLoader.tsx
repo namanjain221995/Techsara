@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useEffect } from "react";
 
@@ -27,7 +27,7 @@ export default function AppLoader() {
       if (fallbackId) window.clearTimeout(fallbackId);
     };
 
-    // Hide the splash as soon as the document is interactive — do NOT wait
+    // Hide the splash as soon as the document is interactive - do NOT wait
     // for the hero video to buffer. The video has its own poster background
     // and will fade in when ready. Waiting for canplay on a 4MB video over
     // a slow connection blocks first paint for many seconds.

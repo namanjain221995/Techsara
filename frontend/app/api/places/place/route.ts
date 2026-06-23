@@ -1,4 +1,4 @@
-import { NextResponse } from "next/server";
+﻿import { NextResponse } from "next/server";
 
 // Server-side proxy for AWS Location Service GetPlace. Returns the structured
 // address used to auto-fill the apply form. Key stays on the server.
@@ -39,7 +39,7 @@ export async function GET(req: Request) {
       label: a.Label || d.Title || "",
       street,
       city: a.Locality || a.District || "",
-      state: a.Region?.Name || "", // full state name — matches the form's <select>
+      state: a.Region?.Name || "", // full state name - matches the form's <select>
       stateCode: a.Region?.Code || "",
       // Drop the optional ZIP+4 suffix so the field holds a clean 5-digit zip.
       zip: (a.PostalCode || "").split("-")[0],

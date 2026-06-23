@@ -1,4 +1,4 @@
-import type { Metadata, Viewport } from "next";
+﻿import type { Metadata, Viewport } from "next";
 import Script from "next/script";
 import { Inter, Instrument_Sans, JetBrains_Mono, Plus_Jakarta_Sans } from "next/font/google";
 import "./styles.css";
@@ -12,7 +12,7 @@ import RouteProgress from "@/components/RouteProgress";
 import { SITE, organizationJsonLd, websiteJsonLd, professionalServiceJsonLd, jsonLdScript } from "@/lib/seo";
 
 // Self-hosted Google Fonts (next/font). This eliminates the render-blocking
-// fonts.googleapis.com stylesheet and the gstatic/googleapis network round-trips —
+// fonts.googleapis.com stylesheet and the gstatic/googleapis network round-trips -
 // the font CSS is inlined, files are served first-party, and font-display:swap avoids
 // invisible text. The CSS variables are consumed by --font-* tokens in styles.css.
 const inter = Inter({
@@ -33,7 +33,7 @@ const jetbrainsMono = JetBrains_Mono({
   display: "swap",
   variable: "--font-jetbrains",
 });
-// Self-hosted Plus Jakarta Sans — used by the careers and jobsearch routes. Loading it here
+// Self-hosted Plus Jakarta Sans - used by the careers and jobsearch routes. Loading it here
 // via next/font replaces the render-blocking `@import url(fonts.googleapis.com...)` those two
 // CSS files used to carry (a CSS @import is the worst render-blocking pattern), and keeps the
 // font first-party like the others. Consumed via var(--font-jakarta) in careers/jobsearch.css.
@@ -137,7 +137,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: jsonLdScript(websiteJsonLd()) }}
         />
-        {/* LocalBusiness entity — NAP, hours and US service area for local + AI search. */}
+        {/* LocalBusiness entity - NAP, hours and US service area for local + AI search. */}
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: jsonLdScript(professionalServiceJsonLd()) }}
@@ -155,7 +155,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <RouteProgress />
         {children}
         <AutoContactPopup />
-        {/* Google Analytics 4 — env-driven and non-render-blocking (afterInteractive). Renders
+        {/* Google Analytics 4 - env-driven and non-render-blocking (afterInteractive). Renders
             nothing until NEXT_PUBLIC_GA_ID (format G-XXXXXXXXXX) is set in the environment, so
             no fake/placeholder ID ever ships. Add the real Measurement ID to .env.local. */}
         {process.env.NEXT_PUBLIC_GA_ID ? (
