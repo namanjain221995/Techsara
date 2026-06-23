@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+﻿import type { Metadata } from "next";
 import LegacyScripts from "@/components/LegacyScripts";
 import { getLegacyBody, getServiceSlugs, getServiceMeta } from "@/lib/legacy-html";
 import { serviceJsonLd, breadcrumbJsonLd, pageOpenGraph, clampDescription } from "@/lib/seo";
@@ -24,7 +24,7 @@ export function generateMetadata({ params }: SolutionPageProps): Metadata {
   // the service intro is too short, so no slug ships a thin or mid-word-cut description.
   const description = clampDescription(
     meta?.intro || "",
-    `${name} from Techsara — enterprise AI solutions engineered for production, with eval pipelines, security, cloud and on-premise deployment, and senior engineering support built in for US enterprises.`,
+    `${name} from Techsara - enterprise AI solutions engineered for production, with eval pipelines, security, cloud and on-premise deployment, and senior engineering support built in for US enterprises.`,
   );
   const path = `/solutions/${params.slug}`;
   // Geo/US-modified title applied uniformly to every service slug.
@@ -61,7 +61,7 @@ export default function SolutionDetailPage({ params }: SolutionPageProps) {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
       {/* The detail body is hydrated client-side into #service-root, so SSR ships no
-          heading — emit a crawlable H1 server-side so the page is indexable without JS. */}
+          heading - emit a crawlable H1 server-side so the page is indexable without JS. */}
       <h1 className="sr-only">{name}</h1>
       <div dangerouslySetInnerHTML={{ __html: getLegacyBody("service.html") }} />
       <LegacyScripts page="service" serviceSlug={params.slug} />

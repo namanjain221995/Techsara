@@ -1,4 +1,4 @@
-import ContactForm from "@/components/ContactForm";
+﻿import ContactForm from "@/components/ContactForm";
 
 const EMAIL_TEAM_HREF =
   "https://mail.google.com/mail/?view=cm&fs=1&to=hello@techsarasolutions.com&cc=sales@techsarasolutions.com&su=Project%20inquiry%20%E2%80%94%20Techsara&body=Hi%20Techsara%20team%2C%0A%0AI%27d%20like%20to%20learn%20more%20about%20your%20services.%20A%20bit%20about%20my%20project%3A%0A%0A-%20Company%3A%0A-%20Role%3A%0A-%20What%20we%27re%20trying%20to%20solve%3A%0A-%20Timeline%20%2F%20budget%3A%0A%0ABest%2C";
@@ -64,7 +64,7 @@ export default function ContactCTASection() {
           <div className="cta-form-card">
             <header className="cta-form-card-head">
               <h3>Let&apos;s start a conversation</h3>
-              <p>Tell us a bit about your initiative — a Techsara lead replies within one business day.</p>
+              <p>Tell us a bit about your initiative - a Techsara lead replies within one business day.</p>
             </header>
             <ContactForm variant="inline" />
           </div>

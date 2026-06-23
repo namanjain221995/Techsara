@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from "next/server";
+﻿import { NextRequest, NextResponse } from "next/server";
 import { getJobById } from "@/lib/jobs";
 import {
   isSalesforceConfigured,
@@ -14,7 +14,7 @@ const ALLOWED_RESUME_EXT = [".pdf", ".doc", ".docx"];
 const GENERIC_ERROR = "We couldn't submit your application. Please try again.";
 
 // Verbose request/response logging. ON in development; OFF in production unless
-// APPLY_DEBUG=true is explicitly set — keeps candidate PII out of prod logs.
+// APPLY_DEBUG=true is explicitly set - keeps candidate PII out of prod logs.
 const DEBUG =
   process.env.APPLY_DEBUG === "true" || process.env.NODE_ENV !== "production";
 
@@ -29,7 +29,7 @@ function redactForLog(p: SalesforceApplication) {
   return {
     ...p,
     resumeBase64: p.resumeBase64
-      ? `[base64 omitted — ${p.resumeBase64.length} chars]`
+      ? `[base64 omitted - ${p.resumeBase64.length} chars]`
       : "",
   };
 }
@@ -41,7 +41,7 @@ function parseYears(value: string): number | null {
 }
 
 /**
- * POST /api/apply — receives a candidate application (multipart/form-data,
+ * POST /api/apply - receives a candidate application (multipart/form-data,
  * because of the resume file), maps it to the Salesforce "Create Lead" body,
  * and submits it (creates a Lead linked to the Job Requirement).
  */
@@ -142,7 +142,7 @@ export async function POST(req: NextRequest) {
 
   // Dev fallback: if Salesforce isn't configured, accept the application locally.
   if (!isSalesforceConfigured()) {
-    console.info("[apply] Salesforce not configured — accepted locally (dev only).");
+    console.info("[apply] Salesforce not configured - accepted locally (dev only).");
     return NextResponse.json({
       ok: true,
       message: `Application received for ${job.jobTitle}.`,
@@ -158,10 +158,10 @@ export async function POST(req: NextRequest) {
         result.data && typeof result.data === "object" && "message" in result.data
           ? String((result.data as { message?: unknown }).message ?? "")
           : "";
-      // Log status/message for debugging — but never the candidate's PII.
+      // Log status/message for debugging - but never the candidate's PII.
       console.error("[apply] Salesforce rejected application:", result.status, sfMessage);
 
-      // Same candidate (by email) re-applying to the SAME job — Salesforce blocks
+      // Same candidate (by email) re-applying to the SAME job - Salesforce blocks
       // this by email + job requirement. Show a clear, specific message.
       if (/already applied/i.test(sfMessage)) {
         return NextResponse.json(
@@ -180,7 +180,7 @@ export async function POST(req: NextRequest) {
           {
             ok: false,
             error:
-              "It looks like you've already applied — our team already has your details and will be in touch.",
+              "It looks like you've already applied - our team already has your details and will be in touch.",
           },
           { status: 409 },
         );

@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
@@ -179,7 +179,7 @@ export default function ContactPageClient() {
           <div className="cta-form-card contact-form-card">
             <header className="cta-form-card-head">
               <h2>Send us a message</h2>
-              <p>Tell us a bit about your initiative — a Techsara lead replies within one business day.</p>
+              <p>Tell us a bit about your initiative - a Techsara lead replies within one business day.</p>
             </header>
             <ContactForm variant="inline" />
           </div>

@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
@@ -234,7 +234,7 @@ export default function TrendsPageClient() {
       {trendCategories.map((category) => (
         <TopicSection key={category.id} category={category} />
       ))}
-      {/* <ExpertsSection /> — hidden; uncomment to restore */}
+      {/* <ExpertsSection /> - hidden; uncomment to restore */}
       {false && <ExpertsSection />}
       <Footer />
     </main>
@@ -303,7 +303,7 @@ const trendCategories: TrendCategory[] = [
         kicker: "Success Story",
         title: "Improving cold-chain management and reducing food waste with Databricks and AI",
         description:
-          "A global distributor combined IoT telemetry with ML on Databricks to cut spoilage 28% across 14 markets — here's the architecture and the operational change behind the number.",
+          "A global distributor combined IoT telemetry with ML on Databricks to cut spoilage 28% across 14 markets - here's the architecture and the operational change behind the number.",
         visual: "glow-a",
         art: "stream",
       },
@@ -316,14 +316,14 @@ const trendCategories: TrendCategory[] = [
     title: "Cloud and infrastructure articles",
     topicKicker: "Migration, Cost Optimization, Hybrid Edge, Compliance",
     description:
-      "From on-prem to hyperscale, we help teams modernize platforms without the migration scars. Practical playbooks for cost, resilience and compliance — drawn from regulated, capital-intensive engagements.",
+      "From on-prem to hyperscale, we help teams modernize platforms without the migration scars. Practical playbooks for cost, resilience and compliance - drawn from regulated, capital-intensive engagements.",
     articles: [
       {
         id: "aws-migration",
         kicker: "Thought Leadership",
         title: "Migrating on-premises systems to AWS cloud: A reference playbook",
         description:
-          "Seven sequencing decisions that determine whether your AWS migration ships in 6 months or 18 — and how to avoid the silent cost traps that drain ROI after go-live.",
+          "Seven sequencing decisions that determine whether your AWS migration ships in 6 months or 18 - and how to avoid the silent cost traps that drain ROI after go-live.",
         visual: "circuit-a",
         art: "cloud",
       },
@@ -332,7 +332,7 @@ const trendCategories: TrendCategory[] = [
         kicker: "Success Story",
         title: "Hybrid edge deployment cuts inference latency by 60% for a manufacturer",
         description:
-          "A regional manufacturer moved AI inference to the edge while keeping training centralized — the architecture, the cost math, and the operating model behind the decision.",
+          "A regional manufacturer moved AI inference to the edge while keeping training centralized - the architecture, the cost math, and the operating model behind the decision.",
         visual: "mesh-b",
         art: "mesh",
       },
@@ -354,7 +354,7 @@ const trendCategories: TrendCategory[] = [
     title: "Generative AI articles",
     topicKicker: "LLMs, RAG, Fine-Tuning, Conversational Intelligence",
     description:
-      "Beyond the demo. We help enterprises stand up generative AI that is grounded in their data, governed by their policies, and measured against business outcomes — not vibes.",
+      "Beyond the demo. We help enterprises stand up generative AI that is grounded in their data, governed by their policies, and measured against business outcomes - not vibes.",
     articles: [
       {
         id: "genai-prep",
@@ -370,7 +370,7 @@ const trendCategories: TrendCategory[] = [
         kicker: "Thought Leadership",
         title: "RAG, fine-tuning, or both? Choosing your GenAI strategy",
         description:
-          "Decision framework with cost, latency and accuracy trade-offs — including when 'just use a bigger model' actually beats both options for your workload.",
+          "Decision framework with cost, latency and accuracy trade-offs - including when 'just use a bigger model' actually beats both options for your workload.",
         visual: "mesh-c",
         art: "neural",
       },
@@ -408,7 +408,7 @@ const trendCategories: TrendCategory[] = [
         kicker: "Thought Leadership",
         title: "AI-driven fraud detection in real-time payment systems",
         description:
-          "Why batch scoring still loses to streaming, and how to design feature pipelines that survive both the spike day and the auditor — without forklift-upgrading the core.",
+          "Why batch scoring still loses to streaming, and how to design feature pipelines that survive both the spike day and the auditor - without forklift-upgrading the core.",
         visual: "glow-c",
         art: "stream",
       },
@@ -417,7 +417,7 @@ const trendCategories: TrendCategory[] = [
         kicker: "Thought Leadership",
         title: "Predictive maintenance: How AI is transforming energy operations",
         description:
-          "Asset health from vibration, temperature and acoustic telemetry — the modeling pipeline and the org changes that make alerts actually actionable in the field.",
+          "Asset health from vibration, temperature and acoustic telemetry - the modeling pipeline and the org changes that make alerts actually actionable in the field.",
         visual: "circuit-c",
         art: "gauge",
       },
@@ -456,7 +456,7 @@ function CategoryNav() {
             </a>
           ))}
         </div>
-        {/* Meet Our Experts CTA — hidden; uncomment to restore
+        {/* Meet Our Experts CTA - hidden; uncomment to restore
         <a
           href="#meet-experts"
           className="trends-category-link trends-category-cta"
@@ -844,7 +844,7 @@ function ExpertsSection() {
           <p className="trends-experts-kicker">Meet Our Experts</p>
           <h2>The people behind the work</h2>
           <p>
-            The team you&apos;ll actually meet on day one — leads who have shipped, scaled and
+            The team you&apos;ll actually meet on day one - leads who have shipped, scaled and
             supported AI inside the operations they&apos;re advising.
           </p>
         </header>

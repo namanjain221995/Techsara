@@ -1,5 +1,5 @@
-// ============================================
-// TECHSARA — Service page data
+﻿// ============================================
+// TECHSARA - Service page data
 // One entry per service / solution. Keyed by URL slug.
 // ============================================
 
@@ -9,11 +9,11 @@ window.SERVICES = {
   "generative-ai": {
     category: "AI Service",
     name: "Generative AI & LLM Development",
-    headline: "Production LLM systems that ship — not science projects.",
+    headline: "Production LLM systems that ship - not science projects.",
     intro: "We design, fine-tune and deploy generative AI applications on Claude, GPT, Llama and open-source models. Every system is built with eval pipelines, retrieval grounding and safety guardrails so it can actually go live.",
     icon: `<path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/><circle cx="12" cy="12" r="4"/>`,
     capabilities: [
-      { title: "Retrieval-augmented generation", desc: "Grounded chat over your docs, tickets and knowledge base — with citations and hallucination checks." },
+      { title: "Retrieval-augmented generation", desc: "Grounded chat over your docs, tickets and knowledge base - with citations and hallucination checks." },
       { title: "Fine-tuning & alignment", desc: "Custom instruction tuning, DPO and LoRA adapters on Llama, Mistral and Claude-grade base models." },
       { title: "Multi-agent workflows", desc: "Tool-using agents that orchestrate across CRMs, ticketing and internal APIs with full audit trails." },
       { title: "Eval harness & red-teaming", desc: "Automated benchmarks, safety probes and regression suites running in CI on every model push." },
@@ -36,14 +36,14 @@ window.SERVICES = {
   "computer-vision": {
     category: "AI Service",
     name: "Computer Vision",
-    headline: "Eyes for your operations — at the edge or in the cloud.",
-    intro: "Detection, segmentation, OCR and quality inspection systems trained on your imagery. We optimize for the deployment target — cloud GPUs, factory edge devices or mobile.",
+    headline: "Eyes for your operations - at the edge or in the cloud.",
+    intro: "Detection, segmentation, OCR and quality inspection systems trained on your imagery. We optimize for the deployment target - cloud GPUs, factory edge devices or mobile.",
     icon: `<path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/>`,
     capabilities: [
       { title: "Object detection & tracking", desc: "Real-time YOLO/DETR-based pipelines, including multi-camera tracking and re-identification." },
       { title: "Defect & quality inspection", desc: "Anomaly detection on production lines with synthetic data augmentation for rare defects." },
       { title: "Medical & document imaging", desc: "DICOM and document segmentation with regulatory-grade audit logs." },
-      { title: "Edge optimization", desc: "TensorRT, ONNX and CoreML packaging — same model, 10× faster on-device." },
+      { title: "Edge optimization", desc: "TensorRT, ONNX and CoreML packaging - same model, 10× faster on-device." },
     ],
     stack: ["PyTorch", "YOLO v10", "Segment Anything 2", "TensorRT", "NVIDIA Jetson", "Roboflow", "OpenCV"],
     deliverables: [
@@ -94,10 +94,10 @@ window.SERVICES = {
     intro: "Forecasting, churn, fraud, recommendation and propensity models tuned on your data with full reproducibility, feature stores and continuous monitoring.",
     icon: `<path d="M3 3v18h18"/><path d="M7 15l4-4 3 3 6-8"/>`,
     capabilities: [
-      { title: "Time-series forecasting", desc: "Demand, capacity and revenue forecasts with probabilistic intervals — not point estimates." },
+      { title: "Time-series forecasting", desc: "Demand, capacity and revenue forecasts with probabilistic intervals - not point estimates." },
       { title: "Churn & propensity", desc: "Customer lifetime, churn and next-best-action models wired into CRM workflows." },
       { title: "Fraud & anomaly detection", desc: "Real-time scoring on payment rails with sub-100ms decisioning." },
-      { title: "Causal & uplift modeling", desc: "Measure incremental impact — not just correlation — before you roll out." },
+      { title: "Causal & uplift modeling", desc: "Measure incremental impact - not just correlation - before you roll out." },
     ],
     stack: ["XGBoost", "LightGBM", "Prophet", "PyTorch Forecasting", "Feast", "MLflow", "dbt"],
     deliverables: [
@@ -118,7 +118,7 @@ window.SERVICES = {
     category: "AI Service",
     name: "AI Agents & Automation",
     headline: "Agents that work inside the tools your team already uses.",
-    intro: "Multi-step agents that plan, call APIs and complete real workflows — across email, ticketing, ERP and CRM. Every action is audited; humans stay in the loop where it matters.",
+    intro: "Multi-step agents that plan, call APIs and complete real workflows - across email, ticketing, ERP and CRM. Every action is audited; humans stay in the loop where it matters.",
     icon: `<rect x="3" y="11" width="18" height="10" rx="2"/><circle cx="12" cy="5" r="2"/><path d="M12 7v4M8 16h.01M16 16h.01"/>`,
     capabilities: [
       { title: "Workflow agents", desc: "End-to-end agents for ticket triage, order exception handling and procurement approvals." },
@@ -151,7 +151,7 @@ window.SERVICES = {
       { title: "Customer support assistants", desc: "Tier-1 deflection bots wired to Zendesk, Intercom and Salesforce." },
       { title: "Internal copilots", desc: "Slack and Teams assistants grounded in your internal wiki and docs." },
       { title: "Voice agents", desc: "Realtime voice-to-voice agents for inbound and outbound calls under 300ms latency." },
-      { title: "Personality & brand tuning", desc: "Prompt and persona design that matches your voice — not the default ChatGPT tone." },
+      { title: "Personality & brand tuning", desc: "Prompt and persona design that matches your voice - not the default ChatGPT tone." },
     ],
     stack: ["Claude", "GPT-5 Realtime", "ElevenLabs", "Deepgram", "Vapi", "Twilio", "Zendesk SDK"],
     deliverables: [
@@ -171,7 +171,7 @@ window.SERVICES = {
   "document-ai": {
     category: "AI Service",
     name: "Document AI & OCR",
-    headline: "Extract structured data from any document — at enterprise scale.",
+    headline: "Extract structured data from any document - at enterprise scale.",
     intro: "Invoices, contracts, clinical records, ID documents. We extract fields with 98%+ accuracy and route them straight into your systems of record.",
     icon: `<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="17" x2="16" y2="17"/><line x1="8" y1="9" x2="10" y2="9"/>`,
     capabilities: [
@@ -198,7 +198,7 @@ window.SERVICES = {
   "speech-ai": {
     category: "AI Service",
     name: "Speech AI",
-    headline: "Realtime voice — transcription, synthesis, understanding.",
+    headline: "Realtime voice - transcription, synthesis, understanding.",
     intro: "ASR, TTS, voice cloning and voice analytics pipelines built for sub-300ms latency. Deployed in cloud or on-prem for compliance-sensitive voice workloads.",
     icon: `<path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2M12 19v3"/>`,
     capabilities: [
@@ -226,7 +226,7 @@ window.SERVICES = {
     category: "AI Service",
     name: "Recommendations",
     headline: "Personalization engines tuned for the metric that matters.",
-    intro: "Recommender systems built around your business objective — revenue, retention or engagement — with explainable ranking and A/B-ready experimentation.",
+    intro: "Recommender systems built around your business objective - revenue, retention or engagement - with explainable ranking and A/B-ready experimentation.",
     icon: `<path d="M12 2 L2 7 L12 12 L22 7 Z"/><path d="M2 17 L12 22 L22 17"/><path d="M2 12 L12 17 L22 12"/>`,
     capabilities: [
       { title: "Two-tower & sequence models", desc: "Modern retrieval + ranking architectures over your full catalog." },
@@ -252,7 +252,7 @@ window.SERVICES = {
   "mlops": {
     category: "AI Service",
     name: "MLOps & Deployment",
-    headline: "Move models from notebooks to production — and keep them there.",
+    headline: "Move models from notebooks to production - and keep them there.",
     intro: "CI/CD for models, feature stores, versioning, drift monitoring and rollback. We bring engineering rigor to data science workflows.",
     icon: `<path d="M14 2v6h6"/><path d="M4 13.5V4a2 2 0 0 1 2-2h8l6 6v11.5a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2z"/><path d="M9 17l2 2 4-4"/>`,
     capabilities: [
@@ -280,7 +280,7 @@ window.SERVICES = {
   "cloud-deployment": {
     category: "Deployment",
     name: "Cloud Deployment",
-    headline: "AI on AWS, Azure and GCP — built like the rest of your platform.",
+    headline: "AI on AWS, Azure and GCP - built like the rest of your platform.",
     intro: "Multi-cloud architectures using Bedrock, Vertex AI, SageMaker and Azure OpenAI. Infrastructure-as-code, auto-scaling, cost-tuned and observable from day one.",
     icon: `<path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"/>`,
     capabilities: [
@@ -308,7 +308,7 @@ window.SERVICES = {
     category: "Deployment",
     name: "On-Premise & Local Server AI",
     headline: "Air-gapped AI for data-sovereign workloads.",
-    intro: "We deploy production AI on your hardware — finance, healthcare, defense and other regulated environments. Open-source models, your metal, full control.",
+    intro: "We deploy production AI on your hardware - finance, healthcare, defense and other regulated environments. Open-source models, your metal, full control.",
     icon: `<rect x="2" y="3" width="20" height="6" rx="1"/><rect x="2" y="15" width="20" height="6" rx="1"/><path d="M6 6h.01M6 18h.01"/>`,
     capabilities: [
       { title: "GPU cluster setup", desc: "NVIDIA H100/H200 and AMD MI300X cluster provisioning, networking and scheduling." },
@@ -362,12 +362,12 @@ window.SERVICES = {
     category: "Consulting",
     name: "AI Strategy & Readiness",
     headline: "A pragmatic roadmap, not a vendor pitch deck.",
-    intro: "We assess your data, processes and competitive position — then deliver a prioritized AI roadmap with ROI models, build/buy decisions and a 90-day execution plan.",
+    intro: "We assess your data, processes and competitive position - then deliver a prioritized AI roadmap with ROI models, build/buy decisions and a 90-day execution plan.",
     icon: `<path d="M12 2L2 7v10l10 5 10-5V7L12 2z"/><path d="M2 7l10 5 10-5M12 12v10"/>`,
     capabilities: [
       { title: "Readiness assessment", desc: "Data, infrastructure, talent and process maturity audit with gap analysis." },
       { title: "Use-case prioritization", desc: "Impact × feasibility scoring across your portfolio of ideas." },
-      { title: "Build / buy / partner analysis", desc: "Honest recommendations — including when not to build at all." },
+      { title: "Build / buy / partner analysis", desc: "Honest recommendations - including when not to build at all." },
       { title: "Governance & risk framework", desc: "Model risk, data lineage and responsible AI policies that satisfy your board." },
     ],
     stack: ["Workshops", "Stakeholder interviews", "Data audits", "Financial modeling", "Risk frameworks"],
@@ -389,13 +389,13 @@ window.SERVICES = {
     category: "Consulting",
     name: "Cloud Architecture & Cost Engineering",
     headline: "Engineered cloud bills. Engineered cloud architecture.",
-    intro: "Migration plans, multi-cloud architectures and FinOps audits that turn unpredictable bills into engineered, observable line items — without slowing your team down.",
+    intro: "Migration plans, multi-cloud architectures and FinOps audits that turn unpredictable bills into engineered, observable line items - without slowing your team down.",
     icon: `<path d="M2 22h20M4 22V10l8-6 8 6v12M9 22v-6h6v6"/>`,
     capabilities: [
-      { title: "Migration architecture", desc: "From data-center exit to multi-cloud — phased, reversible, with clear cutover gates." },
+      { title: "Migration architecture", desc: "From data-center exit to multi-cloud - phased, reversible, with clear cutover gates." },
       { title: "FinOps cost teardown", desc: "Line-by-line spend analysis with quantified savings opportunities and owners." },
       { title: "Security & compliance", desc: "CIS benchmarks, SOC 2 readiness and least-privilege IAM at scale." },
-      { title: "Performance benchmarking", desc: "Realistic load tests on the actual workloads — not synthetic benchmarks." },
+      { title: "Performance benchmarking", desc: "Realistic load tests on the actual workloads - not synthetic benchmarks." },
     ],
     stack: ["AWS", "Azure", "GCP", "Terraform", "Kubernetes", "Datadog", "CloudHealth"],
     deliverables: [

@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+﻿import type { Metadata } from "next";
 import Link from "next/link";
 import SiteHeader from "@/components/SiteHeader";
 import SiteFooter from "@/components/SiteFooter";
@@ -8,7 +8,7 @@ import { pageOpenGraph, breadcrumbJsonLd, blogJsonLd, jsonLdScript } from "@/lib
 
 const title = "Techsara Blog | Enterprise AI & Staffing Insights";
 const description =
-  "Practical insight on enterprise AI, IT staffing, cloud, MLOps and industry use cases for US B2B technology leaders — field notes on hiring, generative AI, and production engineering from the Techsara team.";
+  "Practical insight on enterprise AI, IT staffing, cloud, MLOps and industry use cases for US B2B technology leaders - field notes on hiring, generative AI, and production engineering from the Techsara team.";
 
 export const metadata: Metadata = {
   title: { absolute: title },
@@ -76,7 +76,7 @@ export default function BlogsPage() {
           <p className="eyebrow">Techsara Insights</p>
           <h1>Enterprise AI, staffing &amp; cloud insight for US technology leaders</h1>
           <p className="blog-hero-sub">
-            Field notes from the teams who build and staff production AI — practical guidance on
+            Field notes from the teams who build and staff production AI - practical guidance on
             hiring AI talent, generative AI adoption, cloud and MLOps economics, and applied
             use cases across regulated US industries.
           </p>
@@ -109,7 +109,7 @@ export default function BlogsPage() {
         <div className="container blog-cta-inner">
           <h2>Have a project that needs the right team?</h2>
           <p>
-            Techsara helps US enterprises ship production AI — with the talent, cloud and delivery
+            Techsara helps US enterprises ship production AI - with the talent, cloud and delivery
             model to match. Let&apos;s map the fastest path for your roadmap.
           </p>
           <div className="blog-cta-actions">

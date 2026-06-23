@@ -1,4 +1,4 @@
-import type { ArtKey } from "@/lib/blog";
+﻿import type { ArtKey } from "@/lib/blog";
 
 /**
  * Decorative, per-category SVG motif used behind blog cards and post heroes. Purely
@@ -87,7 +87,7 @@ export default function BlogArt({ art }: { art: ArtKey }) {
     );
   }
 
-  // industry — bars / signal over a baseline.
+  // industry - bars / signal over a baseline.
   return (
     <svg {...common}>
       <line x1="60" y1="200" x2="340" y2="200" stroke="rgba(255,255,255,0.3)" strokeWidth="1" />
