@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { useState } from "react";
 import Link from "next/link";
@@ -11,7 +11,7 @@ const MONTHS = [
 ];
 
 function formatDate(iso: string): string {
-  if (!iso) return "-";
+  if (!iso) return "—";
   const [y, m, d] = iso.split("-");
   const mi = Number(m) - 1;
   if (!y || mi < 0 || mi > 11 || !d) return iso;
@@ -81,7 +81,7 @@ export default function JobDetailClient({
           <div className="jdp-main">
             <div className="jdp-badges">
               <span className={`job-status status-${job.jobStatus.replace(/\s+/g, "-").toLowerCase()}`}>
-                {job.jobStatus || "-"}
+                {job.jobStatus || "—"}
               </span>
               {job.employmentType ? <span className="job-field-tag">{job.employmentType}</span> : null}
               {showPriority ? <span className="job-priority">{job.priority} priority</span> : null}
@@ -153,7 +153,7 @@ export default function JobDetailClient({
             <div className="jdp-apply jdp-apply-bottom">{ApplyButton}</div>
           </div>
 
-          {/* SIDEBAR (right) - skill-matched recommendations (only when present) */}
+          {/* SIDEBAR (right) — skill-matched recommendations (only when present) */}
           {hasRec ? (
             <aside className="jdp-side">
               <section className="jdp-rec">
@@ -168,7 +168,7 @@ export default function JobDetailClient({
                     >
                       <div className="jdp-rec-tags">
                         <span className={`job-status status-${r.jobStatus.replace(/\s+/g, "-").toLowerCase()}`}>
-                          {r.jobStatus || "-"}
+                          {r.jobStatus || "—"}
                         </span>
                         {r.employmentType ? <span className="job-field-tag">{r.employmentType}</span> : null}
                       </div>

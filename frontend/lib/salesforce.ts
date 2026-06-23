@@ -1,17 +1,17 @@
-﻿/**
+/**
  * SALESFORCE CLIENT  (server-side only)
  * ─────────────────────────────────────
  * Talks to the Techsara "Job Requirements" Apex REST API on the dev11 sandbox.
  *
- *   1. getAccessToken()      - OAuth client_credentials flow, token cached in memory.
- *   2. fetchSalesforceJobs() - GET /services/apexrest/jobRequirements/, maps the
+ *   1. getAccessToken()      — OAuth client_credentials flow, token cached in memory.
+ *   2. fetchSalesforceJobs() — GET /services/apexrest/jobRequirements/, maps the
  *      Salesforce records onto our JobRequirement shape, and returns ONLY the
- *      records where Website_Status__c === "Published".
+ *      records flagged publishToWebsite === true.
  *
  * SECURITY: SF_CLIENT_ID / SF_CLIENT_SECRET live in .env.local and are read here
  * on the server. They are never bundled into client code. Internal fields
  * (clientBillRate, margins, contacts, internal counts) are dropped during mapping
- * - they never even enter the JobRequirement object that reaches the page.
+ * — they never even enter the JobRequirement object that reaches the page.
  */
 
 import type { JobRequirement } from "@/lib/jobs";
@@ -101,7 +101,7 @@ interface SfJobRecord {
   jobDescription?: string;
   submissionDeadline?: string;
   createdDate?: string;
-  Website_Status__c?: string;
+  publishToWebsite?: boolean;
   showClientNameOnWebsite?: boolean;
   clientAccountName?: string;
   clientBillRate?: number | string | null;
@@ -145,12 +145,12 @@ function mapRecord(r: SfJobRecord): JobRequirement {
     requiredVisaStatus: splitList(r.requiredVisaStatus, ";"),
     // Client name only when the requirement explicitly opts in.
     clientName: r.showClientNameOnWebsite ? r.clientAccountName ?? undefined : undefined,
-    // INTERNAL - kept on the server-only JobRequirement, stripped by toPublicJob().
+    // INTERNAL — kept on the server-only JobRequirement, stripped by toPublicJob().
     clientBillRate: r.clientBillRate ?? null,
   };
 }
 
-// Pull a large page and walk every page so the list scales with Salesforce -
+// Pull a large page and walk every page so the list scales with Salesforce —
 // no silent 20-record cap. PAGE_GUARD bounds the loop against a runaway response.
 const FETCH_PAGE_SIZE = 200;
 const PAGE_GUARD = 50; // up to 50 × 200 = 10,000 jobs
@@ -171,12 +171,12 @@ export async function fetchSalesforceJobs(): Promise<JobRequirement[]> {
   } while (pageNumber <= totalPages && pageNumber <= PAGE_GUARD);
 
   return all
-    .filter((r) => r.Website_Status__c === "Published" && r.id)
+    .filter((r) => r.publishToWebsite === true && r.id)
     .map(mapRecord);
 }
 
 /**
- * Candidate application payload - field names map 1:1 to the Salesforce
+ * Candidate application payload — field names map 1:1 to the Salesforce
  * "Create Lead" Apex REST body (POST /services/apexrest/jobRequirements/).
  */
 export interface SalesforceApplication {
@@ -208,7 +208,7 @@ export interface SalesforceApplication {
 /**
  * POST a candidate application to Salesforce (creates a Lead linked to the
  * Job Requirement). Retries once on a 401 with a refreshed token. Never throws
- * on a non-2xx - returns { ok:false } so the caller can respond gracefully.
+ * on a non-2xx — returns { ok:false } so the caller can respond gracefully.
  */
 export async function submitSalesforceApplication(
   payload: SalesforceApplication,

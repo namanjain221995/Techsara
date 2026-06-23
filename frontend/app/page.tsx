@@ -1,4 +1,4 @@
-﻿import type { Metadata } from "next";
+import type { Metadata } from "next";
 import { readdirSync } from "fs";
 import { join } from "path";
 import LegacyScripts from "@/components/LegacyScripts";
@@ -107,9 +107,9 @@ export const metadata: Metadata = {
 
 const SPECTRUM_PLACEHOLDER = "<!-- TECHSARA_SPECTRUM_PLACEHOLDER -->";
 const CONTACT_CTA_PLACEHOLDER =
-  "<!-- TECHSARA_CONTACT_CTA_PLACEHOLDER - replaced server-side by <ContactCTASection /> (embedded contact form) -->";
+  "<!-- TECHSARA_CONTACT_CTA_PLACEHOLDER — replaced server-side by <ContactCTASection /> (embedded contact form) -->";
 const LOGOS_PLACEHOLDER =
-  "<!-- TECHSARA_LOGOS_PLACEHOLDER - populated server-side from /public/logo at build time -->";
+  "<!-- TECHSARA_LOGOS_PLACEHOLDER — populated server-side from /public/logo at build time -->";
 
 function escapeAttr(value: string) {
   return value.replace(/&/g, "&amp;").replace(/"/g, "&quot;");
@@ -118,15 +118,15 @@ function escapeAttr(value: string) {
 function getLogos() {
   const logoDir = join(process.cwd(), "public", "logo");
   try {
-    // List source images (png/jpg/svg) - NOT the generated .webp siblings, or each logo
+    // List source images (png/jpg/svg) — NOT the generated .webp siblings, or each logo
     // would appear twice. png/jpg are then served as their WebP version.
     const files = readdirSync(logoDir)
       .filter((f) => /\.(png|jpe?g|svg)$/i.test(f))
       .sort((a, b) => a.localeCompare(b));
-    // Render each logo ONCE in the shipped HTML - halving the bytes vs. the old items+items
+    // Render each logo ONCE in the shipped HTML — halving the bytes vs. the old items+items
     // duplication (the dominant contributor to the "HTML Page Size" audit failure). The
     // seamless -50% marquee keyframe needs the set doubled, so a tiny runtime script clones
-    // the track after parse (see HomePage) - keeping the second copy out of the shipped HTML.
+    // the track after parse (see HomePage) — keeping the second copy out of the shipped HTML.
     // width/height 171×56 matches the true 256×84 source ratio at the CSS height:56px,
     // eliminating the declared-vs-rendered aspect-ratio mismatch (and CLS).
     const items = files
@@ -157,7 +157,7 @@ function HomeSeoFaq() {
             fixed-scope projects.
           </p>
         </div>
-        {/* Client slider, but the Q&A text still server-renders into the HTML -
+        {/* Client slider, but the Q&A text still server-renders into the HTML —
             crawlers see every answer and it stays in sync with the FAQPage JSON-LD. */}
         <HomeFaqSlider faqs={HOME_FAQS} />
       </div>
@@ -177,7 +177,7 @@ export default function HomePage() {
   );
 
   const [beforeSpectrum, afterSpectrum = ""] = body.split(SPECTRUM_PLACEHOLDER);
-  // The CTA banner lives after the spectrum section - split again to swap it for the
+  // The CTA banner lives after the spectrum section — split again to swap it for the
   // React-driven section that embeds the live contact form on the right.
   const [betweenSpectrumAndCta, afterCta = ""] = afterSpectrum.split(CONTACT_CTA_PLACEHOLDER);
   const jsonLd = [
@@ -193,7 +193,7 @@ export default function HomePage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: jsonLdScript(jsonLd) }}
       />
-      {/* Preload the hero <video> poster - the homepage LCP element - at high priority. */}
+      {/* Preload the hero <video> poster — the homepage LCP element — at high priority. */}
       <link rel="preload" as="image" href="/uploads/hero_1.webp" fetchPriority="high" />
       <div dangerouslySetInnerHTML={{ __html: beforeSpectrum }} />
       {/* The logo marquee ships each logo once; restore the doubled track the -50% keyframe

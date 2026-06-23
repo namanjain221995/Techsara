@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
@@ -14,7 +14,7 @@ const MONTHS = [
 ];
 
 function formatDate(iso: string): string {
-  if (!iso) return "-";
+  if (!iso) return "—";
   const [y, m, d] = iso.split("-");
   const mi = Number(m) - 1;
   if (!y || mi < 0 || mi > 11 || !d) return iso;
@@ -146,7 +146,7 @@ export default function JobSearchClient({ jobs }: { jobs: PublicJob[] }) {
         <div className="jobs-hero-inner">
           <div className="hero-tag">
             <div className="hero-dot" />
-            Open Positions - We&apos;re Hiring
+            Open Positions — We&apos;re Hiring
           </div>
           <h1>Find Your Next Role at Techsara</h1>
           <p className="jobs-hero-sub">
@@ -320,7 +320,7 @@ export default function JobSearchClient({ jobs }: { jobs: PublicJob[] }) {
                   <p className="jobs-empty-title">No open positions right now</p>
                   <p className="jobs-empty-text">
                     We don&apos;t have any roles posted at the moment. New openings are
-                    added regularly - please check back soon.
+                    added regularly — please check back soon.
                   </p>
                 </>
               ) : (
@@ -342,7 +342,7 @@ export default function JobSearchClient({ jobs }: { jobs: PublicJob[] }) {
                     <div className="job-card-main">
                       <div className="job-card-tags">
                         <span className={`job-status status-${job.jobStatus.replace(/\s+/g, "-").toLowerCase()}`}>
-                          {job.jobStatus || "-"}
+                          {job.jobStatus || "—"}
                         </span>
                         {job.employmentType ? (
                           <span className="job-field-tag">{job.employmentType}</span>
@@ -411,14 +411,14 @@ export default function JobSearchClient({ jobs }: { jobs: PublicJob[] }) {
             </div>
           )}
 
-          {/* INFINITE SCROLL - sentinel reveals the next batch as it nears the viewport */}
+          {/* INFINITE SCROLL — sentinel reveals the next batch as it nears the viewport */}
           {hasMore ? (
             <div ref={loaderRef} className="jobs-loader" aria-hidden="true">
               <span className="jobs-loader-spinner" />
               <span>Loading more roles…</span>
             </div>
           ) : filtered.length > PAGE_SIZE ? (
-            <p className="jobs-loader-end">You&apos;ve reached the end - {filtered.length} roles.</p>
+            <p className="jobs-loader-end">You&apos;ve reached the end — {filtered.length} roles.</p>
           ) : null}
         </div>
       </section>

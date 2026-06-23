@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
@@ -135,7 +135,7 @@ export default function SpectrumOfSolutions() {
 
           <div className="spectrum-display">
             <div className="spectrum-image-frame">
-              {/* Render all images, toggle opacity - keeps GPU work, avoids
+              {/* Render all images, toggle opacity — keeps GPU work, avoids
                   remount + redownload on every hover. */}
               {spectrumSolutions.map((sol, i) => (
                 <img

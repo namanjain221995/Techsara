@@ -1,11 +1,11 @@
-﻿import type { Metadata } from "next";
+import type { Metadata } from "next";
 import LegacyScripts from "@/components/LegacyScripts";
 import { getLegacyBody } from "@/lib/legacy-html";
 import CareersInteractivity from "./CareersInteractivity";
 import "./careers.css";
 import { pageOpenGraph, breadcrumbJsonLd } from "@/lib/seo";
 
-const title = "AI & Tech Careers | Join Techsara - Frisco, TX";
+const title = "AI & Tech Careers | Join Techsara — Frisco, TX";
 const description =
   "Build your career at Techsara. We're hiring AI engineers, ML specialists, and tech talent in Frisco, TX and remote across the United States. Apply today.";
 

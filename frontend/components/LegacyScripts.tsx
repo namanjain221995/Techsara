@@ -1,4 +1,4 @@
-﻿import Script from "next/script";
+import Script from "next/script";
 import LegacyReinit from "./LegacyReinit";
 
 type LegacyScriptsProps = {
@@ -35,7 +35,7 @@ export default function LegacyScripts({ page, serviceSlug }: LegacyScriptsProps)
 
       {page === "home" || page === "print" ? (
         <>
-          {/* Self-hosted (public/legacy/vendor) instead of jsDelivr - removes 3 cross-origin
+          {/* Self-hosted (public/legacy/vendor) instead of jsDelivr — removes 3 cross-origin
               requests counted by the "Page Objects" audit and the third-party CDN dependency.
               Versions are pinned in the filenames; still lazyOnload so they never render-block. */}
           <Script src="/legacy/vendor/lenis.min.js" strategy="lazyOnload" />

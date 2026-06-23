@@ -1,9 +1,9 @@
-﻿import Link from "next/link";
+import Link from "next/link";
 
 /**
  * Static, SSR-friendly site header for the blog. Mirrors the primary navigation used
  * elsewhere on the site (Services / Solutions / Articles / Careers / Contact). The blog
- * is intentionally NOT linked here - it stays out of the visible nav while remaining a
+ * is intentionally NOT linked here — it stays out of the visible nav while remaining a
  * fully crawlable, indexable page.
  */
 export default function SiteHeader() {
