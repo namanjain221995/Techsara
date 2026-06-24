@@ -58,7 +58,7 @@ export default function JobDetailClient({
   const canApply = APPLYABLE_STATUSES.includes(job.jobStatus);
   const showPriority =
     job.priority === "Urgent" || job.priority === "Critical" || job.priority === "High";
-  const blocks = parseDescription((job.jobDescription || "").trim());
+  const descHtml = (job.jobDescription || "").trim();
 
   const ApplyButton = (
     <button
@@ -118,22 +118,11 @@ export default function JobDetailClient({
             </dl>
 
             {/* description */}
-            {blocks.length ? (
+            {descHtml ? (
               <>
                 <h2 className="jdp-dh">Job Description</h2>
-                <div className="jdp-desc">
-                  {blocks.map((b, i) => {
-                    if (b.type === "subhead") return <h3 key={i} className="jdp-subhead">{b.text}</h3>;
-                    if (b.type === "list") {
-                      return (
-                        <ul key={i} className="jdp-list">
-                          {b.items.map((it, j) => <li key={j}>{it}</li>)}
-                        </ul>
-                      );
-                    }
-                    return <p key={i} className="jdp-para">{b.text}</p>;
-                  })}
-                </div>
+                {/* TODO: sanitize with DOMPurify before production release */}
+                <div className="jdp-desc" dangerouslySetInnerHTML={{ __html: descHtml }} />
               </>
             ) : null}
 
