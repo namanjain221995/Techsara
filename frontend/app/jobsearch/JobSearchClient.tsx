@@ -4,6 +4,41 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import { APPLYABLE_STATUSES, type PublicJob } from "@/lib/jobs";
 
+const stripHtml = (html: string) => {
+  if (!html) return '';
+  return html.replace(/<[^>]*>/g, ' ').replace(/&amp;/g, '&')
+    .replace(/&nbsp;/g, ' ').replace(/&lt;/g, '<').replace(/&gt;/g, '>')
+    .replace(/\s+/g, ' ').trim();
+};
+
+function useVisibleSkillCount(skills: string[]) {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [visibleCount, setVisibleCount] = useState(skills ? skills.length : 0);
+
+  useEffect(() => {
+    if (!containerRef.current || !skills || skills.length === 0) return;
+    const container = containerRef.current;
+    const frame = requestAnimationFrame(() => {
+      const tags = Array.from(container.children).filter(
+        (el) => !el.classList.contains("more-badge"),
+      ) as HTMLElement[];
+      if (tags.length === 0) return;
+      const containerTop = container.getBoundingClientRect().top;
+      const tagHeight = tags[0].getBoundingClientRect().height;
+      const maxHeight = tagHeight * 2 + 8;
+      let lastFittingIndex = 0;
+      for (let i = 0; i < tags.length; i++) {
+        const relativeTop = tags[i].getBoundingClientRect().top - containerTop;
+        if (relativeTop < maxHeight - 2) { lastFittingIndex = i + 1; } else { break; }
+      }
+      setVisibleCount(Math.max(1, lastFittingIndex));
+    });
+    return () => cancelAnimationFrame(frame);
+  }, [skills]);
+
+  return { containerRef, visibleCount };
+}
+
 // Descriptions longer than this get clamped on the card with a "More details" link.
 const LONG_DESC = 160;
 
@@ -34,6 +69,87 @@ function countBy(jobs: PublicJob[], pick: (j: PublicJob) => string): Record<stri
 
 type SortField = "postedDate" | "jobTitle";
 type SortDir = "asc" | "desc";
+
+function JobCardItem({ job }: { job: PublicJob }) {
+  const { containerRef, visibleCount } = useVisibleSkillCount(job.primarySkills);
+  const visibleSkills = job.primarySkills.slice(0, visibleCount);
+  const overflowCount = job.primarySkills.length - visibleCount;
+
+  return (
+    <article className="job-card" style={{ minHeight: '420px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+      <div className="job-card-main">
+        <div className="job-card-tags">
+          <span className={`job-status status-${job.jobStatus.replace(/\s+/g, "-").toLowerCase()}`}>
+            {job.jobStatus || "-"}
+          </span>
+          {job.employmentType ? (
+            <span className="job-field-tag">{job.employmentType}</span>
+          ) : null}
+          {job.priority === "Urgent" || job.priority === "Critical" || job.priority === "High" ? (
+            <span className="job-priority">{job.priority} priority</span>
+          ) : null}
+        </div>
+        <div className="job-title-row">
+          <h3 className="job-title">{job.jobTitle}</h3>
+          {job.jobRequirementName ? (
+            <span className="job-badge job-badge-ref">{job.jobRequirementName}</span>
+          ) : null}
+        </div>
+        {job.clientName ? (
+          <p className="job-company">{job.clientName}</p>
+        ) : null}
+        {job.jobDescription ? (
+          <p className={`job-desc${job.jobDescription.length > LONG_DESC ? " clamp" : ""}`}>
+            {stripHtml(job.jobDescription)}
+          </p>
+        ) : null}
+        {job.primarySkills.length ? (
+          <div
+            ref={containerRef}
+            className="job-skills"
+            style={{ minHeight: '72px', alignContent: 'flex-start' }}
+          >
+            {visibleSkills.map((s) => (
+              <span className="job-skill" key={s}>{s}</span>
+            ))}
+            {overflowCount > 0 ? (
+              <span className="job-skill job-skill-more more-badge">
+                +{overflowCount} more
+              </span>
+            ) : null}
+          </div>
+        ) : null}
+        <div className="job-meta">
+          {job.location ? <span className="job-badge">{job.location}</span> : null}
+          {job.workMode ? <span className="job-badge">{job.workMode}</span> : null}
+          {job.duration ? <span className="job-badge">{job.duration}</span> : null}
+          {job.numberOfOpenings > 0 ? (
+            <span className="job-badge">
+              {job.numberOfOpenings} opening{job.numberOfOpenings > 1 ? "s" : ""}
+            </span>
+          ) : null}
+          {job.requiredVisaStatus.length ? (
+            <span className="job-badge">{job.requiredVisaStatus.join(", ")}</span>
+          ) : null}
+          {job.postedDate ? <span className="job-badge">Posted {formatDate(job.postedDate)}</span> : null}
+          {job.submissionDeadline ? (
+            <span className="job-badge job-badge-deadline">
+              Apply by {formatDate(job.submissionDeadline)}
+            </span>
+          ) : null}
+        </div>
+      </div>
+      <div className="job-card-action">
+        <Link
+          href={`/jobsearch/${encodeURIComponent(job.jobRequirementName || job.id)}`}
+          className="job-apply-btn"
+        >
+          More details
+        </Link>
+      </div>
+    </article>
+  );
+}
 
 export default function JobSearchClient({ jobs }: { jobs: PublicJob[] }) {
   const [keyword, setKeyword] = useState("");
@@ -336,78 +452,9 @@ export default function JobSearchClient({ jobs }: { jobs: PublicJob[] }) {
             </div>
           ) : (
             <div className="jobs-grid">
-              {pageJobs.map((job) => {
-                return (
-                  <article className="job-card" key={job.id}>
-                    <div className="job-card-main">
-                      <div className="job-card-tags">
-                        <span className={`job-status status-${job.jobStatus.replace(/\s+/g, "-").toLowerCase()}`}>
-                          {job.jobStatus || "-"}
-                        </span>
-                        {job.employmentType ? (
-                          <span className="job-field-tag">{job.employmentType}</span>
-                        ) : null}
-                        {job.priority === "Urgent" || job.priority === "Critical" || job.priority === "High" ? (
-                          <span className="job-priority">{job.priority} priority</span>
-                        ) : null}
-                      </div>
-                      <div className="job-title-row">
-                        <h3 className="job-title">{job.jobTitle}</h3>
-                        {job.jobRequirementName ? (
-                          <span className="job-badge job-badge-ref">{job.jobRequirementName}</span>
-                        ) : null}
-                      </div>
-                      {job.clientName ? (
-                        <p className="job-company">{job.clientName}</p>
-                      ) : null}
-                      {job.jobDescription ? (
-                        <p className={`job-desc${job.jobDescription.length > LONG_DESC ? " clamp" : ""}`}>
-                          {job.jobDescription}
-                        </p>
-                      ) : null}
-                      {job.primarySkills.length ? (
-                        <div className="job-skills">
-                          {job.primarySkills.slice(0, 6).map((s) => (
-                            <span className="job-skill" key={s}>{s}</span>
-                          ))}
-                          {job.primarySkills.length > 6 ? (
-                            <span className="job-skill job-skill-more">
-                              +{job.primarySkills.length - 6} more
-                            </span>
-                          ) : null}
-                        </div>
-                      ) : null}
-                      <div className="job-meta">
-                        {job.location ? <span className="job-badge">{job.location}</span> : null}
-                        {job.workMode ? <span className="job-badge">{job.workMode}</span> : null}
-                        {job.duration ? <span className="job-badge">{job.duration}</span> : null}
-                        {job.numberOfOpenings > 0 ? (
-                          <span className="job-badge">
-                            {job.numberOfOpenings} opening{job.numberOfOpenings > 1 ? "s" : ""}
-                          </span>
-                        ) : null}
-                        {job.requiredVisaStatus.length ? (
-                          <span className="job-badge">{job.requiredVisaStatus.join(", ")}</span>
-                        ) : null}
-                        {job.postedDate ? <span className="job-badge">Posted {formatDate(job.postedDate)}</span> : null}
-                        {job.submissionDeadline ? (
-                          <span className="job-badge job-badge-deadline">
-                            Apply by {formatDate(job.submissionDeadline)}
-                          </span>
-                        ) : null}
-                      </div>
-                    </div>
-                    <div className="job-card-action">
-                      <Link
-                        href={`/jobsearch/${encodeURIComponent(job.jobRequirementName || job.id)}`}
-                        className="job-apply-btn"
-                      >
-                        More details
-                      </Link>
-                    </div>
-                  </article>
-                );
-              })}
+              {pageJobs.map((job) => (
+                <JobCardItem job={job} key={job.id} />
+              ))}
             </div>
           )}
 
