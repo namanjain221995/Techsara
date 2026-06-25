@@ -4,13 +4,6 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import { APPLYABLE_STATUSES, type PublicJob } from "@/lib/jobs";
 
-const stripHtml = (html: string) => {
-  if (!html) return '';
-  return html.replace(/<[^>]*>/g, ' ').replace(/&amp;/g, '&')
-    .replace(/&nbsp;/g, ' ').replace(/&lt;/g, '<').replace(/&gt;/g, '>')
-    .replace(/\s+/g, ' ').trim();
-};
-
 function useVisibleSkillCount(skills: string[]) {
   const containerRef = useRef<HTMLDivElement>(null);
   const [visibleCount, setVisibleCount] = useState(skills ? skills.length : 0);
@@ -38,9 +31,6 @@ function useVisibleSkillCount(skills: string[]) {
 
   return { containerRef, visibleCount };
 }
-
-// Descriptions longer than this get clamped on the card with a "More details" link.
-const LONG_DESC = 160;
 
 const PAGE_SIZE = 10;
 const MONTHS = [
@@ -76,7 +66,7 @@ function JobCardItem({ job }: { job: PublicJob }) {
   const overflowCount = job.primarySkills.length - visibleCount;
 
   return (
-    <article className="job-card" style={{ minHeight: '420px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+    <article className="job-card" style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
       <div className="job-card-main">
         <div className="job-card-tags">
           <span className={`job-status status-${job.jobStatus.replace(/\s+/g, "-").toLowerCase()}`}>
@@ -96,18 +86,13 @@ function JobCardItem({ job }: { job: PublicJob }) {
           ) : null}
         </div>
         {job.clientName ? (
-          <p className="job-company">{job.clientName}</p>
-        ) : null}
-        {job.jobDescription ? (
-          <p className={`job-desc${job.jobDescription.length > LONG_DESC ? " clamp" : ""}`}>
-            {stripHtml(job.jobDescription)}
-          </p>
+          <p className="job-company" style={{ marginTop: '5px' }}>{job.clientName}</p>
         ) : null}
         {job.primarySkills.length ? (
           <div
             ref={containerRef}
             className="job-skills"
-            style={{ minHeight: '72px', alignContent: 'flex-start' }}
+            style={{ minHeight: '72px', alignContent: 'flex-start', marginTop: '5px' }}
           >
             {visibleSkills.map((s) => (
               <span className="job-skill" key={s}>{s}</span>
@@ -337,6 +322,7 @@ export default function JobSearchClient({ jobs }: { jobs: PublicJob[] }) {
             ) : null}
           </div>
 
+          <div className="jobs-sidebar-body">
           <FacetGroup
             title="Status"
             entries={Object.entries(statusCounts).sort((a, b) => b[1] - a[1])}
@@ -394,6 +380,7 @@ export default function JobSearchClient({ jobs }: { jobs: PublicJob[] }) {
             ) : null}
           </div>
           ) : null}
+          </div>{/* jobs-sidebar-body */}
         </aside>
 
         {/* RESULTS */}

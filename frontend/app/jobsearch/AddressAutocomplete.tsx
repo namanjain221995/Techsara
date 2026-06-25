@@ -183,15 +183,6 @@ export default function AddressAutocomplete() {
         </div>
 
         <label className="apply-field">
-          <span className="apply-label">Country<span className="apply-req"> *</span></span>
-          <select name="country" value={country} required onChange={(e) => setCountry(e.target.value)}>
-            {COUNTRY_OPTIONS.map((o) => (
-              <option key={o} value={o}>{o}</option>
-            ))}
-          </select>
-        </label>
-
-        <label className="apply-field">
           <span className="apply-label">Street<span className="apply-req"> *</span></span>
           <input
             name="street"
@@ -220,6 +211,15 @@ export default function AddressAutocomplete() {
           <select name="state" value={stateVal} required onChange={(e) => setStateVal(e.target.value)}>
             <option value="">Select…</option>
             {US_STATE_OPTIONS.map((o) => (
+              <option key={o} value={o}>{o}</option>
+            ))}
+          </select>
+        </label>
+
+        <label className="apply-field">
+          <span className="apply-label">Country<span className="apply-req"> *</span></span>
+          <select name="country" value={country} required onChange={(e) => setCountry(e.target.value)}>
+            {COUNTRY_OPTIONS.map((o) => (
               <option key={o} value={o}>{o}</option>
             ))}
           </select>

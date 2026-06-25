@@ -105,6 +105,7 @@ interface SfJobRecord {
   showClientNameOnWebsite?: boolean;
   clientAccountName?: string;
   clientBillRate?: number | string | null;
+  MinimumExperienceRequired?: string | number | null;
 }
 
 function splitList(value: unknown, sep: string): string[] {
@@ -147,6 +148,7 @@ function mapRecord(r: SfJobRecord): JobRequirement {
     clientName: r.showClientNameOnWebsite ? r.clientAccountName ?? undefined : undefined,
     // INTERNAL — kept on the server-only JobRequirement, stripped by toPublicJob().
     clientBillRate: r.clientBillRate ?? null,
+    minimumExperience: r.MinimumExperienceRequired ?? null,
   };
 }
 

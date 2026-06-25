@@ -101,6 +101,7 @@ export default function JobDetailClient({
                 <div><dt>Requisition ID</dt><dd>{job.jobRequirementName}</dd></div>
               ) : null}
               {job.location ? <div><dt>Location</dt><dd>{job.location}</dd></div> : null}
+              {job.minimumExperience != null ? <div><dt>Experience</dt><dd>{job.minimumExperience}</dd></div> : null}
               {job.workMode ? <div><dt>Work Mode</dt><dd>{job.workMode}</dd></div> : null}
               {job.employmentType ? <div><dt>Employment Type</dt><dd>{job.employmentType}</dd></div> : null}
               {job.numberOfOpenings > 0 ? (
