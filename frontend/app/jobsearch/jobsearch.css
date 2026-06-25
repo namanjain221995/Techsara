@@ -360,22 +360,31 @@
      locations"). Cap it to the visible height and let it scroll on its own so
      the bottom filters stay reachable instead of being pinned off-screen. */
   max-height: calc(100vh - 116px);
-  overflow-y: auto;
-  overscroll-behavior: contain;
+  display: flex;
+  flex-direction: column;
   background: var(--ts-white);
   border: 1px solid var(--ts-border);
   border-radius: var(--j-radius-lg);
   padding: 22px 22px 8px;
   box-shadow: var(--j-shadow);
 }
+/* Scrollable area covers only the filter groups, not the "Filters" heading */
+.jobs-sidebar-body {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  margin-right: -22px;
+  padding-right: 14px;
+}
 /* slim, unobtrusive scrollbar for the facet panel */
-.jobs-sidebar::-webkit-scrollbar { width: 8px; }
-.jobs-sidebar::-webkit-scrollbar-thumb {
+.jobs-sidebar-body::-webkit-scrollbar { width: 8px; }
+.jobs-sidebar-body::-webkit-scrollbar-thumb {
   background: #d8dbe3; border-radius: 8px;
   border: 2px solid var(--ts-white);
 }
-.jobs-sidebar::-webkit-scrollbar-thumb:hover { background: #c3c7d2; }
-.jobs-sidebar { scrollbar-width: thin; scrollbar-color: #d8dbe3 transparent; }
+.jobs-sidebar-body::-webkit-scrollbar-thumb:hover { background: #c3c7d2; }
+.jobs-sidebar-body { scrollbar-width: thin; scrollbar-color: #d8dbe3 transparent; }
 .jobs-sidebar-head {
   display: flex; align-items: center; justify-content: space-between;
   padding-bottom: 14px;

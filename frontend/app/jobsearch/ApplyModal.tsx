@@ -4,7 +4,6 @@ import { useEffect, useRef, useState } from "react";
 import type { PublicJob } from "@/lib/jobs";
 import {
   GENDER_OPTIONS,
-  EXPERIENCE_OPTIONS,
   VISA_STATUS_OPTIONS,
 } from "@/lib/application";
 import AddressAutocomplete from "./AddressAutocomplete";
@@ -26,6 +25,7 @@ export default function ApplyModal({
   const [resumeError, setResumeError] = useState("");
   const [fileName, setFileName] = useState("");
   const [dragActive, setDragActive] = useState(false);
+  const [yearsOfExperience, setYearsOfExperience] = useState("");
   const formRef = useRef<HTMLFormElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const errorRef = useRef<HTMLDivElement>(null);
@@ -181,6 +181,14 @@ export default function ApplyModal({
               <Field label="Last Name" required>
                 <input name="lastName" type="text" required autoComplete="family-name" />
               </Field>
+              <Field label="Gender Identity" required>
+                <select name="genderIdentity" defaultValue="" required>
+                  <option value="">Select…</option>
+                  {GENDER_OPTIONS.map((o) => (
+                    <option key={o} value={o}>{o}</option>
+                  ))}
+                </select>
+              </Field>
               <Field label="Email" required>
                 <input name="email" type="email" required autoComplete="email" />
               </Field>
@@ -198,25 +206,31 @@ export default function ApplyModal({
             {/* PROFESSIONAL */}
             <div className="apply-grid">
               <Field label="Years of Experience" required>
-                <select name="yearsOfExperience" defaultValue="" required>
-                  <option value="">Select…</option>
-                  {EXPERIENCE_OPTIONS.map((o) => (
-                    <option key={o} value={o}>{o}</option>
-                  ))}
-                </select>
+                <input
+                  type="number"
+                  name="yearsOfExperience"
+                  min="0"
+                  max="50"
+                  step="0.1"
+                  placeholder="e.g. 2.5"
+                  value={yearsOfExperience}
+                  required
+                  onChange={(e) => {
+                    const val = e.target.value;
+                    if (val === "" || /^\d+(\.\d{0,1})?$/.test(val)) {
+                      setYearsOfExperience(val);
+                    }
+                  }}
+                  onBlur={(e) => {
+                    const val = parseFloat(e.target.value);
+                    if (!isNaN(val)) setYearsOfExperience(val.toFixed(1));
+                  }}
+                />
               </Field>
               <Field label="Visa Status" required>
                 <select name="visaStatus" defaultValue="" required>
                   <option value="">Select…</option>
                   {VISA_STATUS_OPTIONS.map((o) => (
-                    <option key={o} value={o}>{o}</option>
-                  ))}
-                </select>
-              </Field>
-              <Field label="Gender Identity" required>
-                <select name="genderIdentity" defaultValue="" required>
-                  <option value="">Select…</option>
-                  {GENDER_OPTIONS.map((o) => (
                     <option key={o} value={o}>{o}</option>
                   ))}
                 </select>

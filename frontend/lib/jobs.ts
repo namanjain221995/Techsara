@@ -46,6 +46,7 @@ export interface JobRequirement {
   requiredVisaStatus: string[];
   /** Public only when the requirement opts in (showClientNameOnWebsite). */
   clientName?: string;
+  minimumExperience?: string | number | null;
   /** INTERNAL - never expose to the public. Stripped by toPublicJob(). */
   clientBillRate: string | number | null;
 }
