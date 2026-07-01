@@ -22,7 +22,7 @@ jobs:
 
             echo ">>> Pulling latest code..."
             cd /home/ec2-user/techsara
-            git pull origin main
+            git fetch origin && git reset --hard origin/main
 
             echo ">>> Installing dependencies..."
             cd frontend

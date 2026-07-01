@@ -6,7 +6,7 @@ import { COUNTRY_OPTIONS, US_STATE_OPTIONS } from "@/lib/application";
 type Suggestion = { placeId: string; label: string };
 
 /**
- * Address block for the apply form, powered by AWS Location Service (proxied
+ * Addres block for the apply form, powered by AWS Location Service (proxied
  * through /api/places/*). Typing in "Address" shows live suggestions; picking
  * one auto-fills Street / City / State / Zip / Country. All fields stay editable
  * so a user can still correct or type an address manually. Field `name`s match
