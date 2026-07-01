@@ -18,7 +18,7 @@ export const solutionDetails: Record<string, SolutionDetail> = {
     tagline: "Specialist engineers, embedded on your team",
     description:
       "Save time finding the right resource for your team while we connect you with the best talent in the marketplace. From ML engineers to data scientists and MLOps specialists, we source, vet and onboard the people you need to move your AI roadmap forward.",
-    heroImage: "/uploads/hero_talentsolution.webp",
+    heroImage: "/uploads/techsara-office-meeting.png",
     defaultTopic: "ai-talent",
     metaTitle: "IT Talent Staffing Solutions | Techsara - Frisco, TX",
     metaDescription:

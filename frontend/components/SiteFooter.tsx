@@ -50,7 +50,7 @@ export default function SiteFooter() {
             <h3>Contact</h3>
             <ul>
               <li><a href="mailto:hello@techsarasolutions.com?cc=sales@techsarasolutions.com">hello@techsarasolutions.com</a></li>
-              <li><a href="tel:+13235961938">(323) 596-1938</a></li>
+              <li><a href="tel:3234866123">(323) 486-6123</a></li>
               <li>Frisco, TX · USA</li>
               <li><Link href="/contact">Contact us</Link></li>
             </ul>

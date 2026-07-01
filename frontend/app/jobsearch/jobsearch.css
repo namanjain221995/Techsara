@@ -376,6 +376,7 @@
   overscroll-behavior: contain;
   margin-right: -22px;
   padding-right: 14px;
+  padding-bottom: 16px;
 }
 /* slim, unobtrusive scrollbar for the facet panel */
 .jobs-sidebar-body::-webkit-scrollbar { width: 8px; }

@@ -46,6 +46,11 @@ function parseDescription(text: string): Block[] {
   return blocks;
 }
 
+const stripImages = (html: string): string => {
+  if (!html) return '';
+  return html.replace(/<img[^>]*\/?>/gi, '');
+};
+
 export default function JobDetailClient({
   job,
   recommended = [],
@@ -80,9 +85,6 @@ export default function JobDetailClient({
           {/* MAIN */}
           <div className="jdp-main">
             <div className="jdp-badges">
-              <span className={`job-status status-${job.jobStatus.replace(/\s+/g, "-").toLowerCase()}`}>
-                {job.jobStatus || "-"}
-              </span>
               {job.employmentType ? <span className="job-field-tag">{job.employmentType}</span> : null}
               {showPriority ? <span className="job-priority">{job.priority} priority</span> : null}
             </div>
@@ -123,7 +125,7 @@ export default function JobDetailClient({
               <>
                 <h2 className="jdp-dh">Job Description</h2>
                 {/* TODO: sanitize with DOMPurify before production release */}
-                <div className="jdp-desc" dangerouslySetInnerHTML={{ __html: descHtml }} />
+                <div className="jdp-desc" dangerouslySetInnerHTML={{ __html: stripImages(descHtml) }} />
               </>
             ) : null}
 

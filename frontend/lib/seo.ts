@@ -18,7 +18,7 @@ export const SITE = {
   ogImage: "/assets/og-image.png",
   // Verified NAP (name/address/phone) - the single source of truth for LocalBusiness
   // structured data and on-page contact details. Reinforces US/Frisco geo-relevance.
-  telephone: "+13235961938",
+  telephone: "3234866123",
   email: "hello@techsarasolutions.com",
   address: {
     addressLocality: "Frisco",
