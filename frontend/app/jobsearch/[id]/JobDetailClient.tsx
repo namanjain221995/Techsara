@@ -106,10 +106,12 @@ export default function JobDetailClient({
               {job.minimumExperience != null ? <div><dt>Experience</dt><dd>{job.minimumExperience}</dd></div> : null}
               {job.workMode ? <div><dt>Work Mode</dt><dd>{job.workMode}</dd></div> : null}
               {job.employmentType ? <div><dt>Employment Type</dt><dd>{job.employmentType}</dd></div> : null}
+              {job.duration && job.employmentType !== 'Full-Time' && job.employmentType !== 'Full Time' ? (
+                <div><dt>Duration</dt><dd>{job.duration}</dd></div>
+              ) : null}
               {job.numberOfOpenings > 0 ? (
                 <div><dt>Number of Openings</dt><dd>{job.numberOfOpenings}</dd></div>
               ) : null}
-              {job.duration ? <div><dt>Duration</dt><dd>{job.duration}</dd></div> : null}
               {job.clientName ? <div><dt>Client</dt><dd>{job.clientName}</dd></div> : null}
               {job.postedDate ? <div><dt>Posting Date</dt><dd>{formatDate(job.postedDate)}</dd></div> : null}
               {job.submissionDeadline ? (
