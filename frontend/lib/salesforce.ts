@@ -138,7 +138,9 @@ function mapRecord(r: SfJobRecord): JobRequirement {
     location: r.location ?? "",
     workMode: normalizeWorkMode(r.workMode),
     employmentType: r.employmentType ?? "",
-    primarySkills: splitList(r.primarySkills, ","),
+    primarySkills: typeof r.primarySkills === 'string'
+      ? r.primarySkills.split(/[,|;\n\r]+/).map((s: string) => s.trim()).filter((s: string) => s.length > 0)
+      : [],
     jobDescription: r.jobDescription ?? "",
     duration: r.duration ?? "",
     numberOfOpenings: Number(r.numberOfOpenings) || 0,
