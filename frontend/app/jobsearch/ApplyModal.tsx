@@ -63,6 +63,7 @@ function validate(data: FormData): Record<string, string> {
 
   const zip = (data.get("zip") as string || "").trim();
   if (!zip) errors.zip = "Zip / Postal Code is required";
+  else if (!/^\d{5}(-\d{4})?$/.test(zip)) errors.zip = "Please enter a valid US ZIP code (e.g. 12345 or 12345-6789)";
 
   return errors;
 }
