@@ -12,7 +12,13 @@ type Suggestion = { placeId: string; label: string };
  * so a user can still correct or type an address manually. Field `name`s match
  * what the form submits, so the parent's FormData handling is unchanged.
  */
-export default function AddressAutocomplete() {
+export default function AddressAutocomplete({
+  errors = {},
+  onClearError,
+}: {
+  errors?: Record<string, string>;
+  onClearError?: (field: string) => void;
+}) {
   const [search, setSearch] = useState("");
   const [suggestions, setSuggestions] = useState<Suggestion[]>([]);
   const [open, setOpen] = useState(false);
@@ -154,12 +160,13 @@ export default function AddressAutocomplete() {
               aria-expanded={open}
               aria-autocomplete="list"
               aria-controls="apply-suggest-list"
-              onChange={(e) => setSearch(e.target.value)}
+              onChange={(e) => { setSearch(e.target.value); onClearError?.("address"); }}
               onFocus={() => suggestions.length && setOpen(true)}
               onKeyDown={onKeyDown}
             />
             {loading ? <span className="apply-autocomplete-spinner" aria-hidden="true" /> : null}
           </div>
+          {errors.address ? <span className="apply-field-error">{errors.address}</span> : null}
           {open && suggestions.length > 0 ? (
             <ul className="apply-suggest" id="apply-suggest-list" role="listbox">
               {suggestions.map((s, i) => (
@@ -190,8 +197,9 @@ export default function AddressAutocomplete() {
             autoComplete="address-line1"
             required
             value={street}
-            onChange={(e) => setStreet(e.target.value)}
+            onChange={(e) => { setStreet(e.target.value); onClearError?.("street"); }}
           />
+          {errors.street ? <span className="apply-field-error">{errors.street}</span> : null}
         </label>
 
         <label className="apply-field">
@@ -202,27 +210,30 @@ export default function AddressAutocomplete() {
             autoComplete="address-level2"
             required
             value={city}
-            onChange={(e) => setCity(e.target.value)}
+            onChange={(e) => { setCity(e.target.value); onClearError?.("city"); }}
           />
+          {errors.city ? <span className="apply-field-error">{errors.city}</span> : null}
         </label>
 
         <label className="apply-field">
           <span className="apply-label">State<span className="apply-req"> *</span></span>
-          <select name="state" value={stateVal} required onChange={(e) => setStateVal(e.target.value)}>
+          <select name="state" value={stateVal} required onChange={(e) => { setStateVal(e.target.value); onClearError?.("state"); }}>
             <option value="">Select…</option>
             {US_STATE_OPTIONS.map((o) => (
               <option key={o} value={o}>{o}</option>
             ))}
           </select>
+          {errors.state ? <span className="apply-field-error">{errors.state}</span> : null}
         </label>
 
         <label className="apply-field">
           <span className="apply-label">Country<span className="apply-req"> *</span></span>
-          <select name="country" value={country} required onChange={(e) => setCountry(e.target.value)}>
+          <select name="country" value={country} required onChange={(e) => { setCountry(e.target.value); onClearError?.("country"); }}>
             {COUNTRY_OPTIONS.map((o) => (
               <option key={o} value={o}>{o}</option>
             ))}
           </select>
+          {errors.country ? <span className="apply-field-error">{errors.country}</span> : null}
         </label>
 
         <label className="apply-field">
@@ -233,8 +244,9 @@ export default function AddressAutocomplete() {
             autoComplete="postal-code"
             required
             value={zip}
-            onChange={(e) => setZip(e.target.value)}
+            onChange={(e) => { setZip(e.target.value); onClearError?.("zip"); }}
           />
+          {errors.zip ? <span className="apply-field-error">{errors.zip}</span> : null}
         </label>
       </div>
     </fieldset>
