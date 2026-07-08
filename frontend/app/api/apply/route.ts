@@ -168,7 +168,7 @@ export async function POST(req: NextRequest) {
           {
             ok: false,
             error:
-              "You've already applied to this job with this email address. You can still apply to other open roles.",
+              "You've already applied to this job.",
           },
           { status: 409 },
         );
