@@ -1,7 +1,7 @@
 ﻿"use client";
 
 import Link from "next/link";
-import { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState, useCallback } from "react";
 import { useSwipe } from "@/lib/useSwipe";
 
 const slides = [
@@ -40,11 +40,60 @@ const slides = [
   },
 ];
 
+const SECTION_ART_MAP: Record<string, {
+  arts: string[]; visuals: string[]
+}> = {
+  'data-ai': {
+    arts:    ['neural', 'bars',    'stream'],
+    visuals: ['mesh-a', 'wave-a',  'glow-a'],
+  },
+  'cloud': {
+    arts:    ['cloud',     'mesh',   'bars'],
+    visuals: ['circuit-a', 'mesh-b', 'wave-b'],
+  },
+  'genai': {
+    arts:    ['spark',  'neural',  'lens'],
+    visuals: ['glow-b', 'mesh-c',  'circuit-b'],
+  },
+  'industry': {
+    arts:    ['lens',   'stream',  'gauge'],
+    visuals: ['wave-c', 'glow-c',  'circuit-c'],
+  },
+  'ai-staffing': {
+    arts:    ['neural',  'mesh',   'bars'],
+    visuals: ['mesh-a',  'mesh-b', 'wave-a'],
+  },
+};
+const DEFAULT_ART_MAP = {
+  arts:    ['neural',  'bars',   'stream'],
+  visuals: ['mesh-a',  'wave-a', 'glow-a'],
+};
+function hashId(id: string): number {
+  let hash = 0;
+  for (let i = 0; i < id.length; i++) {
+    hash = (hash * 31 + id.charCodeAt(i)) & 0xffffffff;
+  }
+  return Math.abs(hash);
+}
+
+function getArticleArt(
+  sectionId: string,
+  index: number,
+  articleId?: string
+): { art: string; visual: string } {
+  const map = SECTION_ART_MAP[sectionId] || DEFAULT_ART_MAP;
+  const seed = articleId ? hashId(articleId) : index;
+  const i = seed % map.arts.length;
+  return { art: map.arts[i], visual: map.visuals[i] };
+}
+
 export default function TrendsPageClient() {
   const [activeIndex, setActiveIndex] = useState(0);
   const [isOverHero, setIsOverHero] = useState(true);
   const [isMobileOpen, setIsMobileOpen] = useState(false);
   const carouselRef = useRef<HTMLElement | null>(null);
+  const [s3Articles, setS3Articles] = useState<S3Article[]>([]);
+  const [s3Sections, setS3Sections] = useState<any[]>([]);
 
   useEffect(() => {
     if (!isMobileOpen) return;
@@ -81,6 +130,26 @@ export default function TrendsPageClient() {
     };
   }, []);
 
+  useEffect(() => {
+    fetch('/api/articles')
+      .then(r => r.json())
+      .then(data => {
+        if (data.success) {
+          setS3Articles(
+            data.articles.filter((a: S3Article) => a.status === 'published')
+          );
+        }
+      })
+      .catch(() => {});
+
+    fetch('/api/sections')
+      .then(r => r.json())
+      .then(data => {
+        if (data.success) setS3Sections(data.sections);
+      })
+      .catch(() => {});
+  }, []);
+
   function goTo(index: number) {
     setActiveIndex(index);
   }
@@ -94,6 +163,35 @@ export default function TrendsPageClient() {
   }
 
   useSwipe(carouselRef, { onSwipeLeft: goNext, onSwipeRight: goPrev });
+
+  // Map existing hardcoded categories with S3 articles
+  const mergedCategories = trendCategories.map(category => {
+    const s3ForSection = s3Articles.filter(a => a.sectionId === category.id);
+    const sectionGradient =
+      s3Sections.find(s => s.id === category.id)?.gradient ||
+      'linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%)';
+    return { ...category, s3Articles: s3ForSection, sectionGradient };
+  });
+
+  // Add S3-only sections (not in hardcoded trendCategories)
+  const hardcodedIds = new Set(trendCategories.map(c => c.id));
+  const s3OnlySections = s3Sections
+    .filter(s => !hardcodedIds.has(s.id))
+    .sort((a, b) => (a.order || 99) - (b.order || 99))
+    .map(s => ({
+      id: s.id,
+      label: s.name,
+      iconKey: 'data' as const,
+      title: s.heading || `${s.name} articles`,
+      topicKicker: s.categoryTags?.join(', ') || '',
+      description: s.description || '',
+      articles: [],
+      s3Articles: s3Articles.filter(a => a.sectionId === s.id),
+      sectionGradient: s.gradient ||
+        'linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%)',
+    }));
+
+  const allCategories = [...mergedCategories, ...s3OnlySections];
 
   return (
     <main className="trends-page">
@@ -230,8 +328,8 @@ export default function TrendsPageClient() {
       </section>
 
       <InsightSection />
-      <CategoryNav />
-      {trendCategories.map((category) => (
+      <CategoryNav extraSections={s3OnlySections} />
+      {allCategories.map((category) => (
         <TopicSection key={category.id} category={category} />
       ))}
       {/* <ExpertsSection /> - hidden; uncomment to restore */}
@@ -260,6 +358,20 @@ type Article = {
   art: ArtKind;
 };
 
+type S3Article = {
+  id: string;
+  title: string;
+  slug: string;
+  excerpt: string;
+  coverImage: string;
+  categoryLabel: string;
+  sectionId: string;
+  status: string;
+  createdAt: string;
+  art?: string;
+  visual?: string;
+};
+
 type TrendCategory = {
   id: string;
   label: string;
@@ -279,35 +391,7 @@ const trendCategories: TrendCategory[] = [
     topicKicker: "Governance, Migration, Predictive ML, MLOps",
     description:
       "We serve our clients throughout the full data lifecycle: from describing past performance and understanding current progress to predicting future outcomes and prescribing next steps to improve efficiency and grow revenue.",
-    articles: [
-      {
-        id: "ai-reliability",
-        kicker: "Thought Leadership",
-        title: "AI-powered reliability: How utilities are improving reliability with data",
-        description:
-          "From load forecasting to fault prediction, modern utilities are turning telemetry into uptime. We break down the AI patterns that deliver measurable reliability gains.",
-        visual: "mesh-a",
-        art: "neural",
-      },
-      {
-        id: "banking-ai",
-        kicker: "Thought Leadership",
-        title: "Applied AI in Banking: How 4 powerful use cases are driving growth",
-        description:
-          "Applied AI is redefining how banks operate, from intelligent automation to real-time fraud detection and hyper-personalized services across customer service, risk and compliance.",
-        visual: "wave-a",
-        art: "bars",
-      },
-      {
-        id: "cold-chain",
-        kicker: "Success Story",
-        title: "Improving cold-chain management and reducing food waste with Databricks and AI",
-        description:
-          "A global distributor combined IoT telemetry with ML on Databricks to cut spoilage 28% across 14 markets - here's the architecture and the operational change behind the number.",
-        visual: "glow-a",
-        art: "stream",
-      },
-    ],
+    articles: [],
   },
   {
     id: "cloud",
@@ -317,35 +401,7 @@ const trendCategories: TrendCategory[] = [
     topicKicker: "Migration, Cost Optimization, Hybrid Edge, Compliance",
     description:
       "From on-prem to hyperscale, we help teams modernize platforms without the migration scars. Practical playbooks for cost, resilience and compliance - drawn from regulated, capital-intensive engagements.",
-    articles: [
-      {
-        id: "aws-migration",
-        kicker: "Thought Leadership",
-        title: "Migrating on-premises systems to AWS cloud: A reference playbook",
-        description:
-          "Seven sequencing decisions that determine whether your AWS migration ships in 6 months or 18 - and how to avoid the silent cost traps that drain ROI after go-live.",
-        visual: "circuit-a",
-        art: "cloud",
-      },
-      {
-        id: "hybrid-edge",
-        kicker: "Success Story",
-        title: "Hybrid edge deployment cuts inference latency by 60% for a manufacturer",
-        description:
-          "A regional manufacturer moved AI inference to the edge while keeping training centralized - the architecture, the cost math, and the operating model behind the decision.",
-        visual: "mesh-b",
-        art: "mesh",
-      },
-      {
-        id: "cost-opt",
-        kicker: "Thought Leadership",
-        title: "Cost optimization patterns for cloud-native AI workloads",
-        description:
-          "GPU spend is the new database spend. Five patterns we use to keep training and inference budgets predictable without throttling the science team or compromising latency.",
-        visual: "wave-b",
-        art: "bars",
-      },
-    ],
+    articles: [],
   },
   {
     id: "genai",
@@ -355,35 +411,7 @@ const trendCategories: TrendCategory[] = [
     topicKicker: "LLMs, RAG, Fine-Tuning, Conversational Intelligence",
     description:
       "Beyond the demo. We help enterprises stand up generative AI that is grounded in their data, governed by their policies, and measured against business outcomes - not vibes.",
-    articles: [
-      {
-        id: "genai-prep",
-        kicker: "Thought Leadership",
-        title: "Preparing your organization for generative AI",
-        description:
-          "The readiness checklist that separates pilots from production: data, policy, evaluation and change-management decisions you must make before the first prompt ships.",
-        visual: "glow-b",
-        art: "spark",
-      },
-      {
-        id: "rag-vs-ft",
-        kicker: "Thought Leadership",
-        title: "RAG, fine-tuning, or both? Choosing your GenAI strategy",
-        description:
-          "Decision framework with cost, latency and accuracy trade-offs - including when 'just use a bigger model' actually beats both options for your workload.",
-        visual: "mesh-c",
-        art: "neural",
-      },
-      {
-        id: "llm-search",
-        kicker: "Success Story",
-        title: "Custom LLM cuts knowledge-search time from hours to seconds at an insurance carrier",
-        description:
-          "Domain-grounded LLM deployed inside the customer's private network, with citation guarantees and an evaluation harness that keeps regressions out of production.",
-        visual: "circuit-b",
-        art: "lens",
-      },
-    ],
+    articles: [],
   },
   {
     id: "industry",
@@ -393,35 +421,7 @@ const trendCategories: TrendCategory[] = [
     topicKicker: "Energy, Banking, Pharma, Manufacturing, Retail",
     description:
       "AI works when it speaks the language of your operations. These are the patterns and outcomes we have shipped inside regulated, capital-intensive industries where reliability is the product.",
-    articles: [
-      {
-        id: "pharma-cv",
-        kicker: "Success Story",
-        title: "Computer vision quality control in pharmaceutical manufacturing",
-        description:
-          "Inline defect detection deployed across three lines at 99.4% precision, with a closed-loop feedback path back into the regulatory audit trail.",
-        visual: "wave-c",
-        art: "lens",
-      },
-      {
-        id: "fraud-rt",
-        kicker: "Thought Leadership",
-        title: "AI-driven fraud detection in real-time payment systems",
-        description:
-          "Why batch scoring still loses to streaming, and how to design feature pipelines that survive both the spike day and the auditor - without forklift-upgrading the core.",
-        visual: "glow-c",
-        art: "stream",
-      },
-      {
-        id: "predictive-maint",
-        kicker: "Thought Leadership",
-        title: "Predictive maintenance: How AI is transforming energy operations",
-        description:
-          "Asset health from vibration, temperature and acoustic telemetry - the modeling pipeline and the org changes that make alerts actually actionable in the field.",
-        visual: "circuit-c",
-        art: "gauge",
-      },
-    ],
+    articles: [],
   },
 ];
 
@@ -437,12 +437,24 @@ function handleAnchorClick(event: React.MouseEvent<HTMLAnchorElement>) {
   history.replaceState(null, "", href);
 }
 
-function CategoryNav() {
+function CategoryNav({
+  extraSections = [],
+}: {
+  extraSections?: { id: string; label: string; iconKey: 'data' | 'cloud' | 'spark' | 'industry' }[];
+}) {
+  const allNavItems = [
+    ...trendCategories,
+    ...extraSections.map(s => ({
+      id: s.id,
+      label: s.label,
+      iconKey: 'data' as const,
+    })),
+  ];
   return (
     <nav className="trends-category-bar" aria-label="Trend categories">
       <div className="container trends-category-inner">
         <div className="trends-category-links">
-          {trendCategories.map((category) => (
+          {allNavItems.map((category) => (
             <a
               key={category.id}
               href={`#topic-${category.id}`}
@@ -778,7 +790,103 @@ function ArticleArt({ kind }: { kind: ArtKind }) {
   );
 }
 
-function TopicSection({ category }: { category: TrendCategory }) {
+function CarouselGrid({ children, total }: {
+  children: React.ReactNode;
+  total: number;
+}) {
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const [canScrollLeft, setCanScrollLeft] = useState(false);
+  const [canScrollRight, setCanScrollRight] = useState(true);
+
+  const updateScrollState = useCallback(() => {
+    const el = scrollRef.current;
+    if (!el) return;
+    setCanScrollLeft(el.scrollLeft > 8);
+    setCanScrollRight(el.scrollLeft + el.clientWidth < el.scrollWidth - 8);
+  }, []);
+
+  const scroll = (dir: 'left' | 'right') => {
+    const el = scrollRef.current;
+    if (!el) return;
+    const cardWidth = el.clientWidth / 3 + 24;
+    el.scrollBy({ left: dir === 'left' ? -cardWidth : cardWidth, behavior: 'smooth' });
+    setTimeout(updateScrollState, 350);
+  };
+
+  const arrowStyle = (visible: boolean): React.CSSProperties => ({
+    position: 'absolute',
+    top: '50%',
+    transform: 'translateY(-50%)',
+    width: '40px',
+    height: '40px',
+    borderRadius: '50%',
+    backgroundColor: '#ffffff',
+    border: '1px solid #e2e8f0',
+    boxShadow: '0 2px 8px rgba(0,0,0,0.12)',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    cursor: visible ? 'pointer' : 'default',
+    opacity: visible ? 1 : 0,
+    pointerEvents: visible ? 'auto' : 'none',
+    transition: 'opacity 0.2s',
+    zIndex: 10,
+    fontSize: '16px',
+    color: '#1e3a8a',
+    fontWeight: '700',
+    userSelect: 'none',
+  });
+
+  return (
+    <div style={{ position: 'relative', padding: '0 56px' }}>
+      <button
+        onClick={() => scroll('left')}
+        style={{ ...arrowStyle(canScrollLeft), left: '8px' }}
+        aria-label="Scroll left"
+      >
+        ←
+      </button>
+
+      <div
+        ref={scrollRef}
+        onScroll={updateScrollState}
+        style={{
+          display: 'flex',
+          flexDirection: 'row',
+          gap: '24px',
+          overflowX: 'auto',
+          scrollSnapType: 'x mandatory',
+          scrollbarWidth: 'none',
+          msOverflowStyle: 'none',
+          paddingBottom: '4px',
+        }}
+      >
+        <style>{`.carousel-track::-webkit-scrollbar { display: none; }`}</style>
+        {React.Children.map(children, (child) => (
+          <div style={{
+            flex: '0 0 calc(33.333% - 16px)',
+            minWidth: 'calc(33.333% - 16px)',
+            scrollSnapAlign: 'start',
+          }}>
+            {child}
+          </div>
+        ))}
+      </div>
+
+      <button
+        onClick={() => scroll('right')}
+        style={{ ...arrowStyle(canScrollRight), right: '8px' }}
+        aria-label="Scroll right"
+      >
+        →
+      </button>
+    </div>
+  );
+}
+
+function TopicSection({ category }: {
+  category: TrendCategory & { s3Articles?: S3Article[]; sectionGradient?: string };
+}) {
   return (
     <section id={`topic-${category.id}`} className="trends-topic">
       <div className="container">
@@ -791,24 +899,89 @@ function TopicSection({ category }: { category: TrendCategory }) {
           <p className="trends-topic-desc">{category.description}</p>
         </header>
 
-        <div className="trends-articles-grid">
-          {category.articles.map((article) => (
-            <article key={article.id} className="trends-article-card" tabIndex={0}>
-              <div className={`trends-article-visual visual-${article.visual}`} aria-hidden="true">
-                <span className="visual-mesh-overlay" />
-                <ArticleArt kind={article.art} />
-                <div className="trends-article-overlay">
-                  <p className="trends-article-desc">{article.description}</p>
+        {(() => {
+          const totalArticles =
+            (category.articles?.length || 0) +
+            (category.s3Articles?.length || 0);
+
+          const allCards = [
+            ...(category.articles || []).map((article: any) => (
+              <article key={article.id} className="trends-article-card" tabIndex={0}>
+                <div className={`trends-article-visual visual-${article.visual}`} aria-hidden="true">
+                  <span className="visual-mesh-overlay" />
+                  <ArticleArt kind={article.art} />
+                  <div className="trends-article-overlay">
+                    <p className="trends-article-desc">{article.description}</p>
+                  </div>
                 </div>
-              </div>
-              <div className="trends-article-body">
-                <p className="trends-article-kicker">{article.kicker}</p>
-                <h3>{article.title}</h3>
-                <span className="trends-article-plus" aria-hidden="true">+</span>
-              </div>
-            </article>
-          ))}
-        </div>
+                <div className="trends-article-body">
+                  <p className="trends-article-kicker">{article.kicker}</p>
+                  <h3>{article.title}</h3>
+                  <span className="trends-article-plus" aria-hidden="true">+</span>
+                </div>
+              </article>
+            )),
+            ...(category.s3Articles || []).map((article: S3Article, index: number) => {
+              const { art, visual } = getArticleArt(category.id, index, article.id);
+              return (
+                <article
+                  key={article.id}
+                  className="trends-article-card"
+                  tabIndex={0}
+                  style={article.slug ? { cursor: 'pointer' } : undefined}
+                  onClick={() => { if (article.slug) window.location.href = `/articles/${article.slug}`; }}
+                >
+                  <div
+                    className={`trends-article-visual visual-${article.visual || visual}`}
+                    aria-hidden="true"
+                  >
+                    {article.coverImage ? (
+                      <img
+                        src={article.coverImage}
+                        alt={article.title}
+                        style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                      />
+                    ) : (
+                      <>
+                        <span className="visual-mesh-overlay" />
+                        <ArticleArt kind={(article.art || art) as any} />
+                      </>
+                    )}
+                    <div className="trends-article-overlay">
+                      <p className="trends-article-desc">{article.excerpt}</p>
+                    </div>
+                  </div>
+                  <div className="trends-article-body">
+                    {article.categoryLabel && (
+                      <p className="trends-article-kicker">{article.categoryLabel}</p>
+                    )}
+                    <h3>{article.title}</h3>
+                    {article.excerpt && (
+                      <p className="trends-article-desc">{article.excerpt}</p>
+                    )}
+                    {article.slug && (
+                      <a
+                        href={`/articles/${article.slug}`}
+                        className="trends-article-plus"
+                        aria-label={`Read full article: ${article.title}`}
+                        style={{ textDecoration: 'none' }}
+                        onClick={e => e.stopPropagation()}
+                      >
+                        +
+                      </a>
+                    )}
+                  </div>
+                </article>
+              );
+            }),
+          ];
+
+          if (totalArticles <= 3) {
+            return <div className="trends-articles-grid">{allCards}</div>;
+          }
+
+          return <CarouselGrid total={totalArticles}>{allCards}</CarouselGrid>;
+        })()}
       </div>
     </section>
   );

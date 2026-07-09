@@ -1,29 +1,62 @@
-﻿import type { Metadata } from "next";
+﻿'use client';
+
+import { useState, useEffect } from 'react';
 import Link from "next/link";
 import SiteHeader from "@/components/SiteHeader";
 import SiteFooter from "@/components/SiteFooter";
 import BlogArt from "@/components/BlogArt";
-import { getAllPosts, formatDate, readingTime, type BlogPost } from "@/lib/blog";
-import { pageOpenGraph, breadcrumbJsonLd, blogJsonLd, jsonLdScript } from "@/lib/seo";
+import { getAllPosts, formatDate, readingTime } from "@/lib/blog";
+import { breadcrumbJsonLd, blogJsonLd, jsonLdScript } from "@/lib/seo";
 
-const title = "Techsara Blog | Enterprise AI & Staffing Insights";
-const description =
-  "Practical insight on enterprise AI, IT staffing, cloud, MLOps and industry use cases for US B2B technology leaders - field notes on hiring, generative AI, and production engineering from the Techsara team.";
+function getGradientForArt(art: string): string {
+  const map: Record<string, string> = {
+    staffing: 'linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%)',
+    genai:    'linear-gradient(135deg, #6d28d9 0%, #a78bfa 100%)',
+    cloud:    'linear-gradient(135deg, #0e7490 0%, #22d3ee 100%)',
+    industry: 'linear-gradient(135deg, #065f46 0%, #34d399 100%)',
+  };
+  return map[art] || map['staffing'];
+}
 
-export const metadata: Metadata = {
-  title: { absolute: title },
-  description,
-  alternates: { canonical: "/blogs" },
-  openGraph: pageOpenGraph({ title, description, path: "/blogs" }),
-};
+const BLOG_ART_KEYS = ['staffing', 'genai', 'cloud', 'industry'] as const;
 
-function PostCard({ post, featured = false }: { post: BlogPost; featured?: boolean }) {
+function getBlogArtFromId(id: string): string {
+  let hash = 0;
+  for (let i = 0; i < id.length; i++) {
+    hash = (hash * 31 + id.charCodeAt(i)) & 0xffffffff;
+  }
+  return BLOG_ART_KEYS[Math.abs(hash) % BLOG_ART_KEYS.length];
+}
+
+function PostCard({ post, featured = false }: { post: any; featured?: boolean }) {
   return (
     <article className={`blog-card${featured ? " blog-card--featured" : ""}`}>
-      <Link href={`/blogs/${post.slug}`} className="blog-card-link" aria-label={post.title}>
-        <div className={`blog-visual blog-visual--${post.art}`} aria-hidden="true">
-          <BlogArt art={post.art} />
-        </div>
+      <Link
+        href={post._isS3 ? `/blogs/${post._s3Slug}` : `/blogs/${post.slug}`}
+        className="blog-card-link"
+        aria-label={post.title}
+      >
+        {post._isS3 ? (
+          <div
+            className={`blog-visual blog-visual--${post.coverImage ? '' : post.art}`}
+            aria-hidden="true"
+            style={post.coverImage ? { background: 'transparent' } : undefined}
+          >
+            {post.coverImage ? (
+              <img
+                src={post.coverImage}
+                alt={post.title}
+                style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+              />
+            ) : (
+              <BlogArt art={post.art as any} />
+            )}
+          </div>
+        ) : (
+          <div className={`blog-visual blog-visual--${post.art}`} aria-hidden="true">
+            <BlogArt art={post.art} />
+          </div>
+        )}
         <div className="blog-card-body">
           <span className="blog-chip">{post.category}</span>
           <h3 className="blog-card-title">{post.title}</h3>
@@ -35,8 +68,12 @@ function PostCard({ post, featured = false }: { post: BlogPost; featured?: boole
             </span>
             <span className="blog-meta-dot" aria-hidden="true">·</span>
             <time dateTime={post.publishedDate}>{formatDate(post.publishedDate)}</time>
-            <span className="blog-meta-dot" aria-hidden="true">·</span>
-            <span>{readingTime(post)} min read</span>
+            {!post._isS3 && (
+              <>
+                <span className="blog-meta-dot" aria-hidden="true">·</span>
+                <span>{readingTime(post)} min read</span>
+              </>
+            )}
           </div>
         </div>
       </Link>
@@ -45,8 +82,45 @@ function PostCard({ post, featured = false }: { post: BlogPost; featured?: boole
 }
 
 export default function BlogsPage() {
+  const [s3Blogs, setS3Blogs] = useState<any[]>([]);
+
+  useEffect(() => {
+    fetch('/api/blogs')
+      .then(r => r.json())
+      .then(data => {
+        if (data.success) {
+          setS3Blogs(
+            data.blogs.filter((b: any) => b.status === 'published')
+          );
+        }
+      })
+      .catch(() => {});
+  }, []);
+
   const posts = getAllPosts();
-  const [featured, ...rest] = posts;
+
+  const s3AsBlogPosts = s3Blogs.map((b: any) => ({
+    slug: `__s3__${b.slug}`,
+    title: b.title,
+    excerpt: b.excerpt || '',
+    category: b.category || '',
+    kicker: b.kicker || '',
+    publishedDate: b.publishedDate || b.createdAt?.split('T')[0] || '',
+    author: b.author || { name: '', title: '', initials: '?' },
+    art: b.art || getBlogArtFromId(b.id || b.slug || ''),
+    coverImage: b.coverImage || '',
+    _isS3: true,
+    _s3Slug: b.slug,
+    _s3Id: b.id,
+  }));
+
+  const allPosts = [...posts, ...s3AsBlogPosts].sort((a, b) => {
+    const dateA = new Date(a.publishedDate).getTime();
+    const dateB = new Date(b.publishedDate).getTime();
+    return dateB - dateA;
+  });
+
+  const [featured, ...rest] = allPosts;
 
   const jsonLd = [
     breadcrumbJsonLd([
