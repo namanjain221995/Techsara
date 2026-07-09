@@ -19,7 +19,7 @@ const DRAFT_KEY = 'article_editor_draft';
 export default function EditorPage() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const editId = searchParams.get('id');
+  const editId = searchParams?.get('id') ?? null;
 
   const [title, setTitle] = useState('');
   const [excerpt, setExcerpt] = useState('');
