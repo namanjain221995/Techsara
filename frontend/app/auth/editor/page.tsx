@@ -1,8 +1,6 @@
 'use client';
 
-export const dynamic = 'force-dynamic';
-
-import { useState, useEffect, useCallback } from 'react';
+import { Suspense, useState, useEffect, useCallback } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useEditor, EditorContent } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
@@ -19,6 +17,14 @@ const lowlight = createLowlight(common);
 const DRAFT_KEY = 'article_editor_draft';
 
 export default function EditorPage() {
+  return (
+    <Suspense>
+      <EditorPageInner />
+    </Suspense>
+  );
+}
+
+function EditorPageInner() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const editId = searchParams?.get('id') ?? null;
