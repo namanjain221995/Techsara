@@ -1,7 +1,7 @@
 ﻿"use client";
 
 import Link from "next/link";
-import React, { useEffect, useRef, useState, useCallback } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useSwipe } from "@/lib/useSwipe";
 
 const slides = [
@@ -795,61 +795,77 @@ function CarouselGrid({ children, total }: {
   total: number;
 }) {
   const scrollRef = useRef<HTMLDivElement>(null);
-  const [canScrollLeft, setCanScrollLeft] = useState(false);
-  const [canScrollRight, setCanScrollRight] = useState(true);
+  const childArray = React.Children.toArray(children);
+  const count = childArray.length;
 
-  const updateScrollState = useCallback(() => {
+  // Position at middle set on mount so both directions have room
+  useEffect(() => {
     const el = scrollRef.current;
     if (!el) return;
-    setCanScrollLeft(el.scrollLeft > 8);
-    setCanScrollRight(el.scrollLeft + el.clientWidth < el.scrollWidth - 8);
-  }, []);
+    el.scrollLeft = el.scrollWidth / 3;
+  }, [count]);
 
   const scroll = (dir: 'left' | 'right') => {
     const el = scrollRef.current;
     if (!el) return;
-    const cardWidth = el.clientWidth / 3 + 24;
+    const cardWidth = el.scrollWidth / (count * 3);
     el.scrollBy({ left: dir === 'left' ? -cardWidth : cardWidth, behavior: 'smooth' });
-    setTimeout(updateScrollState, 350);
   };
 
-  const arrowStyle = (visible: boolean): React.CSSProperties => ({
+  // Silently jump within the tripled list to maintain the infinite loop illusion
+  const handleScroll = () => {
+    const el = scrollRef.current;
+    if (!el) return;
+    const oneSet = el.scrollWidth / 3;
+    const cardWidth = oneSet / count;
+    if (el.scrollLeft < cardWidth) {
+      el.scrollLeft += oneSet;
+    } else if (el.scrollLeft > oneSet * 2 - cardWidth) {
+      el.scrollLeft -= oneSet;
+    }
+  };
+
+  const arrowStyle: React.CSSProperties = {
     position: 'absolute',
     top: '50%',
     transform: 'translateY(-50%)',
-    width: '40px',
-    height: '40px',
-    borderRadius: '50%',
-    backgroundColor: '#ffffff',
-    border: '1px solid #e2e8f0',
-    boxShadow: '0 2px 8px rgba(0,0,0,0.12)',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    cursor: visible ? 'pointer' : 'default',
-    opacity: visible ? 1 : 0,
-    pointerEvents: visible ? 'auto' : 'none',
-    transition: 'opacity 0.2s',
+    width: '54px',
+    height: '54px',
+    border: 0,
+    borderRadius: '999px',
+    background: 'transparent',
+    display: 'grid',
+    placeItems: 'center',
+    cursor: 'pointer',
+    opacity: 1,
+    transition: 'opacity 0.2s, transform 0.2s',
     zIndex: 10,
-    fontSize: '16px',
+    fontSize: '56px',
+    lineHeight: 1,
     color: '#1e3a8a',
-    fontWeight: '700',
     userSelect: 'none',
-  });
+  };
+
+  // Arrows live in the outer wrapper (full width, position:relative).
+  // The scroll track lives in a separate inner div with padding so it never
+  // shares its width budget with the buttons — cards stay the same size as
+  // the non-carousel 3-column grid.
+  const SIDE_PAD = 120;
 
   return (
-    <div style={{ position: 'relative', padding: '0 56px' }}>
+    <div style={{ position: 'relative' }}>
+      {/* Buttons sit OUTSIDE the inner padded div, positioned in the container gutter */}
       <button
         onClick={() => scroll('left')}
-        style={{ ...arrowStyle(canScrollLeft), left: '8px' }}
+        style={{ ...arrowStyle, left: `-${SIDE_PAD / 2 + 27}px` }}
         aria-label="Scroll left"
       >
-        ←
+        <span style={{ transform: 'translateY(-5px)', display: 'block' }}>‹</span>
       </button>
 
       <div
         ref={scrollRef}
-        onScroll={updateScrollState}
+        onScroll={handleScroll}
         style={{
           display: 'flex',
           flexDirection: 'row',
@@ -862,8 +878,8 @@ function CarouselGrid({ children, total }: {
         }}
       >
         <style>{`.carousel-track::-webkit-scrollbar { display: none; }`}</style>
-        {React.Children.map(children, (child) => (
-          <div style={{
+        {[...childArray, ...childArray, ...childArray].map((child, i) => (
+          <div key={i} style={{
             flex: '0 0 calc(33.333% - 16px)',
             minWidth: 'calc(33.333% - 16px)',
             scrollSnapAlign: 'start',
@@ -875,10 +891,10 @@ function CarouselGrid({ children, total }: {
 
       <button
         onClick={() => scroll('right')}
-        style={{ ...arrowStyle(canScrollRight), right: '8px' }}
+        style={{ ...arrowStyle, right: `-${SIDE_PAD / 2 + 27}px` }}
         aria-label="Scroll right"
       >
-        →
+        <span style={{ transform: 'translateY(-5px)', display: 'block' }}>›</span>
       </button>
     </div>
   );
