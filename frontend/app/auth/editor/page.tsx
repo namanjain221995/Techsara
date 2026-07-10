@@ -52,6 +52,11 @@ function EditorPageInner() {
   const [sections, setSections] = useState<any[]>([]);
   const [validationError, setValidationError] = useState('');
   const [fetchedContent, setFetchedContent] = useState<string | null>(null);
+  const [takeaways, setTakeaways] = useState<string[]>(['']);
+  const [faqItems, setFaqItems] = useState<{ question: string; answer: string }[]>([{ question: '', answer: '' }]);
+  const [seoTitle, setSeoTitle] = useState('');
+  const [metaDescription, setMetaDescription] = useState('');
+  const [keywords, setKeywords] = useState('');
 
   const editor = useEditor({
     extensions: [
@@ -92,9 +97,14 @@ function EditorPageInner() {
       content: editor.getHTML(),
       editId: editId || null,
       lastSaved: Date.now(),
+      takeaways,
+      faqItems,
+      seoTitle,
+      metaDescription,
+      keywords,
     };
     localStorage.setItem(DRAFT_KEY, JSON.stringify(draft));
-  }, [editor, title, excerpt, type, status, coverImage, sectionId, categoryLabel, kicker, category, authorName, authorTitle, authorInitials, publishedDate, editId]);
+  }, [editor, title, excerpt, type, status, coverImage, sectionId, categoryLabel, kicker, category, authorName, authorTitle, authorInitials, publishedDate, editId, takeaways, faqItems, seoTitle, metaDescription, keywords]);
 
   // Auto-save on title/excerpt/type/status change
   useEffect(() => {
@@ -154,6 +164,11 @@ function EditorPageInner() {
           setAuthorInitials(draft.authorInitials || '');
           setPublishedDate(draft.publishedDate || new Date().toISOString().split('T')[0]);
           setFetchedContent(draft.content || '');
+          setTakeaways(draft.takeaways || ['']);
+          setFaqItems(draft.faqItems || [{ question: '', answer: '' }]);
+          setSeoTitle(draft.seoTitle || '');
+          setMetaDescription(draft.metaDescription || '');
+          setKeywords(draft.keywords || '');
           setDraftRestored(true);
         } else {
           localStorage.removeItem(DRAFT_KEY);
@@ -194,6 +209,23 @@ function EditorPageInner() {
           item.publishedDate || new Date().toISOString().split('T')[0]
         );
         setFetchedContent(data.content || '');
+        setTakeaways(
+          data.blog?.takeaways?.length
+            ? data.blog.takeaways
+            : ['']
+        );
+        setFaqItems(
+          data.blog?.faq?.length
+            ? data.blog.faq
+            : [{ question: '', answer: '' }]
+        );
+        setSeoTitle(data.blog?.seoTitle || '');
+        setMetaDescription(data.blog?.metaDescription || '');
+        setKeywords(
+          Array.isArray(data.blog?.keywords)
+            ? data.blog.keywords.join(', ')
+            : ''
+        );
       }
     } catch {
       alert('Failed to load item for editing');
@@ -286,6 +318,16 @@ function EditorPageInner() {
             title: authorTitle.trim(),
             initials: authorInitials.trim().toUpperCase(),
           },
+          takeaways: takeaways.filter(t => t.trim() !== ''),
+          faq: faqItems.filter(
+            f => f.question.trim() !== '' || f.answer.trim() !== ''
+          ),
+          seoTitle: seoTitle.trim(),
+          metaDescription: metaDescription.trim(),
+          keywords: keywords
+            .split(',')
+            .map(k => k.trim())
+            .filter(Boolean),
         }),
         ...(type === 'article' && { sectionId, categoryLabel }),
       };
@@ -638,6 +680,214 @@ function EditorPageInner() {
               <p style={{ fontSize: '11px', color: '#94a3b8', marginTop: '4px' }}>
                 Name · Job Title · Initials (2 letters)
               </p>
+            </div>
+
+            {/* ── Key Takeaways ── */}
+            <div style={{ marginBottom: '16px' }}>
+              <label style={{
+                fontSize: '12px', fontWeight: '500',
+                color: '#64748b', display: 'block', marginBottom: '4px',
+              }}>
+                Key Takeaways (shown in styled box at top of blog)
+              </label>
+              {takeaways.map((t, i) => (
+                <div key={i} style={{
+                  display: 'flex', gap: '8px', marginBottom: '6px',
+                }}>
+                  <input
+                    type="text"
+                    value={t}
+                    onChange={(e) => {
+                      const updated = [...takeaways];
+                      updated[i] = e.target.value;
+                      setTakeaways(updated);
+                    }}
+                    placeholder={`Takeaway ${i + 1}`}
+                    style={{
+                      flex: 1, padding: '7px 10px',
+                      border: '1px solid #e2e8f0', borderRadius: '6px',
+                      fontSize: '13px',
+                    }}
+                  />
+                  <button
+                    onClick={() => setTakeaways(takeaways.filter((_, j) => j !== i))}
+                    style={{
+                      padding: '7px 10px', fontSize: '12px',
+                      color: '#ef4444', background: '#fef2f2',
+                      border: 'none', borderRadius: '6px', cursor: 'pointer',
+                    }}
+                  >
+                    ✕
+                  </button>
+                </div>
+              ))}
+              <button
+                onClick={() => setTakeaways([...takeaways, ''])}
+                style={{
+                  fontSize: '12px', color: '#1e3a8a',
+                  background: '#eff6ff', border: 'none',
+                  borderRadius: '6px', padding: '6px 12px',
+                  cursor: 'pointer', marginTop: '4px',
+                }}
+              >
+                + Add Takeaway
+              </button>
+            </div>
+
+            {/* ── FAQ ── */}
+            <div style={{ marginBottom: '16px' }}>
+              <label style={{
+                fontSize: '12px', fontWeight: '500',
+                color: '#64748b', display: 'block', marginBottom: '4px',
+              }}>
+                FAQ (accordion shown at bottom of blog)
+              </label>
+              {faqItems.map((f, i) => (
+                <div key={i} style={{
+                  backgroundColor: '#f8fafc',
+                  border: '1px solid #e2e8f0',
+                  borderRadius: '8px',
+                  padding: '12px',
+                  marginBottom: '8px',
+                }}>
+                  <div style={{
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    marginBottom: '6px',
+                  }}>
+                    <span style={{ fontSize: '11px', color: '#94a3b8' }}>
+                      FAQ {i + 1}
+                    </span>
+                    <button
+                      onClick={() =>
+                        setFaqItems(faqItems.filter((_, j) => j !== i))
+                      }
+                      style={{
+                        fontSize: '11px', color: '#ef4444',
+                        background: 'none', border: 'none',
+                        cursor: 'pointer', padding: 0,
+                      }}
+                    >
+                      Remove
+                    </button>
+                  </div>
+                  <input
+                    type="text"
+                    value={f.question}
+                    onChange={(e) => {
+                      const updated = [...faqItems];
+                      updated[i] = { ...updated[i], question: e.target.value };
+                      setFaqItems(updated);
+                    }}
+                    placeholder="Question"
+                    style={{
+                      width: '100%', padding: '7px 10px',
+                      border: '1px solid #e2e8f0', borderRadius: '6px',
+                      fontSize: '13px', marginBottom: '6px',
+                      boxSizing: 'border-box',
+                    }}
+                  />
+                  <textarea
+                    value={f.answer}
+                    onChange={(e) => {
+                      const updated = [...faqItems];
+                      updated[i] = { ...updated[i], answer: e.target.value };
+                      setFaqItems(updated);
+                    }}
+                    placeholder="Answer"
+                    rows={2}
+                    style={{
+                      width: '100%', padding: '7px 10px',
+                      border: '1px solid #e2e8f0', borderRadius: '6px',
+                      fontSize: '13px', resize: 'vertical',
+                      fontFamily: 'inherit', boxSizing: 'border-box',
+                    }}
+                  />
+                </div>
+              ))}
+              <button
+                onClick={() =>
+                  setFaqItems([...faqItems, { question: '', answer: '' }])
+                }
+                style={{
+                  fontSize: '12px', color: '#1e3a8a',
+                  background: '#eff6ff', border: 'none',
+                  borderRadius: '6px', padding: '6px 12px',
+                  cursor: 'pointer',
+                }}
+              >
+                + Add FAQ Item
+              </button>
+            </div>
+
+            {/* ── SEO Fields ── */}
+            <div style={{ marginBottom: '16px' }}>
+              <label style={{
+                fontSize: '12px', fontWeight: '500',
+                color: '#64748b', display: 'block', marginBottom: '4px',
+              }}>
+                SEO Title (shown in browser tab and Google — max 60 chars)
+              </label>
+              <input
+                type="text"
+                value={seoTitle}
+                onChange={(e) => setSeoTitle(e.target.value)}
+                placeholder="Blog title for search engines"
+                maxLength={70}
+                style={{
+                  width: '100%', padding: '8px 12px',
+                  border: '1px solid #e2e8f0', borderRadius: '7px',
+                  fontSize: '13px', boxSizing: 'border-box',
+                }}
+              />
+              <p style={{ fontSize: '11px', color: '#94a3b8', marginTop: '3px' }}>
+                {seoTitle.length}/60 characters
+              </p>
+            </div>
+
+            <div style={{ marginBottom: '16px' }}>
+              <label style={{
+                fontSize: '12px', fontWeight: '500',
+                color: '#64748b', display: 'block', marginBottom: '4px',
+              }}>
+                Meta Description (shown in Google search results — ~150 chars)
+              </label>
+              <textarea
+                value={metaDescription}
+                onChange={(e) => setMetaDescription(e.target.value)}
+                placeholder="Brief description of this blog for search engines"
+                rows={2}
+                maxLength={180}
+                style={{
+                  width: '100%', padding: '8px 12px',
+                  border: '1px solid #e2e8f0', borderRadius: '7px',
+                  fontSize: '13px', resize: 'vertical',
+                  fontFamily: 'inherit', boxSizing: 'border-box',
+                }}
+              />
+              <p style={{ fontSize: '11px', color: '#94a3b8', marginTop: '3px' }}>
+                {metaDescription.length}/150 characters
+              </p>
+            </div>
+
+            <div style={{ marginBottom: '16px' }}>
+              <label style={{
+                fontSize: '12px', fontWeight: '500',
+                color: '#64748b', display: 'block', marginBottom: '4px',
+              }}>
+                Keywords (comma separated — for SEO)
+              </label>
+              <input
+                type="text"
+                value={keywords}
+                onChange={(e) => setKeywords(e.target.value)}
+                placeholder="AI staffing, ML engineers, US enterprises"
+                style={{
+                  width: '100%', padding: '8px 12px',
+                  border: '1px solid #e2e8f0', borderRadius: '7px',
+                  fontSize: '13px', boxSizing: 'border-box',
+                }}
+              />
             </div>
           </>
         )}

@@ -296,6 +296,10 @@ export default async function BlogPostPage({ params }: PostPageProps) {
   return (
     <main className="blog-page blog-post-page trends-page">
       <SiteHeader />
+      {/* SEO meta — S3 blog */}
+      {article.seoTitle && (
+        <title>{article.seoTitle} | Techsara</title>
+      )}
       <article className="blog-post">
 
         <header
@@ -376,10 +380,44 @@ export default async function BlogPostPage({ params }: PostPageProps) {
         </header>
 
         <div className="container blog-post-body">
+          {/* Key Takeaways — same className as hardcoded */}
+          {article.takeaways?.length > 0 && (
+            <aside className="blog-takeaways" aria-label="Key takeaways">
+              <h2 className="blog-takeaways-title">Key takeaways</h2>
+              <ul>
+                {article.takeaways.map((t: string, i: number) => (
+                  <li key={i}>{t}</li>
+                ))}
+              </ul>
+            </aside>
+          )}
+
+          {/* Article content HTML */}
           <div
             style={{ fontSize: '16px', lineHeight: '1.8', color: '#1e293b' }}
             dangerouslySetInnerHTML={{ __html: stripImages(content) }}
           />
+
+          {/* FAQ — same className as hardcoded */}
+          {article.faq?.length > 0 && (
+            <section
+              className="blog-faq"
+              aria-labelledby="faq-heading"
+            >
+              <h2 id="faq-heading">Frequently asked questions</h2>
+              <div className="blog-faq-list">
+                {article.faq.map((
+                  item: { question: string; answer: string },
+                  i: number
+                ) => (
+                  <details key={i} className="blog-faq-item">
+                    <summary>{item.question}</summary>
+                    <p>{item.answer}</p>
+                  </details>
+                ))}
+              </div>
+            </section>
+          )}
         </div>
 
         <section className="blog-cta">

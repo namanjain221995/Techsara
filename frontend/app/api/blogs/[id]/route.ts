@@ -76,6 +76,11 @@ export async function PUT(
       author: body.author ?? blogs[index].author,
       publishedDate: body.publishedDate || blogs[index].publishedDate,
       updatedAt: new Date().toISOString(),
+      takeaways: body.takeaways ?? blogs[index].takeaways ?? [],
+      faq: body.faq ?? blogs[index].faq ?? [],
+      seoTitle: body.seoTitle?.trim() ?? blogs[index].seoTitle ?? '',
+      metaDescription: body.metaDescription?.trim() ?? blogs[index].metaDescription ?? '',
+      keywords: body.keywords ?? blogs[index].keywords ?? [],
     };
 
     blogs[index] = updated;

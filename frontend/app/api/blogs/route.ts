@@ -44,7 +44,8 @@ export async function POST(req: NextRequest) {
     const body = await req.json();
     const {
       title, content, excerpt, coverImage,
-      status, kicker, category, author, publishedDate
+      status, kicker, category, author, publishedDate,
+      takeaways, faq, seoTitle, metaDescription, keywords
     } = body;
 
     if (!title?.trim()) return NextResponse.json(
@@ -89,6 +90,11 @@ export async function POST(req: NextRequest) {
       publishedDate: publishedDate || now.split('T')[0],
       createdAt: now,
       updatedAt: now,
+      takeaways: takeaways || [],
+      faq: faq || [],
+      seoTitle: seoTitle?.trim() || title?.trim() || '',
+      metaDescription: metaDescription?.trim() || '',
+      keywords: keywords || [],
     };
 
     await uploadToS3(`blogs/${id}/content.html`, content, 'text/html');
