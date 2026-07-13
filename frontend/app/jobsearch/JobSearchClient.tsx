@@ -4,34 +4,6 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import { APPLYABLE_STATUSES, type PublicJob } from "@/lib/jobs";
 
-function useVisibleSkillCount(skills: string[]) {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const [visibleCount, setVisibleCount] = useState(skills ? skills.length : 0);
-
-  useEffect(() => {
-    if (!containerRef.current || !skills || skills.length === 0) return;
-    const container = containerRef.current;
-    const frame = requestAnimationFrame(() => {
-      const tags = Array.from(container.children).filter(
-        (el) => !el.classList.contains("more-badge"),
-      ) as HTMLElement[];
-      if (tags.length === 0) return;
-      const containerTop = container.getBoundingClientRect().top;
-      const tagHeight = tags[0].getBoundingClientRect().height;
-      const maxHeight = tagHeight * 2 + 8;
-      let lastFittingIndex = 0;
-      for (let i = 0; i < tags.length; i++) {
-        const relativeTop = tags[i].getBoundingClientRect().top - containerTop;
-        if (relativeTop < maxHeight - 2) { lastFittingIndex = i + 1; } else { break; }
-      }
-      setVisibleCount(Math.max(1, lastFittingIndex));
-    });
-    return () => cancelAnimationFrame(frame);
-  }, [skills]);
-
-  return { containerRef, visibleCount };
-}
-
 const PAGE_SIZE = 10;
 const MONTHS = [
   "Jan", "Feb", "Mar", "Apr", "May", "Jun",
@@ -61,17 +33,10 @@ type SortField = "postedDate" | "jobTitle";
 type SortDir = "asc" | "desc";
 
 function JobCardItem({ job }: { job: PublicJob }) {
-  const { containerRef, visibleCount } = useVisibleSkillCount(job.primarySkills);
-  const visibleSkills = job.primarySkills.slice(0, visibleCount);
-  const overflowCount = job.primarySkills.length - visibleCount;
-
   return (
     <article className="job-card" style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
       <div className="job-card-main">
         <div className="job-card-tags">
-          <span className={`job-status status-${job.jobStatus.replace(/\s+/g, "-").toLowerCase()}`}>
-            {job.jobStatus || "-"}
-          </span>
           {job.employmentType ? (
             <span className="job-field-tag">{job.employmentType}</span>
           ) : null}
@@ -87,22 +52,6 @@ function JobCardItem({ job }: { job: PublicJob }) {
         </div>
         {job.clientName ? (
           <p className="job-company" style={{ marginTop: '5px' }}>{job.clientName}</p>
-        ) : null}
-        {job.primarySkills.length ? (
-          <div
-            ref={containerRef}
-            className="job-skills"
-            style={{ minHeight: '72px', alignContent: 'flex-start', marginTop: '5px' }}
-          >
-            {visibleSkills.map((s) => (
-              <span className="job-skill" key={s}>{s}</span>
-            ))}
-            {overflowCount > 0 ? (
-              <span className="job-skill job-skill-more more-badge">
-                +{overflowCount} more
-              </span>
-            ) : null}
-          </div>
         ) : null}
         <div className="job-meta">
           {job.location ? <span className="job-badge">{job.location}</span> : null}
@@ -154,10 +103,8 @@ export default function JobSearchClient({ jobs }: { jobs: PublicJob[] }) {
 
   // Facet counts come from the full set (mirrors the Salesforce filter params).
   const employmentCounts = useMemo(() => countBy(jobs, (j) => j.employmentType), [jobs]);
-  const priorityCounts = useMemo(() => countBy(jobs, (j) => j.priority), [jobs]);
   const locationCounts = useMemo(() => countBy(jobs, (j) => j.location), [jobs]);
   const modeCounts = useMemo(() => countBy(jobs, (j) => j.workMode), [jobs]);
-  const statusCounts = useMemo(() => countBy(jobs, (j) => j.jobStatus), [jobs]);
 
   const filtered = useMemo(() => {
     const kw = keyword.trim().toLowerCase();
@@ -324,13 +271,6 @@ export default function JobSearchClient({ jobs }: { jobs: PublicJob[] }) {
 
           <div className="jobs-sidebar-body">
           <FacetGroup
-            title="Status"
-            entries={Object.entries(statusCounts).sort((a, b) => b[1] - a[1])}
-            selected={statuses}
-            onToggle={(v) => toggle(statuses, setStatuses, v)}
-          />
-
-          <FacetGroup
             title="Employment Type"
             entries={Object.entries(employmentCounts).sort((a, b) => b[1] - a[1])}
             selected={employmentTypes}
@@ -342,13 +282,6 @@ export default function JobSearchClient({ jobs }: { jobs: PublicJob[] }) {
             entries={Object.entries(modeCounts).sort((a, b) => b[1] - a[1])}
             selected={modes}
             onToggle={(v) => toggle(modes, setModes, v)}
-          />
-
-          <FacetGroup
-            title="Priority"
-            entries={Object.entries(priorityCounts).sort((a, b) => b[1] - a[1])}
-            selected={priorities}
-            onToggle={(v) => toggle(priorities, setPriorities, v)}
           />
 
           {locationEntries.length > 0 ? (

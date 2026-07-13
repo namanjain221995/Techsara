@@ -10,7 +10,7 @@ const spectrumSolutions = [
     description:
       "Save time finding the right resource for your team while we connect you with the best talent in the marketplace.",
     href: "/services/talent",
-    image: "/uploads/hero_talentsolution.webp",
+    image: "/uploads/techsara-office-meeting.png",
   },
   {
     id: "team",

@@ -153,7 +153,7 @@ export default function ContactPageClient() {
               <li className="contact-info-item">
                 <span className="contact-info-label">Phone</span>
                 <span className="contact-info-value">
-                  <a href="tel:+13235961938">+1 (323) 596-1938</a>
+                  <a href="tel:3234866123">+1 (323) 486-6123</a>
                 </span>
               </li>
               <li className="contact-info-item">
@@ -236,7 +236,7 @@ function Footer() {
             <h4>Contact</h4>
             <ul>
               <li><a href="mailto:hello@techsarasolutions.com?cc=sales@techsarasolutions.com">hello@techsarasolutions.com</a></li>
-              <li><a href="tel:+13235961938">(323) 596-1938</a></li>
+              <li><a href="tel:3234866123">(323) 486-6123</a></li>
               <li>Frisco, TX · USA</li>
               <li><Link href="/book">Book a call</Link></li>
             </ul>

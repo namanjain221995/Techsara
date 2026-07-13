@@ -46,6 +46,11 @@ function parseDescription(text: string): Block[] {
   return blocks;
 }
 
+const stripImages = (html: string): string => {
+  if (!html) return '';
+  return html.replace(/<img[^>]*\/?>/gi, '');
+};
+
 export default function JobDetailClient({
   job,
   recommended = [],
@@ -80,9 +85,6 @@ export default function JobDetailClient({
           {/* MAIN */}
           <div className="jdp-main">
             <div className="jdp-badges">
-              <span className={`job-status status-${job.jobStatus.replace(/\s+/g, "-").toLowerCase()}`}>
-                {job.jobStatus || "-"}
-              </span>
               {job.employmentType ? <span className="job-field-tag">{job.employmentType}</span> : null}
               {showPriority ? <span className="job-priority">{job.priority} priority</span> : null}
             </div>
@@ -104,10 +106,12 @@ export default function JobDetailClient({
               {job.minimumExperience != null ? <div><dt>Experience</dt><dd>{job.minimumExperience}</dd></div> : null}
               {job.workMode ? <div><dt>Work Mode</dt><dd>{job.workMode}</dd></div> : null}
               {job.employmentType ? <div><dt>Employment Type</dt><dd>{job.employmentType}</dd></div> : null}
+              {job.duration && job.employmentType !== 'Full-Time' && job.employmentType !== 'Full Time' ? (
+                <div><dt>Duration</dt><dd>{job.duration}</dd></div>
+              ) : null}
               {job.numberOfOpenings > 0 ? (
                 <div><dt>Number of Openings</dt><dd>{job.numberOfOpenings}</dd></div>
               ) : null}
-              {job.duration ? <div><dt>Duration</dt><dd>{job.duration}</dd></div> : null}
               {job.clientName ? <div><dt>Client</dt><dd>{job.clientName}</dd></div> : null}
               {job.postedDate ? <div><dt>Posting Date</dt><dd>{formatDate(job.postedDate)}</dd></div> : null}
               {job.submissionDeadline ? (
@@ -123,7 +127,7 @@ export default function JobDetailClient({
               <>
                 <h2 className="jdp-dh">Job Description</h2>
                 {/* TODO: sanitize with DOMPurify before production release */}
-                <div className="jdp-desc" dangerouslySetInnerHTML={{ __html: descHtml }} />
+                <div className="jdp-desc" dangerouslySetInnerHTML={{ __html: stripImages(descHtml) }} />
               </>
             ) : null}
 

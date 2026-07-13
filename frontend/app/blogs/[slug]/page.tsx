@@ -21,6 +21,45 @@ import {
   faqPageJsonLd,
   jsonLdScript,
 } from "@/lib/seo";
+import { readFromS3 } from "@/lib/s3";
+
+async function fetchS3BlogBySlug(slug: string): Promise<{
+  article: any;
+  content: string;
+} | null> {
+  try {
+    const raw = await readFromS3('blogs/index.json');
+    const blogs = JSON.parse(raw || '[]');
+    const found = blogs.find(
+      (b: any) => b.slug === slug && b.status === 'published'
+    );
+    if (!found) return null;
+    const content = await readFromS3(`blogs/${found.id}/content.html`);
+    return { article: found, content };
+  } catch {
+    return null;
+  }
+}
+
+function stripImages(html: string): string {
+  if (!html) return '';
+  // Only strip Salesforce internal images (file.force.com)
+  // S3 images and other public images are kept and displayed
+  return html.replace(
+    /<img[^>]*src="[^"]*file\.force\.com[^"]*"[^>]*\/?>/gi,
+    ''
+  );
+}
+
+function getGradientForArt(art: string): string {
+  const map: Record<string, string> = {
+    staffing: 'linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%)',
+    genai:    'linear-gradient(135deg, #6d28d9 0%, #a78bfa 100%)',
+    cloud:    'linear-gradient(135deg, #0e7490 0%, #22d3ee 100%)',
+    industry: 'linear-gradient(135deg, #065f46 0%, #34d399 100%)',
+  };
+  return map[art] || map['staffing'];
+}
 
 type PostPageProps = { params: { slug: string } };
 
@@ -28,32 +67,45 @@ export function generateStaticParams() {
   return getAllSlugs().map((slug) => ({ slug }));
 }
 
-export function generateMetadata({ params }: PostPageProps): Metadata {
+export async function generateMetadata({ params }: PostPageProps): Promise<Metadata> {
   const post = getPostBySlug(params.slug);
-  if (!post) return { title: { absolute: "Article Not Found | Techsara" } };
-  const path = `/blogs/${post.slug}`;
-  return {
-    title: { absolute: `${post.seoTitle} | Techsara` },
-    description: post.metaDescription,
-    keywords: post.keywords,
-    authors: [{ name: post.author.name }],
-    alternates: { canonical: path },
-    openGraph: articleOpenGraph({
-      title: post.title,
+  if (post) {
+    const path = `/blogs/${post.slug}`;
+    return {
+      title: { absolute: `${post.seoTitle} | Techsara` },
       description: post.metaDescription,
-      path,
-      publishedTime: post.publishedDate,
-      modifiedTime: post.modifiedDate,
-      authorName: post.author.name,
-      tags: post.keywords,
-    }),
+      keywords: post.keywords,
+      authors: [{ name: post.author.name }],
+      alternates: { canonical: path },
+      openGraph: articleOpenGraph({
+        title: post.title,
+        description: post.metaDescription,
+        path,
+        publishedTime: post.publishedDate,
+        modifiedTime: post.modifiedDate,
+        authorName: post.author.name,
+        tags: post.keywords,
+      }),
+    };
+  }
+
+  const s3Data = await fetchS3BlogBySlug(params.slug);
+  if (!s3Data) return { title: { absolute: "Article Not Found | Techsara" } };
+
+  const { article } = s3Data;
+  const path = `/blogs/${article.slug}`;
+  return {
+    title: { absolute: `${article.title} | Techsara` },
+    description: article.excerpt || '',
+    authors: article.author?.name ? [{ name: article.author.name }] : [],
+    alternates: { canonical: path },
   };
 }
 
-export default function BlogPostPage({ params }: PostPageProps) {
+export default async function BlogPostPage({ params }: PostPageProps) {
   const post = getPostBySlug(params.slug);
-  if (!post) notFound();
 
+  if (post) {
   const path = `/blogs/${post.slug}`;
   const toc = tableOfContents(post);
   const related = getRelatedPosts(post.slug, 3);
@@ -100,7 +152,12 @@ export default function BlogPostPage({ params }: PostPageProps) {
                 <li><span aria-current="page">{post.category}</span></li>
               </ol>
             </nav>
-            <span className="blog-chip blog-chip--onhero">{post.category}</span>
+            <span
+              className="blog-chip blog-chip--onhero"
+              style={{ marginTop: '16px', display: 'inline-block' }}
+            >
+              {post.category}
+            </span>
             <h1>{post.title}</h1>
             <p className="blog-post-lead">{post.excerpt}</p>
             <div className="blog-post-byline">
@@ -223,6 +280,171 @@ export default function BlogPostPage({ params }: PostPageProps) {
         ) : null}
       </article>
 
+      <SiteFooter />
+    </main>
+  );
+  } // end if (post)
+
+  // ── S3 blog ──
+  const s3Data = await fetchS3BlogBySlug(params.slug);
+  if (!s3Data) notFound();
+
+  const { article, content } = s3Data!;
+  const gradient = getGradientForArt(article.art || 'staffing');
+  const publishDate = article.publishedDate || article.createdAt?.split('T')[0] || '';
+
+  return (
+    <main className="blog-page blog-post-page trends-page">
+      <SiteHeader />
+      {/* SEO meta — S3 blog */}
+      {article.seoTitle && (
+        <title>{article.seoTitle} | Techsara</title>
+      )}
+      <article className="blog-post">
+
+        <header
+          className={`blog-post-hero blog-visual--${article.art || 'staffing'}`}
+          style={{ position: 'relative', overflow: 'hidden' }}
+        >
+          <div className="blog-post-hero-art" aria-hidden="true">
+            {article.coverImage ? (
+              <img
+                src={article.coverImage}
+                alt={article.title}
+                style={{
+                  position: 'absolute',
+                  inset: 0,
+                  width: '100%',
+                  height: '100%',
+                  objectFit: 'cover',
+                  zIndex: 1,
+                }}
+              />
+            ) : (
+              <div style={{
+                position: 'absolute',
+                inset: 0,
+                width: '100%',
+                height: '100%',
+                background: gradient,
+              }} />
+            )}
+          </div>
+          <div className="container blog-post-hero-inner">
+            <nav className="blog-breadcrumb" aria-label="Breadcrumb">
+              <ol>
+                <li><Link href="/">Home</Link></li>
+                <li><Link href="/blogs">Blog</Link></li>
+                <li>
+                  <span aria-current="page">
+                    {article.category || article.kicker || 'Blog'}
+                  </span>
+                </li>
+              </ol>
+            </nav>
+            {article.kicker && (
+              <span
+                className="blog-chip blog-chip--onhero"
+                style={{ marginTop: '16px', display: 'inline-block' }}
+              >
+                {article.kicker}
+              </span>
+            )}
+            <h1>{article.title}</h1>
+            {article.excerpt && (
+              <p className="blog-post-lead">{article.excerpt}</p>
+            )}
+            {article.author?.name && (
+              <div className="blog-post-byline">
+                <span className="blog-avatar blog-avatar--lg" aria-hidden="true">
+                  {article.author.initials || '?'}
+                </span>
+                <span className="blog-byline-text">
+                  <span className="blog-byline-name">{article.author.name}</span>
+                  <span className="blog-byline-sub">
+                    {article.author.title && (
+                      <>{article.author.title}<span className="blog-meta-dot" aria-hidden="true"> · </span></>
+                    )}
+                    {publishDate && (
+                      <time dateTime={publishDate}>
+                        {new Date(publishDate).toLocaleDateString('en-US', {
+                          month: 'long', day: 'numeric', year: 'numeric',
+                        })}
+                      </time>
+                    )}
+                  </span>
+                </span>
+              </div>
+            )}
+          </div>
+        </header>
+
+        <div className="container blog-post-body">
+          {/* Key Takeaways — same className as hardcoded */}
+          {article.takeaways?.length > 0 && (
+            <aside className="blog-takeaways" aria-label="Key takeaways">
+              <h2 className="blog-takeaways-title">Key takeaways</h2>
+              <ul>
+                {article.takeaways.map((t: string, i: number) => (
+                  <li key={i}>{t}</li>
+                ))}
+              </ul>
+            </aside>
+          )}
+
+          {/* Article content HTML */}
+          <div
+            style={{ fontSize: '16px', lineHeight: '1.8', color: '#1e293b' }}
+            dangerouslySetInnerHTML={{ __html: stripImages(content) }}
+          />
+
+          {/* FAQ — same className as hardcoded */}
+          {article.faq?.length > 0 && (
+            <section
+              className="blog-faq"
+              aria-labelledby="faq-heading"
+            >
+              <h2 id="faq-heading">Frequently asked questions</h2>
+              <div className="blog-faq-list">
+                {article.faq.map((
+                  item: { question: string; answer: string },
+                  i: number
+                ) => (
+                  <details key={i} className="blog-faq-item">
+                    <summary>{item.question}</summary>
+                    <p>{item.answer}</p>
+                  </details>
+                ))}
+              </div>
+            </section>
+          )}
+        </div>
+
+        <section className="blog-cta">
+          <div className="container blog-cta-inner">
+            <h2>Put this into practice</h2>
+            <p>
+              From {(article.category || 'AI').toLowerCase()} strategy to delivery,
+              Techsara helps US enterprises move from plan to production.
+              Tell us what you&apos;re building.
+            </p>
+            <div className="blog-cta-actions">
+              <Link href="/book" className="btn btn-primary btn-lg">
+                Book a consultation
+                <svg className="arrow" width="14" height="14" viewBox="0 0 24 24" fill="none">
+                  <path d="M5 12h14M13 5l7 7-7 7"
+                    stroke="currentColor" strokeWidth="2"
+                    strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+              </Link>
+              <Link href="/solutions" className="btn btn-ghost btn-lg">
+                Explore solutions
+              </Link>
+            </div>
+          </div>
+        </section>
+
+      </article>
       <SiteFooter />
     </main>
   );
