@@ -57,69 +57,6 @@ export type PublicJob = Omit<JobRequirement, "clientBillRate">;
 /** Statuses that accept applications. */
 export const APPLYABLE_STATUSES = ["Open", "New"];
 
-/** Fallback data for local dev when Salesforce is not configured/reachable. */
-const MOCK_JOBS: JobRequirement[] = [
-  {
-    id: "JR-MOCK-1",
-    jobRequirementName: "JR-MOCK-1",
-    jobTitle: "Senior AI / ML Engineer",
-    jobStatus: "Open",
-    priority: "High",
-    postedDate: "2026-05-28",
-    submissionDeadline: "2026-07-31",
-    location: "Frisco, TX",
-    workMode: "Hybrid",
-    employmentType: "Full-Time",
-    primarySkills: ["Python", "PyTorch", "MLOps", "LLMs"],
-    jobDescription:
-      "Design, train and ship production machine-learning systems end to end. (Mock fallback - Salesforce not configured.)",
-    duration: "Permanent",
-    numberOfOpenings: 2,
-    rateType: "Salary",
-    requiredVisaStatus: ["USC", "GC", "H1B"],
-    clientBillRate: null,
-  },
-  {
-    id: "JR-MOCK-2",
-    jobRequirementName: "JR-MOCK-2",
-    jobTitle: "Generative AI Engineer (LLM / RAG)",
-    jobStatus: "Open",
-    priority: "Critical",
-    postedDate: "2026-06-05",
-    submissionDeadline: "2026-06-30",
-    location: "Remote (US)",
-    workMode: "Remote",
-    employmentType: "Contract",
-    primarySkills: ["LLM", "RAG", "LangChain", "Python"],
-    jobDescription:
-      "Build retrieval-augmented generation pipelines and ship reliable AI products. (Mock fallback.)",
-    duration: "12 months",
-    numberOfOpenings: 3,
-    rateType: "Hourly",
-    requiredVisaStatus: ["USC", "GC", "H1B", "OPT"],
-    clientBillRate: null,
-  },
-  {
-    id: "JR-MOCK-3",
-    jobRequirementName: "JR-MOCK-3",
-    jobTitle: "Cloud Solutions Architect",
-    jobStatus: "On Hold",
-    priority: "Medium",
-    postedDate: "2026-04-30",
-    submissionDeadline: "2026-09-15",
-    location: "Austin, TX",
-    workMode: "Remote",
-    employmentType: "Full-Time",
-    primarySkills: ["AWS", "Azure", "Terraform"],
-    jobDescription:
-      "Design reference architectures across AWS, Azure and GCP. (Mock fallback.)",
-    duration: "Permanent",
-    numberOfOpenings: 1,
-    rateType: "Salary",
-    requiredVisaStatus: ["USC", "GC"],
-    clientBillRate: null,
-  },
-];
 
 /** Strip internal-only fields before sending a job to the browser. */
 export function toPublicJob(job: JobRequirement): PublicJob {
@@ -127,17 +64,17 @@ export function toPublicJob(job: JobRequirement): PublicJob {
   return pub;
 }
 
-/** All job requirements - live from Salesforce, or mock fallback. */
+/** All job requirements - live from Salesforce, or empty if unavailable. */
 export async function getJobs(): Promise<JobRequirement[]> {
   if (isSalesforceConfigured()) {
     try {
       return await fetchSalesforceJobs();
     } catch (err) {
-      console.error("[jobs] Salesforce fetch failed - using mock fallback:", err);
-      return MOCK_JOBS;
+      console.error("[jobs] Salesforce fetch failed:", err);
+      return [];
     }
   }
-  return MOCK_JOBS;
+  return [];
 }
 
 /** Public-safe list for client rendering (no clientBillRate). */

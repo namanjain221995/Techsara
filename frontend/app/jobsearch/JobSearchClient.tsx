@@ -349,26 +349,25 @@ export default function JobSearchClient({ jobs }: { jobs: PublicJob[] }) {
           </div>
 
           {filtered.length === 0 ? (
-            <div className="jobs-empty">
-              {jobs.length === 0 ? (
-                <>
-                  <div className="jobs-empty-icon" aria-hidden="true">📭</div>
-                  <p className="jobs-empty-title">No open positions right now</p>
-                  <p className="jobs-empty-text">
-                    We don&apos;t have any roles posted at the moment. New openings are
-                    added regularly - please check back soon.
-                  </p>
-                </>
-              ) : (
-                <>
-                  <div className="jobs-empty-icon" aria-hidden="true">🔍</div>
-                  <p className="jobs-empty-title">No positions match your filters</p>
-                  <p className="jobs-empty-text">Try removing a filter or two to see more roles.</p>
-                  <button type="button" className="jobs-empty-clear" onClick={clearAll}>
-                    Clear all filters
-                  </button>
-                </>
-              )}
+            <div style={{
+              gridColumn: '1 / -1',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              padding: '80px 24px',
+              textAlign: 'center',
+            }}>
+              <p style={{
+                fontSize: '16px',
+                color: '#64748b',
+                margin: 0,
+                lineHeight: '1.6',
+              }}>
+                {jobs.length === 0
+                  ? 'There are currently no job openings'
+                  : 'There are currently no job openings that match your search.'
+                }
+              </p>
             </div>
           ) : (
             <div className="jobs-grid">
