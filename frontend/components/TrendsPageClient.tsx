@@ -164,19 +164,8 @@ export default function TrendsPageClient() {
 
   useSwipe(carouselRef, { onSwipeLeft: goNext, onSwipeRight: goPrev });
 
-  // Map existing hardcoded categories with S3 articles
-  const mergedCategories = trendCategories.map(category => {
-    const s3ForSection = s3Articles.filter(a => a.sectionId === category.id);
-    const sectionGradient =
-      s3Sections.find(s => s.id === category.id)?.gradient ||
-      'linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%)';
-    return { ...category, s3Articles: s3ForSection, sectionGradient };
-  });
-
-  // Add S3-only sections (not in hardcoded trendCategories)
-  const hardcodedIds = new Set(trendCategories.map(c => c.id));
-  const s3OnlySections = s3Sections
-    .filter(s => !hardcodedIds.has(s.id))
+  // All sections come from S3 — no hardcoded dependency
+  const allCategories = s3Sections
     .sort((a, b) => (a.order || 99) - (b.order || 99))
     .map(s => ({
       id: s.id,
@@ -190,8 +179,6 @@ export default function TrendsPageClient() {
       sectionGradient: s.gradient ||
         'linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%)',
     }));
-
-  const allCategories = [...mergedCategories, ...s3OnlySections];
 
   return (
     <main className="trends-page">
@@ -328,10 +315,15 @@ export default function TrendsPageClient() {
       </section>
 
       <InsightSection />
-      <CategoryNav extraSections={s3OnlySections} />
-      {allCategories.map((category) => (
-        <TopicSection key={category.id} category={category} />
-      ))}
+      <CategoryNav navCategories={allCategories} />
+      {allCategories
+        .filter(category =>
+          (category.articles?.length || 0) +
+          (category.s3Articles?.length || 0) > 0
+        )
+        .map((category) => (
+          <TopicSection key={category.id} category={category} />
+        ))}
       {/* <ExpertsSection /> - hidden; uncomment to restore */}
       {false && <ExpertsSection />}
       <Footer />
@@ -382,48 +374,7 @@ type TrendCategory = {
   articles: Article[];
 };
 
-const trendCategories: TrendCategory[] = [
-  {
-    id: "data-ai",
-    label: "Data & AI",
-    iconKey: "data",
-    title: "Data and AI articles",
-    topicKicker: "Governance, Migration, Predictive ML, MLOps",
-    description:
-      "We serve our clients throughout the full data lifecycle: from describing past performance and understanding current progress to predicting future outcomes and prescribing next steps to improve efficiency and grow revenue.",
-    articles: [],
-  },
-  {
-    id: "cloud",
-    label: "Cloud",
-    iconKey: "cloud",
-    title: "Cloud and infrastructure articles",
-    topicKicker: "Migration, Cost Optimization, Hybrid Edge, Compliance",
-    description:
-      "From on-prem to hyperscale, we help teams modernize platforms without the migration scars. Practical playbooks for cost, resilience and compliance - drawn from regulated, capital-intensive engagements.",
-    articles: [],
-  },
-  {
-    id: "genai",
-    label: "Generative AI",
-    iconKey: "spark",
-    title: "Generative AI articles",
-    topicKicker: "LLMs, RAG, Fine-Tuning, Conversational Intelligence",
-    description:
-      "Beyond the demo. We help enterprises stand up generative AI that is grounded in their data, governed by their policies, and measured against business outcomes - not vibes.",
-    articles: [],
-  },
-  {
-    id: "industry",
-    label: "Industry Solutions",
-    iconKey: "industry",
-    title: "Industry insights",
-    topicKicker: "Energy, Banking, Pharma, Manufacturing, Retail",
-    description:
-      "AI works when it speaks the language of your operations. These are the patterns and outcomes we have shipped inside regulated, capital-intensive industries where reliability is the product.",
-    articles: [],
-  },
-];
+const trendCategories: TrendCategory[] = [];
 
 function handleAnchorClick(event: React.MouseEvent<HTMLAnchorElement>) {
   const href = event.currentTarget.getAttribute("href");
@@ -438,23 +389,20 @@ function handleAnchorClick(event: React.MouseEvent<HTMLAnchorElement>) {
 }
 
 function CategoryNav({
-  extraSections = [],
+  navCategories = [],
 }: {
-  extraSections?: { id: string; label: string; iconKey: 'data' | 'cloud' | 'spark' | 'industry' }[];
+  navCategories?: (TrendCategory & { s3Articles?: S3Article[]; sectionGradient?: string })[];
 }) {
-  const allNavItems = [
-    ...trendCategories,
-    ...extraSections.map(s => ({
-      id: s.id,
-      label: s.label,
-      iconKey: 'data' as const,
-    })),
-  ];
+  const visibleCategories = navCategories.filter(
+    cat =>
+      (cat.articles?.length || 0) +
+      (cat.s3Articles?.length || 0) > 0
+  );
   return (
     <nav className="trends-category-bar" aria-label="Trend categories">
       <div className="container trends-category-inner">
         <div className="trends-category-links">
-          {allNavItems.map((category) => (
+          {visibleCategories.map((category) => (
             <a
               key={category.id}
               href={`#topic-${category.id}`}

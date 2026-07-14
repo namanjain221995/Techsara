@@ -10,7 +10,7 @@ export async function GET() {
     const raw = await readFromS3(SECTIONS_KEY);
     const sections = JSON.parse(raw || '[]');
     const response = NextResponse.json({ success: true, sections });
-    response.headers.set('Cache-Control', 'public, s-maxage=300, stale-while-revalidate=600');
+    response.headers.set('Cache-Control', 'public, s-maxage=60, stale-while-revalidate=120');
     return response;
   } catch {
     return NextResponse.json(

@@ -23,6 +23,8 @@ export default function SectionsPage() {
   const [form, setForm] = useState(emptyForm);
   const [saving, setSaving] = useState(false);
   const [message, setMessage] = useState('');
+  const [dragIndex, setDragIndex] = useState<number | null>(null);
+  const [dragOverIndex, setDragOverIndex] = useState<number | null>(null);
 
   useEffect(() => { fetchSections(); }, []);
 
@@ -85,6 +87,59 @@ export default function SectionsPage() {
         setSections(prev => prev.filter(s => s.id !== id));
       } else { alert('Failed to delete section'); }
     } catch { alert('Failed to delete section'); }
+  }
+
+  function handleDragStart(index: number) {
+    setDragIndex(index);
+  }
+
+  function handleDragOver(e: React.DragEvent, index: number) {
+    e.preventDefault();
+    setDragOverIndex(index);
+  }
+
+  async function handleDrop(index: number) {
+    if (dragIndex === null || dragIndex === index) {
+      setDragIndex(null);
+      setDragOverIndex(null);
+      return;
+    }
+
+    const sorted = [...sections].sort(
+      (a, b) => (a.order || 0) - (b.order || 0)
+    );
+
+    const reordered = [...sorted];
+    const [moved] = reordered.splice(dragIndex, 1);
+    reordered.splice(index, 0, moved);
+
+    const updates = reordered.map((section, i) => ({
+      ...section,
+      order: i + 1,
+    }));
+
+    setDragIndex(null);
+    setDragOverIndex(null);
+
+    try {
+      await Promise.all(
+        updates.map(s =>
+          fetch(`/api/sections/${s.id}`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ order: s.order }),
+          })
+        )
+      );
+      fetchSections();
+    } catch {
+      alert('Failed to reorder sections');
+    }
+  }
+
+  function handleDragEnd() {
+    setDragIndex(null);
+    setDragOverIndex(null);
   }
 
   function startEdit(section: Section) {
@@ -298,19 +353,57 @@ export default function SectionsPage() {
           </p>
         )}
 
-        {sections
-          .sort((a, b) => a.order - b.order)
-          .map((section) => (
+        {[...sections].sort((a, b) => (a.order || 0) - (b.order || 0)).map((section, index) => (
             <div key={section.id}>
               {editingId === section.id && formUI(true)}
               {editingId !== section.id && (
-                <div style={{
-                  backgroundColor: '#fff', border: '1px solid #e2e8f0',
-                  borderRadius: '10px', padding: '16px 20px',
-                  marginBottom: '10px', display: 'flex',
-                  alignItems: 'center', justifyContent: 'space-between',
-                  gap: '16px',
-                }}>
+                <div
+                  draggable
+                  onDragStart={() => handleDragStart(index)}
+                  onDragOver={(e) => handleDragOver(e, index)}
+                  onDrop={() => handleDrop(index)}
+                  onDragEnd={handleDragEnd}
+                  style={{
+                    backgroundColor: '#fff',
+                    border: dragOverIndex === index
+                      ? '2px dashed #1e3a8a'
+                      : '1px solid #e2e8f0',
+                    borderRadius: '10px',
+                    padding: '16px 20px',
+                    marginBottom: '10px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                    gap: '16px',
+                    opacity: dragIndex === index ? 0.5 : 1,
+                    cursor: 'grab',
+                    transition: 'border 0.15s, opacity 0.15s',
+                  }}
+                >
+                  <div
+                    style={{
+                      display: 'flex',
+                      flexDirection: 'column',
+                      gap: '3px',
+                      flexShrink: 0,
+                      cursor: 'grab',
+                      padding: '4px',
+                      opacity: 0.35,
+                    }}
+                  >
+                    <div style={{ display: 'flex', gap: '3px' }}>
+                      <div style={{ width: '3px', height: '3px', borderRadius: '50%', backgroundColor: '#64748b' }} />
+                      <div style={{ width: '3px', height: '3px', borderRadius: '50%', backgroundColor: '#64748b' }} />
+                    </div>
+                    <div style={{ display: 'flex', gap: '3px' }}>
+                      <div style={{ width: '3px', height: '3px', borderRadius: '50%', backgroundColor: '#64748b' }} />
+                      <div style={{ width: '3px', height: '3px', borderRadius: '50%', backgroundColor: '#64748b' }} />
+                    </div>
+                    <div style={{ display: 'flex', gap: '3px' }}>
+                      <div style={{ width: '3px', height: '3px', borderRadius: '50%', backgroundColor: '#64748b' }} />
+                      <div style={{ width: '3px', height: '3px', borderRadius: '50%', backgroundColor: '#64748b' }} />
+                    </div>
+                  </div>
                   <div style={{ flex: 1 }}>
                     <div style={{
                       display: 'flex', alignItems: 'center', gap: '10px',
@@ -319,6 +412,7 @@ export default function SectionsPage() {
                         width: '28px', height: '28px', borderRadius: '6px',
                         background: section.gradient ||
                           'linear-gradient(135deg, #1e3a8a, #3b82f6)',
+                        flexShrink: 0,
                       }} />
                       <span style={{
                         fontSize: '15px', fontWeight: '600', color: '#0f172a',
@@ -338,7 +432,7 @@ export default function SectionsPage() {
                       </p>
                     )}
                   </div>
-                  <div style={{ display: 'flex', gap: '8px' }}>
+                  <div style={{ display: 'flex', gap: '8px', flexShrink: 0 }}>
                     <button onClick={() => startEdit(section)}
                       style={{
                         fontSize: '13px', color: '#1e3a8a',
