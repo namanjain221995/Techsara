@@ -122,7 +122,7 @@ export default function ArticleDetailPage() {
             zIndex: 2,
             maxWidth: '780px',
             margin: '0 auto',
-            padding: '40px 24px 48px',
+            padding: '80px 24px 48px',
             width: '100%',
           }}>
             <Link

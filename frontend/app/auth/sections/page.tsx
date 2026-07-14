@@ -23,14 +23,20 @@ export default function SectionsPage() {
   const [form, setForm] = useState(emptyForm);
   const [saving, setSaving] = useState(false);
   const [message, setMessage] = useState('');
-  const [dragIndex, setDragIndex] = useState<number | null>(null);
-  const [dragOverIndex, setDragOverIndex] = useState<number | null>(null);
+  const [pendingOrder, setPendingOrder] = useState<Section[] | null>(null);
+  const [savingOrder, setSavingOrder] = useState(false);
+
+  const displayedSections = pendingOrder ?? sections;
+  const hasUnsavedOrder = pendingOrder !== null;
 
   useEffect(() => { fetchSections(); }, []);
 
   async function fetchSections() {
     try {
-      const res = await fetch('/api/sections');
+      const res = await fetch(
+        `/api/sections?t=${Date.now()}`,
+        { cache: 'no-store' }
+      );
       const data = await res.json();
       if (data.success) setSections(data.sections);
     } finally { setLoading(false); }
@@ -89,41 +95,27 @@ export default function SectionsPage() {
     } catch { alert('Failed to delete section'); }
   }
 
-  function handleDragStart(index: number) {
-    setDragIndex(index);
-  }
-
-  function handleDragOver(e: React.DragEvent, index: number) {
-    e.preventDefault();
-    setDragOverIndex(index);
-  }
-
-  async function handleDrop(index: number) {
-    if (dragIndex === null || dragIndex === index) {
-      setDragIndex(null);
-      setDragOverIndex(null);
-      return;
-    }
-
-    const sorted = [...sections].sort(
-      (a, b) => (a.order || 0) - (b.order || 0)
+  function handleReorder(index: number, direction: 'up' | 'down') {
+    const current = (pendingOrder ?? sections).slice().sort(
+      (a, b) => (a.order ?? 0) - (b.order ?? 0)
     );
+    const swapIndex = direction === 'up' ? index - 1 : index + 1;
+    if (swapIndex < 0 || swapIndex >= current.length) return;
 
-    const reordered = [...sorted];
-    const [moved] = reordered.splice(dragIndex, 1);
-    reordered.splice(index, 0, moved);
+    const reordered = [...current];
+    const temp = reordered[index];
+    reordered[index] = reordered[swapIndex];
+    reordered[swapIndex] = temp;
 
-    const updates = reordered.map((section, i) => ({
-      ...section,
-      order: i + 1,
-    }));
+    setPendingOrder(reordered.map((s, i) => ({ ...s, order: i + 1 })));
+  }
 
-    setDragIndex(null);
-    setDragOverIndex(null);
-
+  async function handleSaveOrder() {
+    if (!pendingOrder) return;
+    setSavingOrder(true);
     try {
       await Promise.all(
-        updates.map(s =>
+        pendingOrder.map(s =>
           fetch(`/api/sections/${s.id}`, {
             method: 'PUT',
             headers: { 'Content-Type': 'application/json' },
@@ -131,15 +123,17 @@ export default function SectionsPage() {
           })
         )
       );
-      fetchSections();
+      setPendingOrder(null);
+      await fetchSections();
     } catch {
-      alert('Failed to reorder sections');
+      alert('Failed to save order. Please try again.');
+    } finally {
+      setSavingOrder(false);
     }
   }
 
-  function handleDragEnd() {
-    setDragIndex(null);
-    setDragOverIndex(null);
+  function handleResetOrder() {
+    setPendingOrder(null);
   }
 
   function startEdit(section: Section) {
@@ -283,6 +277,10 @@ export default function SectionsPage() {
     </div>
   );
 
+  const sortedSections = [...displayedSections].sort(
+    (a, b) => (a.order ?? 0) - (b.order ?? 0)
+  );
+
   return (
     <div style={{ minHeight: '100vh', backgroundColor: '#f8fafc' }}>
       <div style={{
@@ -341,6 +339,60 @@ export default function SectionsPage() {
           )}
         </div>
 
+        {hasUnsavedOrder && (
+          <div style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            backgroundColor: '#fffbeb',
+            border: '1px solid #fcd34d',
+            borderRadius: '8px',
+            padding: '12px 16px',
+            marginBottom: '16px',
+          }}>
+            <span style={{
+              fontSize: '13px',
+              color: '#92400e',
+              fontWeight: '500',
+            }}>
+              You have unsaved order changes
+            </span>
+            <div style={{ display: 'flex', gap: '8px' }}>
+              <button
+                onClick={handleResetOrder}
+                style={{
+                  fontSize: '13px',
+                  color: '#64748b',
+                  backgroundColor: '#f1f5f9',
+                  border: 'none',
+                  borderRadius: '6px',
+                  padding: '7px 14px',
+                  cursor: 'pointer',
+                  fontWeight: '500',
+                }}
+              >
+                Reset
+              </button>
+              <button
+                onClick={handleSaveOrder}
+                disabled={savingOrder}
+                style={{
+                  fontSize: '13px',
+                  color: '#ffffff',
+                  backgroundColor: savingOrder ? '#93c5fd' : '#1e3a8a',
+                  border: 'none',
+                  borderRadius: '6px',
+                  padding: '7px 14px',
+                  cursor: savingOrder ? 'not-allowed' : 'pointer',
+                  fontWeight: '600',
+                }}
+              >
+                {savingOrder ? 'Saving...' : 'Save Order'}
+              </button>
+            </div>
+          </div>
+        )}
+
         {showAddForm && formUI(false)}
 
         {loading && (
@@ -353,57 +405,21 @@ export default function SectionsPage() {
           </p>
         )}
 
-        {[...sections].sort((a, b) => (a.order || 0) - (b.order || 0)).map((section, index) => (
+        {sortedSections.map((section, index) => (
             <div key={section.id}>
               {editingId === section.id && formUI(true)}
               {editingId !== section.id && (
-                <div
-                  draggable
-                  onDragStart={() => handleDragStart(index)}
-                  onDragOver={(e) => handleDragOver(e, index)}
-                  onDrop={() => handleDrop(index)}
-                  onDragEnd={handleDragEnd}
-                  style={{
-                    backgroundColor: '#fff',
-                    border: dragOverIndex === index
-                      ? '2px dashed #1e3a8a'
-                      : '1px solid #e2e8f0',
-                    borderRadius: '10px',
-                    padding: '16px 20px',
-                    marginBottom: '10px',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'space-between',
-                    gap: '16px',
-                    opacity: dragIndex === index ? 0.5 : 1,
-                    cursor: 'grab',
-                    transition: 'border 0.15s, opacity 0.15s',
-                  }}
-                >
-                  <div
-                    style={{
-                      display: 'flex',
-                      flexDirection: 'column',
-                      gap: '3px',
-                      flexShrink: 0,
-                      cursor: 'grab',
-                      padding: '4px',
-                      opacity: 0.35,
-                    }}
-                  >
-                    <div style={{ display: 'flex', gap: '3px' }}>
-                      <div style={{ width: '3px', height: '3px', borderRadius: '50%', backgroundColor: '#64748b' }} />
-                      <div style={{ width: '3px', height: '3px', borderRadius: '50%', backgroundColor: '#64748b' }} />
-                    </div>
-                    <div style={{ display: 'flex', gap: '3px' }}>
-                      <div style={{ width: '3px', height: '3px', borderRadius: '50%', backgroundColor: '#64748b' }} />
-                      <div style={{ width: '3px', height: '3px', borderRadius: '50%', backgroundColor: '#64748b' }} />
-                    </div>
-                    <div style={{ display: 'flex', gap: '3px' }}>
-                      <div style={{ width: '3px', height: '3px', borderRadius: '50%', backgroundColor: '#64748b' }} />
-                      <div style={{ width: '3px', height: '3px', borderRadius: '50%', backgroundColor: '#64748b' }} />
-                    </div>
-                  </div>
+                <div style={{
+                  backgroundColor: '#fff',
+                  border: '1px solid #e2e8f0',
+                  borderRadius: '10px',
+                  padding: '16px 20px',
+                  marginBottom: '10px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                  gap: '16px',
+                }}>
                   <div style={{ flex: 1 }}>
                     <div style={{
                       display: 'flex', alignItems: 'center', gap: '10px',
@@ -412,7 +428,6 @@ export default function SectionsPage() {
                         width: '28px', height: '28px', borderRadius: '6px',
                         background: section.gradient ||
                           'linear-gradient(135deg, #1e3a8a, #3b82f6)',
-                        flexShrink: 0,
                       }} />
                       <span style={{
                         fontSize: '15px', fontWeight: '600', color: '#0f172a',
@@ -432,7 +447,43 @@ export default function SectionsPage() {
                       </p>
                     )}
                   </div>
-                  <div style={{ display: 'flex', gap: '8px', flexShrink: 0 }}>
+                  <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+                    <div style={{
+                      display: 'flex', flexDirection: 'column', gap: '2px',
+                    }}>
+                      <button
+                        onClick={() => handleReorder(index, 'up')}
+                        disabled={index === 0}
+                        title="Move up"
+                        style={{
+                          width: '26px', height: '22px', fontSize: '11px',
+                          color: index === 0 ? '#cbd5e1' : '#64748b',
+                          backgroundColor: '#f8fafc',
+                          border: '1px solid #e2e8f0',
+                          borderRadius: '4px',
+                          cursor: index === 0 ? 'not-allowed' : 'pointer',
+                          display: 'flex', alignItems: 'center',
+                          justifyContent: 'center', lineHeight: 1,
+                        }}
+                      >↑</button>
+                      <button
+                        onClick={() => handleReorder(index, 'down')}
+                        disabled={index === sortedSections.length - 1}
+                        title="Move down"
+                        style={{
+                          width: '26px', height: '22px', fontSize: '11px',
+                          color: index === sortedSections.length - 1
+                            ? '#cbd5e1' : '#64748b',
+                          backgroundColor: '#f8fafc',
+                          border: '1px solid #e2e8f0',
+                          borderRadius: '4px',
+                          cursor: index === sortedSections.length - 1
+                            ? 'not-allowed' : 'pointer',
+                          display: 'flex', alignItems: 'center',
+                          justifyContent: 'center', lineHeight: 1,
+                        }}
+                      >↓</button>
+                    </div>
                     <button onClick={() => startEdit(section)}
                       style={{
                         fontSize: '13px', color: '#1e3a8a',

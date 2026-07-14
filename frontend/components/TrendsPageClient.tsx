@@ -738,40 +738,26 @@ function ArticleArt({ kind }: { kind: ArtKind }) {
   );
 }
 
-function CarouselGrid({ children, total }: {
+function CarouselGrid({ children }: {
   children: React.ReactNode;
-  total: number;
 }) {
-  const scrollRef = useRef<HTMLDivElement>(null);
-  const childArray = React.Children.toArray(children);
-  const count = childArray.length;
+  const items = React.Children.toArray(children);
+  const total = items.length;
+  const [startIndex, setStartIndex] = useState(0);
+  const visibleCount = 3;
 
-  // Position at middle set on mount so both directions have room
-  useEffect(() => {
-    const el = scrollRef.current;
-    if (!el) return;
-    el.scrollLeft = el.scrollWidth / 3;
-  }, [count]);
+  const visibleItems = Array.from(
+    { length: visibleCount },
+    (_, i) => items[(startIndex + i) % total]
+  );
 
-  const scroll = (dir: 'left' | 'right') => {
-    const el = scrollRef.current;
-    if (!el) return;
-    const cardWidth = el.scrollWidth / (count * 3);
-    el.scrollBy({ left: dir === 'left' ? -cardWidth : cardWidth, behavior: 'smooth' });
-  };
+  function goRight() {
+    setStartIndex(i => (i + 1) % total);
+  }
 
-  // Silently jump within the tripled list to maintain the infinite loop illusion
-  const handleScroll = () => {
-    const el = scrollRef.current;
-    if (!el) return;
-    const oneSet = el.scrollWidth / 3;
-    const cardWidth = oneSet / count;
-    if (el.scrollLeft < cardWidth) {
-      el.scrollLeft += oneSet;
-    } else if (el.scrollLeft > oneSet * 2 - cardWidth) {
-      el.scrollLeft -= oneSet;
-    }
-  };
+  function goLeft() {
+    setStartIndex(i => (i - 1 + total) % total);
+  }
 
   const arrowStyle: React.CSSProperties = {
     position: 'absolute',
@@ -779,71 +765,45 @@ function CarouselGrid({ children, total }: {
     transform: 'translateY(-50%)',
     width: '54px',
     height: '54px',
-    border: 0,
     borderRadius: '999px',
     background: 'transparent',
-    display: 'grid',
-    placeItems: 'center',
-    cursor: 'pointer',
-    opacity: 1,
-    transition: 'opacity 0.2s, transform 0.2s',
-    zIndex: 10,
+    border: 'none',
+    color: '#1e3a8a',
     fontSize: '56px',
     lineHeight: 1,
-    color: '#1e3a8a',
-    userSelect: 'none',
+    cursor: 'pointer',
+    zIndex: 10,
+    display: 'grid',
+    placeItems: 'center',
   };
 
-  // Arrows live in the outer wrapper (full width, position:relative).
-  // The scroll track lives in a separate inner div with padding so it never
-  // shares its width budget with the buttons — cards stay the same size as
-  // the non-carousel 3-column grid.
-  const SIDE_PAD = 120;
-
   return (
-    <div style={{ position: 'relative' }}>
-      {/* Buttons sit OUTSIDE the inner padded div, positioned in the container gutter */}
+    <div style={{
+      position: 'relative',
+      paddingLeft: '8px',
+      paddingRight: '8px',
+    }}>
+
       <button
-        onClick={() => scroll('left')}
-        style={{ ...arrowStyle, left: `-${SIDE_PAD / 2 + 27}px` }}
-        aria-label="Scroll left"
+        onClick={goLeft}
+        aria-label="Previous"
+        style={{ ...arrowStyle, left: '-50px' }}
       >
         <span style={{ transform: 'translateY(-5px)', display: 'block' }}>‹</span>
       </button>
 
-      <div
-        ref={scrollRef}
-        onScroll={handleScroll}
-        style={{
-          display: 'flex',
-          flexDirection: 'row',
-          gap: '24px',
-          overflowX: 'auto',
-          scrollSnapType: 'x mandatory',
-          scrollbarWidth: 'none',
-          msOverflowStyle: 'none',
-          paddingBottom: '4px',
-        }}
-      >
-        <style>{`.carousel-track::-webkit-scrollbar { display: none; }`}</style>
-        {[...childArray, ...childArray, ...childArray].map((child, i) => (
-          <div key={i} style={{
-            flex: '0 0 calc(33.333% - 16px)',
-            minWidth: 'calc(33.333% - 16px)',
-            scrollSnapAlign: 'start',
-          }}>
-            {child}
-          </div>
-        ))}
+      <div className="trends-articles-grid">
+        {visibleItems}
       </div>
 
       <button
-        onClick={() => scroll('right')}
-        style={{ ...arrowStyle, right: `-${SIDE_PAD / 2 + 27}px` }}
-        aria-label="Scroll right"
+        onClick={goRight}
+        aria-label="Next"
+        style={{ ...arrowStyle, right: '-50px' }}
       >
         <span style={{ transform: 'translateY(-5px)', display: 'block' }}>›</span>
       </button>
+
     </div>
   );
 }
@@ -892,8 +852,21 @@ function TopicSection({ category }: {
                   key={article.id}
                   className="trends-article-card"
                   tabIndex={0}
-                  style={article.slug ? { cursor: 'pointer' } : undefined}
+                  style={{
+                    cursor: article.slug ? 'pointer' : undefined,
+                    transition: 'box-shadow 0.2s, transform 0.2s',
+                  }}
                   onClick={() => { if (article.slug) window.location.href = `/articles/${article.slug}`; }}
+                  onMouseEnter={(e) => {
+                    const el = e.currentTarget as HTMLElement;
+                    el.style.boxShadow = '0 8px 24px rgba(0,0,0,0.12)';
+                    el.style.transform = 'translateY(-2px)';
+                  }}
+                  onMouseLeave={(e) => {
+                    const el = e.currentTarget as HTMLElement;
+                    el.style.boxShadow = '';
+                    el.style.transform = '';
+                  }}
                 >
                   <div
                     className={`trends-article-visual visual-${article.visual || visual}`}
@@ -911,9 +884,6 @@ function TopicSection({ category }: {
                         <ArticleArt kind={(article.art || art) as any} />
                       </>
                     )}
-                    <div className="trends-article-overlay">
-                      <p className="trends-article-desc">{article.excerpt}</p>
-                    </div>
                   </div>
                   <div className="trends-article-body">
                     {article.categoryLabel && (
@@ -944,7 +914,7 @@ function TopicSection({ category }: {
             return <div className="trends-articles-grid">{allCards}</div>;
           }
 
-          return <CarouselGrid total={totalArticles}>{allCards}</CarouselGrid>;
+          return <CarouselGrid>{allCards}</CarouselGrid>;
         })()}
       </div>
     </section>
