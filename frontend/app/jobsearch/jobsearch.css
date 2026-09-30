@@ -1,4 +1,4 @@
-/* ═══════════════════════════════════════════
+﻿/* ═══════════════════════════════════════════
    TECHSARA — JOB SEARCH PAGE STYLES
    Scoped to .jobs-root so global styles on /
    and other routes are not affected.
@@ -7,26 +7,27 @@
    The old render-blocking @import of fonts.googleapis.com was removed for SEO. */
 
 .jobs-root {
-  --ts-navy:      #1a237e;
-  --ts-blue:      #3949d3;
-  --ts-violet:    #4f46e5;
-  --ts-dark:      #111827;
-  --ts-body:      #374151;
-  --ts-muted:     #6b7280;
-  --ts-light:     #f9fafb;
-  --ts-border:    #e5e7eb;
-  --ts-white:     #ffffff;
-  --ts-grad:      linear-gradient(135deg, #1a237e 0%, #3949d3 50%, #4f46e5 100%);
-  --ts-grad-soft: linear-gradient(135deg, #eef2ff 0%, #e0e7ff 100%);
-  --j-font: var(--font-jakarta), 'Plus Jakarta Sans', -apple-system, sans-serif;
+  /* Aligned to homepage design system tokens */
+  --ts-navy:      var(--indigo-800);
+  --ts-blue:      var(--indigo-600);
+  --ts-violet:    var(--indigo-500);
+  --ts-dark:      var(--ink);
+  --ts-body:      var(--ink);
+  --ts-muted:     var(--ink-50);
+  --ts-light:     var(--offwhite);
+  --ts-border:    var(--line);
+  --ts-white:     var(--white);
+  --ts-grad:      linear-gradient(90deg, #6D56F5 0%, #5161F5 100%);
+  --ts-grad-soft: var(--indigo-50);
+  --j-font: var(--font-body);
   --j-radius: 14px;
-  --j-radius-lg: 24px;
-  --j-shadow: 0 4px 24px rgba(26,35,126,0.08);
-  --j-shadow-md: 0 8px 40px rgba(26,35,126,0.12);
+  --j-radius-lg: var(--radius-lg);
+  --j-shadow: var(--shadow-md);
+  --j-shadow-md: var(--shadow-lg);
 
-  font-family: var(--j-font);
-  color: var(--ts-body);
-  background: var(--ts-white);
+  font-family: var(--font-body);
+  color: var(--ink);
+  background: var(--offwhite);
   -webkit-font-smoothing: antialiased;
   display: block;
 }
@@ -39,7 +40,9 @@
 
 /* ─── HERO ─── */
 .jobs-hero {
-  background: var(--ts-grad);
+  background:
+    radial-gradient(circle at 82% 12%, rgba(139,92,246,.24), transparent 30%),
+    linear-gradient(145deg, #030913, #07172b);
   color: #fff;
   padding: 140px 8% 88px;
   text-align: center;
@@ -73,10 +76,11 @@
 }
 .jobs-root .hero-dot {
   width: 8px; height: 8px; border-radius: 50%;
-  background: #4ade80;
-  box-shadow: 0 0 0 4px rgba(74,222,128,0.25);
+  background: #0F584B;
+  box-shadow: 0 0 0 4px rgba(15,88,75,0.25);
 }
 .jobs-hero h1 {
+  font-family: var(--font-display);
   font-size: clamp(34px, 5vw, 54px);
   font-weight: 800;
   line-height: 1.08;
@@ -129,6 +133,7 @@
   margin-bottom: 12px;
 }
 .jobs-listing-title {
+  font-family: var(--font-display);
   font-size: clamp(26px, 3.4vw, 36px);
   font-weight: 800;
   color: var(--ts-dark);
@@ -170,7 +175,7 @@
 .job-card:hover {
   transform: translateY(-3px);
   box-shadow: var(--j-shadow-md);
-  border-color: #c7d2fe;
+  border-color: #E7EDF9;
 }
 .job-card-main { flex: 1; min-width: 0; }
 .job-dept {
@@ -191,6 +196,7 @@
   margin: 0 0 8px;
 }
 .job-title {
+  font-family: var(--font-display);
   font-size: 20px; font-weight: 700;
   color: var(--ts-dark);
   letter-spacing: -0.3px;
@@ -242,9 +248,9 @@
 }
 /* Deadline — highlighted so the "Apply by" date stands out. */
 .job-badge-deadline {
-  color: #b45309;
-  background: #fff7ed;
-  border-color: #fdba74;
+  color: #8A5F1C;
+  background: #FAF4EA;
+  border-color: #C89758;
   font-weight: 700;
 }
 .job-card-action {
@@ -285,12 +291,13 @@
 }
 .jobs-spec-inner {
   background: var(--ts-grad-soft);
-  border: 1px solid #e0e7ff;
+  border: 1px solid #E7EDF9;
   border-radius: var(--j-radius-lg);
   padding: 48px 40px;
   text-align: center;
 }
 .jobs-spec-inner h2 {
+  font-family: var(--font-display);
   font-size: clamp(22px, 2.8vw, 28px);
   font-weight: 800;
   color: var(--ts-dark);
@@ -381,11 +388,11 @@
 /* slim, unobtrusive scrollbar for the facet panel */
 .jobs-sidebar-body::-webkit-scrollbar { width: 8px; }
 .jobs-sidebar-body::-webkit-scrollbar-thumb {
-  background: #d8dbe3; border-radius: 8px;
+  background: #DDE2E4; border-radius: 8px;
   border: 2px solid var(--ts-white);
 }
-.jobs-sidebar-body::-webkit-scrollbar-thumb:hover { background: #c3c7d2; }
-.jobs-sidebar-body { scrollbar-width: thin; scrollbar-color: #d8dbe3 transparent; }
+.jobs-sidebar-body::-webkit-scrollbar-thumb:hover { background: #DDE2E4; }
+.jobs-sidebar-body { scrollbar-width: thin; scrollbar-color: #DDE2E4 transparent; }
 .jobs-sidebar-head {
   display: flex; align-items: center; justify-content: space-between;
   padding-bottom: 14px;
@@ -463,7 +470,7 @@
 }
 .jobs-sort select:focus {
   border-color: var(--ts-violet);
-  box-shadow: 0 0 0 3px rgba(79,70,229,0.12);
+  box-shadow: 0 0 0 3px rgba(90,135,215,0.12);
 }
 .jobs-empty {
   text-align: center;
@@ -536,9 +543,9 @@
   /* Neutral default so any unmapped Salesforce status still renders cleanly. */
   color: #4b5563; background: #f3f4f6;
 }
-.status-open { color: #047857; background: #d1fae5; }
-.status-new { color: #1d4ed8; background: #dbeafe; }
-.status-on-hold { color: #b45309; background: #fef3c7; }
+.status-open { color: #0F584B; background: #E7EDF9; }
+.status-new { color: #071E4B; background: #E7EDF9; }
+.status-on-hold { color: #8A5F1C; background: #FAF4EA; }
 .status-closed,
 .status-cancelled,
 .status-expired,
@@ -642,7 +649,7 @@
 .apply-field input:focus,
 .apply-field select:focus {
   border-color: var(--ts-violet);
-  box-shadow: 0 0 0 3px rgba(79,70,229,0.12);
+  box-shadow: 0 0 0 3px rgba(90,135,215,0.12);
 }
 .apply-field input[type="file"] { padding: 9px 13px; cursor: pointer; }
 .apply-field-error {
@@ -701,15 +708,15 @@
   text-align: center;
   transition: border-color 0.18s, background 0.18s;
 }
-.apply-dropzone:hover { border-color: #c7d2fe; background: #fafbff; }
+.apply-dropzone:hover { border-color: #E7EDF9; background: #F7F8F9; }
 .apply-dropzone.drag {
   border-color: var(--ts-violet);
   background: var(--ts-grad-soft);
-  box-shadow: 0 0 0 3px rgba(79,70,229,0.12);
+  box-shadow: 0 0 0 3px rgba(90,135,215,0.12);
 }
 .apply-dropzone.has-file {
   border-style: solid;
-  border-color: #c7d2fe;
+  border-color: #E7EDF9;
   background: var(--ts-white);
 }
 .apply-dropzone.has-error { border-color: #fca5a5; background: #fef2f2; }
@@ -787,7 +794,7 @@
   cursor: pointer;
   transition: background 0.18s, border-color 0.18s;
 }
-.apply-cancel:hover { background: var(--ts-light); border-color: #c7d2fe; }
+.apply-cancel:hover { background: var(--ts-light); border-color: #E7EDF9; }
 
 .apply-success { text-align: center; padding: 16px 8px 8px; }
 .apply-success-icon {
@@ -795,10 +802,11 @@
   margin: 0 auto 18px;
   display: flex; align-items: center; justify-content: center;
   font-size: 28px; font-weight: 700; color: #fff;
-  background: linear-gradient(135deg,#10b981,#059669);
+  background: linear-gradient(135deg,#0F584B,#0F584B);
   border-radius: 50%;
 }
 .apply-success h3 {
+  font-family: var(--font-display);
   font-size: 22px; font-weight: 800;
   color: var(--ts-dark);
   margin: 0 0 10px;
@@ -838,7 +846,7 @@
 }
 
 /* ═══ JOB DETAIL PAGE (/jobsearch/[id]) — clean document layout ═══ */
-.jobdetail-root { background: var(--ts-white); min-height: 100vh; }
+.jobdetail-root { background: #F7F8F9; min-height: 100vh; }
 .jdp-wrap {
   max-width: 1180px;
   margin: 0 auto;
@@ -857,7 +865,7 @@
   transition: border-color 0.2s, background 0.2s, box-shadow 0.2s;
 }
 .jdp-back:hover {
-  border-color: #c7d2fe;
+  border-color: #E7EDF9;
   background: var(--ts-grad-soft);
   box-shadow: var(--j-shadow);
 }
@@ -875,6 +883,7 @@
 /* header */
 .jdp-badges { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 14px; }
 .jdp-title {
+  font-family: var(--font-display);
   font-size: clamp(26px, 3.4vw, 38px);
   font-weight: 800;
   color: var(--ts-dark);
@@ -888,10 +897,10 @@
 .jdp-apply .job-apply-btn { padding: 14px 36px; font-size: 15px; }
 /* Closed roles: neutral "unavailable" look instead of a faded purple CTA. */
 .jdp-apply .job-apply-btn:disabled {
-  background: #eef0f4;
+  background: #F2F4F5;
   color: #9aa3b2;
   opacity: 1;
-  box-shadow: inset 0 0 0 1px #e2e6ee;
+  box-shadow: inset 0 0 0 1px #DDE2E4;
   cursor: not-allowed;
 }
 .jdp-apply-note { font-size: 11.5px; font-weight: 500; color: var(--ts-muted); margin-top: 7px; }
@@ -979,6 +988,7 @@
   box-shadow: var(--j-shadow);
 }
 .jdp-promo h3 {
+  font-family: var(--font-display);
   font-size: 22px; font-weight: 800;
   letter-spacing: -0.3px;
   margin: 0 0 12px;
@@ -1023,7 +1033,7 @@
 .jdp-rec-card:hover {
   transform: translateY(-2px);
   box-shadow: var(--j-shadow-md);
-  border-color: #c7d2fe;
+  border-color: #E7EDF9;
 }
 .jdp-rec-tags { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 9px; }
 .jdp-rec-jobtitle {
@@ -1131,4 +1141,11 @@
   .jobs-searchbar-field { flex-basis: 100%; }
   .job-title { font-size: 18px; }
   .job-badge { font-size: 12px; padding: 5px 11px; }
+}
+
+/* Phone-only: stat/tag labels were 11px, under the readability floor. */
+@media (max-width: 640px) {
+  .jobs-stat-label,
+  .job-field-tag,
+  .job-priority { font-size: 12px; }
 }

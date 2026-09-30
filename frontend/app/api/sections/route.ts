@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from 'next/server';
+﻿import { NextRequest, NextResponse } from 'next/server';
 import { readFromS3, uploadToS3 } from '@/lib/s3';
 import { verifyToken } from '@/lib/auth';
 import { cookies } from 'next/headers';
@@ -49,7 +49,7 @@ export async function POST(req: NextRequest) {
       categoryTags: categoryTags || [],
       icon: icon || '',
       gradient: gradient ||
-        'linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%)',
+        'linear-gradient(135deg, #071E4B 0%, #5A87D7 100%)',
       order: sections.length + 1,
     };
     sections.push(newSection);

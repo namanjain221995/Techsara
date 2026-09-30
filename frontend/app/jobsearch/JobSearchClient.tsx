@@ -192,10 +192,16 @@ export default function JobSearchClient({ jobs }: { jobs: PublicJob[] }) {
       {/* HERO */}
       <section className="jobs-hero">
         <div className="jobs-hero-inner">
-          <div className="hero-tag">
-            <div className="hero-dot" />
-            Open Positions - We&apos;re Hiring
-          </div>
+          {/* Only claim we're hiring when something is actually applyable -
+              otherwise this badge sat directly above "There are currently no job
+              openings". openCount uses the same APPLYABLE_STATUSES filter as the
+              "Open Now" stat, so the badge and that number can never disagree. */}
+          {openCount > 0 ? (
+            <div className="hero-tag">
+              <div className="hero-dot" />
+              Open Positions - We&apos;re Hiring
+            </div>
+          ) : null}
           <h1>Find Your Next Role at Techsara</h1>
           <p className="jobs-hero-sub">
             Explore our open roles and apply in minutes. Our recruiters review every

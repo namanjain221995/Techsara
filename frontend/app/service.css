@@ -1,4 +1,4 @@
-/* ============================================
+﻿/* ============================================
    SERVICE DETAIL PAGE
    Inherits styles.css; this file adds the detail layout.
    ============================================ */
@@ -6,24 +6,37 @@
 .service-hero {
   position: relative;
   padding: clamp(140px, 18vw, 180px) 0 clamp(60px, 8vw, 90px);
+  min-height: 520px;
   overflow: hidden;
-  background: var(--white);
-  border-bottom: 1px solid var(--line);
+  background:
+    radial-gradient(circle at 82% 12%, rgba(139,92,246,.24), transparent 30%),
+    linear-gradient(145deg, #030913, #07172b);
+  color: #fff;
 }
-.service-hero .grid-overlay { opacity: 0.7; }
-.service-hero .hero-mesh { opacity: 0.4; filter: blur(80px); }
+.service-hero::after {
+  content: "";
+  position: absolute;
+  right: -120px; bottom: -190px;
+  width: 520px; height: 520px;
+  border: 1px solid rgba(139,92,246,.22);
+  border-radius: 44px;
+  transform: rotate(35deg);
+  pointer-events: none;
+}
+.service-hero .grid-overlay { opacity: 0.1; }
+.service-hero .hero-mesh { display: none; }
 
 .crumbs {
   display: flex; align-items: center; gap: 8px;
   font-size: 13px;
-  color: var(--ink-40);
+  color: rgba(255,255,255,.55);
   margin-bottom: 28px;
   font-family: var(--font-body);
 }
-.crumbs a { color: var(--ink-50); transition: color 0.2s; }
-.crumbs a:hover { color: var(--indigo-800); }
-.crumbs .sep { color: var(--ink-30); }
-.crumbs .here { color: var(--ink-80); }
+.crumbs a { color: rgba(255,255,255,.7); transition: color 0.2s; }
+.crumbs a:hover { color: #fff; }
+.crumbs .sep { color: rgba(255,255,255,.35); }
+.crumbs .here { color: rgba(255,255,255,.9); }
 
 .service-hero-grid {
   display: grid;
@@ -31,15 +44,18 @@
   gap: 64px;
   align-items: start;
 }
-@media (max-width: 1000px) { .service-hero-grid { grid-template-columns: 1fr; gap: 32px; } }
+/* minmax(0,1fr): a bare 1fr keeps min-width:auto, and the hero aside pushed
+   the column 57px past the container on small phones. */
+@media (max-width: 1000px) { .service-hero-grid { grid-template-columns: minmax(0, 1fr); gap: 32px; } }
 
 .service-cat {
   display: inline-flex;
   align-items: center;
   gap: 10px;
   padding: 6px 14px;
-  background: var(--indigo-50);
-  color: var(--indigo-800);
+  background: rgba(255,255,255,.12);
+  color: rgba(255,255,255,.9);
+  border: 1px solid rgba(255,255,255,.2);
   border-radius: 999px;
   font-size: 12px;
   font-weight: 500;
@@ -52,27 +68,28 @@
 .service-title {
   font-family: var(--font-display);
   font-weight: 500;
-  font-size: clamp(36px, 5.6vw, 76px);
-  line-height: 0.98;
-  letter-spacing: -0.03em;
-  color: var(--ink);
+  font-size: clamp(22px, 2.4vw, 32px);
+  line-height: 1.3;
+  letter-spacing: -0.01em;
+  color: #fff;
   margin: 0 0 28px;
   text-wrap: balance;
-  max-width: 18ch;
+  max-width: 36ch;
 }
 .service-name {
   font-family: var(--font-display);
-  font-weight: 500;
-  font-size: clamp(14px, 1.3vw, 16px);
-  letter-spacing: 0.04em;
+  font-weight: 700;
+  font-size: clamp(32px, 4vw, 52px);
+  letter-spacing: -0.02em;
   text-transform: uppercase;
-  color: var(--indigo-800);
+  color: #ffffff;
   margin-bottom: 14px;
+  line-height: 1.05;
 }
 .service-intro {
   font-size: clamp(16px, 1.3vw, 19px);
   line-height: 1.6;
-  color: var(--ink-50);
+  color: rgba(255,255,255,.75);
   margin: 0;
   max-width: 60ch;
   text-wrap: pretty;
@@ -81,6 +98,15 @@
 .service-hero-actions {
   margin-top: 36px;
   display: flex; gap: 12px; flex-wrap: wrap;
+}
+.service-hero .btn-ghost {
+  color: rgba(255,255,255,.9);
+  border-color: rgba(255,255,255,.3);
+}
+.service-hero .btn-ghost:hover {
+  background: rgba(255,255,255,.1);
+  border-color: rgba(255,255,255,.5);
+  color: #fff;
 }
 
 /* Side card with icon + metrics preview */
@@ -97,7 +123,7 @@
   content: ""; position: absolute; inset: 0;
   background:
     radial-gradient(circle at 100% 0%, rgba(255,255,255,0.18), transparent 40%),
-    radial-gradient(circle at 0% 100%, rgba(139,133,255,0.30), transparent 50%);
+    radial-gradient(circle at 0% 100%, rgba(138,172,229,0.30), transparent 50%);
   pointer-events: none;
 }
 .service-aside-icon {
@@ -133,7 +159,7 @@
   font-size: 32px;
   font-weight: 500;
   letter-spacing: -0.02em;
-  background: linear-gradient(180deg, #fff, #C7CBFF);
+  background: linear-gradient(180deg, #fff, #E7EDF9);
   -webkit-background-clip: text; background-clip: text;
   color: transparent;
 }
@@ -159,7 +185,7 @@
 .cap:hover {
   transform: translateY(-3px);
   box-shadow: var(--shadow-glow);
-  border-color: rgba(79,70,229,0.25);
+  border-color: rgba(90,135,215,0.25);
 }
 .cap-num {
   font-family: var(--font-mono);
@@ -248,46 +274,68 @@
 }
 .related-card {
   padding: 28px;
-  background: var(--white);
-  border: 1px solid var(--line);
+  background: linear-gradient(145deg, #1b2d4f 0%, #0d1a30 55%, #070E18 100%);
+  border: 1px solid rgba(255,255,255,0.10);
   border-radius: var(--radius-lg);
   display: flex; flex-direction: column;
   gap: 14px;
   min-height: 180px;
-  transition: transform 0.3s, box-shadow 0.3s, border-color 0.3s;
+  transition: transform 0.3s, box-shadow 0.3s, border-color 0.3s, background 0.3s;
   position: relative;
   overflow: hidden;
 }
+.related-card::before {
+  content: "";
+  position: absolute;
+  right: -30px;
+  top: -30px;
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(139,92,246,.10), transparent 70%);
+  pointer-events: none;
+}
 .related-card:hover {
   transform: translateY(-3px);
-  box-shadow: var(--shadow-glow);
-  border-color: rgba(79,70,229,0.25);
+  background: linear-gradient(145deg, #243a60 0%, #111f3a 55%, #0a1525 100%);
+  border-color: rgba(139,92,246,0.35);
+  box-shadow: 0 12px 40px rgba(0,0,0,0.32);
 }
+/* .related-card is a flex column, so the pill - despite being inline-flex -
+   stretches to the full card width on the cross axis. Shrink it to its text. */
+.related-card .service-cat { align-self: flex-start; }
 .related-card h4 {
   font-family: var(--font-display);
   font-size: 19px;
   font-weight: 500;
   letter-spacing: -0.02em;
   margin: 0;
-  color: var(--ink);
+  color: #e8edf5;
 }
 .related-card p {
   font-size: 14px;
   line-height: 1.5;
-  color: var(--ink-50);
+  color: rgba(200,212,230,0.65);
   margin: 0;
 }
+/* The only link in the card. Like the pill above it, an inline-flex child of a
+   flex column still stretches across the cross axis - which would leave the
+   whole row clickable - so shrink it to its own text. */
 .related-card .ar {
   margin-top: auto;
+  align-self: flex-start;
   display: inline-flex;
   align-items: center;
   gap: 6px;
   font-size: 13px;
-  color: var(--indigo-800);
+  color: #9b8ff5;
   font-weight: 500;
 }
-.related-card:hover .ar svg { transform: translateX(3px); }
-.related-card .ar svg { transition: transform 0.2s; }
+.related-card .ar:hover { color: #b9b0ff; }
+/* Arrow nudge on the link's own hover, not the card's - matching .spectrum-learn
+   on the home page so every "go to this page" link behaves the same way. */
+.related-card .ar svg { transition: transform .25s ease; }
+.related-card .ar:hover svg { transform: translateX(4px); }
 @media (max-width: 900px) { .related-grid { grid-template-columns: 1fr; } }
 
 /* ============================================
@@ -298,17 +346,63 @@
   border-bottom: 1px solid var(--line);
 }
 .detail-section:last-of-type { border-bottom: none; }
-.detail-section.surface { background: var(--offwhite); }
+.detail-section.surface {
+  background: #070E18;
+  border-bottom-color: rgba(255,255,255,0.08);
+}
+
+/* Text colors inside the dark Stack + Deliverables section */
+.detail-section.surface .eyebrow { color: #ffffff; }
+.detail-section.surface .detail-head .eyebrow { color: #e8edf5; }
+.detail-section.surface .detail-head .section-title { color: rgba(200,212,230,0.65); }
+.detail-section.surface .service-stack-title,
+.detail-section.surface .service-delv-title { color: #e8edf5; }
+.detail-section.surface .detail-head .section-sub,
+.detail-section.surface .service-stack-sub { color: rgba(200,212,230,0.65); }
+
+/* Stack chips on dark background */
+.detail-section.surface .stack-chip {
+  background: rgba(255,255,255,0.07);
+  border-color: rgba(255,255,255,0.15);
+  color: rgba(200,212,230,0.85);
+}
+.detail-section.surface .stack-chip:hover {
+  background: rgba(139,92,246,0.15);
+  border-color: rgba(139,92,246,0.40);
+  color: #c4b5fd;
+}
+
+/* Deliverables list on dark background */
+.detail-section.surface .delv-list li {
+  background: rgba(255,255,255,0.05);
+  border-color: rgba(255,255,255,0.10);
+  color: rgba(200,212,230,0.85);
+}
+.detail-section.surface .delv-list .num {
+  background: rgba(139,92,246,0.15);
+  color: #9b8ff5;
+}
 .detail-head {
   margin-bottom: clamp(32px, 4vw, 48px);
   max-width: 760px;
 }
-.detail-head .section-title {
-  font-size: clamp(28px, 3.6vw, 44px);
-  margin: 12px 0 12px;
-  max-width: 22ch;
+/* Eyebrow = big main label; section-title = smaller subtitle */
+.detail-head .eyebrow {
+  font-size: clamp(20px, 2.0vw, 28px);
+  font-family: var(--font-display);
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  text-transform: none;
+  color: #1a1c59;
 }
-.detail-head .section-sub { font-size: clamp(15px, 1.2vw, 17px); }
+.detail-head .section-title {
+  font-size: clamp(15px, 1.4vw, 20px);
+  font-weight: 400;
+  color: var(--ink-50);
+  margin: 8px 0 16px;
+  max-width: 48ch;
+}
+.detail-head .section-sub { font-size: clamp(14px, 1.1vw, 16px); }
 
 /* Stack + Deliverables — responsive 2-column → 1-column */
 .service-stack-grid {
@@ -318,15 +412,28 @@
   align-items: start;
 }
 .service-stack-col { position: sticky; top: 100px; }
+/* Stack / Deliverables label — promoted to big heading */
+.service-stack-col .eyebrow,
+.service-delv-col .eyebrow {
+  font-size: clamp(20px, 2.0vw, 28px);
+  font-family: var(--font-display);
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  text-transform: none;
+}
+/* The long h2/h3 becomes a smaller subtitle */
 .service-stack-title {
-  font-size: clamp(28px, 3.4vw, 40px);
-  max-width: 16ch;
+  font-size: clamp(14px, 1.2vw, 18px);
+  font-weight: 400;
+  max-width: none;
+  margin: 6px 0 20px;
 }
 .service-stack-sub { margin-bottom: 24px; }
 .service-delv-title {
-  font-size: clamp(24px, 2.8vw, 34px);
-  margin: 12px 0 28px;
-  max-width: 24ch;
+  font-size: clamp(14px, 1.2vw, 18px);
+  font-weight: 400;
+  max-width: none;
+  margin: 6px 0 20px;
 }
 @media (max-width: 900px) {
   .service-stack-grid {
@@ -341,4 +448,10 @@
   .service-delv-title {
     max-width: none;
   }
+}
+
+/* Phone-only: the capability index rendered at 11px, under the 12px
+   readability floor, on all 15 service detail pages. Desktop unchanged. */
+@media (max-width: 640px) {
+  .cap-num { font-size: 12px; }
 }

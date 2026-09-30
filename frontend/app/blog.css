@@ -1,42 +1,58 @@
-/* ============================================
+﻿/* ============================================
    TECHSARA — Blog (listing + article)
    Built on the shared design tokens in styles.css. Used by /blogs and /blogs/[slug].
    Light theme, indigo accent, Instrument Sans display / Inter body.
    ============================================ */
 
 .blog-page {
-  background: var(--white);
+  background: var(--offwhite);
 }
 
 /* ─── Category gradients (shared by cards + post hero) ──────────────── */
-.blog-visual--staffing { --blog-grad: linear-gradient(135deg, #1E2A78 0%, #3B4ACB 100%); }
-.blog-visual--genai    { --blog-grad: linear-gradient(135deg, #4F46E5 0%, #7C3AED 100%); }
-.blog-visual--cloud    { --blog-grad: linear-gradient(135deg, #14306E 0%, #1E8FCE 100%); }
-.blog-visual--industry { --blog-grad: linear-gradient(135deg, #0E1454 0%, #2A3AA0 100%); }
+.blog-visual--staffing { --blog-grad: linear-gradient(135deg, #04142F 0%, #395D9F 100%); }
+.blog-visual--genai    { --blog-grad: linear-gradient(135deg, #071E4B 0%, #5A87D7 100%); }
+.blog-visual--cloud    { --blog-grad: linear-gradient(135deg, #1C386E 0%, #8AACE5 100%); }
+.blog-visual--industry { --blog-grad: linear-gradient(135deg, #1B2434 0%, #284883 100%); }
 
 /* ─── Hero (listing) ────────────────────────────────────────────────── */
 .blog-hero {
-  padding: clamp(118px, 14vw, 168px) 0 clamp(40px, 5vw, 64px);
+  padding: 120px 0 86px;
+  min-height: 520px;
+  display: flex;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
   background:
-    radial-gradient(ellipse 70% 60% at 15% 0%, rgba(79, 70, 229, 0.10), transparent 60%),
-    linear-gradient(180deg, var(--white) 0%, var(--offwhite) 100%);
-  border-bottom: 1px solid var(--line);
+    radial-gradient(circle at 82% 12%, rgba(139,92,246,.24), transparent 30%),
+    linear-gradient(145deg, #030913, #07172b);
+  color: #fff;
 }
-.blog-hero-inner { max-width: 880px; }
+.blog-hero::after {
+  content: "";
+  position: absolute;
+  right: -120px; bottom: -190px;
+  width: 520px; height: 520px;
+  border: 1px solid rgba(139,92,246,.22);
+  border-radius: 44px;
+  transform: rotate(35deg);
+  pointer-events: none;
+}
+.blog-hero-inner { max-width: 880px; position: relative; z-index: 1; }
+.blog-hero .eyebrow { color: #9f8cff; font-size: 11px; font-weight: 900; }
 .blog-hero h1 {
-  margin: 16px 0 0;
+  margin: 18px 0 0;
   font-family: var(--font-display);
   font-weight: 600;
   font-size: clamp(34px, 5vw, 58px);
   line-height: 1.06;
   letter-spacing: -0.025em;
-  color: var(--ink);
+  color: #fff;
   text-wrap: balance;
 }
 .blog-hero-sub {
   margin: 22px 0 0;
   max-width: 64ch;
-  color: var(--ink-50);
+  color: rgba(255,255,255,.75);
   font-size: clamp(16px, 1.3vw, 19px);
   line-height: 1.6;
   text-wrap: pretty;
@@ -78,7 +94,7 @@
 .blog-card:focus-within {
   transform: translateY(-6px);
   box-shadow: var(--shadow-lg);
-  border-color: rgba(79, 70, 229, 0.30);
+  border-color: rgba(90, 135, 215, 0.30);
 }
 .blog-card-link {
   display: flex;
@@ -346,7 +362,7 @@
   color: var(--indigo-700);
   font-weight: 500;
   text-decoration: underline;
-  text-decoration-color: rgba(79, 70, 229, 0.35);
+  text-decoration-color: rgba(90, 135, 215, 0.35);
   text-underline-offset: 2px;
   transition: text-decoration-color 0.2s ease, color 0.2s ease;
 }
@@ -356,8 +372,8 @@
   margin: 1.8em 0;
   padding: 22px 24px;
   border-radius: var(--radius-sm);
-  background: linear-gradient(180deg, #f5f9fc 0%, #eef4fb 100%);
-  border: 1px solid rgba(30, 143, 206, 0.18);
+  background: linear-gradient(180deg, #F7F8F9 0%, #E7EDF9 100%);
+  border: 1px solid rgba(90, 135, 215, 0.18);
 }
 .blog-callout-title {
   margin: 0 0 8px !important;
@@ -399,7 +415,7 @@
   background: var(--white);
   transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
-.blog-faq-item[open] { border-color: rgba(79, 70, 229, 0.30); box-shadow: var(--shadow-sm); }
+.blog-faq-item[open] { border-color: rgba(90, 135, 215, 0.30); box-shadow: var(--shadow-sm); }
 .blog-faq-item summary {
   display: flex;
   align-items: center;
@@ -444,7 +460,7 @@
   margin-top: clamp(56px, 7vw, 88px);
   padding: clamp(48px, 6vw, 72px) 0;
   background:
-    radial-gradient(ellipse 60% 70% at 80% 20%, rgba(79, 70, 229, 0.14), transparent 60%),
+    radial-gradient(ellipse 60% 70% at 80% 20%, rgba(90, 135, 215, 0.14), transparent 60%),
     linear-gradient(135deg, var(--indigo-950) 0%, var(--indigo-800) 100%);
   color: #fff;
 }
@@ -523,4 +539,166 @@
   background: var(--white, #fff);
 }
 .about-team-card h3 { margin: 0 0 4px; }
-.about-team-role { margin: 0 0 10px; font-weight: 600; color: var(--accent, #4f46e5); }
+.about-team-role { margin: 0 0 10px; font-weight: 600; color: var(--accent, #5A87D7); }
+
+/* ─── /about founders ──────────────────────────────────────────── */
+.about-founders-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  margin-top: 32px;
+}
+.about-founder-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  border: none;
+  border-radius: 18px;
+  padding: 40px 28px 34px;
+  background: linear-gradient(145deg, #071E4B 0%, #0e2f6e 100%);
+  box-shadow: 0 14px 40px -8px rgba(7, 30, 75, 0.40), 0 2px 8px -2px rgba(7, 30, 75, 0.18);
+  transition: transform 0.22s ease, box-shadow 0.22s ease;
+}
+.about-founder-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 22px 52px -8px rgba(7, 30, 75, 0.48), 0 4px 12px -2px rgba(7, 30, 75, 0.22);
+}
+.about-founder-photo {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.08);
+  border: 2.5px solid rgba(255, 255, 255, 0.22);
+  margin-bottom: 22px;
+  flex-shrink: 0;
+}
+.about-founder-name {
+  font-size: 19px;
+  font-weight: 700;
+  margin: 0 0 8px;
+  color: #ffffff;
+  letter-spacing: -0.01em;
+}
+.about-founder-title {
+  font-size: 11.5px;
+  font-weight: 600;
+  color: #7EB3F5;
+  margin: 0;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+}
+.about-faq-section .home-answer-track {
+  padding-bottom: 0;
+}
+@media (max-width: 700px) {
+  .about-founders-grid { grid-template-columns: 1fr; gap: 18px; }
+}
+
+/* ─── /about page redesign ───────────────────────────────────────────── */
+.about-section {
+  padding: clamp(72px, 8vw, 112px) 0;
+  background: var(--white, #fff);
+}
+.about-section--alt {
+  background: var(--offwhite, #F7F8F9);
+}
+.about-section--first {
+  padding-top: clamp(120px, 14vw, 160px);
+}
+.about-section-heading {
+  font-size: 26px !important;
+  letter-spacing: 0.1em !important;
+  margin: 0 0 36px !important;
+  display: inline-flex !important;
+}
+.about-who-text {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0 56px;
+}
+.about-who-text p {
+  font-size: 17px;
+  line-height: 1.78;
+  color: var(--ink-70, #374151);
+  margin: 0 0 22px;
+}
+.about-who-text p:last-child { margin: 0; }
+.about-section-sub {
+  font-size: 16px;
+  color: var(--ink-50, #4b5563);
+  margin: -22px 0 36px;
+  line-height: 1.6;
+}
+
+/* FAQ accordion */
+.about-faq-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.about-faq-item {
+  background: var(--white, #fff);
+  border: 1px solid #DDE2E4;
+  border-radius: 14px;
+  overflow: hidden;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+.about-faq-item[open] {
+  border-color: rgba(90, 135, 215, 0.45);
+  box-shadow: 0 22px 44px -22px rgba(28, 56, 110, 0.22);
+}
+.about-faq-item summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 24px;
+  font-size: 15px;
+  font-weight: 600;
+  color: #071E4B;
+  cursor: pointer;
+  list-style: none;
+  gap: 16px;
+  user-select: none;
+  transition: background 0.2s ease;
+}
+.about-faq-item summary::-webkit-details-marker { display: none; }
+.about-faq-item[open] > summary { background: rgba(90, 135, 215, 0.04); }
+.about-faq-icon {
+  flex-shrink: 0;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: rgba(90, 135, 215, 0.1);
+  color: #5A87D7;
+  display: grid;
+  place-items: center;
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 1;
+  transition: background 0.25s ease, color 0.25s ease, transform 0.3s cubic-bezier(.2,.7,.2,1);
+}
+.about-faq-item[open] .about-faq-icon {
+  background: #5A87D7;
+  color: #fff;
+  transform: rotate(45deg);
+}
+.about-faq-answer {
+  padding: 0 24px 24px;
+  font-size: 15px;
+  line-height: 1.75;
+  color: #3f4754;
+  margin: 0;
+}
+@media (max-width: 700px) {
+  .about-who-text { grid-template-columns: 1fr; }
+}
+@media (max-width: 600px) {
+  .about-faq-item summary { padding: 16px 18px; font-size: 14px; }
+  .about-faq-answer { padding: 0 18px 18px; }
+}
+
+/* Phone-only: hero eyebrow was 11px, under the readability floor. */
+@media (max-width: 640px) {
+  .blog-hero .eyebrow { font-size: 12px; }
+}

@@ -18,7 +18,7 @@
 <!-- NAV -->
 <header class="nav" role="banner">
   <div class="container nav-inner">
-    <a href="index.html#top" class="brand" aria-label="Techsara home">
+    <a href="/#top" class="brand" aria-label="Techsara home">
       <span class="brand-mark" aria-hidden="true">
         <img src="/assets/techsara-logo.png" alt="Techsara" class="brand-logo" width="48" height="48" />
       </span>
@@ -31,21 +31,21 @@
           <svg class="nav-dropdown-caret" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </a>
         <div class="nav-dropdown-panel" role="menu">
-          <a href="/services/talent" class="nav-dropdown-link" role="menuitem">
-            <span class="nav-dropdown-title">Talent Solutions</span>
-            <span class="nav-dropdown-desc">Connecting you with the best talent in the marketplace</span>
+          <a href="/services/generative-ai" class="nav-dropdown-link" role="menuitem">
+            <span class="nav-dropdown-title">Generative AI</span>
+            <span class="nav-dropdown-desc">LLMs, RAG and fine-tuning grounded in your data</span>
           </a>
-          <a href="/services/team" class="nav-dropdown-link" role="menuitem">
-            <span class="nav-dropdown-title">Team Solutions</span>
-            <span class="nav-dropdown-desc">Stay involved with valued initiatives; we handle the details</span>
+          <a href="/services/computer-vision" class="nav-dropdown-link" role="menuitem">
+            <span class="nav-dropdown-title">Computer Vision</span>
+            <span class="nav-dropdown-desc">Real-time detection, defect inspection and edge optimization</span>
           </a>
-          <a href="/services/project" class="nav-dropdown-link" role="menuitem">
-            <span class="nav-dropdown-title">Project Solutions</span>
-            <span class="nav-dropdown-desc">We&apos;ll manage your project&apos;s outcome from start to finish</span>
+          <a href="/services/ai-agents" class="nav-dropdown-link" role="menuitem">
+            <span class="nav-dropdown-title">Agents</span>
+            <span class="nav-dropdown-desc">Tool-using workflow agents with human-in-the-loop gates</span>
           </a>
-          <a href="/services/international" class="nav-dropdown-link" role="menuitem">
-            <span class="nav-dropdown-title">International Talent Solutions</span>
-            <span class="nav-dropdown-desc">Sourcing global talent to solve your workforce challenges</span>
+          <a href="/services/cloud-deployment" class="nav-dropdown-link" role="menuitem">
+            <span class="nav-dropdown-title">Cloud Deployment</span>
+            <span class="nav-dropdown-desc">Reference architectures, FinOps and observability</span>
           </a>
         </div>
       </div>
@@ -55,25 +55,25 @@
           <svg class="nav-dropdown-caret" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </a>
         <div class="nav-dropdown-panel" role="menu">
-          <a href="/solutions/generative-ai" class="nav-dropdown-link" role="menuitem">
-            <span class="nav-dropdown-title">Generative AI</span>
-            <span class="nav-dropdown-desc">LLMs, RAG and fine-tuning grounded in your data</span>
+          <a href="/solutions/talent" class="nav-dropdown-link" role="menuitem">
+            <span class="nav-dropdown-title">Talent Solutions</span>
+            <span class="nav-dropdown-desc">Connecting you with the best talent in the marketplace</span>
           </a>
-          <a href="/solutions/computer-vision" class="nav-dropdown-link" role="menuitem">
-            <span class="nav-dropdown-title">Computer Vision</span>
-            <span class="nav-dropdown-desc">Real-time detection, defect inspection and edge optimization</span>
+          <a href="/solutions/team" class="nav-dropdown-link" role="menuitem">
+            <span class="nav-dropdown-title">Team Solutions</span>
+            <span class="nav-dropdown-desc">Stay involved with valued initiatives; we handle the details</span>
           </a>
-          <a href="/solutions/ai-agents" class="nav-dropdown-link" role="menuitem">
-            <span class="nav-dropdown-title">Agents</span>
-            <span class="nav-dropdown-desc">Tool-using workflow agents with human-in-the-loop gates</span>
+          <a href="/solutions/project" class="nav-dropdown-link" role="menuitem">
+            <span class="nav-dropdown-title">Project Solutions</span>
+            <span class="nav-dropdown-desc">We&apos;ll manage your project&apos;s outcome from start to finish</span>
           </a>
-          <a href="/solutions/cloud-deployment" class="nav-dropdown-link" role="menuitem">
-            <span class="nav-dropdown-title">Cloud Deployment</span>
-            <span class="nav-dropdown-desc">Reference architectures, FinOps and observability</span>
+          <a href="/solutions/international" class="nav-dropdown-link" role="menuitem">
+            <span class="nav-dropdown-title">International Talent Solutions</span>
+            <span class="nav-dropdown-desc">Sourcing global talent to solve your workforce challenges</span>
           </a>
         </div>
       </div>
-      <!-- <a href="index.html#cases">Leadership</a> -->
+      <!-- <a href="/#cases">Leadership</a> -->
       <a href="/articles">Articles</a>
       <a href="/careers">Careers</a>
     </nav>
@@ -159,7 +159,7 @@
           <!-- STEP 1: calendar + slots -->
           <div class="book-step is-active" data-step="1">
             <h3>Choose a date &amp; time</h3>
-            <p class="sub">Showing slots in <strong id="slots-tz-inline" style="font-weight:500;">your local timezone</strong>.</p>
+            <p class="sub">Showing slots in <strong id="slots-tz-inline" style="font-weight:500;">your timezone</strong>.</p>
 
             <div class="cal">
 
@@ -193,10 +193,6 @@
 
             <div class="book-actions">
               <div class="meta">
-                <span class="chip">
-                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-                  Free
-                </span>
                 <span>You can reschedule any time from the email confirmation.</span>
               </div>
               <button class="btn btn-primary" id="btn-next-1" disabled>
@@ -211,27 +207,30 @@
             <h3>Your details</h3>
             <p class="sub" id="summary-when">—</p>
 
-            <form id="book-form" autocomplete="on">
+            <!-- novalidate: every field is checked in book.js instead, so the
+                 messages are inline and consistent rather than a mix of native
+                 bubbles and our own. -->
+            <form id="book-form" autocomplete="on" novalidate>
               <div class="form-grid">
                 <div class="field">
-                  <label for="firstName">First name</label>
+                  <label for="firstName">First Name</label>
                   <input type="text" id="firstName" name="firstName" required autocomplete="given-name"/>
                 </div>
                 <div class="field">
-                  <label for="lastName">Last name</label>
+                  <label for="lastName">Last Name</label>
                   <input type="text" id="lastName" name="lastName" required autocomplete="family-name"/>
                 </div>
                 <div class="field">
-                  <label for="email">Work email</label>
+                  <label for="email">Work Email</label>
                   <input type="email" id="email" name="email" required autocomplete="email" placeholder="you@company.com"/>
                 </div>
                 <div class="field">
                   <label for="company">Company</label>
-                  <input type="text" id="company" name="company" autocomplete="organization"/>
+                  <input type="text" id="company" name="company" required autocomplete="organization"/>
                 </div>
                 <div class="field full">
-                  <label for="phone">Phone number</label>
-                  <input type="tel" id="phone" name="phone" autocomplete="tel" inputmode="tel" placeholder="+1 (555) 123-4567"/>
+                  <label for="phone">Phone Number</label>
+                  <input type="tel" id="phone" name="phone" required autocomplete="tel" inputmode="tel" placeholder="+1 (555) 123-4567"/>
                 </div>
                 <div class="field full">
                   <label for="topic">What would you like to discuss?</label>
@@ -247,9 +246,13 @@
                     <option value="other">Other</option>
                   </select>
                 </div>
+                <div class="field full" id="topic-other-field" hidden>
+                  <label for="topicOther">Please tell us briefly</label>
+                  <input type="text" id="topicOther" name="topicOther" maxlength="140" placeholder="e.g. Visa sponsorship for three developers"/>
+                </div>
                 <div class="field full">
                   <label for="notes">Anything we should know? <span class="hint"></span></label>
-                  <textarea id="notes" name="notes" placeholder="A sentence or two about the problem, current stack, or timeline."></textarea>
+                  <textarea id="notes" name="notes" maxlength="500" placeholder="A sentence or two about the problem, current stack, or timeline."></textarea>
                 </div>
               </div>
 
@@ -261,7 +264,7 @@
                   Back
                 </button>
                 <button type="submit" class="btn btn-primary">
-                  Confirm booking
+                  Confirm Booking
                   <svg class="arrow" width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 5l7 7-7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
                 </button>
               </div>
@@ -291,7 +294,7 @@
               </p>
 
               <div class="confirm-actions">
-                <a href="index.html" class="btn btn-primary">Back to home</a>
+                <a href="/" class="btn btn-primary">Back to home</a>
                 <a href="https://mail.google.com/mail/?view=cm&amp;fs=1&amp;to=hello@techsarasolutions.com&amp;cc=sales@techsarasolutions.com&amp;su=Project%20inquiry%20%E2%80%94%20Techsara&amp;body=Hi%20Techsara%20team%2C%0A%0AI%27d%20like%20to%20learn%20more%20about%20your%20services.%20A%20bit%20about%20my%20project%3A%0A%0A-%20Company%3A%0A-%20Role%3A%0A-%20What%20we%27re%20trying%20to%20solve%3A%0A-%20Timeline%20%2F%20budget%3A%0A%0ABest%2C" target="_blank" rel="noopener noreferrer" class="btn btn-ghost">Email the team</a>
               </div>
             </div>

@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import { useState, useEffect } from 'react';
 import { useParams, useRouter } from 'next/navigation';
@@ -62,7 +62,7 @@ export default function ArticleDetailPage() {
       <p style={{ color: '#64748b', fontSize: '16px' }}>Article not found.</p>
       <button onClick={() => router.push('/articles')}
         style={{
-          backgroundColor: '#1e3a8a', color: '#fff',
+          backgroundColor: '#071E4B', color: '#fff',
           border: 'none', borderRadius: '8px',
           padding: '10px 20px', fontSize: '14px', cursor: 'pointer',
         }}>
@@ -83,7 +83,7 @@ export default function ArticleDetailPage() {
           minHeight: '360px',
           display: 'flex',
           alignItems: 'flex-end',
-          backgroundColor: '#0f172a',
+          backgroundColor: '#071E4B',
         }}>
           {/* Art or cover image background */}
           <div style={{
@@ -104,7 +104,7 @@ export default function ArticleDetailPage() {
                 }}
               />
             ) : (
-              <div style={{ width: '100%', height: '100%', background: 'linear-gradient(135deg, #1e3a5f 0%, #1e3a8a 50%, #2563eb 100%)' }} />
+              <div style={{ width: '100%', height: '100%', background: 'linear-gradient(135deg, #1C386E 0%, #071E4B 50%, #5A87D7 100%)' }} />
             )}
           </div>
 
@@ -190,7 +190,7 @@ export default function ArticleDetailPage() {
 
           {content && (
             <div
-              style={{ fontSize: '16px', lineHeight: '1.8', color: '#1e293b' }}
+              style={{ fontSize: '16px', lineHeight: '1.8', color: '#1B2434' }}
               dangerouslySetInnerHTML={{ __html: stripImages(content) }}
             />
           )}
@@ -198,14 +198,14 @@ export default function ArticleDetailPage() {
           <div style={{
             marginTop: '48px',
             paddingTop: '24px',
-            borderTop: '1px solid #f1f5f9',
+            borderTop: '1px solid #F2F4F5',
           }}>
             <Link
               href="/articles"
               style={{
                 display: 'inline-block',
-                backgroundColor: '#f1f5f9',
-                color: '#1e3a8a',
+                backgroundColor: '#F2F4F5',
+                color: '#071E4B',
                 textDecoration: 'none',
                 borderRadius: '8px',
                 padding: '10px 20px',
@@ -221,16 +221,16 @@ export default function ArticleDetailPage() {
       </main>
 
       <style>{`
-        div h2 { font-size:22px; font-weight:700; margin:28px 0 10px; color:#0f172a; }
-        div h3 { font-size:18px; font-weight:600; margin:22px 0 8px; color:#0f172a; }
+        div h2 { font-size:22px; font-weight:700; margin:28px 0 10px; color:#071E4B; }
+        div h3 { font-size:18px; font-weight:600; margin:22px 0 8px; color:#071E4B; }
         div p { margin:0 0 16px 0; }
         div ul, div ol { padding-left:24px; margin:8px 0 16px; }
         div li { margin-bottom:6px; }
-        div blockquote { border-left:3px solid #e2e8f0; padding-left:16px; color:#64748b; margin:16px 0; }
-        div pre { background:#1e293b; color:#e2e8f0; padding:16px; border-radius:8px; font-size:13px; overflow-x:auto; margin:16px 0; }
+        div blockquote { border-left:3px solid #DDE2E4; padding-left:16px; color:#64748b; margin:16px 0; }
+        div pre { background:#1B2434; color:#DDE2E4; padding:16px; border-radius:8px; font-size:13px; overflow-x:auto; margin:16px 0; }
         div img { max-width:100%; border-radius:8px; margin:12px 0; }
-        div hr { border:none; border-top:2px solid #f1f5f9; margin:24px 0; }
-        a { color: #1e3a8a; }
+        div hr { border:none; border-top:2px solid #F2F4F5; margin:24px 0; }
+        a { color: #071E4B; }
         strong { font-weight: 700; }
       `}</style>
 

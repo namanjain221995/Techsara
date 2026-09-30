@@ -1,5 +1,6 @@
 ﻿import type { Metadata } from "next";
 import Link from "next/link";
+import SiteHeader from "@/components/SiteHeader";
 
 export const metadata: Metadata = {
   title: { absolute: "Page Not Found | Techsara" },
@@ -11,38 +12,14 @@ const QUICK_LINKS = [
   { href: "/services", label: "Services" },
   { href: "/solutions", label: "Solutions" },
   { href: "/articles", label: "Articles" },
-  { href: "/contact", label: "Contact" },
+  { href: "/about", label: "About" },
   { href: "/book", label: "Book a Consultation" },
 ];
 
 export default function NotFound() {
   return (
     <main className="trends-page solutions-page">
-      <header className="nav trends-nav is-ready is-scrolled" role="banner">
-        <div className="container nav-inner">
-          <Link href="/" className="brand" aria-label="Techsara home">
-            <span className="brand-mark" aria-hidden="true">
-              <img src="/assets/techsara-logo.webp" alt="Techsara" className="brand-logo" width={48} height={48} />
-            </span>
-            TECHSARA
-          </Link>
-          <nav className="nav-links" aria-label="Primary">
-            <Link href="/services">Services</Link>
-            <Link href="/solutions">Solutions</Link>
-            <Link href="/articles">Articles</Link>
-            <Link href="/careers">Careers</Link>
-            <Link href="/contact">Contact</Link>
-          </nav>
-          <div className="nav-actions">
-            <Link href="/book" className="btn btn-primary">
-              Book a Consultation
-              <svg className="arrow" width="14" height="14" viewBox="0 0 24 24" fill="none">
-                <path d="M5 12h14M13 5l7 7-7 7" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-              </svg>
-            </Link>
-          </div>
-        </div>
-      </header>
+      <SiteHeader />
 
       <section className="notfound">
         <div className="container notfound-inner">
@@ -86,21 +63,21 @@ export default function NotFound() {
             <div className="footer-col">
               <h4>Services</h4>
               <ul>
-                <li><Link href="/solutions/generative-ai">Generative AI / LLMs</Link></li>
-                <li><Link href="/solutions/computer-vision">Computer Vision</Link></li>
-                <li><Link href="/solutions/nlp">NLP &amp; Speech</Link></li>
-                <li><Link href="/solutions/predictive-ml">Predictive ML</Link></li>
-                <li><Link href="/solutions/mlops">MLOps</Link></li>
+                <li><Link href="/services/generative-ai">Generative AI / LLMs</Link></li>
+                <li><Link href="/services/computer-vision">Computer Vision</Link></li>
+                <li><Link href="/services/nlp">NLP &amp; Speech</Link></li>
+                <li><Link href="/services/predictive-ml">Predictive ML</Link></li>
+                <li><Link href="/services/mlops">MLOps</Link></li>
               </ul>
             </div>
 
             <div className="footer-col">
               <h4>Solutions</h4>
               <ul>
-                <li><Link href="/services/talent">Talent Solutions</Link></li>
-                <li><Link href="/services/team">Team Solutions</Link></li>
-                <li><Link href="/services/project">Project Solutions</Link></li>
-                <li><Link href="/services/international">International Talent Solutions</Link></li>
+                <li><Link href="/solutions/talent">Talent Solutions</Link></li>
+                <li><Link href="/solutions/team">Team Solutions</Link></li>
+                <li><Link href="/solutions/project">Project Solutions</Link></li>
+                <li><Link href="/solutions/international">International Talent Solutions</Link></li>
               </ul>
             </div>
 
@@ -110,13 +87,12 @@ export default function NotFound() {
                 <li><a href="mailto:hello@techsarasolutions.com?cc=sales@techsarasolutions.com">hello@techsarasolutions.com</a></li>
                 <li><a href="tel:3234866123">(323) 486-6123</a></li>
                 <li>Frisco, TX · USA</li>
-                <li><Link href="/contact">Contact us</Link></li>
               </ul>
             </div>
           </div>
 
           <div className="footer-bottom">
-            <div>&copy; 2026 Techsara Solutions, Inc. All rights reserved.</div>
+            <div>&copy; 2021–2026 Techsara Solutions, Inc. All rights reserved. · <Link href="/privacy-policy" className="footer-legal-link">Privacy Policy</Link> · <Link href="/eula" className="footer-legal-link">EULA</Link></div>
             <div className="footer-socials">
               <a href="https://www.linkedin.com/company/techsara-solutions/about" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">

@@ -132,11 +132,11 @@ function rewriteLegacyLinks(html: string) {
 
   nextHtml = nextHtml.replace(/href="service\.html#([^"]+)"/g, (_, hash: string) => {
     const slug = SERVICE_HASH_MAP[hash] || "generative-ai";
-    return `href="/solutions/${slug}"`;
+    return `href="/services/${slug}"`;
   });
 
   nextHtml = nextHtml.replace(/href="service\.html\?slug=([^"#]+)"/g, (_, slug: string) => {
-    return `href="/solutions/${slug}"`;
+    return `href="/services/${slug}"`;
   });
 
   nextHtml = nextHtml

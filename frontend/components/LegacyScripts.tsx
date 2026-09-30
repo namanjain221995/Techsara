@@ -6,6 +6,20 @@ type LegacyScriptsProps = {
   serviceSlug?: string;
 };
 
+/**
+ * Cache buster for the hand-written /public/legacy scripts.
+ *
+ * Files under /public are served at a stable URL, so a browser that has seen
+ * one keeps it across ordinary refreshes - a returning visitor can run an old
+ * script against freshly rendered HTML. That mismatch is not hypothetical: the
+ * booking page rendered "Showing slots in your timezone" while a cached script
+ * still drew the grid in Eastern.
+ *
+ * Bump this whenever a file in /public/legacy changes. The /legacy/vendor
+ * bundles don't need it - their versions are pinned in the filenames.
+ */
+const ASSET_V = "2026-09-21.1";
+
 export default function LegacyScripts({ page, serviceSlug }: LegacyScriptsProps) {
   return (
     <>
@@ -41,11 +55,11 @@ export default function LegacyScripts({ page, serviceSlug }: LegacyScriptsProps)
           <Script src="/legacy/vendor/lenis.min.js" strategy="lazyOnload" />
           <Script src="/legacy/vendor/gsap.min.js" strategy="lazyOnload" />
           <Script src="/legacy/vendor/ScrollTrigger.min.js" strategy="lazyOnload" />
-          <Script src="/legacy/app.js" strategy="lazyOnload" />
+          <Script src={`/legacy/app.js?v=${ASSET_V}`} strategy="lazyOnload" />
         </>
       ) : null}
 
-      {page === "book" ? <Script src="/legacy/book.js" strategy="afterInteractive" /> : null}
+      {page === "book" ? <Script src={`/legacy/book.js?v=${ASSET_V}`} strategy="afterInteractive" /> : null}
 
       {page === "service" ? (
         <>
@@ -57,8 +71,8 @@ export default function LegacyScripts({ page, serviceSlug }: LegacyScriptsProps)
               __html: `window.__TECHSARA_SERVICE_SLUG=${JSON.stringify(serviceSlug || "generative-ai")};`,
             }}
           />
-          <Script src="/legacy/service-data.js" strategy="beforeInteractive" />
-          <Script src="/legacy/service.js" strategy="afterInteractive" />
+          <Script src={`/legacy/service-data.js?v=${ASSET_V}`} strategy="beforeInteractive" />
+          <Script src={`/legacy/service.js?v=${ASSET_V}`} strategy="afterInteractive" />
           <Script id="techsara-service-nav" strategy="afterInteractive">
             {`
               const navEl = document.querySelector('.nav');

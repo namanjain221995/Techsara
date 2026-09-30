@@ -9,6 +9,7 @@ import "./blog.css";
 import AutoContactPopup from "@/components/AutoContactPopup";
 import AppLoader from "@/components/AppLoader";
 import RouteProgress from "@/components/RouteProgress";
+import ActiveNavHighlight from "@/components/ActiveNavHighlight";
 import { SITE, organizationJsonLd, websiteJsonLd, professionalServiceJsonLd, jsonLdScript } from "@/lib/seo";
 
 // Self-hosted Google Fonts (next/font). This eliminates the render-blocking
@@ -113,7 +114,7 @@ export const metadata: Metadata = {
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
-  themeColor: "#0b0b0f",
+  themeColor: "#04142F",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
@@ -153,6 +154,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         </div>
         <AppLoader />
         <RouteProgress />
+        <ActiveNavHighlight />
         {children}
         <AutoContactPopup />
         {/* Google Analytics 4 - env-driven and non-render-blocking (afterInteractive). Renders

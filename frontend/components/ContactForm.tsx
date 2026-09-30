@@ -1,6 +1,10 @@
-﻿"use client";
+"use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
+
+// useLayoutEffect warns during SSR; the positioning it does is client-only.
+const useIsoLayoutEffect = typeof window !== "undefined" ? useLayoutEffect : useEffect;
 
 export type TopicOption = { value: string; label: string };
 
@@ -15,83 +19,225 @@ export const TOPIC_OPTIONS: TopicOption[] = [
   { value: "other", label: "Other" },
 ];
 
-// Same-origin proxy → Next.js route → AWS API (avoids CORS)
 const CONTACT_ENDPOINT = "/api/contact-message";
 const AUTO_POPUP_SESSION_KEY = "techsara:autoContactShown";
 
+const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+// A name is letters plus the punctuation real names use. Without this, "45654654"
+// passed a bare length check and reached the team's inbox as the contact's name.
+const NAME_RE = /^\p{L}[\p{L}\s.'-]*$/u;
+
+function nameError(value: string): string | undefined {
+  if (/\d/.test(value)) return "Names cannot contain numbers.";
+  // Deliberately no minimum length: single-character names are ordinary in
+  // Chinese, Japanese and Korean, and rejecting them is worse than letting
+  // someone enter an initial.
+  if (!NAME_RE.test(value)) return "Use letters, spaces, hyphens or apostrophes only.";
+  return undefined;
+}
+
+// "Other" on its own only sends the literal string "other", which tells the team
+// nothing. Send what the visitor typed instead. Lambda caps discussionTopic at 150.
+const TOPIC_MAX = 150;
+const OTHER_PREFIX = "Other - ";
+const OTHER_DETAIL_MAX = TOPIC_MAX - OTHER_PREFIX.length;
+
+function buildDiscussionTopic(topic: string, otherDetail: string): string {
+  if (topic !== "other") return topic;
+  const detail = otherDetail.trim();
+  if (!detail) return "Other";
+  return (OTHER_PREFIX + detail).slice(0, TOPIC_MAX);
+}
+
+const PANEL_GAP = 8;
+// Must clear .contact-modal-overlay (z-index 1000), which the panel would
+// otherwise render behind once it is portalled onto <body>.
+const PANEL_Z = 1100;
+
+type PanelPos = { top: number; left: number; width: number };
+
+type FieldErrors = {
+  firstName?: string;
+  lastName?: string;
+  email?: string;
+  company?: string;
+  phone?: string;
+  topic?: string;
+  otherTopic?: string;
+  message?: string;
+};
+
 type Props = {
-  /** "modal" renders a Cancel + Send action row; "inline" renders a single full-width Send. */
   variant?: "modal" | "inline";
   defaultTopic?: string;
-  /** Cancel handler - only used by the modal variant. */
   onClose?: () => void;
 };
 
 export default function ContactForm({ variant = "modal", defaultTopic = "", onClose }: Props) {
   const [submitted, setSubmitted] = useState(false);
   const [submitting, setSubmitting] = useState(false);
-  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [serverError, setServerError] = useState<string | null>(null);
+  const [fieldErrors, setFieldErrors] = useState<FieldErrors>({});
   const [topic, setTopic] = useState(defaultTopic);
+  const [otherTopic, setOtherTopic] = useState("");
   const [topicOpen, setTopicOpen] = useState(false);
-  const [panelStyle, setPanelStyle] = useState<React.CSSProperties>({});
   const wrapRef = useRef<HTMLDivElement | null>(null);
   const triggerRef = useRef<HTMLButtonElement | null>(null);
+  const panelRef = useRef<HTMLDivElement | null>(null);
+  const [panelPos, setPanelPos] = useState<PanelPos | null>(null);
 
-  // Position the topic dropdown panel relative to its trigger, and close it on
-  // outside click / Escape. Active only while the panel is open.
+  // The panel is rendered on <body> rather than inside the field. Its ancestor
+  // .cta-banner sets overflow:hidden to clip its gradient to the rounded
+  // corners, which also clipped the dropdown at the card's bottom edge and made
+  // the last option ("Other") unreachable. A portal escapes that clip; the
+  // trade-off is that the panel no longer follows the page, so it is
+  // repositioned on scroll and resize below.
+  function positionPanel() {
+    const trigger = triggerRef.current;
+    if (!trigger) return;
+
+    const rect = trigger.getBoundingClientRect();
+    const panelH = panelRef.current?.offsetHeight ?? 0;
+    const roomBelow = window.innerHeight - rect.bottom - PANEL_GAP;
+    const roomAbove = rect.top - PANEL_GAP;
+    const dropUp = panelH > roomBelow && roomAbove > roomBelow;
+
+    setPanelPos({
+      top: dropUp
+        ? Math.max(PANEL_GAP, rect.top - PANEL_GAP - panelH)
+        : rect.bottom + PANEL_GAP,
+      left: rect.left,
+      width: rect.width,
+    });
+  }
+
+  // Runs once the portalled panel is in the DOM, so its real height decides
+  // whether it opens downward or flips above the trigger.
+  useIsoLayoutEffect(() => {
+    if (!topicOpen) return;
+    positionPanel();
+
+    const reposition = () => positionPanel();
+    window.addEventListener("scroll", reposition, true);
+    window.addEventListener("resize", reposition);
+    return () => {
+      window.removeEventListener("scroll", reposition, true);
+      window.removeEventListener("resize", reposition);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [topicOpen]);
+
+  // Close dropdown on outside click or Escape key.
   useEffect(() => {
     if (!topicOpen) return;
-    const position = () => {
-      const trigger = triggerRef.current;
-      if (!trigger) return;
-      const rect = trigger.getBoundingClientRect();
-      setPanelStyle({
-        position: "fixed",
-        top: rect.bottom + 8,
-        left: rect.left,
-        width: rect.width,
-      });
-    };
-    position();
     const handleClickOutside = (event: MouseEvent) => {
       const wrap = wrapRef.current;
-      if (wrap && !wrap.contains(event.target as Node)) {
+      const panel = panelRef.current;
+      const target = event.target as Node;
+      // The panel now lives on <body>, so it is no longer inside wrap - without
+      // this second check, mousedown on an option would close the panel before
+      // its click handler could run.
+      if (wrap && !wrap.contains(target) && !panel?.contains(target)) {
         setTopicOpen(false);
       }
     };
     const handleKey = (event: KeyboardEvent) => {
       if (event.key === "Escape") {
-        // Swallow Escape so a host modal doesn't also close when only the dropdown should.
         event.stopPropagation();
         setTopicOpen(false);
         triggerRef.current?.focus();
       }
     };
-    window.addEventListener("scroll", position, true);
-    window.addEventListener("resize", position);
     document.addEventListener("mousedown", handleClickOutside);
     window.addEventListener("keydown", handleKey, true);
     return () => {
-      window.removeEventListener("scroll", position, true);
-      window.removeEventListener("resize", position);
       document.removeEventListener("mousedown", handleClickOutside);
       window.removeEventListener("keydown", handleKey, true);
     };
   }, [topicOpen]);
 
+  function clearError(field: keyof FieldErrors) {
+    if (fieldErrors[field]) {
+      setFieldErrors((prev) => ({ ...prev, [field]: undefined }));
+    }
+  }
+
+  // Moving off "Other" drops the extra field, so stale text is never submitted
+  // and its errors don't linger on a topic that no longer asks for it.
+  function chooseTopic(value: string) {
+    setTopic(value);
+    clearError("topic");
+    if (value !== "other") {
+      setOtherTopic("");
+      setFieldErrors((prev) => ({ ...prev, otherTopic: undefined, message: undefined }));
+    }
+  }
+
+  function validate(raw: Record<string, string>): FieldErrors {
+    const errors: FieldErrors = {};
+
+    // Assign only when there is a message: validate()'s caller treats any key
+    // present as a failure, so an empty string here would block every submit.
+    const firstName = (raw.firstName || "").trim();
+    const firstNameError = firstName ? nameError(firstName) : "First Name is required.";
+    if (firstNameError) errors.firstName = firstNameError;
+
+    const lastName = (raw.lastName || "").trim();
+    const lastNameError = lastName ? nameError(lastName) : "Last Name is required.";
+    if (lastNameError) errors.lastName = lastNameError;
+
+    const email = (raw.email || "").trim();
+    if (!email) errors.email = "Work Email is required.";
+    else if (!EMAIL_RE.test(email)) errors.email = "Enter a valid email address.";
+
+    const company = (raw.company || "").trim();
+    if (!company) errors.company = "Company is required.";
+    else if (company.length < 2) errors.company = "Must be at least 2 characters.";
+
+    const phone = (raw.phone || "").trim();
+    if (!phone) {
+      errors.phone = "Phone Number is required.";
+    } else if (/[A-Za-z]/.test(phone)) {
+      // "abc1234567" cleared the digit count on its own, so letters need their
+      // own check rather than relying on it.
+      errors.phone = "Phone numbers cannot contain letters.";
+    } else {
+      const digits = (phone.match(/\d/g) || []).length;
+      if (digits < 7 || digits > 15) errors.phone = "Enter a valid phone number (7-15 digits).";
+    }
+
+    if (!raw.topic) {
+      errors.topic = "Please select a topic.";
+    } else if (raw.topic === "other") {
+      // "Other" carries no meaning on its own, so both the short subject line and
+      // the detail box become required.
+      if (!(raw.otherTopic || "").trim()) errors.otherTopic = "Please tell us what you'd like to discuss.";
+      if (!(raw.message || "").trim()) errors.message = "Please add a little detail.";
+    }
+
+    return errors;
+  }
+
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
     const raw = Object.fromEntries(formData.entries()) as Record<string, string>;
-    setErrorMessage(null);
+    setServerError(null);
+
+    const errors = validate(raw);
+    if (Object.keys(errors).length > 0) {
+      setFieldErrors(errors);
+      return;
+    }
+    setFieldErrors({});
 
     const payload = {
-      firstName: raw.firstName || "",
-      lastName: raw.lastName || "",
-      email: raw.email || "",
-      company: raw.company || "",
-      phoneNumber: raw.phone || "",
-      discussionTopic: raw.topic || "",
+      firstName: raw.firstName.trim(),
+      lastName: raw.lastName.trim(),
+      email: raw.email.trim(),
+      company: raw.company.trim(),
+      phoneNumber: raw.phone.trim(),
+      discussionTopic: buildDiscussionTopic(raw.topic, raw.otherTopic || ""),
       notes: raw.message || "",
     };
 
@@ -108,7 +254,7 @@ export default function ContactForm({ variant = "modal", defaultTopic = "", onCl
           const body = await res.json();
           if (body && body.error === "VALIDATION_ERROR") isValidation = true;
         } catch {
-          /* response body wasn't JSON - fall back to status check */
+          /* not JSON */
         }
         throw new Error(
           isValidation
@@ -116,19 +262,17 @@ export default function ContactForm({ variant = "modal", defaultTopic = "", onCl
             : "Something went wrong. Please try again.",
         );
       }
-      // Successful submit → suppress the auto-contact popup for the rest of the session
       try {
         window.sessionStorage.setItem(AUTO_POPUP_SESSION_KEY, "1");
       } catch {
-        /* sessionStorage may be unavailable in some private modes */
+        /* sessionStorage unavailable */
       }
-      // Notify AutoContactPopup so it shows an "already sent" toast on subsequent triggers
       window.dispatchEvent(new CustomEvent("techsara:userEngaged"));
       setSubmitted(true);
     } catch (err) {
       const message =
         err instanceof Error ? err.message : "Something went wrong. Please try again.";
-      setErrorMessage(message);
+      setServerError(message);
     } finally {
       setSubmitting(false);
     }
@@ -167,57 +311,110 @@ export default function ContactForm({ variant = "modal", defaultTopic = "", onCl
   }
 
   return (
-    <form className="contact-form" onSubmit={handleSubmit}>
+    <form className="contact-form" onSubmit={handleSubmit} noValidate>
       <div className="contact-form-row">
         <label className="contact-form-field">
-          <span>First name</span>
-          <input type="text" name="firstName" required autoComplete="given-name" />
+          <span>First Name</span>
+          <input
+            type="text"
+            name="firstName"
+            autoComplete="given-name"
+            aria-invalid={!!fieldErrors.firstName}
+            onChange={() => clearError("firstName")}
+          />
+          {fieldErrors.firstName && (
+            <span className="contact-field-error" role="alert">{fieldErrors.firstName}</span>
+          )}
         </label>
         <label className="contact-form-field">
-          <span>Last name</span>
-          <input type="text" name="lastName" required autoComplete="family-name" />
+          <span>Last Name</span>
+          <input
+            type="text"
+            name="lastName"
+            autoComplete="family-name"
+            aria-invalid={!!fieldErrors.lastName}
+            onChange={() => clearError("lastName")}
+          />
+          {fieldErrors.lastName && (
+            <span className="contact-field-error" role="alert">{fieldErrors.lastName}</span>
+          )}
         </label>
       </div>
 
       <div className="contact-form-row">
         <label className="contact-form-field">
-          <span>Work email</span>
+          <span>Work Email</span>
           <input
             type="email"
             name="email"
-            required
             autoComplete="email"
             placeholder="you@company.com"
+            aria-invalid={!!fieldErrors.email}
+            onChange={() => clearError("email")}
           />
+          {fieldErrors.email && (
+            <span className="contact-field-error" role="alert">{fieldErrors.email}</span>
+          )}
         </label>
         <label className="contact-form-field">
           <span>Company</span>
-          <input type="text" name="company" required autoComplete="organization" />
+          <input
+            type="text"
+            name="company"
+            autoComplete="organization"
+            aria-invalid={!!fieldErrors.company}
+            onChange={() => clearError("company")}
+          />
+          {fieldErrors.company && (
+            <span className="contact-field-error" role="alert">{fieldErrors.company}</span>
+          )}
         </label>
       </div>
 
       <label className="contact-form-field">
-        <span>Phone number</span>
+        <span>Phone Number</span>
         <input
           type="tel"
           name="phone"
-          required
           autoComplete="tel"
           inputMode="tel"
           placeholder="+1 (555) 123-4567"
+          aria-invalid={!!fieldErrors.phone}
+          onChange={() => clearError("phone")}
         />
+        {fieldErrors.phone && (
+          <span className="contact-field-error" role="alert">{fieldErrors.phone}</span>
+        )}
       </label>
 
       <label className="contact-form-field">
         <span>What would you like to discuss?</span>
-        <div ref={wrapRef} className={`custom-select${topicOpen ? " is-open" : ""}`}>
+        <div ref={wrapRef} className={`custom-select${topicOpen ? " is-open" : ""}${fieldErrors.topic ? " has-error" : ""}`}>
           <button
             ref={triggerRef}
             type="button"
             className="custom-select__trigger"
             aria-haspopup="listbox"
             aria-expanded={topicOpen}
-            onClick={() => setTopicOpen((v) => !v)}
+            aria-invalid={!!fieldErrors.topic}
+            onClick={() => {
+              clearError("topic");
+              if (topicOpen) {
+                setTopicOpen(false);
+                return;
+              }
+              // Seed a position before the panel mounts so it never paints at
+              // the top-left corner for a frame; the layout effect refines it.
+              const rect = triggerRef.current?.getBoundingClientRect();
+              if (rect) {
+                setPanelPos({
+                  top: rect.bottom + PANEL_GAP,
+                  left: rect.left,
+                  width: rect.width,
+                });
+              }
+              setTopicOpen(true);
+            }}
           >
             <span className={`custom-select__value${isPlaceholder ? " is-placeholder" : ""}`}>
               {selectedLabel}
@@ -237,28 +434,31 @@ export default function ContactForm({ variant = "modal", defaultTopic = "", onCl
           </button>
           <select
             name="topic"
-            required
             value={topic}
-            onChange={(e) => setTopic(e.target.value)}
+            onChange={(e) => chooseTopic(e.target.value)}
             className="custom-select__native"
             tabIndex={-1}
             aria-hidden="true"
           >
-            <option value="" disabled>
-              Select a topic
-            </option>
+            <option value="" disabled>Select a topic</option>
             {TOPIC_OPTIONS.map((opt) => (
-              <option key={opt.value} value={opt.value}>
-                {opt.label}
-              </option>
+              <option key={opt.value} value={opt.value}>{opt.label}</option>
             ))}
           </select>
-          {topicOpen && (
+          {topicOpen && panelPos && createPortal(
             <div
+              ref={panelRef}
               className="custom-select__panel is-open"
               role="listbox"
-              style={panelStyle}
               data-lenis-prevent="true"
+              style={{
+                position: "fixed",
+                top: panelPos.top,
+                left: panelPos.left,
+                width: panelPos.width,
+                right: "auto",
+                zIndex: PANEL_Z,
+              }}
             >
               {TOPIC_OPTIONS.map((opt) => (
                 <button
@@ -266,11 +466,9 @@ export default function ContactForm({ variant = "modal", defaultTopic = "", onCl
                   type="button"
                   role="option"
                   aria-selected={topic === opt.value}
-                  className={`custom-select__option${
-                    topic === opt.value ? " is-selected" : ""
-                  }`}
+                  className={`custom-select__option${topic === opt.value ? " is-selected" : ""}`}
                   onClick={() => {
-                    setTopic(opt.value);
+                    chooseTopic(opt.value);
                     setTopicOpen(false);
                     triggerRef.current?.focus();
                   }}
@@ -278,25 +476,58 @@ export default function ContactForm({ variant = "modal", defaultTopic = "", onCl
                   {opt.label}
                 </button>
               ))}
-            </div>
+            </div>,
+            document.body,
           )}
         </div>
+        {fieldErrors.topic && (
+          <span className="contact-field-error" role="alert">{fieldErrors.topic}</span>
+        )}
       </label>
 
+      {topic === "other" && (
+        <label className="contact-form-field">
+          <span>Please tell us briefly</span>
+          <input
+            name="otherTopic"
+            type="text"
+            maxLength={OTHER_DETAIL_MAX}
+            value={otherTopic}
+            onChange={(e) => {
+              setOtherTopic(e.target.value);
+              clearError("otherTopic");
+            }}
+            aria-invalid={!!fieldErrors.otherTopic}
+            placeholder="e.g. Visa sponsorship for three developers"
+          />
+          {fieldErrors.otherTopic && (
+            <span className="contact-field-error" role="alert">{fieldErrors.otherTopic}</span>
+          )}
+        </label>
+      )}
+
       <label className="contact-form-field">
-        <span>Anything we should know? </span>
+        <span>Anything we should know?</span>
         <textarea
           name="message"
           rows={4}
-          placeholder="A sentence or two about the problem, current stack, or timeline."
+          maxLength={2000}
+          onChange={() => clearError("message")}
+          aria-invalid={!!fieldErrors.message}
+          placeholder={
+            topic === "other"
+              ? "Tell us a bit more about what you need help with."
+              : "A sentence or two about the problem, current stack, or timeline."
+          }
         />
+        {fieldErrors.message && (
+          <span className="contact-field-error" role="alert">{fieldErrors.message}</span>
+        )}
       </label>
 
-      {errorMessage ? (
-        <p className="contact-form-error" role="alert">
-          {errorMessage}
-        </p>
-      ) : null}
+      {serverError && (
+        <p className="contact-form-error" role="alert">{serverError}</p>
+      )}
 
       <div className={`contact-form-actions${variant === "inline" ? " is-inline" : ""}`}>
         {variant === "modal" && onClose ? (
@@ -310,7 +541,7 @@ export default function ContactForm({ variant = "modal", defaultTopic = "", onCl
           </button>
         ) : null}
         <button type="submit" className="contact-form-submit" disabled={submitting}>
-          {submitting ? "Sending..." : "Send message"}
+          {submitting ? "Sending..." : "Send Message"}
           {submitting ? null : (
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true">
               <path

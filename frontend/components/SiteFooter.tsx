@@ -26,39 +26,38 @@ export default function SiteFooter() {
           </div>
 
           <div className="footer-col">
-            <h3>Services</h3>
+            <h4>Services</h4>
             <ul>
-              <li><Link href="/solutions/generative-ai">Generative AI / LLMs</Link></li>
-              <li><Link href="/solutions/computer-vision">Computer Vision</Link></li>
-              <li><Link href="/solutions/nlp">NLP &amp; Speech</Link></li>
-              <li><Link href="/solutions/predictive-ml">Predictive ML</Link></li>
-              <li><Link href="/solutions/mlops">MLOps</Link></li>
+              <li><Link href="/services/generative-ai">Generative AI / LLMs</Link></li>
+              <li><Link href="/services/computer-vision">Computer Vision</Link></li>
+              <li><Link href="/services/nlp">NLP &amp; Speech</Link></li>
+              <li><Link href="/services/predictive-ml">Predictive ML</Link></li>
+              <li><Link href="/services/mlops">MLOps</Link></li>
             </ul>
           </div>
 
           <div className="footer-col">
-            <h3>Solutions</h3>
+            <h4>Solutions</h4>
             <ul>
-              <li><Link href="/services/talent">Talent Solutions</Link></li>
-              <li><Link href="/services/team">Team Solutions</Link></li>
-              <li><Link href="/services/project">Project Solutions</Link></li>
-              <li><Link href="/services/international">International Talent Solutions</Link></li>
+              <li><Link href="/solutions/talent">Talent Solutions</Link></li>
+              <li><Link href="/solutions/team">Team Solutions</Link></li>
+              <li><Link href="/solutions/project">Project Solutions</Link></li>
+              <li><Link href="/solutions/international">International Talent Solutions</Link></li>
             </ul>
           </div>
 
           <div className="footer-col">
-            <h3>Contact</h3>
+            <h4>Contact</h4>
             <ul>
               <li><a href="mailto:hello@techsarasolutions.com?cc=sales@techsarasolutions.com">hello@techsarasolutions.com</a></li>
               <li><a href="tel:3234866123">(323) 486-6123</a></li>
               <li>Frisco, TX · USA</li>
-              <li><Link href="/contact">Contact us</Link></li>
             </ul>
           </div>
         </div>
 
         <div className="footer-bottom">
-          <div>&copy; 2026 Techsara Solutions, Inc. All rights reserved.</div>
+          <div>&copy; 2021–2026 Techsara Solutions, Inc. All rights reserved. · <Link href="/privacy-policy" className="footer-legal-link">Privacy Policy</Link> · <Link href="/eula" className="footer-legal-link">EULA</Link></div>
           <div className="footer-socials">
             <a href="https://www.linkedin.com/company/techsara-solutions/about" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">

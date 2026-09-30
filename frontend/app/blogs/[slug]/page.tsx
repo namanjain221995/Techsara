@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+﻿import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import SiteHeader from "@/components/SiteHeader";
@@ -53,10 +53,10 @@ function stripImages(html: string): string {
 
 function getGradientForArt(art: string): string {
   const map: Record<string, string> = {
-    staffing: 'linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%)',
-    genai:    'linear-gradient(135deg, #6d28d9 0%, #a78bfa 100%)',
-    cloud:    'linear-gradient(135deg, #0e7490 0%, #22d3ee 100%)',
-    industry: 'linear-gradient(135deg, #065f46 0%, #34d399 100%)',
+    staffing: 'linear-gradient(135deg, #04142F 0%, #395D9F 100%)',
+    genai:    'linear-gradient(135deg, #071E4B 0%, #5A87D7 100%)',
+    cloud:    'linear-gradient(135deg, #1C386E 0%, #8AACE5 100%)',
+    industry: 'linear-gradient(135deg, #1B2434 0%, #284883 100%)',
   };
   return map[art] || map['staffing'];
 }
@@ -394,7 +394,7 @@ export default async function BlogPostPage({ params }: PostPageProps) {
 
           {/* Article content HTML */}
           <div
-            style={{ fontSize: '16px', lineHeight: '1.8', color: '#1e293b' }}
+            style={{ fontSize: '16px', lineHeight: '1.8', color: '#1B2434' }}
             dangerouslySetInnerHTML={{ __html: stripImages(content) }}
           />
 

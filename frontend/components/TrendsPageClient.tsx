@@ -177,7 +177,7 @@ export default function TrendsPageClient() {
       articles: [],
       s3Articles: s3Articles.filter(a => a.sectionId === s.id),
       sectionGradient: s.gradient ||
-        'linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%)',
+        'linear-gradient(135deg, #071E4B 0%, #5A87D7 100%)',
     }));
 
   return (
@@ -201,21 +201,21 @@ export default function TrendsPageClient() {
                 </svg>
               </Link>
               <div className="nav-dropdown-panel" role="menu">
-                <Link href="/services/talent" className="nav-dropdown-link" role="menuitem" onClick={() => setIsMobileOpen(false)}>
-                  <span className="nav-dropdown-title">Talent Solutions</span>
-                  <span className="nav-dropdown-desc">Connecting you with the best talent in the marketplace</span>
+                <Link href="/services/generative-ai" className="nav-dropdown-link" role="menuitem" onClick={() => setIsMobileOpen(false)}>
+                  <span className="nav-dropdown-title">Generative AI</span>
+                  <span className="nav-dropdown-desc">LLMs, RAG and fine-tuning grounded in your data</span>
                 </Link>
-                <Link href="/services/team" className="nav-dropdown-link" role="menuitem" onClick={() => setIsMobileOpen(false)}>
-                  <span className="nav-dropdown-title">Team Solutions</span>
-                  <span className="nav-dropdown-desc">Stay involved with valued initiatives; we handle the details</span>
+                <Link href="/services/computer-vision" className="nav-dropdown-link" role="menuitem" onClick={() => setIsMobileOpen(false)}>
+                  <span className="nav-dropdown-title">Computer Vision</span>
+                  <span className="nav-dropdown-desc">Real-time detection, defect inspection and edge optimization</span>
                 </Link>
-                <Link href="/services/project" className="nav-dropdown-link" role="menuitem" onClick={() => setIsMobileOpen(false)}>
-                  <span className="nav-dropdown-title">Project Solutions</span>
-                  <span className="nav-dropdown-desc">We&apos;ll manage your project&apos;s outcome from start to finish</span>
+                <Link href="/services/ai-agents" className="nav-dropdown-link" role="menuitem" onClick={() => setIsMobileOpen(false)}>
+                  <span className="nav-dropdown-title">Agents</span>
+                  <span className="nav-dropdown-desc">Tool-using workflow agents with human-in-the-loop gates</span>
                 </Link>
-                <Link href="/services/international" className="nav-dropdown-link" role="menuitem" onClick={() => setIsMobileOpen(false)}>
-                  <span className="nav-dropdown-title">International Talent Solutions</span>
-                  <span className="nav-dropdown-desc">Sourcing global talent to solve your workforce challenges</span>
+                <Link href="/services/cloud-deployment" className="nav-dropdown-link" role="menuitem" onClick={() => setIsMobileOpen(false)}>
+                  <span className="nav-dropdown-title">Cloud Deployment</span>
+                  <span className="nav-dropdown-desc">Reference architectures, FinOps and observability</span>
                 </Link>
               </div>
             </div>
@@ -227,28 +227,28 @@ export default function TrendsPageClient() {
                 </svg>
               </Link>
               <div className="nav-dropdown-panel" role="menu">
-                <Link href="/solutions/generative-ai" className="nav-dropdown-link" role="menuitem" onClick={() => setIsMobileOpen(false)}>
-                  <span className="nav-dropdown-title">Generative AI</span>
-                  <span className="nav-dropdown-desc">LLMs, RAG and fine-tuning grounded in your data</span>
+                <Link href="/solutions/talent" className="nav-dropdown-link" role="menuitem" onClick={() => setIsMobileOpen(false)}>
+                  <span className="nav-dropdown-title">Talent Solutions</span>
+                  <span className="nav-dropdown-desc">Connecting you with the best talent in the marketplace</span>
                 </Link>
-                <Link href="/solutions/computer-vision" className="nav-dropdown-link" role="menuitem" onClick={() => setIsMobileOpen(false)}>
-                  <span className="nav-dropdown-title">Computer Vision</span>
-                  <span className="nav-dropdown-desc">Real-time detection, defect inspection and edge optimization</span>
+                <Link href="/solutions/team" className="nav-dropdown-link" role="menuitem" onClick={() => setIsMobileOpen(false)}>
+                  <span className="nav-dropdown-title">Team Solutions</span>
+                  <span className="nav-dropdown-desc">Stay involved with valued initiatives; we handle the details</span>
                 </Link>
-                <Link href="/solutions/ai-agents" className="nav-dropdown-link" role="menuitem" onClick={() => setIsMobileOpen(false)}>
-                  <span className="nav-dropdown-title">Agents</span>
-                  <span className="nav-dropdown-desc">Tool-using workflow agents with human-in-the-loop gates</span>
+                <Link href="/solutions/project" className="nav-dropdown-link" role="menuitem" onClick={() => setIsMobileOpen(false)}>
+                  <span className="nav-dropdown-title">Project Solutions</span>
+                  <span className="nav-dropdown-desc">We&apos;ll manage your project&apos;s outcome from start to finish</span>
                 </Link>
-                <Link href="/solutions/cloud-deployment" className="nav-dropdown-link" role="menuitem" onClick={() => setIsMobileOpen(false)}>
-                  <span className="nav-dropdown-title">Cloud Deployment</span>
-                  <span className="nav-dropdown-desc">Reference architectures, FinOps and observability</span>
+                <Link href="/solutions/international" className="nav-dropdown-link" role="menuitem" onClick={() => setIsMobileOpen(false)}>
+                  <span className="nav-dropdown-title">International Talent Solutions</span>
+                  <span className="nav-dropdown-desc">Sourcing global talent to solve your workforce challenges</span>
                 </Link>
               </div>
             </div>
             {/* <Link href="/#cases">Leadership</Link> */}
             <Link href="/articles" onClick={() => setIsMobileOpen(false)}>Articles</Link>
             <Link href="/careers" onClick={() => setIsMobileOpen(false)}>Careers</Link>
-            <Link href="/contact" onClick={() => setIsMobileOpen(false)}>Contact</Link>
+            <Link href="/about" onClick={() => setIsMobileOpen(false)}>About</Link>
           </nav>
           <div className="nav-actions">
             <Link href="/book" className="btn btn-primary">
@@ -272,45 +272,65 @@ export default function TrendsPageClient() {
         </div>
       </header>
 
-      <section ref={carouselRef} className="trends-carousel" aria-label="Featured trends">
-        <div className="trends-carousel-track">
-          {slides.map((slide, index) => (
-            <article
-              key={slide.id}
-              className={`trends-slide trends-slide--${slide.theme}${index === activeIndex ? " is-active" : ""}`}
-              aria-hidden={index === activeIndex ? "false" : "true"}
+      <section ref={carouselRef} className="trends-carousel" aria-label="Insights hero">
+        <div className="container trends-insights-hero-grid">
+          <div className="trends-insights-hero-copy">
+            <h2>
+              <span>Actionable insights</span>
+              <span>for flexible solutions</span>
+            </h2>
+          </div>
+
+          <div className="trends-technology-visual" aria-label="Animated technology visual">
+            <div className="tech-aurora" aria-hidden="true" />
+            <div className="tech-aurora tech-aurora-b" aria-hidden="true" />
+            <svg
+              className="tech-network"
+              viewBox="0 0 600 460"
+              preserveAspectRatio="xMidYMid slice"
+              aria-hidden="true"
             >
-              <div className="trends-slide-overlay" aria-hidden="true" />
-              <div className="container trends-slide-inner">
-                <p className="trends-slide-kicker">{slide.kicker}</p>
-                <h2>
-                  {slide.titleLines.map((line) => (
-                    <span key={line}>{line}</span>
-                  ))}
-                </h2>
-              </div>
-            </article>
-          ))}
-        </div>
-
-        <button type="button" className="trends-arrow trends-arrow-left" onClick={goPrev} aria-label="Previous trend">
-          <span aria-hidden="true">‹</span>
-        </button>
-        <button type="button" className="trends-arrow trends-arrow-right" onClick={goNext} aria-label="Next trend">
-          <span aria-hidden="true">›</span>
-        </button>
-
-        <div className="trends-dots" role="tablist" aria-label="Trend slides">
-          {slides.map((slide, index) => (
-            <button
-              key={slide.id}
-              type="button"
-              className={`trends-dot${index === activeIndex ? " is-active" : ""}`}
-              onClick={() => goTo(index)}
-              aria-label={`Show slide ${index + 1}`}
-              aria-selected={index === activeIndex}
-            />
-          ))}
+              <defs>
+                <radialGradient id="techNodeCoreHero" cx="50%" cy="50%" r="50%">
+                  <stop offset="0%" stopColor="#5A87D7" stopOpacity="1" />
+                  <stop offset="55%" stopColor="#5A87D7" stopOpacity="0.55" />
+                  <stop offset="100%" stopColor="#5A87D7" stopOpacity="0" />
+                </radialGradient>
+                <linearGradient id="techEdgeGradHero" x1="0" y1="0" x2="1" y2="0">
+                  <stop offset="0%" stopColor="rgba(80, 200, 255, 0)" />
+                  <stop offset="50%" stopColor="rgba(150, 230, 255, 0.9)" />
+                  <stop offset="100%" stopColor="rgba(80, 200, 255, 0)" />
+                </linearGradient>
+              </defs>
+              <g className="tech-orbit-system">
+                <ellipse className="tech-orbit-ring tech-orbit-ring-1" cx="300" cy="230" rx="240" ry="92" />
+                <ellipse className="tech-orbit-ring tech-orbit-ring-2" cx="300" cy="230" rx="240" ry="92" />
+                <ellipse className="tech-orbit-ring tech-orbit-ring-3" cx="300" cy="230" rx="170" ry="170" />
+              </g>
+              <g className="tech-edges">
+                <line className="tech-edge" x1="90" y1="150" x2="520" y2="290" />
+                <line className="tech-edge" x1="520" y1="160" x2="120" y2="340" />
+                <line className="tech-edge" x1="200" y1="70" x2="430" y2="390" />
+                <line className="tech-edge" x1="80" y1="320" x2="500" y2="120" />
+                <line className="tech-edge" x1="300" y1="60" x2="300" y2="400" />
+              </g>
+              <g className="tech-nodes">
+                <circle className="tech-node" cx="90" cy="150" r="3.6" />
+                <circle className="tech-node" cx="520" cy="290" r="3.6" />
+                <circle className="tech-node" cx="520" cy="160" r="3.2" />
+                <circle className="tech-node" cx="120" cy="340" r="3.2" />
+                <circle className="tech-node" cx="200" cy="70" r="2.8" />
+                <circle className="tech-node" cx="430" cy="390" r="2.8" />
+                <circle className="tech-node" cx="80" cy="320" r="2.8" />
+                <circle className="tech-node" cx="500" cy="120" r="3.2" />
+                <circle className="tech-node tech-node-core" cx="300" cy="230" r="5.2" />
+              </g>
+            </svg>
+            <div className="tech-insight-chip chip-insight">Insight</div>
+            <div className="tech-insight-chip chip-trends">Trends</div>
+            <div className="tech-insight-chip chip-solutions">Solutions</div>
+            <div className="tech-word"><span>TECHNOLOGY</span></div>
+          </div>
         </div>
       </section>
 
@@ -768,7 +788,7 @@ function CarouselGrid({ children }: {
     borderRadius: '999px',
     background: 'transparent',
     border: 'none',
-    color: '#1e3a8a',
+    color: '#071E4B',
     fontSize: '56px',
     lineHeight: 1,
     cursor: 'pointer',
@@ -851,12 +871,7 @@ function TopicSection({ category }: {
                 <article
                   key={article.id}
                   className="trends-article-card"
-                  tabIndex={0}
-                  style={{
-                    cursor: article.slug ? 'pointer' : undefined,
-                    transition: 'box-shadow 0.2s, transform 0.2s',
-                  }}
-                  onClick={() => { if (article.slug) window.location.href = `/articles/${article.slug}`; }}
+                  style={{ transition: 'box-shadow 0.2s, transform 0.2s' }}
                   onMouseEnter={(e) => {
                     const el = e.currentTarget as HTMLElement;
                     el.style.boxShadow = '0 8px 24px rgba(0,0,0,0.12)';
@@ -896,12 +911,19 @@ function TopicSection({ category }: {
                     {article.slug && (
                       <a
                         href={`/articles/${article.slug}`}
-                        className="trends-article-plus"
+                        className="trends-article-link"
                         aria-label={`Read full article: ${article.title}`}
-                        style={{ textDecoration: 'none' }}
-                        onClick={e => e.stopPropagation()}
                       >
-                        +
+                        Learn More
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                          <path
+                            d="M5 12h14M13 6l6 6-6 6"
+                            stroke="currentColor"
+                            strokeWidth="2"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          />
+                        </svg>
                       </a>
                     )}
                   </div>
@@ -989,8 +1011,8 @@ function InsightSection() {
       <div className="container trends-insights-grid">
         <div className="trends-insights-copy">
           <h2>
-            <span>Actionable insights for</span>
-            <span>flexible solutions</span>
+            <span>Together, let&apos;s do</span>
+            <span>great things.</span>
           </h2>
           <p>
             We are thought leaders, problem solvers and knowledge seekers. Each day, we look for
@@ -1000,64 +1022,16 @@ function InsightSection() {
             projects. It is through knowledge sharing - powered by strong relationships,
             industry-leading data and innovative technology - that we empower our clients to
             reimagine how business gets done. When companies want knowledge, leadership and
-            flexibility, they look to Techsara. <strong>Together, let&apos;s do great things.</strong>
+            flexibility, they look to Techsara.
           </p>
         </div>
 
-        <div className="trends-technology-visual" aria-label="Animated technology visual">
-          <div className="tech-aurora" aria-hidden="true" />
-          <div className="tech-aurora tech-aurora-b" aria-hidden="true" />
-
-          <svg
-            className="tech-network"
-            viewBox="0 0 600 460"
-            preserveAspectRatio="xMidYMid slice"
-            aria-hidden="true"
-          >
-            <defs>
-              <radialGradient id="techNodeCore" cx="50%" cy="50%" r="50%">
-                <stop offset="0%" stopColor="#1e8fce" stopOpacity="1" />
-                <stop offset="55%" stopColor="#1e8fce" stopOpacity="0.55" />
-                <stop offset="100%" stopColor="#1e8fce" stopOpacity="0" />
-              </radialGradient>
-              <linearGradient id="techEdgeGrad" x1="0" y1="0" x2="1" y2="0">
-                <stop offset="0%" stopColor="rgba(80, 200, 255, 0)" />
-                <stop offset="50%" stopColor="rgba(150, 230, 255, 0.9)" />
-                <stop offset="100%" stopColor="rgba(80, 200, 255, 0)" />
-              </linearGradient>
-            </defs>
-
-            <g className="tech-orbit-system">
-              <ellipse className="tech-orbit-ring tech-orbit-ring-1" cx="300" cy="230" rx="240" ry="92" />
-              <ellipse className="tech-orbit-ring tech-orbit-ring-2" cx="300" cy="230" rx="240" ry="92" />
-              <ellipse className="tech-orbit-ring tech-orbit-ring-3" cx="300" cy="230" rx="170" ry="170" />
-            </g>
-
-            <g className="tech-edges">
-              <line className="tech-edge" x1="90" y1="150" x2="520" y2="290" />
-              <line className="tech-edge" x1="520" y1="160" x2="120" y2="340" />
-              <line className="tech-edge" x1="200" y1="70" x2="430" y2="390" />
-              <line className="tech-edge" x1="80" y1="320" x2="500" y2="120" />
-              <line className="tech-edge" x1="300" y1="60" x2="300" y2="400" />
-            </g>
-
-            <g className="tech-nodes">
-              <circle className="tech-node" cx="90" cy="150" r="3.6" />
-              <circle className="tech-node" cx="520" cy="290" r="3.6" />
-              <circle className="tech-node" cx="520" cy="160" r="3.2" />
-              <circle className="tech-node" cx="120" cy="340" r="3.2" />
-              <circle className="tech-node" cx="200" cy="70" r="2.8" />
-              <circle className="tech-node" cx="430" cy="390" r="2.8" />
-              <circle className="tech-node" cx="80" cy="320" r="2.8" />
-              <circle className="tech-node" cx="500" cy="120" r="3.2" />
-              <circle className="tech-node tech-node-core" cx="300" cy="230" r="5.2" />
-            </g>
-          </svg>
-
-          <div className="tech-insight-chip chip-insight">Insight</div>
-          <div className="tech-insight-chip chip-trends">Trends</div>
-          <div className="tech-insight-chip chip-solutions">Solutions</div>
-          <div className="tech-word"><span>TECHNOLOGY</span></div>
+        <div className="trends-insights-image">
+          <img
+            src="/uploads/articles-section-image.png"
+            alt="Techsara insights"
+            className="trends-insights-img"
+          />
         </div>
       </div>
     </section>
@@ -1087,22 +1061,21 @@ function Footer() {
           <div className="footer-col">
             <h4>Services</h4>
             <ul>
-              <li><Link href="/solutions/generative-ai">Generative AI / LLMs</Link></li>
-              <li><Link href="/solutions/computer-vision">Computer Vision</Link></li>
-              <li><Link href="/solutions/nlp">NLP &amp; Speech</Link></li>
-              <li><Link href="/solutions/predictive-ml">Predictive ML</Link></li>
-              <li><Link href="/solutions/mlops">MLOps</Link></li>
+              <li><Link href="/services/generative-ai">Generative AI / LLMs</Link></li>
+              <li><Link href="/services/computer-vision">Computer Vision</Link></li>
+              <li><Link href="/services/nlp">NLP &amp; Speech</Link></li>
+              <li><Link href="/services/predictive-ml">Predictive ML</Link></li>
+              <li><Link href="/services/mlops">MLOps</Link></li>
             </ul>
           </div>
 
           <div className="footer-col">
             <h4>Solutions</h4>
             <ul>
-              <li><Link href="/solutions/cloud-deployment">Cloud Deployment</Link></li>
-              <li><Link href="/solutions/on-premise">On-Premise AI</Link></li>
-              <li><Link href="/solutions/hybrid-edge">Hybrid &amp; Edge</Link></li>
-              <li><Link href="/solutions/ai-strategy">AI Strategy</Link></li>
-              <li><Link href="/solutions/cloud-consulting">Cloud Consulting</Link></li>
+              <li><Link href="/solutions/talent">Talent Solutions</Link></li>
+              <li><Link href="/solutions/team">Team Solutions</Link></li>
+              <li><Link href="/solutions/project">Project Solutions</Link></li>
+              <li><Link href="/solutions/international">International Talent Solutions</Link></li>
             </ul>
           </div>
 
@@ -1118,7 +1091,7 @@ function Footer() {
         </div>
 
         <div className="footer-bottom">
-          <div>&copy; 2026 Techsara Solutions, Inc. All rights reserved.</div>
+          <div>&copy; 2021–2026 Techsara Solutions, Inc. All rights reserved. · <Link href="/privacy-policy" className="footer-legal-link">Privacy Policy</Link> · <Link href="/eula" className="footer-legal-link">EULA</Link></div>
           <div className="footer-socials">
             <a href="https://www.linkedin.com/company/techsara-solutions/about" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">

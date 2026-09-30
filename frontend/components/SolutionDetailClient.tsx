@@ -56,21 +56,21 @@ export default function SolutionDetailClient({ data }: { data: SolutionDetail })
                 </svg>
               </Link>
               <div className="nav-dropdown-panel" role="menu">
-                <Link href="/services/talent" className="nav-dropdown-link" role="menuitem" onClick={() => setIsMobileOpen(false)}>
-                  <span className="nav-dropdown-title">Talent Solutions</span>
-                  <span className="nav-dropdown-desc">Connecting you with the best talent in the marketplace</span>
+                <Link href="/services/generative-ai" className="nav-dropdown-link" role="menuitem" onClick={() => setIsMobileOpen(false)}>
+                  <span className="nav-dropdown-title">Generative AI</span>
+                  <span className="nav-dropdown-desc">LLMs, RAG and fine-tuning grounded in your data</span>
                 </Link>
-                <Link href="/services/team" className="nav-dropdown-link" role="menuitem" onClick={() => setIsMobileOpen(false)}>
-                  <span className="nav-dropdown-title">Team Solutions</span>
-                  <span className="nav-dropdown-desc">Stay involved with valued initiatives; we handle the details</span>
+                <Link href="/services/computer-vision" className="nav-dropdown-link" role="menuitem" onClick={() => setIsMobileOpen(false)}>
+                  <span className="nav-dropdown-title">Computer Vision</span>
+                  <span className="nav-dropdown-desc">Real-time detection, defect inspection and edge optimization</span>
                 </Link>
-                <Link href="/services/project" className="nav-dropdown-link" role="menuitem" onClick={() => setIsMobileOpen(false)}>
-                  <span className="nav-dropdown-title">Project Solutions</span>
-                  <span className="nav-dropdown-desc">We&apos;ll manage your project&apos;s outcome from start to finish</span>
+                <Link href="/services/ai-agents" className="nav-dropdown-link" role="menuitem" onClick={() => setIsMobileOpen(false)}>
+                  <span className="nav-dropdown-title">Agents</span>
+                  <span className="nav-dropdown-desc">Tool-using workflow agents with human-in-the-loop gates</span>
                 </Link>
-                <Link href="/services/international" className="nav-dropdown-link" role="menuitem" onClick={() => setIsMobileOpen(false)}>
-                  <span className="nav-dropdown-title">International Talent Solutions</span>
-                  <span className="nav-dropdown-desc">Sourcing global talent to solve your workforce challenges</span>
+                <Link href="/services/cloud-deployment" className="nav-dropdown-link" role="menuitem" onClick={() => setIsMobileOpen(false)}>
+                  <span className="nav-dropdown-title">Cloud Deployment</span>
+                  <span className="nav-dropdown-desc">Reference architectures, FinOps and observability</span>
                 </Link>
               </div>
             </div>
@@ -82,28 +82,28 @@ export default function SolutionDetailClient({ data }: { data: SolutionDetail })
                 </svg>
               </Link>
               <div className="nav-dropdown-panel" role="menu">
-                <Link href="/solutions/generative-ai" className="nav-dropdown-link" role="menuitem" onClick={() => setIsMobileOpen(false)}>
-                  <span className="nav-dropdown-title">Generative AI</span>
-                  <span className="nav-dropdown-desc">LLMs, RAG and fine-tuning grounded in your data</span>
+                <Link href="/solutions/talent" className="nav-dropdown-link" role="menuitem" onClick={() => setIsMobileOpen(false)}>
+                  <span className="nav-dropdown-title">Talent Solutions</span>
+                  <span className="nav-dropdown-desc">Connecting you with the best talent in the marketplace</span>
                 </Link>
-                <Link href="/solutions/computer-vision" className="nav-dropdown-link" role="menuitem" onClick={() => setIsMobileOpen(false)}>
-                  <span className="nav-dropdown-title">Computer Vision</span>
-                  <span className="nav-dropdown-desc">Real-time detection, defect inspection and edge optimization</span>
+                <Link href="/solutions/team" className="nav-dropdown-link" role="menuitem" onClick={() => setIsMobileOpen(false)}>
+                  <span className="nav-dropdown-title">Team Solutions</span>
+                  <span className="nav-dropdown-desc">Stay involved with valued initiatives; we handle the details</span>
                 </Link>
-                <Link href="/solutions/ai-agents" className="nav-dropdown-link" role="menuitem" onClick={() => setIsMobileOpen(false)}>
-                  <span className="nav-dropdown-title">Agents</span>
-                  <span className="nav-dropdown-desc">Tool-using workflow agents with human-in-the-loop gates</span>
+                <Link href="/solutions/project" className="nav-dropdown-link" role="menuitem" onClick={() => setIsMobileOpen(false)}>
+                  <span className="nav-dropdown-title">Project Solutions</span>
+                  <span className="nav-dropdown-desc">We&apos;ll manage your project&apos;s outcome from start to finish</span>
                 </Link>
-                <Link href="/solutions/cloud-deployment" className="nav-dropdown-link" role="menuitem" onClick={() => setIsMobileOpen(false)}>
-                  <span className="nav-dropdown-title">Cloud Deployment</span>
-                  <span className="nav-dropdown-desc">Reference architectures, FinOps and observability</span>
+                <Link href="/solutions/international" className="nav-dropdown-link" role="menuitem" onClick={() => setIsMobileOpen(false)}>
+                  <span className="nav-dropdown-title">International Talent Solutions</span>
+                  <span className="nav-dropdown-desc">Sourcing global talent to solve your workforce challenges</span>
                 </Link>
               </div>
             </div>
             {/* <Link href="/#cases">Leadership</Link> */}
             <Link href="/articles" onClick={() => setIsMobileOpen(false)}>Articles</Link>
             <Link href="/careers" onClick={() => setIsMobileOpen(false)}>Careers</Link>
-            <Link href="/contact" onClick={() => setIsMobileOpen(false)}>Contact</Link>
+            <Link href="/about" onClick={() => setIsMobileOpen(false)}>About</Link>
           </nav>
           <div className="nav-actions">
             <Link href="/book" className="btn btn-primary">
@@ -128,7 +128,7 @@ export default function SolutionDetailClient({ data }: { data: SolutionDetail })
       </header>
 
       <section
-        className="solution-detail-hero"
+        className={`solution-detail-hero solution-detail-hero--${data.slug}`}
         style={{ backgroundImage: `url(${data.heroImage})` }}
         aria-label={data.title}
       >
@@ -145,14 +145,19 @@ export default function SolutionDetailClient({ data }: { data: SolutionDetail })
         </div>
       </section>
 
+      {data.slug === "talent" && SERVICE_EXPANSIONS["talent"] && (
+        <ServiceExpansion content={SERVICE_EXPANSIONS["talent"]} />
+      )}
       {data.slug === "talent" && <TalentNetworkSection />}
+      {data.slug === "team" && SERVICE_EXPANSIONS["team"] && (
+        <ServiceExpansion content={SERVICE_EXPANSIONS["team"]} />
+      )}
       {data.slug === "team" && <TeamSolutionsSection />}
       {data.slug === "project" && <ProjectSolutionsSection />}
-      {data.slug === "international" && <InternationalSolutionsSection />}
-
-      {SERVICE_EXPANSIONS[data.slug] && (
-        <ServiceExpansion content={SERVICE_EXPANSIONS[data.slug]} />
+      {data.slug === "international" && SERVICE_EXPANSIONS["international"] && (
+        <ServiceExpansion content={SERVICE_EXPANSIONS["international"]} />
       )}
+      {data.slug === "international" && <InternationalSolutionsSection />}
 
       <ContactModal
         isOpen={isContactOpen}
@@ -174,9 +179,14 @@ function TalentNetworkSection() {
   const iconArcR = 116;
   const gap = 2.5;
 
+  // Rounded to 3dp so the server and the browser serialise these paths identically.
+  // Math.cos/sin can differ in the final ULP between Node's V8 and the browser's,
+  // which is enough to trip React's hydration check on the `d` attribute.
+  const round3 = (n: number) => Math.round(n * 1000) / 1000;
+
   const polar = (deg: number, r: number) => {
     const rad = (deg * Math.PI) / 180;
-    return { x: cx + r * Math.cos(rad), y: cy + r * Math.sin(rad) };
+    return { x: round3(cx + r * Math.cos(rad)), y: round3(cy + r * Math.sin(rad)) };
   };
 
   const arcSegment = (startDeg: number, endDeg: number) => {
@@ -210,7 +220,7 @@ function TalentNetworkSection() {
     <section className="talent-network">
       <div className="container talent-network-inner">
         <div className="talent-network-text">
-          <h2>Access a Pre-Vetted Network of AI, ML, and Data Engineering Professionals Built for Enterprise Demand.</h2>
+          <h2>Pre-Vetted Network of AI, ML, and Data Engineering Professionals</h2>
           <p>
             As AI initiatives scale from pilot to production, the demand for highly
             specialised engineering talent such as LLM engineers, computer vision specialists,
@@ -365,7 +375,7 @@ function TalentNetworkSection() {
               cy={cy}
               r={centerR}
               fill="#ffffff"
-              stroke="#0c2545"
+              stroke="#071E4B"
               strokeWidth="2.6"
               filter="url(#fan-shadow)"
             />
@@ -380,13 +390,13 @@ function TalentNetworkSection() {
 
             {/* Magnifier icon under center text */}
             <g transform={`translate(${cx}, ${cy + 30})`}>
-              <circle r="7" fill="none" stroke="#0c2545" strokeWidth="1.9" />
+              <circle r="7" fill="none" stroke="#071E4B" strokeWidth="1.9" />
               <line
                 x1="5"
                 y1="5"
                 x2="10"
                 y2="10"
-                stroke="#0c2545"
+                stroke="#071E4B"
                 strokeWidth="2.3"
                 strokeLinecap="round"
               />
@@ -416,7 +426,8 @@ function TeamSolutionsSection() {
   return (
     <section className="team-solutions">
       <div className="container team-solutions-inner">
-        <h2>Embedded AI and ML Engineering Teams, Scoped to Your Initiative and Accountable to Your Outcomes.</h2>
+        <h2>Embedded AI and ML Engineering Teams</h2>
+        <p className="solution-sub-head">Scoped to Your Initiative and Accountable to Your Outcomes.</p>
         <p>
           Scaling an AI initiative requires more than individual contributors. It demands a
           coordinated squad of specialists who understand how modern AI systems connect end to
@@ -467,7 +478,7 @@ function ProjectSolutionsSection() {
       id: "application",
       title: "Application Enrichment",
       description:
-        "Merging the perspectives of strategy and customer centricity, we help you identify and implement the best approach to deploy modern applications. Whether mobile, responsive, legacy, ATDD/TDD or APIs and microservices, we're fluent in modern development practices and achieve best-in-class customer experience without upending your operations.",
+        "Merging the perspectives of strategy and customer centricity, we help you identify and implement the best approach to deploy modern applications. Whether mobile, responsive, legacy, ATDD/TDD or APIs and microservices, we are fluent in modern development practices and achieve best-in-class customer experience without upending your operations.",
     },
     {
       id: "data",
@@ -503,10 +514,8 @@ function ProjectSolutionsSection() {
     <>
       <section className="project-intro">
         <div className="container project-intro-inner">
-          <h2>
-            End-to-End AI Project Delivery, Managed to a Fixed Scope, Timeline, and Outcome so
-            You Stay Focused on the Business.
-          </h2>
+          <h2>End-to-End AI Project Delivery</h2>
+          <p className="solution-sub-head">Managed to a Fixed Scope, Timeline, and Outcome so You Stay Focused on the Business.</p>
           <p>
             High-stakes AI projects fail not from lack of ambition, but from lack of structured
             execution. Techsara&apos;s Project Solutions puts a single accountable partner in
@@ -580,10 +589,8 @@ function InternationalSolutionsSection() {
     <section className="international-solutions">
       <div className="container international-solutions-inner">
         <div className="international-solutions-text">
-          <h2>
-            Global AI and Engineering Talent, Onshore and Offshore with Visa Sponsorship,
-            Immigration Strategy, and US Compliance Fully Managed.
-          </h2>
+          <h2>Global AI and Engineering Talent</h2>
+          <p className="solution-sub-head">Onshore and Offshore with Visa Sponsorship, Immigration Strategy, and US Compliance Fully Managed.</p>
           <p>
             Finding specialized AI and engineering talent within US borders is increasingly
             competitive. Techsara&apos;s International Talent Solutions expands your hiring reach
@@ -669,7 +676,7 @@ const SERVICE_EXPANSIONS: Record<string, ExpansionContent> = {
     ctaText: "Ready to fill a role? Talk to our Frisco, TX team about your IT staffing needs.",
   },
   team: {
-    heading: "A dedicated technology team that runs alongside yours",
+    heading: "Dedicated technology team",
     intro:
       "Team Solutions gives you a managed, dedicated engineering pod - assembled, employed and supported by Techsara - that plugs into your roadmap and delivers as an extension of your own staff. It is IT staffing scaled to a full team: you keep strategic control while we handle recruitment, retention and day-to-day people management for enterprises across the United States.",
     includes: [
@@ -798,21 +805,21 @@ function Footer() {
           <div className="footer-col">
             <h4>Services</h4>
             <ul>
-              <li><Link href="/solutions/generative-ai">Generative AI / LLMs</Link></li>
-              <li><Link href="/solutions/computer-vision">Computer Vision</Link></li>
-              <li><Link href="/solutions/nlp">NLP &amp; Speech</Link></li>
-              <li><Link href="/solutions/predictive-ml">Predictive ML</Link></li>
-              <li><Link href="/solutions/mlops">MLOps</Link></li>
+              <li><Link href="/services/generative-ai">Generative AI / LLMs</Link></li>
+              <li><Link href="/services/computer-vision">Computer Vision</Link></li>
+              <li><Link href="/services/nlp">NLP &amp; Speech</Link></li>
+              <li><Link href="/services/predictive-ml">Predictive ML</Link></li>
+              <li><Link href="/services/mlops">MLOps</Link></li>
             </ul>
           </div>
 
           <div className="footer-col">
             <h4>Solutions</h4>
             <ul>
-              <li><Link href="/services/talent">Talent Solutions</Link></li>
-              <li><Link href="/services/team">Team Solutions</Link></li>
-              <li><Link href="/services/project">Project Solutions</Link></li>
-              <li><Link href="/services/international">International Talent Solutions</Link></li>
+              <li><Link href="/solutions/talent">Talent Solutions</Link></li>
+              <li><Link href="/solutions/team">Team Solutions</Link></li>
+              <li><Link href="/solutions/project">Project Solutions</Link></li>
+              <li><Link href="/solutions/international">International Talent Solutions</Link></li>
             </ul>
           </div>
 
@@ -828,7 +835,7 @@ function Footer() {
         </div>
 
         <div className="footer-bottom">
-          <div>&copy; 2026 Techsara Solutions, Inc. All rights reserved.</div>
+          <div>&copy; 2021–2026 Techsara Solutions, Inc. All rights reserved. · <Link href="/privacy-policy" className="footer-legal-link">Privacy Policy</Link> · <Link href="/eula" className="footer-legal-link">EULA</Link></div>
           <div className="footer-socials">
             <a href="https://www.linkedin.com/company/techsara-solutions/about" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">

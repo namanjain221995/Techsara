@@ -1,42 +1,54 @@
 import type { Metadata } from "next";
-import { notFound } from "next/navigation";
-import SolutionDetailClient from "@/components/SolutionDetailClient";
-import { solutionDetails, solutionSlugs } from "@/components/solution-details-data";
-import { serviceJsonLd, breadcrumbJsonLd, pageOpenGraph } from "@/lib/seo";
+import LegacyScripts from "@/components/LegacyScripts";
+import { getLegacyBody, getServiceSlugs, getServiceMeta } from "@/lib/legacy-html";
+import { serviceJsonLd, breadcrumbJsonLd, pageOpenGraph, clampDescription } from "@/lib/seo";
 
-type Params = { slug: string };
+type ServicePageProps = {
+  params: {
+    slug: string;
+  };
+};
 
-export function generateStaticParams() {
-  return solutionSlugs.map((slug) => ({ slug }));
+function titleCase(slug: string) {
+  return slug.replace(/-/g, " ").replace(/\b\w/g, (c) => c.toUpperCase());
 }
 
-export function generateMetadata({ params }: { params: Params }): Metadata {
-  const data = solutionDetails[params.slug];
-  if (!data) {
-    return { title: "Service" };
-  }
-  const description = data.metaDescription;
+export function generateStaticParams() {
+  return getServiceSlugs().map((slug) => ({ slug }));
+}
+
+export function generateMetadata({ params }: ServicePageProps): Metadata {
+  const meta = getServiceMeta(params.slug);
+  const name = meta?.name || titleCase(params.slug);
+  const description = clampDescription(
+    meta?.intro || "",
+    `${name} from Techsara - enterprise AI solutions engineered for production, with eval pipelines, security, cloud and on-premise deployment, and senior engineering support built in for US enterprises.`,
+  );
   const path = `/services/${params.slug}`;
+  const seoTitle = `${name} | Techsara USA`;
   return {
-    title: { absolute: data.metaTitle },
+    title: { absolute: seoTitle },
     description,
     alternates: { canonical: path },
-    openGraph: pageOpenGraph({ title: data.metaTitle, description, path }),
+    openGraph: pageOpenGraph({ title: seoTitle, description, path }),
   };
 }
 
-export default function ServiceDetailPage({ params }: { params: Params }) {
-  const data = solutionDetails[params.slug];
-  if (!data) {
-    notFound();
-  }
+export default function ServiceDetailPage({ params }: ServicePageProps) {
+  const meta = getServiceMeta(params.slug);
+  const name = meta?.name || titleCase(params.slug);
   const path = `/services/${params.slug}`;
   const jsonLd = [
-    serviceJsonLd({ name: data.title, description: data.description, path }),
+    serviceJsonLd({
+      name,
+      description: meta?.intro || name,
+      path,
+      category: meta?.category,
+    }),
     breadcrumbJsonLd([
       { name: "Home", path: "/" },
       { name: "Services", path: "/services" },
-      { name: data.title, path },
+      { name, path },
     ]),
   ];
   return (
@@ -45,7 +57,9 @@ export default function ServiceDetailPage({ params }: { params: Params }) {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      <SolutionDetailClient data={data} />
+      <h1 className="sr-only">{name}</h1>
+      <div dangerouslySetInnerHTML={{ __html: getLegacyBody("service.html") }} />
+      <LegacyScripts page="service" serviceSlug={params.slug} />
     </>
   );
 }

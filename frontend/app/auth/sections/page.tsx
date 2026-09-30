@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 
@@ -57,7 +57,7 @@ export default function SectionsPage() {
         icon: form.icon.trim(),
         anchorId: form.anchorId.trim(),
         gradient: form.gradient.trim() ||
-          'linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%)',
+          'linear-gradient(135deg, #071E4B 0%, #5A87D7 100%)',
       };
       const url = isEdit
         ? `/api/sections/${editingId}` : '/api/sections';
@@ -164,26 +164,26 @@ export default function SectionsPage() {
   };
   const inputStyle = {
     width: '100%', padding: '8px 12px',
-    border: '1px solid #e2e8f0', borderRadius: '7px',
+    border: '1px solid #DDE2E4', borderRadius: '7px',
     fontSize: '13px', boxSizing: 'border-box' as const,
     fontFamily: 'inherit',
   };
 
   const formUI = (isEdit: boolean) => (
     <div style={{
-      backgroundColor: '#f8fafc', border: '1px solid #e2e8f0',
+      backgroundColor: '#F2F4F5', border: '1px solid #DDE2E4',
       borderRadius: '10px', padding: '20px', marginBottom: '16px',
     }}>
       <h3 style={{
         fontSize: '15px', fontWeight: '600',
-        color: '#0f172a', margin: '0 0 16px 0',
+        color: '#071E4B', margin: '0 0 16px 0',
       }}>
         {isEdit ? 'Edit Section' : 'New Section'}
       </h3>
 
       {message && (
         <p style={{
-          color: message.includes('!') ? '#16a34a' : '#dc2626',
+          color: message.includes('!') ? '#0F584B' : '#dc2626',
           fontSize: '13px', marginBottom: '12px',
         }}>
           {message}
@@ -234,7 +234,7 @@ export default function SectionsPage() {
         </label>
         <input style={inputStyle} value={form.gradient}
           onChange={e => setForm(p => ({ ...p, gradient: e.target.value }))}
-          placeholder="linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%)" />
+          placeholder="linear-gradient(135deg, #071E4B 0%, #5A87D7 100%)" />
         {form.gradient && (
           <div style={{
             height: '24px', borderRadius: '4px', marginTop: '6px',
@@ -258,7 +258,7 @@ export default function SectionsPage() {
       <div style={{ display: 'flex', gap: '10px', marginTop: '16px' }}>
         <button onClick={() => handleSave(isEdit)} disabled={saving}
           style={{
-            backgroundColor: saving ? '#93c5fd' : '#1e3a8a',
+            backgroundColor: saving ? '#8AACE5' : '#071E4B',
             color: '#fff', border: 'none', borderRadius: '7px',
             padding: '9px 20px', fontSize: '13px', fontWeight: '600',
             cursor: saving ? 'not-allowed' : 'pointer',
@@ -267,7 +267,7 @@ export default function SectionsPage() {
         </button>
         <button onClick={cancelForm}
           style={{
-            backgroundColor: '#f1f5f9', color: '#64748b',
+            backgroundColor: '#F2F4F5', color: '#64748b',
             border: 'none', borderRadius: '7px',
             padding: '9px 20px', fontSize: '13px', cursor: 'pointer',
           }}>
@@ -282,14 +282,14 @@ export default function SectionsPage() {
   );
 
   return (
-    <div style={{ minHeight: '100vh', backgroundColor: '#f8fafc' }}>
+    <div style={{ minHeight: '100vh', backgroundColor: '#F2F4F5' }}>
       <div style={{
-        backgroundColor: '#fff', borderBottom: '1px solid #e2e8f0',
+        backgroundColor: '#fff', borderBottom: '1px solid #DDE2E4',
         padding: '0 32px', display: 'flex', alignItems: 'center',
         justifyContent: 'space-between', height: '60px',
       }}>
         <h1 style={{
-          fontSize: '16px', fontWeight: '700', color: '#0f172a', margin: 0,
+          fontSize: '16px', fontWeight: '700', color: '#071E4B', margin: 0,
         }}>
           Techsara · Content Management
         </h1>
@@ -298,7 +298,7 @@ export default function SectionsPage() {
           router.push('/auth');
         }} style={{
           fontSize: '13px', color: '#64748b', background: 'none',
-          border: '1px solid #e2e8f0', borderRadius: '6px',
+          border: '1px solid #DDE2E4', borderRadius: '6px',
           padding: '6px 14px', cursor: 'pointer',
         }}>
           Sign Out
@@ -320,7 +320,7 @@ export default function SectionsPage() {
               ← Dashboard
             </button>
             <h2 style={{
-              fontSize: '20px', fontWeight: '700', color: '#0f172a', margin: 0,
+              fontSize: '20px', fontWeight: '700', color: '#071E4B', margin: 0,
             }}>
               Manage Sections
             </h2>
@@ -329,7 +329,7 @@ export default function SectionsPage() {
             <button
               onClick={() => { setShowAddForm(true); setMessage(''); }}
               style={{
-                backgroundColor: '#1e3a8a', color: '#fff',
+                backgroundColor: '#071E4B', color: '#fff',
                 border: 'none', borderRadius: '8px',
                 padding: '10px 20px', fontSize: '14px',
                 fontWeight: '600', cursor: 'pointer',
@@ -344,15 +344,15 @@ export default function SectionsPage() {
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'space-between',
-            backgroundColor: '#fffbeb',
-            border: '1px solid #fcd34d',
+            backgroundColor: '#FAF4EA',
+            border: '1px solid #C89758',
             borderRadius: '8px',
             padding: '12px 16px',
             marginBottom: '16px',
           }}>
             <span style={{
               fontSize: '13px',
-              color: '#92400e',
+              color: '#8A5F1C',
               fontWeight: '500',
             }}>
               You have unsaved order changes
@@ -363,7 +363,7 @@ export default function SectionsPage() {
                 style={{
                   fontSize: '13px',
                   color: '#64748b',
-                  backgroundColor: '#f1f5f9',
+                  backgroundColor: '#F2F4F5',
                   border: 'none',
                   borderRadius: '6px',
                   padding: '7px 14px',
@@ -379,7 +379,7 @@ export default function SectionsPage() {
                 style={{
                   fontSize: '13px',
                   color: '#ffffff',
-                  backgroundColor: savingOrder ? '#93c5fd' : '#1e3a8a',
+                  backgroundColor: savingOrder ? '#8AACE5' : '#071E4B',
                   border: 'none',
                   borderRadius: '6px',
                   padding: '7px 14px',
@@ -411,7 +411,7 @@ export default function SectionsPage() {
               {editingId !== section.id && (
                 <div style={{
                   backgroundColor: '#fff',
-                  border: '1px solid #e2e8f0',
+                  border: '1px solid #DDE2E4',
                   borderRadius: '10px',
                   padding: '16px 20px',
                   marginBottom: '10px',
@@ -427,10 +427,10 @@ export default function SectionsPage() {
                       <div style={{
                         width: '28px', height: '28px', borderRadius: '6px',
                         background: section.gradient ||
-                          'linear-gradient(135deg, #1e3a8a, #3b82f6)',
+                          'linear-gradient(135deg, #071E4B, #5A87D7)',
                       }} />
                       <span style={{
-                        fontSize: '15px', fontWeight: '600', color: '#0f172a',
+                        fontSize: '15px', fontWeight: '600', color: '#071E4B',
                       }}>
                         {section.name}
                       </span>
@@ -457,9 +457,9 @@ export default function SectionsPage() {
                         title="Move up"
                         style={{
                           width: '26px', height: '22px', fontSize: '11px',
-                          color: index === 0 ? '#cbd5e1' : '#64748b',
-                          backgroundColor: '#f8fafc',
-                          border: '1px solid #e2e8f0',
+                          color: index === 0 ? '#DDE2E4' : '#64748b',
+                          backgroundColor: '#F2F4F5',
+                          border: '1px solid #DDE2E4',
                           borderRadius: '4px',
                           cursor: index === 0 ? 'not-allowed' : 'pointer',
                           display: 'flex', alignItems: 'center',
@@ -473,9 +473,9 @@ export default function SectionsPage() {
                         style={{
                           width: '26px', height: '22px', fontSize: '11px',
                           color: index === sortedSections.length - 1
-                            ? '#cbd5e1' : '#64748b',
-                          backgroundColor: '#f8fafc',
-                          border: '1px solid #e2e8f0',
+                            ? '#DDE2E4' : '#64748b',
+                          backgroundColor: '#F2F4F5',
+                          border: '1px solid #DDE2E4',
                           borderRadius: '4px',
                           cursor: index === sortedSections.length - 1
                             ? 'not-allowed' : 'pointer',
@@ -486,8 +486,8 @@ export default function SectionsPage() {
                     </div>
                     <button onClick={() => startEdit(section)}
                       style={{
-                        fontSize: '13px', color: '#1e3a8a',
-                        backgroundColor: '#eff6ff', border: 'none',
+                        fontSize: '13px', color: '#071E4B',
+                        backgroundColor: '#E7EDF9', border: 'none',
                         borderRadius: '6px', padding: '7px 14px',
                         cursor: 'pointer', fontWeight: '500',
                       }}>

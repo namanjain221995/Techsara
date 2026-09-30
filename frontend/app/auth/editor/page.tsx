@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import { Suspense, useState, useEffect, useCallback } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
@@ -366,12 +366,12 @@ function EditorPageInner() {
   }
 
   return (
-    <div style={{ minHeight: '100vh', backgroundColor: '#f8fafc' }}>
+    <div style={{ minHeight: '100vh', backgroundColor: '#F2F4F5' }}>
 
       {/* Header */}
       <div style={{
         backgroundColor: '#ffffff',
-        borderBottom: '1px solid #e2e8f0',
+        borderBottom: '1px solid #DDE2E4',
         padding: '0 32px',
         display: 'flex',
         alignItems: 'center',
@@ -392,8 +392,8 @@ function EditorPageInner() {
           >
             ← Dashboard
           </button>
-          <span style={{ color: '#e2e8f0' }}>|</span>
-          <span style={{ fontSize: '14px', fontWeight: '600', color: '#0f172a' }}>
+          <span style={{ color: '#DDE2E4' }}>|</span>
+          <span style={{ fontSize: '14px', fontWeight: '600', color: '#071E4B' }}>
             {editId ? 'Edit Article' : 'New Article'}
           </span>
         </div>
@@ -401,7 +401,7 @@ function EditorPageInner() {
           {saveMessage && (
             <span style={{
               fontSize: '13px',
-              color: saveMessage.includes('Failed') ? '#ef4444' : '#16a34a',
+              color: saveMessage.includes('Failed') ? '#ef4444' : '#0F584B',
             }}>
               {saveMessage}
             </span>
@@ -410,7 +410,7 @@ function EditorPageInner() {
             onClick={handleSave}
             disabled={saving}
             style={{
-              backgroundColor: saving ? '#93c5fd' : '#1e3a8a',
+              backgroundColor: saving ? '#8AACE5' : '#071E4B',
               color: '#ffffff',
               border: 'none',
               borderRadius: '8px',
@@ -431,13 +431,13 @@ function EditorPageInner() {
         {/* Draft restored banner */}
         {draftRestored && (
           <div style={{
-            backgroundColor: '#fffbeb',
-            border: '1px solid #fcd34d',
+            backgroundColor: '#FAF4EA',
+            border: '1px solid #C89758',
             borderRadius: '8px',
             padding: '10px 16px',
             marginBottom: '20px',
             fontSize: '13px',
-            color: '#92400e',
+            color: '#8A5F1C',
           }}>
             Draft restored. Your previous unsaved work has been recovered.
           </div>
@@ -458,7 +458,7 @@ function EditorPageInner() {
               value={type}
               onChange={(e) => setType(e.target.value)}
               style={{
-                padding: '8px 12px', border: '1px solid #e2e8f0',
+                padding: '8px 12px', border: '1px solid #DDE2E4',
                 borderRadius: '7px', fontSize: '13px',
                 backgroundColor: '#fff', cursor: 'pointer',
               }}
@@ -478,7 +478,7 @@ function EditorPageInner() {
               value={status}
               onChange={(e) => setStatus(e.target.value)}
               style={{
-                padding: '8px 12px', border: '1px solid #e2e8f0',
+                padding: '8px 12px', border: '1px solid #DDE2E4',
                 borderRadius: '7px', fontSize: '13px',
                 backgroundColor: '#fff', cursor: 'pointer',
               }}
@@ -520,7 +520,7 @@ function EditorPageInner() {
                 onChange={(e) => setSectionId(e.target.value)}
                 style={{
                   width: '100%', padding: '8px 12px',
-                  border: '1px solid #e2e8f0',
+                  border: '1px solid #DDE2E4',
                   borderRadius: '7px', fontSize: '13px',
                   backgroundColor: '#fff', boxSizing: 'border-box' as const,
                 }}
@@ -547,7 +547,7 @@ function EditorPageInner() {
                 placeholder="THOUGHT LEADERSHIP"
                 style={{
                   width: '100%', padding: '8px 12px',
-                  border: '1px solid #e2e8f0',
+                  border: '1px solid #DDE2E4',
                   borderRadius: '7px', fontSize: '13px',
                   boxSizing: 'border-box' as const,
                 }}
@@ -572,7 +572,7 @@ function EditorPageInner() {
                 onChange={(e) => setCategory(e.target.value)}
                 style={{
                   width: '100%', padding: '8px 12px',
-                  border: '1px solid #e2e8f0', borderRadius: '7px',
+                  border: '1px solid #DDE2E4', borderRadius: '7px',
                   fontSize: '13px', backgroundColor: '#fff',
                   boxSizing: 'border-box' as const,
                 }}
@@ -600,7 +600,7 @@ function EditorPageInner() {
                 placeholder="INDUSTRY INSIGHTS"
                 style={{
                   width: '100%', padding: '8px 12px',
-                  border: '1px solid #e2e8f0', borderRadius: '7px',
+                  border: '1px solid #DDE2E4', borderRadius: '7px',
                   fontSize: '13px', boxSizing: 'border-box' as const,
                 }}
               />
@@ -620,7 +620,7 @@ function EditorPageInner() {
                 onChange={(e) => setPublishedDate(e.target.value)}
                 style={{
                   width: '100%', padding: '8px 12px',
-                  border: '1px solid #e2e8f0', borderRadius: '7px',
+                  border: '1px solid #DDE2E4', borderRadius: '7px',
                   fontSize: '13px', boxSizing: 'border-box' as const,
                 }}
               />
@@ -645,7 +645,7 @@ function EditorPageInner() {
                   onChange={(e) => setAuthorName(e.target.value)}
                   placeholder="Full name"
                   style={{
-                    padding: '8px 12px', border: '1px solid #e2e8f0',
+                    padding: '8px 12px', border: '1px solid #DDE2E4',
                     borderRadius: '7px', fontSize: '13px',
                     boxSizing: 'border-box' as const,
                   }}
@@ -656,7 +656,7 @@ function EditorPageInner() {
                   onChange={(e) => setAuthorTitle(e.target.value)}
                   placeholder="Job title"
                   style={{
-                    padding: '8px 12px', border: '1px solid #e2e8f0',
+                    padding: '8px 12px', border: '1px solid #DDE2E4',
                     borderRadius: '7px', fontSize: '13px',
                     boxSizing: 'border-box' as const,
                   }}
@@ -670,7 +670,7 @@ function EditorPageInner() {
                   placeholder="AB"
                   maxLength={2}
                   style={{
-                    padding: '8px 12px', border: '1px solid #e2e8f0',
+                    padding: '8px 12px', border: '1px solid #DDE2E4',
                     borderRadius: '7px', fontSize: '13px',
                     boxSizing: 'border-box' as const,
                     textAlign: 'center',
@@ -705,7 +705,7 @@ function EditorPageInner() {
                     placeholder={`Takeaway ${i + 1}`}
                     style={{
                       flex: 1, padding: '7px 10px',
-                      border: '1px solid #e2e8f0', borderRadius: '6px',
+                      border: '1px solid #DDE2E4', borderRadius: '6px',
                       fontSize: '13px',
                     }}
                   />
@@ -724,8 +724,8 @@ function EditorPageInner() {
               <button
                 onClick={() => setTakeaways([...takeaways, ''])}
                 style={{
-                  fontSize: '12px', color: '#1e3a8a',
-                  background: '#eff6ff', border: 'none',
+                  fontSize: '12px', color: '#071E4B',
+                  background: '#E7EDF9', border: 'none',
                   borderRadius: '6px', padding: '6px 12px',
                   cursor: 'pointer', marginTop: '4px',
                 }}
@@ -744,8 +744,8 @@ function EditorPageInner() {
               </label>
               {faqItems.map((f, i) => (
                 <div key={i} style={{
-                  backgroundColor: '#f8fafc',
-                  border: '1px solid #e2e8f0',
+                  backgroundColor: '#F2F4F5',
+                  border: '1px solid #DDE2E4',
                   borderRadius: '8px',
                   padding: '12px',
                   marginBottom: '8px',
@@ -782,7 +782,7 @@ function EditorPageInner() {
                     placeholder="Question"
                     style={{
                       width: '100%', padding: '7px 10px',
-                      border: '1px solid #e2e8f0', borderRadius: '6px',
+                      border: '1px solid #DDE2E4', borderRadius: '6px',
                       fontSize: '13px', marginBottom: '6px',
                       boxSizing: 'border-box',
                     }}
@@ -798,7 +798,7 @@ function EditorPageInner() {
                     rows={2}
                     style={{
                       width: '100%', padding: '7px 10px',
-                      border: '1px solid #e2e8f0', borderRadius: '6px',
+                      border: '1px solid #DDE2E4', borderRadius: '6px',
                       fontSize: '13px', resize: 'vertical',
                       fontFamily: 'inherit', boxSizing: 'border-box',
                     }}
@@ -810,8 +810,8 @@ function EditorPageInner() {
                   setFaqItems([...faqItems, { question: '', answer: '' }])
                 }
                 style={{
-                  fontSize: '12px', color: '#1e3a8a',
-                  background: '#eff6ff', border: 'none',
+                  fontSize: '12px', color: '#071E4B',
+                  background: '#E7EDF9', border: 'none',
                   borderRadius: '6px', padding: '6px 12px',
                   cursor: 'pointer',
                 }}
@@ -836,7 +836,7 @@ function EditorPageInner() {
                 maxLength={70}
                 style={{
                   width: '100%', padding: '8px 12px',
-                  border: '1px solid #e2e8f0', borderRadius: '7px',
+                  border: '1px solid #DDE2E4', borderRadius: '7px',
                   fontSize: '13px', boxSizing: 'border-box',
                 }}
               />
@@ -860,7 +860,7 @@ function EditorPageInner() {
                 maxLength={180}
                 style={{
                   width: '100%', padding: '8px 12px',
-                  border: '1px solid #e2e8f0', borderRadius: '7px',
+                  border: '1px solid #DDE2E4', borderRadius: '7px',
                   fontSize: '13px', resize: 'vertical',
                   fontFamily: 'inherit', boxSizing: 'border-box',
                 }}
@@ -884,7 +884,7 @@ function EditorPageInner() {
                 placeholder="AI staffing, ML engineers, US enterprises"
                 style={{
                   width: '100%', padding: '8px 12px',
-                  border: '1px solid #e2e8f0', borderRadius: '7px',
+                  border: '1px solid #DDE2E4', borderRadius: '7px',
                   fontSize: '13px', boxSizing: 'border-box',
                 }}
               />
@@ -902,9 +902,9 @@ function EditorPageInner() {
             width: '100%',
             fontSize: '26px',
             fontWeight: '700',
-            color: '#0f172a',
+            color: '#071E4B',
             border: 'none',
-            borderBottom: '2px solid #f1f5f9',
+            borderBottom: '2px solid #F2F4F5',
             padding: '0 0 12px 0',
             marginBottom: '16px',
             outline: 'none',
@@ -923,7 +923,7 @@ function EditorPageInner() {
             width: '100%',
             fontSize: '14px',
             color: '#475569',
-            border: '1px solid #e2e8f0',
+            border: '1px solid #DDE2E4',
             borderRadius: '8px',
             padding: '10px 12px',
             marginBottom: '20px',
@@ -956,8 +956,8 @@ function EditorPageInner() {
           <label style={{
             display: 'inline-block',
             padding: '8px 16px',
-            backgroundColor: '#f1f5f9',
-            border: '1px solid #e2e8f0',
+            backgroundColor: '#F2F4F5',
+            border: '1px solid #DDE2E4',
             borderRadius: '7px',
             fontSize: '13px',
             color: '#374151',
@@ -984,8 +984,8 @@ function EditorPageInner() {
             flexWrap: 'wrap',
             gap: '4px',
             padding: '8px',
-            backgroundColor: '#f8fafc',
-            border: '1px solid #e2e8f0',
+            backgroundColor: '#F2F4F5',
+            border: '1px solid #DDE2E4',
             borderBottom: 'none',
             borderRadius: '8px 8px 0 0',
           }}>
@@ -1009,9 +1009,9 @@ function EditorPageInner() {
                   padding: '5px 10px',
                   fontSize: '12px',
                   fontWeight: btn.active ? '700' : '500',
-                  color: btn.active ? '#1e3a8a' : '#374151',
-                  backgroundColor: btn.active ? '#eff6ff' : '#ffffff',
-                  border: '1px solid #e2e8f0',
+                  color: btn.active ? '#071E4B' : '#374151',
+                  backgroundColor: btn.active ? '#E7EDF9' : '#ffffff',
+                  border: '1px solid #DDE2E4',
                   borderRadius: '5px',
                   cursor: 'pointer',
                 }}
@@ -1027,7 +1027,7 @@ function EditorPageInner() {
               fontWeight: '500',
               color: '#374151',
               backgroundColor: '#ffffff',
-              border: '1px solid #e2e8f0',
+              border: '1px solid #DDE2E4',
               borderRadius: '5px',
               cursor: 'pointer',
             }}>
@@ -1051,7 +1051,7 @@ function EditorPageInner() {
                 fontWeight: '500',
                 color: '#374151',
                 backgroundColor: '#ffffff',
-                border: '1px solid #e2e8f0',
+                border: '1px solid #DDE2E4',
                 borderRadius: '5px',
                 cursor: 'pointer',
               }}
@@ -1072,7 +1072,7 @@ function EditorPageInner() {
               style={{
                 padding: '5px 10px', fontSize: '12px', fontWeight: '500',
                 color: '#374151', backgroundColor: '#ffffff',
-                border: '1px solid #e2e8f0', borderRadius: '5px',
+                border: '1px solid #DDE2E4', borderRadius: '5px',
                 cursor: 'pointer',
               }}
             >
@@ -1093,7 +1093,7 @@ function EditorPageInner() {
                 style={{
                   padding: '5px 10px', fontSize: '12px', fontWeight: '500',
                   color: '#374151', backgroundColor: '#ffffff',
-                  border: '1px solid #e2e8f0', borderRadius: '5px',
+                  border: '1px solid #DDE2E4', borderRadius: '5px',
                   cursor: 'pointer',
                 }}
               >
@@ -1106,13 +1106,13 @@ function EditorPageInner() {
         {/* Editor content area */}
         <div style={{
           backgroundColor: '#ffffff',
-          border: '1px solid #e2e8f0',
+          border: '1px solid #DDE2E4',
           borderRadius: '0 0 8px 8px',
           padding: '20px',
           minHeight: '400px',
           fontSize: '15px',
           lineHeight: '1.7',
-          color: '#1e293b',
+          color: '#1B2434',
         }}>
           <EditorContent editor={editor} />
         </div>
@@ -1128,7 +1128,7 @@ function EditorPageInner() {
               padding: '10px 20px',
               fontSize: '14px',
               color: '#64748b',
-              backgroundColor: '#f1f5f9',
+              backgroundColor: '#F2F4F5',
               border: 'none',
               borderRadius: '8px',
               cursor: 'pointer',
@@ -1140,7 +1140,7 @@ function EditorPageInner() {
             onClick={handleSave}
             disabled={saving}
             style={{
-              backgroundColor: saving ? '#93c5fd' : '#1e3a8a',
+              backgroundColor: saving ? '#8AACE5' : '#071E4B',
               color: '#ffffff',
               border: 'none',
               borderRadius: '8px',
@@ -1170,14 +1170,14 @@ function EditorPageInner() {
         .ProseMirror h3 { font-size: 18px; font-weight: 600; margin: 16px 0 6px; }
         .ProseMirror ul, .ProseMirror ol { padding-left: 24px; margin: 8px 0; }
         .ProseMirror blockquote {
-          border-left: 3px solid #e2e8f0;
+          border-left: 3px solid #DDE2E4;
           padding-left: 16px;
           color: #64748b;
           margin: 12px 0;
         }
         .ProseMirror pre {
-          background: #1e293b;
-          color: #e2e8f0;
+          background: #1B2434;
+          color: #DDE2E4;
           padding: 16px;
           border-radius: 8px;
           font-family: monospace;
@@ -1187,7 +1187,7 @@ function EditorPageInner() {
         }
         .ProseMirror hr {
           border: none;
-          border-top: 2px solid #e2e8f0;
+          border-top: 2px solid #DDE2E4;
           margin: 20px 0;
         }
       `}</style>

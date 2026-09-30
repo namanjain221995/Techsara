@@ -12,7 +12,7 @@ const slides = [
     description:
       "Save time finding the right resource for your team while we connect you with the best talent in the marketplace.",
     cta: "Learn More",
-    href: "/services/talent",
+    href: "/solutions/talent",
     image: "/uploads/hero_1.webp",
   },
   {
@@ -21,7 +21,7 @@ const slides = [
     description:
       "Take charge of your most valued initiatives while we provide a dedicated team offering technical expertise and services.",
     cta: "Learn More",
-    href: "/services/team",
+    href: "/solutions/team",
     image: "/uploads/hero_2.webp",
   },
   {
@@ -30,7 +30,7 @@ const slides = [
     description:
       "Transform your business while we help you connect strategy to execution to tackle your most challenging initiatives.",
     cta: "Learn More",
-    href: "/services/project",
+    href: "/solutions/project",
     image: "/uploads/hero_3.webp",
   },
   {
@@ -39,7 +39,7 @@ const slides = [
     description:
       "Connect with the specialized onshore talent you need while we provide risk mitigation, immigration strategy and visa sponsorship.",
     cta: "Learn More",
-    href: "/services/international",
+    href: "/solutions/international",
     image: "/uploads/hero_4.webp",
   },
 ];
@@ -120,21 +120,21 @@ export default function SolutionsPageClient() {
                 </svg>
               </Link>
               <div className="nav-dropdown-panel" role="menu">
-                <Link href="/services/talent" className="nav-dropdown-link" role="menuitem" onClick={() => setIsMobileOpen(false)}>
-                  <span className="nav-dropdown-title">Talent Solutions</span>
-                  <span className="nav-dropdown-desc">Connecting you with the best talent in the marketplace</span>
+                <Link href="/services/generative-ai" className="nav-dropdown-link" role="menuitem" onClick={() => setIsMobileOpen(false)}>
+                  <span className="nav-dropdown-title">Generative AI</span>
+                  <span className="nav-dropdown-desc">LLMs, RAG and fine-tuning grounded in your data</span>
                 </Link>
-                <Link href="/services/team" className="nav-dropdown-link" role="menuitem" onClick={() => setIsMobileOpen(false)}>
-                  <span className="nav-dropdown-title">Team Solutions</span>
-                  <span className="nav-dropdown-desc">Stay involved with valued initiatives; we handle the details</span>
+                <Link href="/services/computer-vision" className="nav-dropdown-link" role="menuitem" onClick={() => setIsMobileOpen(false)}>
+                  <span className="nav-dropdown-title">Computer Vision</span>
+                  <span className="nav-dropdown-desc">Real-time detection, defect inspection and edge optimization</span>
                 </Link>
-                <Link href="/services/project" className="nav-dropdown-link" role="menuitem" onClick={() => setIsMobileOpen(false)}>
-                  <span className="nav-dropdown-title">Project Solutions</span>
-                  <span className="nav-dropdown-desc">We&apos;ll manage your project&apos;s outcome from start to finish</span>
+                <Link href="/services/ai-agents" className="nav-dropdown-link" role="menuitem" onClick={() => setIsMobileOpen(false)}>
+                  <span className="nav-dropdown-title">Agents</span>
+                  <span className="nav-dropdown-desc">Tool-using workflow agents with human-in-the-loop gates</span>
                 </Link>
-                <Link href="/services/international" className="nav-dropdown-link" role="menuitem" onClick={() => setIsMobileOpen(false)}>
-                  <span className="nav-dropdown-title">International Talent Solutions</span>
-                  <span className="nav-dropdown-desc">Sourcing global talent to solve your workforce challenges</span>
+                <Link href="/services/cloud-deployment" className="nav-dropdown-link" role="menuitem" onClick={() => setIsMobileOpen(false)}>
+                  <span className="nav-dropdown-title">Cloud Deployment</span>
+                  <span className="nav-dropdown-desc">Reference architectures, FinOps and observability</span>
                 </Link>
               </div>
             </div>
@@ -146,28 +146,28 @@ export default function SolutionsPageClient() {
                 </svg>
               </Link>
               <div className="nav-dropdown-panel" role="menu">
-                <Link href="/solutions/generative-ai" className="nav-dropdown-link" role="menuitem" onClick={() => setIsMobileOpen(false)}>
-                  <span className="nav-dropdown-title">Generative AI</span>
-                  <span className="nav-dropdown-desc">LLMs, RAG and fine-tuning grounded in your data</span>
+                <Link href="/solutions/talent" className="nav-dropdown-link" role="menuitem" onClick={() => setIsMobileOpen(false)}>
+                  <span className="nav-dropdown-title">Talent Solutions</span>
+                  <span className="nav-dropdown-desc">Connecting you with the best talent in the marketplace</span>
                 </Link>
-                <Link href="/solutions/computer-vision" className="nav-dropdown-link" role="menuitem" onClick={() => setIsMobileOpen(false)}>
-                  <span className="nav-dropdown-title">Computer Vision</span>
-                  <span className="nav-dropdown-desc">Real-time detection, defect inspection and edge optimization</span>
+                <Link href="/solutions/team" className="nav-dropdown-link" role="menuitem" onClick={() => setIsMobileOpen(false)}>
+                  <span className="nav-dropdown-title">Team Solutions</span>
+                  <span className="nav-dropdown-desc">Stay involved with valued initiatives; we handle the details</span>
                 </Link>
-                <Link href="/solutions/ai-agents" className="nav-dropdown-link" role="menuitem" onClick={() => setIsMobileOpen(false)}>
-                  <span className="nav-dropdown-title">Agents</span>
-                  <span className="nav-dropdown-desc">Tool-using workflow agents with human-in-the-loop gates</span>
+                <Link href="/solutions/project" className="nav-dropdown-link" role="menuitem" onClick={() => setIsMobileOpen(false)}>
+                  <span className="nav-dropdown-title">Project Solutions</span>
+                  <span className="nav-dropdown-desc">We&apos;ll manage your project&apos;s outcome from start to finish</span>
                 </Link>
-                <Link href="/solutions/cloud-deployment" className="nav-dropdown-link" role="menuitem" onClick={() => setIsMobileOpen(false)}>
-                  <span className="nav-dropdown-title">Cloud Deployment</span>
-                  <span className="nav-dropdown-desc">Reference architectures, FinOps and observability</span>
+                <Link href="/solutions/international" className="nav-dropdown-link" role="menuitem" onClick={() => setIsMobileOpen(false)}>
+                  <span className="nav-dropdown-title">International Talent Solutions</span>
+                  <span className="nav-dropdown-desc">Sourcing global talent to solve your workforce challenges</span>
                 </Link>
               </div>
             </div>
             {/* <Link href="/#cases">Leadership</Link> */}
             <Link href="/articles" onClick={() => setIsMobileOpen(false)}>Articles</Link>
             <Link href="/careers" onClick={() => setIsMobileOpen(false)}>Careers</Link>
-            <Link href="/contact" onClick={() => setIsMobileOpen(false)}>Contact</Link>
+            <Link href="/about" onClick={() => setIsMobileOpen(false)}>About</Link>
           </nav>
           <div className="nav-actions">
             <Link href="/book" className="btn btn-primary">
@@ -201,6 +201,9 @@ export default function SolutionsPageClient() {
             <article
               key={slide.id}
               className={`trends-slide solutions-slide${index === activeIndex ? " is-active" : ""}`}
+              // Lets CSS target one slide. "global" has a much longer title and
+              // description than the other three and needs its own line-wrap room.
+              data-slide={slide.id}
               style={{ backgroundImage: `url(${slide.image})` }}
               aria-hidden={index === activeIndex ? "false" : "true"}
             >
@@ -344,26 +347,15 @@ function SpecialtiesSection() {
                 >
                   <span className="specialty-card-title">{specialty.title}</span>
                   <span className="specialty-card-icon" aria-hidden="true">
-                    {isOpen ? (
-                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-                        <path
-                          d="M6 6l12 12M18 6L6 18"
-                          stroke="currentColor"
-                          strokeWidth="2"
-                          strokeLinecap="round"
-                        />
-                      </svg>
-                    ) : (
-                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-                        <path
-                          d="M6 9l6 6 6-6"
-                          stroke="currentColor"
-                          strokeWidth="2"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                        />
-                      </svg>
-                    )}
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                      <path
+                        d="M6 9l6 6 6-6"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                    </svg>
                   </span>
                 </button>
                 <div
@@ -453,22 +445,21 @@ function Footer() {
           <div className="footer-col">
             <h4>Services</h4>
             <ul>
-              <li><Link href="/solutions/generative-ai">Generative AI / LLMs</Link></li>
-              <li><Link href="/solutions/computer-vision">Computer Vision</Link></li>
-              <li><Link href="/solutions/nlp">NLP &amp; Speech</Link></li>
-              <li><Link href="/solutions/predictive-ml">Predictive ML</Link></li>
-              <li><Link href="/solutions/mlops">MLOps</Link></li>
+              <li><Link href="/services/generative-ai">Generative AI / LLMs</Link></li>
+              <li><Link href="/services/computer-vision">Computer Vision</Link></li>
+              <li><Link href="/services/nlp">NLP &amp; Speech</Link></li>
+              <li><Link href="/services/predictive-ml">Predictive ML</Link></li>
+              <li><Link href="/services/mlops">MLOps</Link></li>
             </ul>
           </div>
 
           <div className="footer-col">
             <h4>Solutions</h4>
             <ul>
-              <li><Link href="/solutions/cloud-deployment">Cloud Deployment</Link></li>
-              <li><Link href="/solutions/on-premise">On-Premise AI</Link></li>
-              <li><Link href="/solutions/hybrid-edge">Hybrid &amp; Edge</Link></li>
-              <li><Link href="/solutions/ai-strategy">AI Strategy</Link></li>
-              <li><Link href="/solutions/cloud-consulting">Cloud Consulting</Link></li>
+              <li><Link href="/solutions/talent">Talent Solutions</Link></li>
+              <li><Link href="/solutions/team">Team Solutions</Link></li>
+              <li><Link href="/solutions/project">Project Solutions</Link></li>
+              <li><Link href="/solutions/international">International Talent Solutions</Link></li>
             </ul>
           </div>
 
@@ -478,13 +469,12 @@ function Footer() {
               <li><a href="mailto:hello@techsarasolutions.com?cc=sales@techsarasolutions.com">hello@techsarasolutions.com</a></li>
               <li><a href="tel:3234866123">(323) 486-6123</a></li>
               <li>Frisco, TX · USA</li>
-              <li><Link href="/book">Book a call</Link></li>
             </ul>
           </div>
         </div>
 
         <div className="footer-bottom">
-          <div>&copy; 2026 Techsara Solutions, Inc. All rights reserved.</div>
+          <div>&copy; 2021–2026 Techsara Solutions, Inc. All rights reserved. · <Link href="/privacy-policy" className="footer-legal-link">Privacy Policy</Link> · <Link href="/eula" className="footer-legal-link">EULA</Link></div>
           <div className="footer-socials">
             <a href="https://www.linkedin.com/company/techsara-solutions/about" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">

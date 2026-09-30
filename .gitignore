@@ -67,3 +67,15 @@ dist/
 Thumbs.db
 .vscode/
 .idea/
+
+# Local branding reference — never commit
+frontend/docs/branding-context.md
+frontend/docs/
+
+# Phase backup files — never commit
+*.backup
+*.phase2-backup
+*.phase3-backup
+*.phase35-backup
+*.phase4-backup
+*.phase6-backup

@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
@@ -84,12 +84,12 @@ export default function DashboardPage() {
   }
 
   return (
-    <div style={{ minHeight: '100vh', backgroundColor: '#f8fafc' }}>
+    <div style={{ minHeight: '100vh', backgroundColor: '#F2F4F5' }}>
 
       {/* Header */}
       <div style={{
         backgroundColor: '#ffffff',
-        borderBottom: '1px solid #e2e8f0',
+        borderBottom: '1px solid #DDE2E4',
         padding: '0 32px',
         display: 'flex',
         alignItems: 'center',
@@ -99,7 +99,7 @@ export default function DashboardPage() {
         <h1 style={{
           fontSize: '16px',
           fontWeight: '700',
-          color: '#0f172a',
+          color: '#071E4B',
           margin: 0,
         }}>
           Techsara · Content Management
@@ -110,7 +110,7 @@ export default function DashboardPage() {
             fontSize: '13px',
             color: '#64748b',
             background: 'none',
-            border: '1px solid #e2e8f0',
+            border: '1px solid #DDE2E4',
             borderRadius: '6px',
             padding: '6px 14px',
             cursor: 'pointer',
@@ -134,7 +134,7 @@ export default function DashboardPage() {
             <h2 style={{
               fontSize: '20px',
               fontWeight: '700',
-              color: '#0f172a',
+              color: '#071E4B',
               margin: '0 0 4px 0',
             }}>
               Articles & Blogs
@@ -146,9 +146,9 @@ export default function DashboardPage() {
           <button
             onClick={() => router.push('/auth/sections')}
             style={{
-              backgroundColor: '#f1f5f9',
-              color: '#1e3a8a',
-              border: '1px solid #e2e8f0',
+              backgroundColor: '#F2F4F5',
+              color: '#071E4B',
+              border: '1px solid #DDE2E4',
               borderRadius: '8px',
               padding: '10px 20px',
               fontSize: '14px',
@@ -162,7 +162,7 @@ export default function DashboardPage() {
           <button
             onClick={() => router.push('/auth/editor')}
             style={{
-              backgroundColor: '#1e3a8a',
+              backgroundColor: '#071E4B',
               color: '#ffffff',
               border: 'none',
               borderRadius: '8px',
@@ -192,7 +192,7 @@ export default function DashboardPage() {
         {!loading && articles.length === 0 && !error && (
           <div style={{
             backgroundColor: '#ffffff',
-            border: '1px dashed #e2e8f0',
+            border: '1px dashed #DDE2E4',
             borderRadius: '12px',
             padding: '60px 24px',
             textAlign: 'center',
@@ -203,7 +203,7 @@ export default function DashboardPage() {
             <button
               onClick={() => router.push('/auth/editor')}
               style={{
-                backgroundColor: '#1e3a8a',
+                backgroundColor: '#071E4B',
                 color: '#ffffff',
                 border: 'none',
                 borderRadius: '8px',
@@ -226,7 +226,7 @@ export default function DashboardPage() {
                 key={article.id}
                 style={{
                   backgroundColor: '#ffffff',
-                  border: '1px solid #e2e8f0',
+                  border: '1px solid #DDE2E4',
                   borderRadius: '10px',
                   padding: '18px 20px',
                   display: 'flex',
@@ -246,8 +246,8 @@ export default function DashboardPage() {
                     <span style={{
                       fontSize: '11px',
                       fontWeight: '600',
-                      color: article.type === 'blog' ? '#7c3aed' : '#1e3a8a',
-                      backgroundColor: article.type === 'blog' ? '#f5f3ff' : '#eff6ff',
+                      color: article.type === 'blog' ? '#071E4B' : '#071E4B',
+                      backgroundColor: article.type === 'blog' ? '#E7EDF9' : '#E7EDF9',
                       padding: '2px 8px',
                       borderRadius: '20px',
                       textTransform: 'uppercase',
@@ -258,8 +258,8 @@ export default function DashboardPage() {
                     <span style={{
                       fontSize: '11px',
                       fontWeight: '500',
-                      color: article.status === 'published' ? '#16a34a' : '#d97706',
-                      backgroundColor: article.status === 'published' ? '#f0fdf4' : '#fffbeb',
+                      color: article.status === 'published' ? '#0F584B' : '#8A5F1C',
+                      backgroundColor: article.status === 'published' ? '#F7F8F9' : '#FAF4EA',
                       padding: '2px 8px',
                       borderRadius: '20px',
                     }}>
@@ -269,7 +269,7 @@ export default function DashboardPage() {
                   <h3 style={{
                     fontSize: '15px',
                     fontWeight: '600',
-                    color: '#0f172a',
+                    color: '#071E4B',
                     margin: '0 0 4px 0',
                     whiteSpace: 'nowrap',
                     overflow: 'hidden',
@@ -295,8 +295,8 @@ export default function DashboardPage() {
                     style={{
                       fontSize: '13px',
                       fontWeight: '500',
-                      color: '#1e3a8a',
-                      backgroundColor: '#eff6ff',
+                      color: '#071E4B',
+                      backgroundColor: '#E7EDF9',
                       border: 'none',
                       borderRadius: '6px',
                       padding: '7px 14px',

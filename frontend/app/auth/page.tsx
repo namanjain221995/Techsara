@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
@@ -56,7 +56,7 @@ export default function AuthPage() {
           fontSize: '22px',
           fontWeight: '700',
           marginBottom: '8px',
-          color: '#0f172a',
+          color: '#071E4B',
         }}>
           Admin Sign In
         </h1>
@@ -87,7 +87,7 @@ export default function AuthPage() {
               style={{
                 width: '100%',
                 padding: '10px 12px',
-                border: '1px solid #e2e8f0',
+                border: '1px solid #DDE2E4',
                 borderRadius: '8px',
                 fontSize: '14px',
                 outline: 'none',
@@ -114,7 +114,7 @@ export default function AuthPage() {
               style={{
                 width: '100%',
                 padding: '10px 12px',
-                border: '1px solid #e2e8f0',
+                border: '1px solid #DDE2E4',
                 borderRadius: '8px',
                 fontSize: '14px',
                 outline: 'none',
@@ -139,7 +139,7 @@ export default function AuthPage() {
             style={{
               width: '100%',
               padding: '11px',
-              backgroundColor: loading ? '#93c5fd' : '#1e3a8a',
+              backgroundColor: loading ? '#8AACE5' : '#071E4B',
               color: '#ffffff',
               border: 'none',
               borderRadius: '8px',

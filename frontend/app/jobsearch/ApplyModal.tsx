@@ -13,57 +13,65 @@ type Status = "idle" | "submitting" | "success" | "error";
 const MAX_RESUME_MB = 3;
 const MAX_RESUME_BYTES = MAX_RESUME_MB * 1024 * 1024;
 
+// Kept in step with the booking and contact forms: a name is letters plus the
+// punctuation real names use, and a phone number holds no letters at all.
+// Without these, "45654654" passed as a name and "abc1234567" as a number,
+// because a bare non-empty check and a digit count each let them through.
+const NAME_RE = /^\p{L}[\p{L}\s.'-]*$/u;
+const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+
+// No minimum length: single-character names are ordinary in Chinese, Japanese
+// and Korean, and rejecting a real name is worse than allowing an initial.
+// `label` names the field in the message, matching the booking and contact forms.
+function nameError(value: string, label: string): string | undefined {
+  if (!value) return `${label} is required.`;
+  if (/\d/.test(value)) return "Names cannot contain numbers.";
+  if (!NAME_RE.test(value)) return "Use letters, spaces, hyphens or apostrophes only.";
+  return undefined;
+}
+
+function phoneError(value: string, label: string): string | undefined {
+  if (!value) return `${label} is required.`;
+  if (/[A-Za-z]/.test(value)) return `${label} cannot contain letters.`;
+  const digits = value.replace(/\D/g, "");
+  if (digits.length < 7 || digits.length > 15) return `Enter a valid ${label.toLowerCase()} (7-15 digits).`;
+  return undefined;
+}
+
 function validate(data: FormData): Record<string, string> {
   const errors: Record<string, string> = {};
+  const get = (k: string) => ((data.get(k) as string) || "").trim();
+  const set = (k: string, msg: string | undefined) => { if (msg) errors[k] = msg; };
+  const required = (k: string, label: string) => { if (!get(k)) errors[k] = `${label} is required.`; };
 
-  const firstName = (data.get("firstName") as string || "").trim();
-  if (!firstName) errors.firstName = "First name is required";
+  set("firstName", nameError(get("firstName"), "First Name"));
+  set("lastName", nameError(get("lastName"), "Last Name"));
 
-  const lastName = (data.get("lastName") as string || "").trim();
-  if (!lastName) errors.lastName = "Last name is required";
+  const email = get("email");
+  if (!email) errors.email = "Email is required.";
+  else if (!EMAIL_RE.test(email)) errors.email = "Enter a valid email address.";
 
-  const email = (data.get("email") as string || "").trim();
-  if (!email) errors.email = "Email is required";
-  else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) errors.email = "Please enter a valid email address";
+  set("phone", phoneError(get("phone"), "Phone"));
+  set("whatsApp", phoneError(get("whatsapp"), "WhatsApp Number"));
 
-  const phone = (data.get("phone") as string || "").trim();
-  const phoneDigits = phone.replace(/\D/g, "");
-  if (!phone) errors.phone = "Phone number is required";
-  else if (phoneDigits.length < 7 || phoneDigits.length > 15) errors.phone = "Please enter a valid phone number";
+  required("genderIdentity", "Gender Identity");
+  required("visaStatus", "Visa Status");
 
-  const whatsapp = (data.get("whatsapp") as string || "").trim();
-  const whatsappDigits = whatsapp.replace(/\D/g, "");
-  if (!whatsapp) errors.whatsApp = "WhatsApp number is required";
-  else if (whatsappDigits.length < 7 || whatsappDigits.length > 15) errors.whatsApp = "Please enter a valid WhatsApp number";
+  const yearsOfExperience = get("yearsOfExperience");
+  const years = parseFloat(yearsOfExperience);
+  if (!yearsOfExperience) errors.yearsOfExperience = "Years of Experience is required.";
+  else if (isNaN(years) || years < 0) errors.yearsOfExperience = "Enter a valid number of years.";
+  else if (years > 70) errors.yearsOfExperience = "Enter 70 years or fewer.";
 
-  const genderIdentity = (data.get("genderIdentity") as string || "").trim();
-  if (!genderIdentity) errors.genderIdentity = "Please select a gender identity";
+  if (!get("addressSearch")) errors.address = "Address is required.";
+  required("street", "Street");
+  required("city", "City");
+  required("state", "State");
+  required("country", "Country");
 
-  const yearsOfExperience = (data.get("yearsOfExperience") as string || "").trim();
-  if (!yearsOfExperience) errors.yearsOfExperience = "Years of experience is required";
-  else if (isNaN(parseFloat(yearsOfExperience)) || parseFloat(yearsOfExperience) < 0) errors.yearsOfExperience = "Please enter a valid experience value";
-
-  const visaStatus = (data.get("visaStatus") as string || "").trim();
-  if (!visaStatus) errors.visaStatus = "Please select a visa status";
-
-  const address = (data.get("addressSearch") as string || "").trim();
-  if (!address) errors.address = "Address is required";
-
-  const street = (data.get("street") as string || "").trim();
-  if (!street) errors.street = "Street is required";
-
-  const city = (data.get("city") as string || "").trim();
-  if (!city) errors.city = "City is required";
-
-  const state = (data.get("state") as string || "").trim();
-  if (!state) errors.state = "State is required";
-
-  const country = (data.get("country") as string || "").trim();
-  if (!country) errors.country = "Country is required";
-
-  const zip = (data.get("zip") as string || "").trim();
-  if (!zip) errors.zip = "Zip / Postal Code is required";
-  else if (!/^\d{5}(-\d{4})?$/.test(zip)) errors.zip = "Please enter a valid US ZIP code (e.g. 12345 or 12345-6789)";
+  const zip = get("zip");
+  if (!zip) errors.zip = "Zip / Postal Code is required.";
+  else if (!/^\d{5}(-\d{4})?$/.test(zip)) errors.zip = "Use a US ZIP like 12345 or 12345-6789.";
 
   return errors;
 }
