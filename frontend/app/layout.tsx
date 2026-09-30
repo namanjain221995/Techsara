@@ -10,6 +10,7 @@ import AutoContactPopup from "@/components/AutoContactPopup";
 import AppLoader from "@/components/AppLoader";
 import RouteProgress from "@/components/RouteProgress";
 import ActiveNavHighlight from "@/components/ActiveNavHighlight";
+import ToastHost from "@/components/Toast";
 import { SITE, organizationJsonLd, websiteJsonLd, professionalServiceJsonLd, jsonLdScript } from "@/lib/seo";
 
 // Self-hosted Google Fonts (next/font). This eliminates the render-blocking
@@ -155,6 +156,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <AppLoader />
         <RouteProgress />
         <ActiveNavHighlight />
+        <ToastHost />
         {children}
         <AutoContactPopup />
         {/* Google Analytics 4 - env-driven and non-render-blocking (afterInteractive). Renders

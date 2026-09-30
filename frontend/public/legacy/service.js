@@ -4,9 +4,31 @@
 // ============================================
 
 (function () {
+  // Rendered on demand, not once on load. The App Router re-creates an empty
+  // #service-root on every client-side navigation but will not re-execute a
+  // script it has already loaded - which left the page blank when a visitor
+  // moved quickly between service pages. LegacyRerun calls this after each
+  // route change; see the registration at the end of this file.
+  // Returns 'done' when it painted (or there is nothing to paint into), and
+  // 'waiting' when the data file has not arrived yet. The distinction matters:
+  // service-data.js defines window.SERVICES in a separate request, and treating
+  // "not loaded yet" as "no such service" is what produced the 404 on a valid
+  // slug. Reading window.SERVICES[slug] before it existed threw instead, which
+  // is what left the page blank.
+  function render() {
   const params = new URLSearchParams(window.location.search);
-  const routeSlug = window.__TECHSARA_SERVICE_SLUG || window.location.pathname.match(/\/(?:services|solutions)\/([^/]+)/)?.[1];
+  // Read the path FIRST. __TECHSARA_SERVICE_SLUG is injected by a
+  // beforeInteractive script that does not re-run on client-side navigation, so
+  // on a re-render it still names the first service visited.
+  const routeSlug = window.location.pathname.match(/\/(?:services|solutions)\/([^/]+)/)?.[1] || window.__TECHSARA_SERVICE_SLUG;
   const slug = params.get('slug') || routeSlug || 'generative-ai';
+
+  // The container belongs to the page being left during a route change.
+  if (!document.getElementById('service-root')) return 'done';
+
+  // Data file still in flight - say so rather than painting "not found".
+  if (!window.SERVICES) return 'waiting';
+
   const data = window.SERVICES[slug];
 
   if (!data) {
@@ -19,7 +41,7 @@
           <a href="/" class="btn btn-primary">Back to home</a>
         </div>
       </section>`;
-    return;
+    return 'done';
   }
 
   document.title = `${data.name} - Techsara`;
@@ -172,4 +194,70 @@
     });
     btn.addEventListener('mouseleave', () => { btn.style.transform = ''; });
   });
+
+  return 'done';
+  }
+
+  // Version query from our own <script src>, so the data file we fetch below is
+  // cache-busted in step with this one. Read while the script is executing -
+  // document.currentScript is null once we are inside a callback.
+  const VERSION = (function () {
+    try {
+      const src = document.currentScript && document.currentScript.src;
+      return src && src.indexOf('?') > -1 ? src.slice(src.indexOf('?') + 1) : '';
+    } catch (_) { return ''; }
+  })();
+
+  // window.SERVICES comes from service-data.js, a separate request whose tag the
+  // App Router does not reliably re-run on a client-side navigation. Rather than
+  // wait on an ordering we do not control, load it ourselves when it is absent.
+  // One in-flight load is shared, so rapid navigation cannot start a pile of them.
+  function ensureData() {
+    if (window.SERVICES) return Promise.resolve();
+    if (!window.__techsaraServicesData) {
+      window.__techsaraServicesData = new Promise(function (resolve) {
+        const s = document.createElement('script');
+        s.src = '/legacy/service-data.js' + (VERSION ? '?' + VERSION : '');
+        // Resolve on failure too - render() decides what to show, not this.
+        s.onload = resolve;
+        s.onerror = resolve;
+        document.head.appendChild(s);
+      });
+    }
+    return window.__techsaraServicesData;
+  }
+
+  let pending = 0;
+  function renderWhenReady() {
+    cancelAnimationFrame(pending);
+    // Fast path: data already present, paint immediately with no delay.
+    if (render() === 'done') return;
+    ensureData().then(startRetry);
+  }
+
+  function startRetry() {
+    let tries = 0;
+    (function attempt() {
+      if (render() === 'done') return;
+      if (++tries > 180) {            // ~3s at 60fps
+        const root = document.getElementById('service-root');
+        if (root && !root.childElementCount) {
+          root.innerHTML = `
+            <section style="padding: 200px 0; text-align: center;">
+              <div class="container">
+                <h1 class="section-title" style="margin: 24px auto;">This page didn't load</h1>
+                <p class="section-sub" style="margin: 0 auto 32px;">Please refresh to try again.</p>
+                <a href="/services" class="btn btn-primary">All services</a>
+              </div>
+            </section>`;
+        }
+        return;
+      }
+      pending = requestAnimationFrame(attempt);
+    })();
+  }
+
+  window.__techsaraLegacy = window.__techsaraLegacy || {};
+  window.__techsaraLegacy.service = renderWhenReady;
+  renderWhenReady();
 })();

@@ -1925,6 +1925,97 @@ section { position: relative; padding: clamp(48px, 6vw, 88px) 0; }
   border-color: rgba(185, 28, 28, 0.5);
 }
 
+/* ─── Toasts ──────────────────────────────────────────────────────────
+   Top centre, above the contact modal (1000) and its dropdown panel (1100)
+   so a message raised from inside a modal is still readable. */
+.ts-toast-stack {
+  position: fixed;
+  top: 18px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 2000;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: max-content;
+  /* Wide enough for the longest message - the booking confirmation with a date
+     and time - to sit on a single line, with room to spare for locales whose
+     weekday and month names run longer than English. */
+  max-width: min(700px, calc(100vw - 24px));
+  pointer-events: none;   /* the page stays usable around the stack */
+}
+.ts-toast {
+  pointer-events: auto;
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 16px 18px 16px 20px;
+  background: #fff;
+  border: 1px solid var(--line);
+  border-left: 4px solid var(--dot);
+  border-radius: 14px;
+  box-shadow: 0 18px 44px -18px rgba(16, 24, 58, 0.34), 0 2px 6px -2px rgba(16, 24, 58, 0.10);
+  animation: ts-toast-drop 0.28s cubic-bezier(.2,.7,.2,1);
+}
+.ts-toast--success { --dot: #0F584B; }
+.ts-toast--error   { --dot: #b91c1c; }
+.ts-toast-icon {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  margin-top: 1px;
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--dot) 12%, transparent);
+  color: var(--dot);
+}
+.ts-toast-copy { display: flex; flex-direction: column; gap: 3px; min-width: 0; }
+/* Each line stays on one line - the stack is sized to fit them. Phones fall back
+   to wrapping below, where there is no width to give. */
+.ts-toast-title {
+  font-family: var(--font-display);
+  font-size: 16px;
+  font-weight: 700;
+  color: #071E4B;
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+}
+.ts-toast-body {
+  font-size: 14.5px;
+  line-height: 1.45;
+  color: var(--ink-50);
+  white-space: nowrap;
+}
+.ts-toast-close {
+  flex: none;
+  margin: -2px -4px 0 4px;
+  padding: 4px;
+  border: 0;
+  background: none;
+  border-radius: 6px;
+  color: var(--ink-40);
+  cursor: pointer;
+}
+.ts-toast-close:hover { color: var(--ink); background: var(--line-soft, rgba(16,24,58,.06)); }
+.ts-toast-close:focus-visible { outline: 2px solid var(--dot); outline-offset: 1px; }
+@keyframes ts-toast-drop {
+  from { opacity: 0; transform: translateY(-10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .ts-toast { animation: none; }
+}
+/* Below this the viewport is narrower than the 700px the single-line layout
+   needs, so allow wrapping rather than let the text overflow the card. */
+@media (max-width: 760px) {
+  .ts-toast-stack { top: 12px; max-width: calc(100vw - 20px); width: auto; }
+  .ts-toast { padding: 14px 15px 14px 16px; }
+  .ts-toast-title { font-size: 15px; white-space: normal; }
+  .ts-toast-body { font-size: 13.5px; white-space: normal; }
+}
+
 .contact-toast {
   position: fixed;
   left: 50%;
@@ -1978,6 +2069,11 @@ section { position: relative; padding: clamp(48px, 6vw, 88px) 0; }
 .contact-success {
   padding: 12px 0 4px;
   text-align: center;
+  /* Centre on a shared axis. text-align alone cannot centre the nowrap heading
+     once it is wider than the card, which left-hugged the whole block. */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 .contact-success-icon {
   display: inline-flex;
@@ -1995,8 +2091,13 @@ section { position: relative; padding: clamp(48px, 6vw, 88px) 0; }
   margin: 0 0 10px;
   color: #071E4B;
   font-family: var(--font-display);
-  font-size: clamp(22px, 1.8vw, 28px);
+  /* Keep "Thanks - we'll be in touch." on one line. The CTA card is the
+     narrowest place this renders, so the size scales with the viewport and
+     caps below the old 28px rather than letting "touch." drop to its own line. */
+  font-size: clamp(15px, 1.6vw, 22px);
+  white-space: nowrap;
   font-weight: 800;
+  max-width: 100%;
 }
 .contact-success p {
   max-width: 420px;
@@ -2004,9 +2105,13 @@ section { position: relative; padding: clamp(48px, 6vw, 88px) 0; }
   color: #4a4a52;
   font-size: 15px;
   line-height: 1.6;
+  /* Even out the two lines instead of leaving a short orphan on the second. */
+  text-wrap: balance;
 }
 .contact-success .contact-form-submit {
   justify-content: center;
+  /* The column centres its children; keep the Close button full width as before. */
+  align-self: stretch;
 }
 @media (max-width: 560px) {
   .contact-modal {

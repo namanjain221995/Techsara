@@ -40,8 +40,58 @@ export default function SiteHeader() {
           TECHSARA
         </Link>
         <nav className="nav-links" aria-label="Primary" id="primary-nav-links">
-          <Link href="/services" onClick={close}>Services</Link>
-          <Link href="/solutions" onClick={close}>Solutions</Link>
+          <div className="nav-item-dropdown">
+            <Link href="/services" className="nav-dropdown-trigger" onClick={close}>
+              Services
+              <svg className="nav-dropdown-caret" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path d="M6 9l6 6 6-6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+            </Link>
+            <div className="nav-dropdown-panel" role="menu">
+              <Link href="/services/generative-ai" className="nav-dropdown-link" role="menuitem" onClick={close}>
+                <span className="nav-dropdown-title">Generative AI</span>
+                <span className="nav-dropdown-desc">LLMs, RAG and fine-tuning grounded in your data</span>
+              </Link>
+              <Link href="/services/computer-vision" className="nav-dropdown-link" role="menuitem" onClick={close}>
+                <span className="nav-dropdown-title">Computer Vision</span>
+                <span className="nav-dropdown-desc">Real-time detection, defect inspection and edge optimization</span>
+              </Link>
+              <Link href="/services/ai-agents" className="nav-dropdown-link" role="menuitem" onClick={close}>
+                <span className="nav-dropdown-title">Agents</span>
+                <span className="nav-dropdown-desc">Tool-using workflow agents with human-in-the-loop gates</span>
+              </Link>
+              <Link href="/services/cloud-deployment" className="nav-dropdown-link" role="menuitem" onClick={close}>
+                <span className="nav-dropdown-title">Cloud Deployment</span>
+                <span className="nav-dropdown-desc">Reference architectures, FinOps and observability</span>
+              </Link>
+            </div>
+          </div>
+          <div className="nav-item-dropdown">
+            <Link href="/solutions" className="nav-dropdown-trigger" onClick={close}>
+              Solutions
+              <svg className="nav-dropdown-caret" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path d="M6 9l6 6 6-6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+            </Link>
+            <div className="nav-dropdown-panel" role="menu">
+              <Link href="/solutions/talent" className="nav-dropdown-link" role="menuitem" onClick={close}>
+                <span className="nav-dropdown-title">Talent Solutions</span>
+                <span className="nav-dropdown-desc">Connecting you with the best talent in the marketplace</span>
+              </Link>
+              <Link href="/solutions/team" className="nav-dropdown-link" role="menuitem" onClick={close}>
+                <span className="nav-dropdown-title">Team Solutions</span>
+                <span className="nav-dropdown-desc">Stay involved with valued initiatives; we handle the details</span>
+              </Link>
+              <Link href="/solutions/project" className="nav-dropdown-link" role="menuitem" onClick={close}>
+                <span className="nav-dropdown-title">Project Solutions</span>
+                <span className="nav-dropdown-desc">We&apos;ll manage your project&apos;s outcome from start to finish</span>
+              </Link>
+              <Link href="/solutions/international" className="nav-dropdown-link" role="menuitem" onClick={close}>
+                <span className="nav-dropdown-title">International Talent Solutions</span>
+                <span className="nav-dropdown-desc">Sourcing global talent to solve your workforce challenges</span>
+              </Link>
+            </div>
+          </div>
           <Link href="/articles" onClick={close}>Articles</Link>
           <Link href="/careers" onClick={close}>Careers</Link>
           <Link href="/about" onClick={close}>About</Link>

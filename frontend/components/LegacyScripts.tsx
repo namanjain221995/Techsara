@@ -1,9 +1,9 @@
 ﻿import Script from "next/script";
 import LegacyReinit from "./LegacyReinit";
+import LegacyRerun from "./LegacyRerun";
 
 type LegacyScriptsProps = {
   page: "home" | "book" | "service" | "print";
-  serviceSlug?: string;
 };
 
 /**
@@ -18,9 +18,9 @@ type LegacyScriptsProps = {
  * Bump this whenever a file in /public/legacy changes. The /legacy/vendor
  * bundles don't need it - their versions are pinned in the filenames.
  */
-const ASSET_V = "2026-09-21.1";
+const ASSET_V = "2026-10-01.4";
 
-export default function LegacyScripts({ page, serviceSlug }: LegacyScriptsProps) {
+export default function LegacyScripts({ page }: LegacyScriptsProps) {
   return (
     <>
       <LegacyReinit />
@@ -59,36 +59,17 @@ export default function LegacyScripts({ page, serviceSlug }: LegacyScriptsProps)
         </>
       ) : null}
 
-      {page === "book" ? <Script src={`/legacy/book.js?v=${ASSET_V}`} strategy="afterInteractive" /> : null}
-
-      {page === "service" ? (
+      {page === "book" ? (
         <>
-          <Script src="/legacy/vendor/lenis.min.js" strategy="lazyOnload" />
-          <Script
-            id="techsara-service-slug"
-            strategy="beforeInteractive"
-            dangerouslySetInnerHTML={{
-              __html: `window.__TECHSARA_SERVICE_SLUG=${JSON.stringify(serviceSlug || "generative-ai")};`,
-            }}
-          />
-          <Script src={`/legacy/service-data.js?v=${ASSET_V}`} strategy="beforeInteractive" />
-          <Script src={`/legacy/service.js?v=${ASSET_V}`} strategy="afterInteractive" />
-          <Script id="techsara-service-nav" strategy="afterInteractive">
-            {`
-              const navEl = document.querySelector('.nav');
-              const setNav = () => navEl && navEl.classList.toggle('is-scrolled', window.scrollY > 8);
-              setNav();
-              window.addEventListener('scroll', setNav, { passive: true });
-              if (!matchMedia('(prefers-reduced-motion: reduce)').matches && window.Lenis) {
-                const lenis = new Lenis({ duration: 1.1, smoothWheel: true });
-                window.__techsaraLenis = lenis;
-                function raf(t){ lenis.raf(t); requestAnimationFrame(raf); }
-                requestAnimationFrame(raf);
-              }
-            `}
-          </Script>
+          <Script src={`/legacy/book.js?v=${ASSET_V}`} strategy="afterInteractive" />
+          <LegacyRerun name="book" />
         </>
       ) : null}
+
+      {/* There is deliberately no "service" branch. /services/[slug] is rendered
+          on the server from lib/services-data.ts, so it needs neither
+          service-data.js nor service.js. Loading them again would reintroduce
+          the blank-page and false-404 races those files caused. */}
 
       {page === "print" ? (
         <Script id="techsara-print" strategy="afterInteractive">

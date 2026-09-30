@@ -2,6 +2,7 @@
 
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
+import { showToast, TOASTS } from "@/lib/toast";
 
 // useLayoutEffect warns during SSR; the positioning it does is client-only.
 const useIsoLayoutEffect = typeof window !== "undefined" ? useLayoutEffect : useEffect;
@@ -269,10 +270,12 @@ export default function ContactForm({ variant = "modal", defaultTopic = "", onCl
       }
       window.dispatchEvent(new CustomEvent("techsara:userEngaged"));
       setSubmitted(true);
+      showToast(TOASTS.contactSent);
     } catch (err) {
       const message =
         err instanceof Error ? err.message : "Something went wrong. Please try again.";
       setServerError(message);
+      showToast(TOASTS.contactFailed);
     } finally {
       setSubmitting(false);
     }

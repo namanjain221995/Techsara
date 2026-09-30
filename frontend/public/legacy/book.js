@@ -7,6 +7,15 @@
   // Same-origin proxy → Next.js route → AWS API (avoids CORS)
   const BOOKING_API_URL = '/api/book-consultation';
 
+  // Raise a toast. This file is plain JS with no access to the React tree, so it
+  // goes through the same window event <ToastHost> listens for. Keep the event
+  // name in step with TOAST_EVENT in lib/toast.ts.
+  function toast(detail) {
+    try {
+      window.dispatchEvent(new CustomEvent('techsara:toast', { detail: detail }));
+    } catch (_) { /* a missing toast must never break a completed booking */ }
+  }
+
   const monthNames = ['January','February','March','April','May','June','July','August','September','October','November','December'];
   const dow = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
 
@@ -566,9 +575,23 @@
         $('#c-phone').textContent = details.phone || '-';
         $('#c-topic').textContent = buildDiscussionTopic(details) || '-';
         setStep(3);
+
+        // Named date and time, exactly as the visitor picked them and in their
+        // own timezone - a booking is the one case where repeating the detail
+        // back is worth the extra words.
+        const shortDate = selectedDate.toLocaleDateString(undefined, { weekday: 'short', month: 'short', day: 'numeric' });
+        toast({
+          title: `Your consultation call is booked for ${shortDate}, ${fmtTime(selectedSlot.ms)}`,
+          body: 'Zoom link sent to your email.',
+        });
       } catch (err) {
         // eslint-disable-next-line no-console
         console.error('Booking submission error:', err);
+        toast({
+          title: 'Consultation booking failed',
+          body: 'That slot may have just been taken. Please pick another.',
+          variant: 'error',
+        });
         if (errorEl) {
           errorEl.textContent = (err && err.message) ? err.message : 'Something went wrong. Please try again.';
           errorEl.hidden = false;
@@ -723,6 +746,18 @@
 
     updateUI();
   }
+
+  // Same reason as service.js: the booking DOM is re-created on client-side
+  // navigation but this script is not re-executed, which left the calendar
+  // empty. book.html ships no slot markup, so the whole grid comes from here.
+  window.__techsaraLegacy = window.__techsaraLegacy || {};
+  window.__techsaraLegacy.book = function () {
+    // Drop any selection carried over from the previous visit to this page.
+    selectedDate = null;
+    selectedSlot = null;
+    cursorMonth = new Date(today.getFullYear(), today.getMonth(), 1);
+    init();
+  };
 
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', init);

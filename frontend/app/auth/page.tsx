@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { showToast, TOASTS } from '@/lib/toast';
 
 export default function AuthPage() {
   const router = useRouter();
@@ -25,6 +26,7 @@ export default function AuthPage() {
       const data = await res.json();
 
       if (res.ok && data.success) {
+        showToast(TOASTS.signedIn);
         router.push('/auth/dashboard');
       } else {
         setError('Invalid username or password');

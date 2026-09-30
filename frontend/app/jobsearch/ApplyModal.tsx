@@ -7,6 +7,7 @@ import {
   VISA_STATUS_OPTIONS,
 } from "@/lib/application";
 import AddressAutocomplete from "./AddressAutocomplete";
+import { showToast, TOASTS } from "@/lib/toast";
 
 type Status = "idle" | "submitting" | "success" | "error";
 
@@ -210,9 +211,11 @@ export default function ApplyModal({
         throw new Error(json.error || "Something went wrong. Please try again.");
       }
       setStatus("success");
+      showToast(TOASTS.applicationSent);
     } catch (err) {
       setStatus("error");
       setErrorMsg(err instanceof Error ? err.message : "Submission failed.");
+      showToast(TOASTS.applicationFailed);
     }
   }
 

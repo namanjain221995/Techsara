@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
-import LegacyScripts from "@/components/LegacyScripts";
-import { getLegacyBody, getServiceSlugs, getServiceMeta } from "@/lib/legacy-html";
+import { notFound } from "next/navigation";
+import SiteHeader from "@/components/SiteHeader";
+import SiteFooter from "@/components/SiteFooter";
+import ServiceDetail from "@/components/ServiceDetail";
+import { getService, getServiceSlugList } from "@/lib/services-data";
 import { serviceJsonLd, breadcrumbJsonLd, pageOpenGraph, clampDescription } from "@/lib/seo";
 
 type ServicePageProps = {
@@ -9,23 +12,20 @@ type ServicePageProps = {
   };
 };
 
-function titleCase(slug: string) {
-  return slug.replace(/-/g, " ").replace(/\b\w/g, (c) => c.toUpperCase());
-}
-
 export function generateStaticParams() {
-  return getServiceSlugs().map((slug) => ({ slug }));
+  return getServiceSlugList().map((slug) => ({ slug }));
 }
 
 export function generateMetadata({ params }: ServicePageProps): Metadata {
-  const meta = getServiceMeta(params.slug);
-  const name = meta?.name || titleCase(params.slug);
+  const service = getService(params.slug);
+  if (!service) return { title: { absolute: "Service Not Found | Techsara" } };
+
   const description = clampDescription(
-    meta?.intro || "",
-    `${name} from Techsara - enterprise AI solutions engineered for production, with eval pipelines, security, cloud and on-premise deployment, and senior engineering support built in for US enterprises.`,
+    service.intro,
+    `${service.name} from Techsara - enterprise AI solutions engineered for production, with eval pipelines, security, cloud and on-premise deployment, and senior engineering support built in for US enterprises.`,
   );
   const path = `/services/${params.slug}`;
-  const seoTitle = `${name} | Techsara USA`;
+  const seoTitle = `${service.name} | Techsara USA`;
   return {
     title: { absolute: seoTitle },
     description,
@@ -35,31 +35,35 @@ export function generateMetadata({ params }: ServicePageProps): Metadata {
 }
 
 export default function ServiceDetailPage({ params }: ServicePageProps) {
-  const meta = getServiceMeta(params.slug);
-  const name = meta?.name || titleCase(params.slug);
+  // Rendered on the server from the catalogue. An unknown slug is a real 404 now
+  // rather than a message painted into the page by a script.
+  const service = getService(params.slug);
+  if (!service) notFound();
+
   const path = `/services/${params.slug}`;
   const jsonLd = [
     serviceJsonLd({
-      name,
-      description: meta?.intro || name,
+      name: service.name,
+      description: service.intro,
       path,
-      category: meta?.category,
+      category: service.category,
     }),
     breadcrumbJsonLd([
       { name: "Home", path: "/" },
       { name: "Services", path: "/services" },
-      { name, path },
+      { name: service.name, path },
     ]),
   ];
+
   return (
     <>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      <h1 className="sr-only">{name}</h1>
-      <div dangerouslySetInnerHTML={{ __html: getLegacyBody("service.html") }} />
-      <LegacyScripts page="service" serviceSlug={params.slug} />
+      <SiteHeader />
+      <ServiceDetail data={service} />
+      <SiteFooter />
     </>
   );
 }
